@@ -1,0 +1,28 @@
+{
+  "profile": "full-globe",
+  "description": "Operator's always-on world scan for the consulting practice. Empty footprint means every registered jurisdiction (see docs/contextualization.md); as new jurisdictions are registered they enter this scope on the next compile and nowhere else unless a narrower profile names them.",
+  "footprint": [],
+  "industries": [],
+  "categories": [
+    "sales_tax",
+    "vat_gst",
+    "franchise_margin",
+    "occupancy",
+    "excise",
+    "severance",
+    "gross_receipts",
+    "property",
+    "fee",
+    "other"
+  ],
+  "depth": null,
+  "history": "earliest_published",
+  "cadences": {
+    "default": "weekly",
+    "byCategory": {
+      "sales_tax": "weekly",
+      "vat_gst": "weekly"
+    },
+    "byJurisdiction": {}
+  }
+}

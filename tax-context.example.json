@@ -1,0 +1,19 @@
+{
+  "profile": "example-texas-retail",
+  "description": "Worked example — copy to contexts/<your-profile>.json and edit. See docs/contextualization.md for the field-by-field schema. JSON is the compiled form the CLI reads today; YAML authoring (tax-context.yaml) is a later layer that will compile down to this same JSON shape.",
+  "footprint": ["us-tx"],
+  "industries": ["retail", "e-commerce"],
+  "categories": ["sales_tax", "franchise_margin", "property", "fee"],
+  "depth": null,
+  "history": "earliest_published",
+  "cadences": {
+    "default": "weekly",
+    "byCategory": {
+      "sales_tax": "weekly",
+      "franchise_margin": "monthly"
+    },
+    "byJurisdiction": {
+      "us-tx": "weekly"
+    }
+  }
+}
