@@ -725,6 +725,83 @@ export const taxTypeRelationships = pgTable(
   (t) => [index("tax_type_relationships_from_idx").on(t.fromTaxTypeId, t.relationshipType)],
 );
 
+// ---------------------------------------------------------------------------
+// Product classification (M7, decree p7): a global coded taxonomy of goods
+// and services the tax law distinguishes, per-jurisdiction treatments
+// (category x jurisdiction x tax type), and operator products classified
+// from recorded facts — never from a marketing label. Treatments are
+// facts like any other: effective-dated, cited, publish-gated.
+// ---------------------------------------------------------------------------
+export const productCategories = pgTable(
+  "product_categories",
+  {
+    id: id(),
+    parentId: uuid("parent_id").references(
+      (): AnyPgColumn => productCategories.id,
+    ),
+    /** Stable slug, e.g. `software-saas`. */
+    slug: text("slug").notNull(),
+    /** Short classification code, e.g. `SW-SAAS`. */
+    code: text("code").notNull(),
+    name: text("name").notNull(),
+    /** Definition written the way statutes draw the line. */
+    definition: text("definition"),
+    /**
+     * Classification question pack + deterministic fact match:
+     * { questions: [{fact, question}], match: {factKey: expectedValue} }.
+     * Re-classifying recorded facts must reproduce the bucket (027).
+     */
+    classificationFacts: jsonb("classification_facts")
+      .$type<Record<string, unknown>>()
+      .notNull()
+      .default(sql`'{}'::jsonb`),
+    datavalues: datavalues(),
+    ...timestamps,
+  },
+  (t) => [uniqueIndex("product_categories_slug_idx").on(t.slug), index("product_categories_parent_idx").on(t.parentId)],
+);
+
+export const productTaxTreatments = pgTable(
+  "product_tax_treatments",
+  {
+    id: id(),
+    categoryId: uuid("category_id").notNull().references(() => productCategories.id),
+    jurisdictionId: uuid("jurisdiction_id").notNull().references(() => jurisdictions.id),
+    taxTypeId: uuid("tax_type_id").notNull().references(() => taxTypes.id),
+    sourceId: uuid("source_id").references(() => sources.id),
+    /** taxable | exempt | reduced_rate | special_rule | confirmed_absent */
+    treatment: text("treatment").notNull(),
+    /** Fraction of the charge that is taxable, when the law splits it (e.g. TX data processing 0.8). */
+    taxableFraction: numeric("taxable_fraction", { precision: 5, scale: 4 }),
+    summary: text("summary"),
+    sourcingRule: text("sourcing_rule"),
+    ...effectiveDates,
+    ...provenance,
+    datavalues: datavalues(),
+    ...timestamps,
+  },
+  (t) => [index("product_treatments_lookup_idx").on(t.categoryId, t.jurisdictionId, t.taxTypeId)],
+);
+
+export const operatorProducts = pgTable(
+  "operator_products",
+  {
+    id: id(),
+    /** Context profile this product was declared under (contexts/*.json slug). */
+    profileSlug: text("profile_slug").notNull(),
+    name: text("name").notNull(),
+    /** Recorded product facts the classification was decided from. */
+    facts: jsonb("facts").$type<Record<string, unknown>>().notNull().default(sql`'{}'::jsonb`),
+    categoryId: uuid("category_id").references(() => productCategories.id),
+    /** unclassified | classified | needs_review | approved */
+    classificationStatus: text("classification_status").notNull().default("unclassified"),
+    classifiedByRunId: uuid("classified_by_run_id"),
+    datavalues: datavalues(),
+    ...timestamps,
+  },
+  (t) => [index("operator_products_profile_idx").on(t.profileSlug, t.classificationStatus)],
+);
+
 // Reporting views (015): consumer lookups + globe/tie-out surfaces.
 export const reporting = pgSchema("reporting");
 
@@ -753,6 +830,24 @@ export const reportingCoverage = reporting.view("coverage_by_jurisdiction").as((
     })
     .from(coverageAnswers)
     .groupBy(coverageAnswers.jurisdictionId, coverageAnswers.status),
+);
+
+export const reportingProductTreatments = reporting.view("product_treatments_current").as((qb) =>
+  qb
+    .select({
+      categoryId: productTaxTreatments.categoryId,
+      jurisdictionId: productTaxTreatments.jurisdictionId,
+      taxTypeId: productTaxTreatments.taxTypeId,
+      treatment: productTaxTreatments.treatment,
+      taxableFraction: productTaxTreatments.taxableFraction,
+      summary: productTaxTreatments.summary,
+      sourcingRule: productTaxTreatments.sourcingRule,
+      effectiveFrom: productTaxTreatments.effectiveFrom,
+      effectiveTo: productTaxTreatments.effectiveTo,
+      verificationStatus: productTaxTreatments.verificationStatus,
+    })
+    .from(productTaxTreatments)
+    .where(sql`${productTaxTreatments.effectiveFrom} <= current_date and (${productTaxTreatments.effectiveTo} is null or ${productTaxTreatments.effectiveTo} >= current_date)`),
 );
 
 export const reportingOpenExceptions = reporting.view("open_exceptions").as((qb) =>
@@ -789,6 +884,9 @@ export type ProposalItem = typeof proposalItems.$inferSelect;
 export type RunEvent = typeof runEvents.$inferSelect;
 export type ExceptionRow = typeof exceptions.$inferSelect;
 export type TaxTypeRelationship = typeof taxTypeRelationships.$inferSelect;
+export type ProductCategory = typeof productCategories.$inferSelect;
+export type ProductTaxTreatment = typeof productTaxTreatments.$inferSelect;
+export type OperatorProduct = typeof operatorProducts.$inferSelect;
 
 
 

@@ -104,7 +104,7 @@ async function complete(role: string, model: string, prompt: string, maxTokens: 
     INSERT INTO agent_runs (role, model, unit, status, started_at, finished_at, tokens_in, tokens_out, cost_usd, attempt, datavalues)
     VALUES (${role}, ${body.model ?? model}, ${"muse-api"}, ${"completed"}, ${startedAt}, ${new Date()},
       ${tokensIn}, ${tokensOut}, ${cost}, 1,
-      ${client.json({ provider: "meta", harness: "muse-api", base: BASE })}::jsonb)
+      ${JSON.stringify({ provider: "meta", harness: "muse-api", base: BASE })}::jsonb)
     RETURNING id`;
   out({
     runId: run?.id, role, model: body.model ?? model,
@@ -119,7 +119,9 @@ if (cmd === "budget") {
   await complete("fetch", flag("model") ?? "muse-spark-1.3", "Reply with exactly: pong", 16);
 } else if (cmd === "complete") {
   const promptFile = flag("prompt-file");
-  const prompt = promptFile ? readFileSync(promptFile, "utf8") : flag("prompt");
+  const prompt = promptFile
+    ? readFileSync(process.env.INIT_CWD ? resolve(process.env.INIT_CWD, promptFile) : promptFile, "utf8")
+    : flag("prompt");
   if (!prompt) { out({ error: "complete requires --prompt or --prompt-file" }); process.exit(2); }
   await complete(flag("role") ?? "decision", flag("model") ?? "muse-spark-1.3", prompt, Number(flag("max-tokens") ?? "800"));
 } else {

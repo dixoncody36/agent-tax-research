@@ -36,6 +36,13 @@
       "when": 1793597768891,
       "tag": "0004_massive_moira_mactaggert",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1793637983598,
+      "tag": "0005_free_gateway",
+      "breakpoints": true
     }
   ]
 }

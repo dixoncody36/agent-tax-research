@@ -18,6 +18,7 @@
     "guide": "pnpm --filter @agent-tax-research/cli exec tsx src/guide.ts",
     "analytics:export": "pnpm --filter @agent-tax-research/cli exec tsx src/analytics-export.ts",
     "muse:api": "pnpm --filter @agent-tax-research/cli exec tsx src/muse-api.ts",
+    "products": "pnpm --filter @agent-tax-research/cli exec tsx src/products.ts",
     "web:build": "pnpm --filter @agent-tax-research/web run build",
     "web:start": "pnpm --filter @agent-tax-research/web run start",
     "web:dev": "pnpm --filter @agent-tax-research/web run dev",
