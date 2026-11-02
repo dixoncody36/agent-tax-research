@@ -1,0 +1,87 @@
+{
+  "harness": "sample-flawed",
+  "roleModels": {
+    "orchestrator": "muse-wonder",
+    "fetch": "muse-glimmer",
+    "decision": "muse-wonder",
+    "reviewer": "muse-wonder"
+  },
+  "determinations": [
+    {
+      "taskId": "tx-sales-state-rate",
+      "answer": {
+        "rateValue": 6.25,
+        "rateUnit": "percent",
+        "authority": "Texas Tax Code Chapter 151"
+      },
+      "citations": [
+        { "url": "https://www.avalara.com/taxrates/en/states/texas.html", "publisherType": "vendor" }
+      ],
+      "attempts": 1,
+      "tokensIn": 1200,
+      "tokensOut": 300,
+      "wallSeconds": 40,
+      "_flaw": "vendor-only citation: citationValidity must score 0"
+    },
+    {
+      "taskId": "tx-sales-combined-cap",
+      "answer": {
+        "combinedMaxPercent": 8.0,
+        "localCapPercent": 2.0
+      },
+      "citations": [
+        { "url": "https://comptroller.texas.gov/taxes/sales/", "publisherType": "government" }
+      ],
+      "attempts": 1,
+      "tokensIn": 1200,
+      "tokensOut": 300,
+      "wallSeconds": 40,
+      "_flaw": "wrong combined rate (8.0 instead of 8.25): accuracy and efficiency penalized"
+    },
+    {
+      "taskId": "tx-hotel-state-rate",
+      "answer": {
+        "rateValue": 6.0,
+        "rateUnit": "percent",
+        "thresholdUsdPerDay": 15,
+        "authority": "Texas Tax Code Chapter 156"
+      },
+      "citations": [
+        { "url": "https://comptroller.texas.gov/taxes/hotel/", "publisherType": "government" }
+      ],
+      "attempts": 4,
+      "tokensIn": 1200,
+      "tokensOut": 300,
+      "wallSeconds": 40,
+      "_flaw": "attempts 4 exceeds maxAttempts 3: task total must be 0"
+    },
+    {
+      "taskId": "tx-no-income-tax-absence",
+      "answer": {
+        "determination": "confirmed_absent"
+      },
+      "citations": [
+        { "url": "https://comptroller.texas.gov/taxes/a-to-z.php", "publisherType": "government" }
+      ],
+      "attempts": 1,
+      "tokensIn": 1200,
+      "tokensOut": 300,
+      "wallSeconds": 40
+    },
+    {
+      "taskId": "tx-franchise-character",
+      "answer": {
+        "kind": "privilege tax",
+        "authority": "Texas Tax Code Chapter 171",
+        "ircConformedIncomeTax": false
+      },
+      "citations": [
+        { "url": "https://comptroller.texas.gov/taxes/franchise/", "publisherType": "government" }
+      ],
+      "attempts": 1,
+      "tokensIn": 1200,
+      "tokensOut": 300,
+      "wallSeconds": 40
+    }
+  ]
+}
