@@ -6,6 +6,7 @@ import {
   agentRuns,
   client,
   db,
+  jurisdictionContext,
   jurisdictions,
   researchLedger,
   scopeRuns,
@@ -433,6 +434,25 @@ async function workEnqueue(args: string[]) {
   out({ assignmentId: row?.id ?? null, scopeRunId: scopeId, role, unit, jurisdiction: jurSlug, taxType: taxTypeSlug ?? null, status: "queued", attempt: 1 });
 }
 
+async function resolveContextPacks(jurisdictionId: string | null) {
+  if (!jurisdictionId) return [];
+  const all = await db.select().from(jurisdictions);
+  const byId = new Map(all.map((j) => [j.id, j]));
+  const chain: typeof all = [];
+  let cur = byId.get(jurisdictionId);
+  const seen = new Set<string>();
+  while (cur && !seen.has(cur.id)) { seen.add(cur.id); chain.push(cur); cur = cur.parentId ? byId.get(cur.parentId) : undefined; }
+  const packs: unknown[] = [];
+  for (const j of chain) {
+    const rows = await db.select().from(jurisdictionContext)
+      .where(sql`${jurisdictionContext.jurisdictionId} = ${j.id} and ${jurisdictionContext.status} = 'active'`)
+      .orderBy(desc(jurisdictionContext.version)).limit(1);
+    const p = rows[0];
+    if (p) packs.push({ jurisdiction: j.slug, version: p.version, guidance: p.guidance, memory: p.memory, author: p.author });
+  }
+  return packs;
+}
+
 async function envelopeFor(run: typeof agentRuns.$inferSelect) {
   const jur = run.jurisdictionId ? (await db.select().from(jurisdictions).where(eq(jurisdictions.id, run.jurisdictionId)).limit(1))[0] : undefined;
   const tt = run.taxTypeId ? (await db.select().from(taxTypes).where(eq(taxTypes.id, run.taxTypeId)).limit(1))[0] : undefined;
@@ -441,7 +461,7 @@ async function envelopeFor(run: typeof agentRuns.$inferSelect) {
       v: 1, assignmentId: run.id, scopeRunId: run.scopeRunId, role: run.role, unit: run.unit,
       jurisdiction: jur?.slug ?? null, taxType: tt?.slug ?? null, attempt: run.attempt, maxAttempts: MAX_ATTEMPTS,
       model: run.model ?? loadRoleModels()[run.role]?.model ?? loadRoleModels()[run.role]?.deployment ?? null,
-      contextPacks: [] as unknown[], // populated by jurisdiction context hooks (issue #6)
+      contextPacks: await resolveContextPacks(run.jurisdictionId), // pre-run hook: local expert guidance, most specific first
       instructions: [
         "Check first: pnpm tax ledger check for this jurisdiction; reuse validated determinations.",
         "Primary government sources only; vendor content is noted-only.",
@@ -499,6 +519,33 @@ async function workRetry(id: string) {
   if (run.attempt >= MAX_ATTEMPTS) { out({ error: "attempt_cap_exceeded", attempt: run.attempt, maxAttempts: MAX_ATTEMPTS, notifyOrchestrator: true }); process.exitCode = 2; return; }
   const [row] = await db.insert(agentRuns).values({ scopeRunId: run.scopeRunId, role: run.role, model: run.model, jurisdictionId: run.jurisdictionId, taxTypeId: run.taxTypeId, unit: run.unit, status: "queued", attempt: run.attempt + 1 }).returning({ id: agentRuns.id });
   out({ assignmentId: row?.id ?? null, retryOf: id, attempt: run.attempt + 1, status: "queued" });
+}
+
+async function contextPackList(slug: string) {
+  const jur = await jurisdictionBySlug(slug);
+  if (!jur) { out({ error: "unknown_jurisdiction", jurisdiction: slug }); process.exitCode = 2; return; }
+  out({ jurisdiction: slug, resolvedPacks: await resolveContextPacks(jur.id), note: "Guidance only — never evidence; conflicts with primaries raise typed exceptions." });
+}
+
+async function contextPackAdd(args: string[]) {
+  const slug = argVal(args, "--jurisdiction"); const author = argVal(args, "--author"); const guidance = argVal(args, "--guidance");
+  if (!slug || !author || !guidance) { out({ error: "usage: tax context-pack add --jurisdiction <slug> --author <name> --guidance <text> [--memory <text>]" }); process.exitCode = 2; return; }
+  const jur = await jurisdictionBySlug(slug);
+  if (!jur) { out({ error: "unknown_jurisdiction", jurisdiction: slug }); process.exitCode = 2; return; }
+  const existing = await db.select({ v: jurisdictionContext.version }).from(jurisdictionContext).where(eq(jurisdictionContext.jurisdictionId, jur.id)).orderBy(desc(jurisdictionContext.version)).limit(1);
+  const version = (existing[0]?.v ?? 0) + 1;
+  const [row] = await db.insert(jurisdictionContext).values({ jurisdictionId: jur.id, version, guidance, memory: argVal(args, "--memory") ?? null, author, status: "proposed" }).returning({ id: jurisdictionContext.id });
+  out({ contextPackId: row?.id ?? null, jurisdiction: slug, version, status: "proposed", instruction: "Human approves memory/guidance changes: tax context-pack approve --id <uuid> --approved-by <name>" });
+}
+
+async function contextPackApprove(args: string[]) {
+  const id = argVal(args, "--id"); const by = argVal(args, "--approved-by");
+  if (!id || !by) { out({ error: "usage: tax context-pack approve --id <uuid> --approved-by <name>" }); process.exitCode = 2; return; }
+  const [pack] = await db.select().from(jurisdictionContext).where(eq(jurisdictionContext.id, id)).limit(1);
+  if (!pack) { out({ error: "context_pack_not_found", id }); process.exitCode = 2; return; }
+  if (pack.author === by) { out({ error: "self_approval_rejected", instruction: "Approver must differ from pack author." }); process.exitCode = 2; return; }
+  await db.update(jurisdictionContext).set({ status: "active", approvedBy: by, updatedAt: new Date() }).where(eq(jurisdictionContext.id, id));
+  out({ contextPackId: id, status: "active", approvedBy: by });
 }
 
 async function reviewList() {
@@ -624,6 +671,14 @@ async function main() {
     const id = argVal(args, "--id");
     if (!id) { out({ error: "usage: tax work retry --id <uuid>" }); process.exitCode = 2; return; }
     await workRetry(id);
+  } else if (cmd === "context-pack" && args[1] === "list") {
+    const slug = argVal(args, "--jurisdiction");
+    if (!slug) { out({ error: "usage: tax context-pack list --jurisdiction <slug>" }); process.exitCode = 2; return; }
+    await contextPackList(slug);
+  } else if (cmd === "context-pack" && args[1] === "add") {
+    await contextPackAdd(args);
+  } else if (cmd === "context-pack" && args[1] === "approve") {
+    await contextPackApprove(args);
   } else if (cmd === "config" && args[1] === "show") {
     await configShow();
   } else if (cmd === "review" && args[1] === "list") {
