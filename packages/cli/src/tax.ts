@@ -11,6 +11,8 @@ import {
   db,
   jurisdictionContext,
   jurisdictions,
+  proposalItems,
+  proposals,
   researchLedger,
   scopeRuns,
   sourceChecks,
@@ -743,6 +745,48 @@ async function fetchSource(args: string[]) {
   if (fetchError) process.exitCode = 1;
 }
 
+async function proposalCreate(args: string[]) {
+  const slug = argVal(args, "--jurisdiction"); const ttSlug = argVal(args, "--tax-type");
+  const extractorRunId = argVal(args, "--extractor-run"); const scopeRunId = argVal(args, "--scope");
+  if (!slug) { out({ error: "usage: tax proposal create --jurisdiction <slug> [--tax-type <slug>] [--scope <uuid>] [--extractor-run <uuid>]" }); process.exitCode = 2; return; }
+  const jur = await jurisdictionBySlug(slug);
+  if (!jur) { out({ error: "unknown_jurisdiction", jurisdiction: slug }); process.exitCode = 2; return; }
+  let taxTypeId: string | null = null;
+  if (ttSlug) { const [tt] = await db.select().from(taxTypes).where(eq(taxTypes.slug, ttSlug)).limit(1); if (!tt) { out({ error: "unknown_tax_type", taxType: ttSlug }); process.exitCode = 2; return; } taxTypeId = tt.id; }
+  const [row] = await db.insert(proposals).values({ jurisdictionId: jur.id, taxTypeId, scopeRunId: scopeRunId ?? null, extractorRunId: extractorRunId ?? null, status: "proposed" }).returning({ id: proposals.id });
+  out({ proposalId: row?.id ?? null, status: "proposed", instruction: "Decision adds items; Reviewer (distinct run) verifies; human approves last." });
+}
+
+async function proposalAddItem(args: string[]) {
+  const proposalId = argVal(args, "--proposal"); const targetTable = argVal(args, "--target");
+  const payloadFile = argVal(args, "--payload-file");
+  const payloadRaw = payloadFile ? readFileSync(payloadFile, "utf8") : argVal(args, "--payload");
+  const citation = argVal(args, "--citation");
+  const sourceId = argVal(args, "--source-id"); const snapshotId = argVal(args, "--snapshot-id");
+  if (!proposalId || !targetTable || !payloadRaw) { out({ error: "usage: tax proposal add-item --proposal <uuid> --target tax_rates|tax_rules|tax_licenses|tax_compliance --payload <json> [--citation <text>] [--source-id <uuid>] [--snapshot-id <uuid>]" }); process.exitCode = 2; return; }
+  let payload: Record<string, unknown>;
+  try { payload = JSON.parse(payloadRaw) as Record<string, unknown>; } catch { out({ error: "payload_not_json" }); process.exitCode = 2; return; }
+  const [row] = await db.insert(proposalItems).values({ proposalId, targetTable, payload, citation: citation ?? null, sourceId: sourceId ?? null, snapshotId: snapshotId ?? null, verdict: "pending" }).returning({ id: proposalItems.id });
+  out({ proposalItemId: row?.id ?? null, verdict: "pending" });
+}
+
+async function ledgerRecord(args: string[]) {
+  const slug = argVal(args, "--jurisdiction"); const qk = argVal(args, "--question");
+  const det = argVal(args, "--determination"); const status = argVal(args, "--status") ?? "pending_review";
+  const hash = argVal(args, "--snapshot-hash"); const runId = argVal(args, "--run"); const reason = argVal(args, "--invalidated-reason");
+  if (!slug || !qk || !det || !["validated", "pending_review", "invalidated"].includes(status)) {
+    out({ error: "usage: tax ledger record --jurisdiction <slug> --question <key> --determination <text> [--status validated|pending_review|invalidated] [--snapshot-hash <hash>] [--run <uuid>] [--invalidated-reason <reason>]" }); process.exitCode = 2; return;
+  }
+  if (status === "invalidated" && !reason) { out({ error: "invalidation_requires_reason", allowed: ["source_changed", "human_objection", "cadence_expired", "context_changed", "pack_changed"] }); process.exitCode = 2; return; }
+  const jur = await jurisdictionBySlug(slug);
+  if (!jur) { out({ error: "unknown_jurisdiction", jurisdiction: slug }); process.exitCode = 2; return; }
+  let taxTypeId: string | null = null;
+  const ttSlug = argVal(args, "--tax-type");
+  if (ttSlug) { const [tt] = await db.select().from(taxTypes).where(eq(taxTypes.slug, ttSlug)).limit(1); if (!tt) { out({ error: "unknown_tax_type", taxType: ttSlug }); process.exitCode = 2; return; } taxTypeId = tt.id; }
+  const [row] = await db.insert(researchLedger).values({ jurisdictionId: jur.id, taxTypeId, questionKey: qk, determination: det, status, snapshotHash: hash ?? null, validatedByRunId: runId ?? null, validatedAt: status === "validated" ? new Date() : null, invalidatedReason: reason ?? null }).returning({ id: researchLedger.id });
+  out({ ledgerId: row?.id ?? null, question: qk, status, instruction: status === "validated" ? "Future runs must reuse this while the snapshot hash matches." : "Recorded." });
+}
+
 async function analytics() {
   const byRole = await db
     .select({
@@ -849,6 +893,12 @@ async function main() {
     await sourceClassify(args);
   } else if (cmd === "fetch" && args[1] === "source") {
     await fetchSource(args);
+  } else if (cmd === "proposal" && args[1] === "create") {
+    await proposalCreate(args);
+  } else if (cmd === "proposal" && args[1] === "add-item") {
+    await proposalAddItem(args);
+  } else if (cmd === "ledger" && args[1] === "record") {
+    await ledgerRecord(args);
   } else if (cmd === "config" && args[1] === "show") {
     await configShow();
   } else if (cmd === "review" && args[1] === "list") {
