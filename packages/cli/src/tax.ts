@@ -18,6 +18,8 @@ import {
   scopeRuns,
   taxRates as taxRatesTable,
   taxRules as taxRulesTable,
+  productCategories as productCategoriesTable,
+  productTaxTreatments as productTreatmentsTable,
   sourceChecks,
   sourceSnapshots,
   sources,
@@ -884,8 +886,31 @@ async function proposalPublish(id: string) {
         effectiveTo: (p.effectiveTo as string) ?? null, citation: item.citation, verificationStatus: "verified",
       }).returning({ id: taxRulesTable.id });
       if (row) published.push(`tax_rules:${row.id}`);
+    } else if (item.targetTable === "product_tax_treatments") {
+      if (!prop.taxTypeId) { out({ error: "publish_needs_tax_type", proposalId: id }); process.exitCode = 2; return; }
+      const categorySlug = typeof p.categorySlug === "string" ? p.categorySlug : null;
+      const treatment = typeof p.treatment === "string" ? p.treatment : null;
+      if (!categorySlug || !treatment || !["taxable", "exempt", "reduced_rate", "special_rule", "confirmed_absent"].includes(treatment)) {
+        out({ error: "bad_treatment_payload", instruction: "payload needs categorySlug + treatment in taxable|exempt|reduced_rate|special_rule|confirmed_absent" }); process.exitCode = 2; return;
+      }
+      const [cat] = await db.select({ id: productCategoriesTable.id }).from(productCategoriesTable).where(eq(productCategoriesTable.slug, categorySlug)).limit(1);
+      if (!cat) { out({ error: "unknown_category", categorySlug }); process.exitCode = 2; return; }
+      let treatmentJurisdictionId = prop.jurisdictionId;
+      if (typeof p.jurisdictionSlug === "string") {
+        const rj = await jurisdictionBySlug(p.jurisdictionSlug);
+        if (!rj) { out({ error: "unknown_payload_jurisdiction", slug: p.jurisdictionSlug }); process.exitCode = 2; return; }
+        treatmentJurisdictionId = rj.id;
+      }
+      const [row] = await db.insert(productTreatmentsTable).values({
+        categoryId: cat.id, jurisdictionId: treatmentJurisdictionId, taxTypeId: prop.taxTypeId, sourceId: item.sourceId,
+        treatment, taxableFraction: p.taxableFraction === undefined || p.taxableFraction === null ? null : String(p.taxableFraction),
+        summary: (p.summary as string) ?? null, sourcingRule: (p.sourcingRule as string) ?? null,
+        effectiveFrom: String(p.effectiveFrom ?? new Date().toISOString().slice(0, 10)),
+        effectiveTo: (p.effectiveTo as string) ?? null, citation: item.citation, verificationStatus: "verified",
+      }).returning({ id: productTreatmentsTable.id });
+      if (row) published.push(`product_tax_treatments:${row.id}`);
     } else {
-      out({ error: "unsupported_target_v1", targetTable: item.targetTable, instruction: "Publish v1 applies tax_rates and tax_rules; other targets fail closed." }); process.exitCode = 2; return;
+      out({ error: "unsupported_target_v1", targetTable: item.targetTable, instruction: "Publish applies tax_rates, tax_rules and product_tax_treatments; other targets fail closed." }); process.exitCode = 2; return;
     }
   }
   await db.update(proposals).set({ status: "published", updatedAt: new Date() }).where(eq(proposals.id, id));

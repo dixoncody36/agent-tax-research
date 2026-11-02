@@ -1,0 +1,21 @@
+{
+  "profile": "example-saas-operator",
+  "description": "Example operator: sells one SaaS product, Texas footprint. products[] declares what is sold, with facts (never just a marketing label); agents classify each item (pnpm products sync-profile) and treatments populate only inside this footprint.",
+  "footprint": ["us-tx"],
+  "industries": ["software"],
+  "categories": ["sales_tax"],
+  "depth": null,
+  "history": "earliest_published",
+  "cadences": { "default": "weekly" },
+  "products": [
+    {
+      "name": "Example cloud invoicing app",
+      "facts": {
+        "product_kind": "software",
+        "delivery_mode": "saas_remote_access",
+        "data_processing": "yes",
+        "possession": "never"
+      }
+    }
+  ]
+}
