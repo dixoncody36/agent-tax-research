@@ -422,6 +422,11 @@ async function workEnqueue(args: string[]) {
   if (taxTypeSlug) {
     const [tt] = await db.select().from(taxTypes).where(eq(taxTypes.slug, taxTypeSlug)).limit(1);
     if (!tt) { out({ error: "unknown_tax_type", taxType: taxTypeSlug }); process.exitCode = 2; return; }
+    const cats = ((scope.scopeJson as Record<string, unknown>).categories as string[] | undefined) ?? [];
+    if (cats.length > 0 && !cats.includes(tt.category)) {
+      out({ error: "outside_context_fence", taxType: taxTypeSlug, category: tt.category, instruction: "Tax category is outside the compiled context profile. Widen the profile and recompile." });
+      process.exitCode = 2; return;
+    }
     taxTypeId = tt.id;
   }
   const [row] = await db.insert(agentRuns).values({ scopeRunId: scopeId, role, model: model ?? null, jurisdictionId: jur.id, taxTypeId, unit, status: "queued", attempt: 1 }).returning({ id: agentRuns.id });
