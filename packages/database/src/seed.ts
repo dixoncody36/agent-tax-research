@@ -1,6 +1,7 @@
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { client, db } from "./index.js";
 import {
+  coverageQuestions,
   jurisdictions,
   sources,
   taxCompliance,
@@ -9,6 +10,7 @@ import {
   taxRules,
   taxTypes,
 } from "./schema.js";
+import { coverageQuestionsSeed } from "./seed-data/question-packs.js";
 import { TX_AGENCY, TX_BASE, texasTaxTypes } from "./seed-data/texas.js";
 
 /**
@@ -476,9 +478,29 @@ async function main() {
     });
   }
 
+  // --- Coverage question packs (decree p2): idempotent upsert on the
+  // (category, questionKey) unique index. Pack edits ride this path;
+  // changed wording/evidence updates the row in place. ---
+  for (let i = 0; i < coverageQuestionsSeed.length; i += 50) {
+    await db
+      .insert(coverageQuestions)
+      .values(coverageQuestionsSeed.slice(i, i + 50))
+      .onConflictDoUpdate({
+        target: [coverageQuestions.category, coverageQuestions.questionKey],
+        set: {
+          question: sql`excluded.question`,
+          evidenceRequired: sql`excluded.evidence_required`,
+          absenceRequires: sql`excluded.absence_requires`,
+          sortOrder: sql`excluded.sort_order`,
+          updatedAt: new Date(),
+        },
+      });
+  }
+
   console.log(
     `Seeded: 5 jurisdictions, ${texasTaxTypes.length} Texas tax types, ` +
-      `${texasTaxTypes.length + 1} monitored sources, deep detail for sales/franchise/hotel.`,
+      `${texasTaxTypes.length + 1} monitored sources, deep detail for sales/franchise/hotel, ` +
+      `${coverageQuestionsSeed.length} coverage questions.`,
   );
 }
 

@@ -493,6 +493,139 @@ export const researchLedger = pgTable(
   ],
 );
 
+// ---------------------------------------------------------------------------
+// Coverage question packs (decree p2) — the checklist an open jurisdiction
+// is interrogated against. Questions are seeded data (seed-data/
+// question-packs.ts), grouped by `category` (a tax_types category, the
+// `federal_conformity` pack, or a niche overlay key). Every question is
+// answerable found / confirmed_absent / unknown; `absenceRequires` states
+// what recorded search evidence a confirmed_absent verdict demands.
+// ---------------------------------------------------------------------------
+export const coverageQuestions = pgTable(
+  "coverage_questions",
+  {
+    id: id(),
+    /**
+     * Pack key: tax_types category (sales_tax, vat_gst, income, ...) or
+     * federal_conformity / niche overlay key (oil_and_gas, marketplace, ...).
+     */
+    category: text("category").notNull(),
+    /** Stable key within the pack, e.g. `state_rate`, `economic_nexus`. */
+    questionKey: text("question_key").notNull(),
+    question: text("question").notNull(),
+    /** What evidence answers this question (eligible source types/citations). */
+    evidenceRequired: text("evidence_required"),
+    /** What a `confirmed_absent` answer requires (searches to record). */
+    absenceRequires: text("absence_requires"),
+    sortOrder: integer("sort_order").notNull().default(0),
+    datavalues: datavalues(),
+    ...timestamps,
+  },
+  (t) => [
+    uniqueIndex("coverage_questions_category_key_idx").on(
+      t.category,
+      t.questionKey,
+    ),
+    index("coverage_questions_category_idx").on(t.category, t.sortOrder),
+  ],
+);
+
+export const coverageAnswers = pgTable(
+  "coverage_answers",
+  {
+    id: id(),
+    jurisdictionId: uuid("jurisdiction_id")
+      .notNull()
+      .references(() => jurisdictions.id),
+    /** Null when the pack is jurisdiction-level (e.g. federal_conformity). */
+    taxTypeId: uuid("tax_type_id").references(() => taxTypes.id),
+    /** Matches coverage_questions.question_key within the pack in use. */
+    questionKey: text("question_key").notNull(),
+    /** found | confirmed_absent | unknown */
+    status: text("status").notNull().default("unknown"),
+    answer: text("answer"),
+    /**
+     * Evidence bundle: source/snapshot refs, citations, and — for
+     * confirmed_absent — the searches tried (AGENTS.md rule 7).
+     */
+    evidence: jsonb("evidence")
+      .$type<Record<string, unknown>>()
+      .notNull()
+      .default(sql`'{}'::jsonb`),
+    answeredByRunId: uuid("answered_by_run_id").references(() => agentRuns.id),
+    datavalues: datavalues(),
+    ...timestamps,
+  },
+  (t) => [
+    index("coverage_answers_check_idx").on(
+      t.jurisdictionId,
+      t.taxTypeId,
+      t.questionKey,
+    ),
+    index("coverage_answers_status_idx").on(t.jurisdictionId, t.status),
+  ],
+);
+
+// ---------------------------------------------------------------------------
+// Jurisdiction context packs (decree p1.t6) — versioned local-expert
+// guidance injected into assignments. Context guides, never evidences
+// (AGENTS.md rule 5). Memory updates are proposed rows a human approves;
+// versions are append-only, never silently edited.
+// ---------------------------------------------------------------------------
+export const jurisdictionContext = pgTable(
+  "jurisdiction_context",
+  {
+    id: id(),
+    jurisdictionId: uuid("jurisdiction_id")
+      .notNull()
+      .references(() => jurisdictions.id),
+    version: integer("version").notNull(),
+    /** How to evaluate this jurisdiction's sources; traps, terminology. */
+    guidance: text("guidance").notNull(),
+    /** Accumulated local memory carried across runs (human-approved). */
+    memory: text("memory"),
+    author: text("author").notNull(),
+    approvedBy: text("approved_by"),
+    /** active | proposed */
+    status: text("status").notNull().default("proposed"),
+    datavalues: datavalues(),
+    ...timestamps,
+  },
+  (t) => [
+    uniqueIndex("jurisdiction_context_version_idx").on(
+      t.jurisdictionId,
+      t.version,
+    ),
+    index("jurisdiction_context_active_idx").on(t.jurisdictionId, t.status),
+  ],
+);
+
+// ---------------------------------------------------------------------------
+// Source snapshots (decree p1.t4 / p3 fetch) — retrieved content of an
+// eligible source at fetch time. `contentHash` is what validated ledger
+// determinations pin to; a changed hash reopens extraction. Append-only:
+// a re-fetch inserts a new snapshot, never edits one.
+// ---------------------------------------------------------------------------
+export const sourceSnapshots = pgTable(
+  "source_snapshots",
+  {
+    id: id(),
+    sourceId: uuid("source_id")
+      .notNull()
+      .references(() => sources.id),
+    contentHash: text("content_hash").notNull(),
+    /** Retrieved text inline; large/blob payloads carry their ref in datavalues. */
+    retrievedText: text("retrieved_text"),
+    fetchedByRunId: uuid("fetched_by_run_id").references(() => agentRuns.id),
+    datavalues: datavalues(),
+    ...timestamps,
+  },
+  (t) => [
+    index("source_snapshots_source_idx").on(t.sourceId, t.createdAt),
+    index("source_snapshots_hash_idx").on(t.contentHash),
+  ],
+);
+
 export type Jurisdiction = typeof jurisdictions.$inferSelect;
 export type TaxType = typeof taxTypes.$inferSelect;
 export type Source = typeof sources.$inferSelect;
@@ -504,6 +637,10 @@ export type SourceCheck = typeof sourceChecks.$inferSelect;
 export type ScopeRun = typeof scopeRuns.$inferSelect;
 export type AgentRun = typeof agentRuns.$inferSelect;
 export type ResearchLedgerEntry = typeof researchLedger.$inferSelect;
+export type CoverageQuestion = typeof coverageQuestions.$inferSelect;
+export type CoverageAnswer = typeof coverageAnswers.$inferSelect;
+export type JurisdictionContext = typeof jurisdictionContext.$inferSelect;
+export type SourceSnapshot = typeof sourceSnapshots.$inferSelect;
 
 
 
