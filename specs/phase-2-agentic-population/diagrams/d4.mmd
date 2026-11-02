@@ -1,0 +1,14 @@
+﻿sequenceDiagram
+  participant U as Operator
+  participant C as Conductor (Wonder)
+  participant W as Worker (Glimmer)
+  participant V as Verifier
+  participant H as Human approver
+  U->>C: Kick off scope (goal created on Muse)
+  C->>W: Assignment: discover and extract Texas
+  W-->>C: Proposal with snapshot citations
+  C->>V: Verify independently
+  V-->>C: Verdict (pass, or exception)
+  C-->>H: Approved-ready queue with diffs and evidence
+  H-->>C: Approve (last step)
+  C->>C: Publish effective-dated, monitor forever

@@ -1,0 +1,48 @@
+{
+  "suite": "agent-tax-research-benchmarks",
+  "version": "v1",
+  "maxAttempts": 3,
+  "notes": "Golden answers derive from this repo's Phase 1 seeded, primary-sourced Texas facts (fetched 2026-11-01). Benchmark runs must re-derive from eligible government primaries; citing this file scores 0.",
+  "tasks": [
+    {
+      "id": "tx-sales-state-rate",
+      "jurisdiction": "us-tx",
+      "category": "sales_tax",
+      "prompt": "Determine the Texas state sales and use tax rate, what it applies to, and its authority.",
+      "gold": { "rateValue": 6.25, "rateUnit": "percent", "authorityContains": "151" },
+      "sourceHint": "https://comptroller.texas.gov/taxes/sales/"
+    },
+    {
+      "id": "tx-sales-combined-cap",
+      "jurisdiction": "us-tx",
+      "category": "sales_tax",
+      "prompt": "Determine the maximum combined state+local sales/use rate in Texas and the local cap that produces it.",
+      "gold": { "combinedMaxPercent": 8.25, "localCapPercent": 2.0 },
+      "sourceHint": "https://comptroller.texas.gov/taxes/sales/"
+    },
+    {
+      "id": "tx-hotel-state-rate",
+      "jurisdiction": "us-tx",
+      "category": "occupancy",
+      "prompt": "Determine the Texas state hotel occupancy tax rate, the room-cost threshold it applies at, and who must collect it.",
+      "gold": { "rateValue": 6.0, "rateUnit": "percent", "thresholdUsdPerDay": 15, "authorityContains": "156" },
+      "sourceHint": "https://comptroller.texas.gov/taxes/hotel/"
+    },
+    {
+      "id": "tx-no-income-tax-absence",
+      "jurisdiction": "us-tx",
+      "category": "income",
+      "prompt": "Does Texas impose a personal income tax? Answer found or confirmed_absent with recorded search evidence across the authority index and statutes.",
+      "gold": { "determination": "confirmed_absent" },
+      "sourceHint": "https://comptroller.texas.gov/taxes/a-to-z.php"
+    },
+    {
+      "id": "tx-franchise-character",
+      "jurisdiction": "us-tx",
+      "category": "franchise_margin",
+      "prompt": "Characterize the Texas franchise tax: what kind of tax it is, who it is imposed on, and its Tax Code chapter. Is it an IRC-conformed income tax?",
+      "gold": { "kindContains": "privilege", "authorityContains": "171", "ircConformedIncomeTax": false },
+      "sourceHint": "https://comptroller.texas.gov/taxes/franchise/"
+    }
+  ]
+}

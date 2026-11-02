@@ -1,0 +1,9 @@
+﻿flowchart LR
+  ctx["Compile context"] -->|scope_runs row| disc["Discover + classify"]
+  disc -->|sources rows| fetch["Fetch + fingerprint"]
+  fetch -->|source_snapshots| ext["Extract"]
+  ext -->|proposals| ver["Verify"]
+  ver -->|verified proposal| pub["Human approve + publish"]
+  pub -->|effective-dated facts| mon["Monitor"]
+  mon -->|changed hash| fetch
+  ext -->|typed failures| exc["Exceptions"]

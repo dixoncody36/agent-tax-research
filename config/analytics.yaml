@@ -1,0 +1,25 @@
+# Analytics & telemetry mode.
+#
+# private (default): every metric stays in this deployment's database.
+# public (opt-in):  aggregate run metrics + benchmark results may be sent
+#                   to the master public analytics database so the global
+#                   cost/benchmark picture improves for everyone.
+#
+# Public mode sends ONLY: jurisdiction slug, role, model ids, token counts,
+# durations, attempt outcomes, benchmark scores + suite version.
+# It NEVER sends: source content, snapshots, context profiles, product
+# lists, determinations, or any client/operator data. Export is reviewable
+# before sending and the mode is revocable at any time.
+
+mode: private            # private | public
+public_endpoint: ""      # required when mode: public
+share:
+  run_metrics: false     # per-run token/cost/time aggregates
+  benchmark_results: false
+
+# Local budgets the orchestrator watchdog enforces (null = learn from
+# historical medians once enough runs exist; benchmark medians seed day one).
+budgets:
+  max_attempts: 3
+  max_tokens_per_assignment: null
+  max_wall_minutes_per_assignment: null

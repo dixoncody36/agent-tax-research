@@ -1,0 +1,22 @@
+{
+  "suite": "agent-tax-research-benchmarks",
+  "suiteVersion": "v1",
+  "harness": "muse-code",
+  "roleModels": {
+    "orchestrator": "muse-wonder",
+    "fetch": "muse-glimmer",
+    "decision": "muse-wonder",
+    "reviewer": "muse-wonder"
+  },
+  "results": [
+    {
+      "taskId": "tx-sales-state-rate",
+      "attempts": 1,
+      "tokensIn": 0,
+      "tokensOut": 0,
+      "wallSeconds": 0,
+      "scores": { "accuracy": 0, "citationValidity": 0, "coverage": 0, "efficiency": 0, "total": 0 }
+    }
+  ],
+  "note": "Template only — zeroed example. Public contribution of real results is opt-in via config/analytics.yaml."
+}
