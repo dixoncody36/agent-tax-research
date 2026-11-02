@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { count, desc, eq, sql } from "drizzle-orm";
+import { and, count, desc, eq, sql } from "drizzle-orm";
 import {
   agentRuns,
   client,
@@ -342,6 +342,166 @@ async function contextCompile(profileArg: string, save: boolean) {
   out({ ...compiled, saved: true, scopeRunId: row?.id ?? null, status: "active" });
 }
 
+// ---------------------------------------------------------------------------
+// Work contract (issue #1): scope + assignment lifecycle over
+// scope_runs/agent_runs. Envelopes are documented in
+// docs/harness-contract.md. Proposals/publish gate land with #4/#13.
+// ---------------------------------------------------------------------------
+const ROLES = ["orchestrator", "fetch", "decision", "reviewer"] as const;
+type Role = (typeof ROLES)[number];
+const MAX_ATTEMPTS = 3;
+
+function argVal(args: string[], name: string): string | undefined {
+  const i = args.indexOf(name);
+  return i >= 0 ? args[i + 1] : undefined;
+}
+
+async function jurisdictionBySlug(slug: string) {
+  const [j] = await db.select().from(jurisdictions).where(eq(jurisdictions.slug, slug)).limit(1);
+  return j;
+}
+
+async function scopeStart(profileArg: string, goalRef?: string) {
+  // Reuse the compiler in-process by compiling with save semantics here.
+  const tried = profilePathCandidates(profileArg);
+  const found = tried.find((p) => existsSync(p));
+  if (!found) { out({ error: "profile_not_found", profile: profileArg, tried }); process.exitCode = 2; return; }
+  let profile: ContextProfile;
+  try { profile = parseProfile(JSON.parse(readFileSync(found, "utf8")) as unknown); }
+  catch (err: unknown) { out({ error: "invalid_profile", detail: err instanceof Error ? err.message : String(err) }); process.exitCode = 2; return; }
+  const all = await db.select({ id: jurisdictions.id, slug: jurisdictions.slug, parentId: jurisdictions.parentId }).from(jurisdictions);
+  const bySlug = new Map(all.map((j) => [j.slug, j]));
+  const unknownSlugs = profile.footprint.filter((s) => !bySlug.has(s));
+  if (unknownSlugs.length > 0) { out({ error: "unknown_jurisdiction", unknownSlugs }); process.exitCode = 2; return; }
+  const byId = new Map(all.map((j) => [j.id, j]));
+  const included = new Set<string>();
+  if (profile.footprint.length === 0) for (const j of all) included.add(j.id);
+  else for (const slug of profile.footprint) {
+    let cur = bySlug.get(slug);
+    const seen = new Set<string>();
+    while (cur && !seen.has(cur.id)) { seen.add(cur.id); included.add(cur.id); cur = cur.parentId ? byId.get(cur.parentId) : undefined; }
+    // descendants to depth
+    const kids = new Map<string, typeof all>();
+    for (const j of all) if (j.parentId) kids.set(j.parentId, [...(kids.get(j.parentId) ?? []), j]);
+    let frontier = [bySlug.get(slug)!]; let level = 0;
+    const visited = new Set(frontier.map((f) => f.id));
+    while (frontier.length && (profile.depth === null || level < profile.depth)) {
+      const next: typeof all = [];
+      for (const n of frontier) for (const c of kids.get(n.id) ?? []) { included.add(c.id); if (!visited.has(c.id)) { visited.add(c.id); next.push(c); } }
+      frontier = next; level += 1;
+    }
+  }
+  const slugs = all.filter((j) => included.has(j.id)).map((j) => j.slug).sort();
+  const compiled = { profile: profile.profile, footprint: profile.footprint, jurisdictions: slugs, jurisdictionCount: slugs.length, categories: profile.categories, industries: profile.industries, depth: profile.depth, history: profile.history, cadences: profile.cadences };
+  const first = profile.footprint[0] ? bySlug.get(profile.footprint[0]) : undefined;
+  const [row] = await db.insert(scopeRuns).values({ profileName: profile.profile, rootJurisdictionId: first?.id ?? null, scopeJson: compiled, status: "active", goalRef: goalRef ?? null }).returning({ id: scopeRuns.id });
+  out({ scopeRunId: row?.id ?? null, status: "active", ...compiled });
+}
+
+async function scopeStatus(id: string) {
+  const [scope] = await db.select().from(scopeRuns).where(eq(scopeRuns.id, id)).limit(1);
+  if (!scope) { out({ error: "scope_not_found", id }); process.exitCode = 2; return; }
+  const runs = await db.select({ role: agentRuns.role, status: agentRuns.status, n: count() }).from(agentRuns).where(eq(agentRuns.scopeRunId, id)).groupBy(agentRuns.role, agentRuns.status);
+  out({ scopeRunId: id, profileName: scope.profileName, status: scope.status, goalRef: scope.goalRef, scopeJson: scope.scopeJson, runs });
+}
+
+async function workEnqueue(args: string[]) {
+  const scopeId = argVal(args, "--scope"); const role = argVal(args, "--role") as Role | undefined;
+  const jurSlug = argVal(args, "--jurisdiction"); const unit = argVal(args, "--unit") ?? "discover";
+  const taxTypeSlug = argVal(args, "--tax-type"); const model = argVal(args, "--model");
+  if (!scopeId || !role || !(ROLES as readonly string[]).includes(role) || !jurSlug) {
+    out({ error: "usage: tax work enqueue --scope <uuid> --role <role> --jurisdiction <slug> [--tax-type <slug>] [--unit <unit>] [--model <id>]" }); process.exitCode = 2; return;
+  }
+  const [scope] = await db.select().from(scopeRuns).where(eq(scopeRuns.id, scopeId)).limit(1);
+  if (!scope) { out({ error: "scope_not_found", scopeId }); process.exitCode = 2; return; }
+  const allowed = ((scope.scopeJson as Record<string, unknown>).jurisdictions as string[] | undefined) ?? [];
+  if (!allowed.includes(jurSlug)) { out({ error: "outside_context_fence", jurisdiction: jurSlug, instruction: "Jurisdiction is outside the compiled context scope. Widen the profile and recompile; agents never self-expand scope." }); process.exitCode = 2; return; }
+  const jur = await jurisdictionBySlug(jurSlug);
+  if (!jur) { out({ error: "unknown_jurisdiction", jurisdiction: jurSlug }); process.exitCode = 2; return; }
+  let taxTypeId: string | null = null;
+  if (taxTypeSlug) {
+    const [tt] = await db.select().from(taxTypes).where(eq(taxTypes.slug, taxTypeSlug)).limit(1);
+    if (!tt) { out({ error: "unknown_tax_type", taxType: taxTypeSlug }); process.exitCode = 2; return; }
+    taxTypeId = tt.id;
+  }
+  const [row] = await db.insert(agentRuns).values({ scopeRunId: scopeId, role, model: model ?? null, jurisdictionId: jur.id, taxTypeId, unit, status: "queued", attempt: 1 }).returning({ id: agentRuns.id });
+  out({ assignmentId: row?.id ?? null, scopeRunId: scopeId, role, unit, jurisdiction: jurSlug, taxType: taxTypeSlug ?? null, status: "queued", attempt: 1 });
+}
+
+async function envelopeFor(run: typeof agentRuns.$inferSelect) {
+  const jur = run.jurisdictionId ? (await db.select().from(jurisdictions).where(eq(jurisdictions.id, run.jurisdictionId)).limit(1))[0] : undefined;
+  const tt = run.taxTypeId ? (await db.select().from(taxTypes).where(eq(taxTypes.id, run.taxTypeId)).limit(1))[0] : undefined;
+  return {
+    assignment: {
+      v: 1, assignmentId: run.id, scopeRunId: run.scopeRunId, role: run.role, unit: run.unit,
+      jurisdiction: jur?.slug ?? null, taxType: tt?.slug ?? null, attempt: run.attempt, maxAttempts: MAX_ATTEMPTS,
+      model: run.model,
+      contextPacks: [] as unknown[], // populated by jurisdiction context hooks (issue #6)
+      instructions: [
+        "Check first: pnpm tax ledger check for this jurisdiction; reuse validated determinations.",
+        "Primary government sources only; vendor content is noted-only.",
+        "End with handoff notes via tax work submit.",
+      ],
+    },
+  };
+}
+
+async function workNext(args: string[]) {
+  const role = argVal(args, "--role") as Role | undefined;
+  const scopeId = argVal(args, "--scope");
+  if (!role || !(ROLES as readonly string[]).includes(role)) { out({ error: "usage: tax work next --role <role> [--scope <uuid>]" }); process.exitCode = 2; return; }
+  const where = scopeId
+    ? and(eq(agentRuns.role, role), eq(agentRuns.status, "queued"), eq(agentRuns.scopeRunId, scopeId))
+    : and(eq(agentRuns.role, role), eq(agentRuns.status, "queued"));
+  const rows = await db.select().from(agentRuns).where(where).orderBy(agentRuns.createdAt).limit(1);
+  const run = rows[0];
+  if (!run) { out({ assignment: null, instruction: "No queued work for this role." }); return; }
+  out(await envelopeFor(run));
+}
+
+async function workClaim(id: string) {
+  const [run] = await db.select().from(agentRuns).where(eq(agentRuns.id, id)).limit(1);
+  if (!run) { out({ error: "assignment_not_found", id }); process.exitCode = 2; return; }
+  if (run.status !== "queued") { out({ error: "not_claimable", status: run.status }); process.exitCode = 2; return; }
+  if (run.attempt > MAX_ATTEMPTS) { out({ error: "attempt_cap_exceeded", attempt: run.attempt, maxAttempts: MAX_ATTEMPTS }); process.exitCode = 2; return; }
+  await db.update(agentRuns).set({ status: "running", startedAt: new Date(), updatedAt: new Date() }).where(eq(agentRuns.id, id));
+  out({ assignmentId: id, status: "running", attempt: run.attempt });
+}
+
+async function workSubmit(args: string[]) {
+  const id = argVal(args, "--id"); const st = argVal(args, "--status");
+  if (!id || (st !== "completed" && st !== "failed")) { out({ error: "usage: tax work submit --id <uuid> --status completed|failed [--notes <text>] [--tokens-in N] [--tokens-out N] [--cost-usd X] [--model <id>]" }); process.exitCode = 2; return; }
+  const [run] = await db.select().from(agentRuns).where(eq(agentRuns.id, id)).limit(1);
+  if (!run) { out({ error: "assignment_not_found", id }); process.exitCode = 2; return; }
+  const num = (v?: string) => (v === undefined ? null : Number(v));
+  await db.update(agentRuns).set({
+    status: st, finishedAt: new Date(), updatedAt: new Date(),
+    handoffNotes: argVal(args, "--notes") ?? run.handoffNotes,
+    tokensIn: num(argVal(args, "--tokens-in")), tokensOut: num(argVal(args, "--tokens-out")),
+    costUsd: argVal(args, "--cost-usd") ?? null, model: argVal(args, "--model") ?? run.model,
+  }).where(eq(agentRuns.id, id));
+  out({
+    result: { v: 1, assignmentId: id, status: st, attempt: run.attempt,
+      notifyOrchestrator: st === "failed" && run.attempt >= MAX_ATTEMPTS,
+      instruction: st === "failed" ? (run.attempt >= MAX_ATTEMPTS ? "Attempt cap reached: assignment failed permanently; orchestrator notified via status." : "Retryable: tax work retry --id <uuid> creates the next attempt.") : "Recorded. Handoff notes saved for future agents." },
+  });
+}
+
+async function workRetry(id: string) {
+  const [run] = await db.select().from(agentRuns).where(eq(agentRuns.id, id)).limit(1);
+  if (!run) { out({ error: "assignment_not_found", id }); process.exitCode = 2; return; }
+  if (run.status !== "failed") { out({ error: "not_failed", status: run.status }); process.exitCode = 2; return; }
+  if (run.attempt >= MAX_ATTEMPTS) { out({ error: "attempt_cap_exceeded", attempt: run.attempt, maxAttempts: MAX_ATTEMPTS, notifyOrchestrator: true }); process.exitCode = 2; return; }
+  const [row] = await db.insert(agentRuns).values({ scopeRunId: run.scopeRunId, role: run.role, model: run.model, jurisdictionId: run.jurisdictionId, taxTypeId: run.taxTypeId, unit: run.unit, status: "queued", attempt: run.attempt + 1 }).returning({ id: agentRuns.id });
+  out({ assignmentId: row?.id ?? null, retryOf: id, attempt: run.attempt + 1, status: "queued" });
+}
+
+async function reviewList() {
+  const rows = await db.select({ questionKey: researchLedger.questionKey, determination: researchLedger.determination, status: researchLedger.status, jurisdictionId: researchLedger.jurisdictionId })
+    .from(researchLedger).where(eq(researchLedger.status, "pending_review")).limit(50);
+  out({ pendingReview: rows, count: rows.length, note: "Proposal-based review queue lands with schema issue #4; this lists ledger determinations awaiting review." });
+}
+
 async function analytics() {
   const byRole = await db
     .select({
@@ -400,6 +560,30 @@ async function main() {
       return;
     }
     await contextCompile(profilePath, args.includes("--save"));
+  } else if (cmd === "scope" && args[1] === "start") {
+    const profilePath = argVal(args, "--profile");
+    if (!profilePath) { out({ error: "usage: tax scope start --profile contexts/<name>.json [--goal-ref <ref>]" }); process.exitCode = 2; return; }
+    await scopeStart(profilePath, argVal(args, "--goal-ref"));
+  } else if (cmd === "scope" && args[1] === "status") {
+    const id = argVal(args, "--id");
+    if (!id) { out({ error: "usage: tax scope status --id <uuid>" }); process.exitCode = 2; return; }
+    await scopeStatus(id);
+  } else if (cmd === "work" && args[1] === "enqueue") {
+    await workEnqueue(args);
+  } else if (cmd === "work" && args[1] === "next") {
+    await workNext(args);
+  } else if (cmd === "work" && args[1] === "claim") {
+    const id = argVal(args, "--id");
+    if (!id) { out({ error: "usage: tax work claim --id <uuid>" }); process.exitCode = 2; return; }
+    await workClaim(id);
+  } else if (cmd === "work" && args[1] === "submit") {
+    await workSubmit(args);
+  } else if (cmd === "work" && args[1] === "retry") {
+    const id = argVal(args, "--id");
+    if (!id) { out({ error: "usage: tax work retry --id <uuid>" }); process.exitCode = 2; return; }
+    await workRetry(id);
+  } else if (cmd === "review" && args[1] === "list") {
+    await reviewList();
   } else {
     out({
       error: "unknown command",
@@ -408,6 +592,14 @@ async function main() {
         "tax analytics",
         "tax ledger check --jurisdiction <slug>",
         "tax context compile --profile contexts/<name>.json [--save]",
+        "tax scope start --profile contexts/<name>.json [--goal-ref <ref>]",
+        "tax scope status --id <uuid>",
+        "tax work enqueue --scope <uuid> --role <role> --jurisdiction <slug> [--tax-type <slug>] [--unit <unit>]",
+        "tax work next --role <role> [--scope <uuid>]",
+        "tax work claim --id <uuid>",
+        "tax work submit --id <uuid> --status completed|failed [--notes <text>] [--tokens-in N] [--tokens-out N] [--cost-usd X]",
+        "tax work retry --id <uuid>",
+        "tax review list",
       ],
     });
     process.exitCode = 2;
