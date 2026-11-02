@@ -673,6 +673,25 @@ async function configShow() {
   });
 }
 
+async function scopeDispatch(scopeId: string) {
+  const [scope] = await db.select().from(scopeRuns).where(eq(scopeRuns.id, scopeId)).limit(1);
+  if (!scope) { out({ error: "scope_not_found", scopeId }); process.exitCode = 2; return; }
+  const slugs = ((scope.scopeJson as Record<string, unknown>).jurisdictions as string[] | undefined) ?? [];
+  const existing = await db.select({ jurisdictionId: agentRuns.jurisdictionId }).from(agentRuns)
+    .where(sql`${agentRuns.scopeRunId} = ${scopeId} and ${agentRuns.role} = 'fetch' and ${agentRuns.unit} = 'discover' and ${agentRuns.status} in ('queued','running','completed')`);
+  const covered = new Set(existing.map((e) => e.jurisdictionId));
+  let created = 0;
+  for (const slug of slugs) {
+    const jur = await jurisdictionBySlug(slug);
+    if (!jur || covered.has(jur.id)) continue;
+    await db.insert(agentRuns).values({ scopeRunId: scopeId, role: "fetch", jurisdictionId: jur.id, unit: "discover", status: "queued", attempt: 1 });
+    created += 1;
+  }
+  // Orchestrator run record for the dispatch itself.
+  await db.insert(agentRuns).values({ scopeRunId: scopeId, role: "orchestrator", unit: "dispatch", status: "completed", attempt: 1, startedAt: new Date(), finishedAt: new Date(), handoffNotes: `Dispatched ${created} discover assignments across ${slugs.length} in-scope jurisdictions. Structure before depth; ledger check-first applies per assignment.` });
+  out({ scopeRunId: scopeId, dispatched: created, inScopeJurisdictions: slugs.length, instruction: "Fetch role: pnpm tax work next --role fetch. Orchestrator never fetches or decides." });
+}
+
 async function analytics() {
   const byRole = await db
     .select({
@@ -735,6 +754,10 @@ async function main() {
     const profilePath = argVal(args, "--profile");
     if (!profilePath) { out({ error: "usage: tax scope start --profile contexts/<name>.json [--goal-ref <ref>]" }); process.exitCode = 2; return; }
     await scopeStart(profilePath, argVal(args, "--goal-ref"));
+  } else if (cmd === "scope" && args[1] === "dispatch") {
+    const id = argVal(args, "--id");
+    if (!id) { out({ error: "usage: tax scope dispatch --id <uuid>" }); process.exitCode = 2; return; }
+    await scopeDispatch(id);
   } else if (cmd === "scope" && args[1] === "status") {
     const id = argVal(args, "--id");
     if (!id) { out({ error: "usage: tax scope status --id <uuid>" }); process.exitCode = 2; return; }
