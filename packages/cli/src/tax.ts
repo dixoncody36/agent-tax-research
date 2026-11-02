@@ -9,6 +9,7 @@ import {
   coverageAnswers,
   coverageQuestions,
   db,
+  exceptions,
   jurisdictionContext,
   jurisdictions,
   proposalItems,
@@ -716,16 +717,7 @@ async function sourceClassify(args: string[]) {
   out({ sourceId: row?.id ?? null, url, publisherType, eligibility, fetchable: eligibility === "eligible" });
 }
 
-async function fetchSource(args: string[]) {
-  const sourceIdArg = argVal(args, "--source-id"); const urlArg = argVal(args, "--url"); const runId = argVal(args, "--run");
-  let source: typeof sources.$inferSelect | undefined;
-  if (sourceIdArg) [source] = await db.select().from(sources).where(eq(sources.id, sourceIdArg)).limit(1);
-  else if (urlArg) [source] = await db.select().from(sources).where(eq(sources.url, urlArg)).limit(1);
-  if (!source) { out({ error: "source_not_found", instruction: "Classify first: tax source classify --url <url> ..." }); process.exitCode = 2; return; }
-  if (source.eligibility !== "eligible") {
-    out({ error: "source_not_fetchable", eligibility: source.eligibility, instruction: source.eligibility === "noted_only" ? "Noted-only sources are never fetched into context. Find the government primary." : "This source may not be fetched by agents." });
-    process.exitCode = 2; return;
-  }
+async function doFetch(source: typeof sources.$inferSelect, runId?: string) {
   const started = Date.now();
   let httpStatus: number | null = null; let body = ""; let fetchError: string | null = null;
   try {
@@ -743,8 +735,41 @@ async function fetchSource(args: string[]) {
     await db.update(sources).set({ contentHash: hash, lastCheckedAt: new Date(), ...(changed ? { lastChangedAt: new Date() } : {}), updatedAt: new Date() }).where(eq(sources.id, source.id));
   }
   await db.insert(sourceChecks).values({ sourceId: source.id, checkedBy: runId ?? "fetch-cli", httpStatus, contentHash: fetchError ? null : hash, changed, notes: fetchError ?? (firstSeen ? "first snapshot" : changed ? "content changed" : "unchanged") });
-  out({ evidenceBundle: { sourceId: source.id, url: source.url, snapshotId, contentHash: fetchError ? null : hash, httpStatus, changed, firstSeen, bytes: body.length, wallMs: Date.now() - started, error: fetchError } });
-  if (fetchError) process.exitCode = 1;
+  return { sourceId: source.id, url: source.url, snapshotId, contentHash: fetchError ? null : hash, httpStatus, changed, firstSeen, bytes: body.length, wallMs: Date.now() - started, error: fetchError };
+}
+
+async function fetchSource(args: string[]) {
+  const sourceIdArg = argVal(args, "--source-id"); const urlArg = argVal(args, "--url"); const runId = argVal(args, "--run");
+  let source: typeof sources.$inferSelect | undefined;
+  if (sourceIdArg) [source] = await db.select().from(sources).where(eq(sources.id, sourceIdArg)).limit(1);
+  else if (urlArg) [source] = await db.select().from(sources).where(eq(sources.url, urlArg)).limit(1);
+  if (!source) { out({ error: "source_not_found", instruction: "Classify first: tax source classify --url <url> ..." }); process.exitCode = 2; return; }
+  if (source.eligibility !== "eligible") {
+    out({ error: "source_not_fetchable", eligibility: source.eligibility, instruction: source.eligibility === "noted_only" ? "Noted-only sources are never fetched into context. Find the government primary." : "This source may not be fetched by agents." });
+    process.exitCode = 2; return;
+  }
+  const bundle = await doFetch(source, runId);
+  out({ evidenceBundle: bundle });
+  if (bundle.error) process.exitCode = 1;
+}
+
+async function monitorRefresh(args: string[]) {
+  const limit = Number(argVal(args, "--limit") ?? "10");
+  const due = await db.select().from(sources)
+    .where(sql`${sources.eligibility} = 'eligible' and ${sources.status} = 'active'`)
+    .orderBy(sql`${sources.lastCheckedAt} asc nulls first`).limit(Number.isFinite(limit) && limit > 0 ? limit : 10);
+  const results: unknown[] = [];
+  let changedCount = 0; let failedCount = 0;
+  for (const source of due) {
+    const b = await doFetch(source, argVal(args, "--run"));
+    if (b.error) {
+      failedCount += 1;
+      await db.insert(exceptions).values({ sourceId: source.id, jurisdictionId: source.jurisdictionId, exceptionType: "transient", severity: "medium", detail: `refresh fetch failed: ${b.error}` });
+    }
+    if (b.changed) changedCount += 1;
+    results.push({ url: b.url, changed: b.changed, firstSeen: b.firstSeen, httpStatus: b.httpStatus, error: b.error });
+  }
+  out({ refreshed: due.length, changed: changedCount, failed: failedCount, maxAttemptsNote: "Per-source failures retry on next refresh; assignment-level cap is 3 attempts then failed + orchestrator notification.", results });
 }
 
 async function proposalCreate(args: string[]) {
@@ -981,6 +1006,8 @@ async function main() {
     await proposalPublish(id);
   } else if (cmd === "ledger" && args[1] === "record") {
     await ledgerRecord(args);
+  } else if (cmd === "monitor" && args[1] === "refresh") {
+    await monitorRefresh(args);
   } else if (cmd === "config" && args[1] === "show") {
     await configShow();
   } else if (cmd === "review" && args[1] === "list") {
