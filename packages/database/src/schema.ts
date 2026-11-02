@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { count, eq, sql } from "drizzle-orm";
 import {
   type AnyPgColumn,
   boolean,
@@ -8,6 +8,7 @@ import {
   jsonb,
   numeric,
   pgEnum,
+  pgSchema,
   pgTable,
   text,
   timestamp,
@@ -188,6 +189,11 @@ export const sources = pgTable(
     lastChangedAt: timestamp("last_changed_at", { withTimezone: true }),
     contentHash: text("content_hash"),
     notes: text("notes"),
+    /** government | vendor | other */
+    publisherType: text("publisher_type").notNull().default("government"),
+    /** eligible | noted_only | prohibited | gov_login_gated */
+    eligibility: text("eligibility").notNull().default("eligible"),
+    exclusionReason: text("exclusion_reason"),
     datavalues: datavalues(),
     ...timestamps,
   },
@@ -626,6 +632,143 @@ export const sourceSnapshots = pgTable(
   ],
 );
 
+// ---------------------------------------------------------------------------
+// Proposals & publish gate (issue #4). Nothing reaches published tables
+// except through proposals. DB triggers (in the migration) enforce:
+// an item cannot be verdict=pass against a non-eligible source, and
+// extractor / verifier / approver must be three distinct identities.
+// ---------------------------------------------------------------------------
+export const proposals = pgTable(
+  "proposals",
+  {
+    id: id(),
+    scopeRunId: uuid("scope_run_id").references(() => scopeRuns.id),
+    jurisdictionId: uuid("jurisdiction_id").notNull().references(() => jurisdictions.id),
+    taxTypeId: uuid("tax_type_id").references(() => taxTypes.id),
+    /** proposed | verified | approved | rejected | published */
+    status: text("status").notNull().default("proposed"),
+    extractorRunId: uuid("extractor_run_id").references(() => agentRuns.id),
+    verifierRunId: uuid("verifier_run_id").references(() => agentRuns.id),
+    approvedBy: text("approved_by"),
+    datavalues: datavalues(),
+    ...timestamps,
+  },
+  (t) => [index("proposals_status_idx").on(t.status, t.jurisdictionId)],
+);
+
+export const proposalItems = pgTable(
+  "proposal_items",
+  {
+    id: id(),
+    proposalId: uuid("proposal_id").notNull().references(() => proposals.id),
+    /** tax_rates | tax_rules | tax_licenses | tax_compliance | coverage_answers */
+    targetTable: text("target_table").notNull(),
+    payload: jsonb("payload").$type<Record<string, unknown>>().notNull().default(sql`'{}'::jsonb`),
+    citation: text("citation"),
+    sourceId: uuid("source_id").references(() => sources.id),
+    snapshotId: uuid("snapshot_id").references(() => sourceSnapshots.id),
+    /** pending | pass | fail */
+    verdict: text("verdict").notNull().default("pending"),
+    datavalues: datavalues(),
+    ...timestamps,
+  },
+  (t) => [index("proposal_items_proposal_idx").on(t.proposalId, t.verdict)],
+);
+
+export const runEvents = pgTable(
+  "run_events",
+  {
+    id: id(),
+    agentRunId: uuid("agent_run_id").notNull().references(() => agentRuns.id),
+    eventType: text("event_type").notNull(),
+    detail: jsonb("detail").$type<Record<string, unknown>>().notNull().default(sql`'{}'::jsonb`),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [index("run_events_run_idx").on(t.agentRunId, t.createdAt)],
+);
+
+export const exceptions = pgTable(
+  "exceptions",
+  {
+    id: id(),
+    scopeRunId: uuid("scope_run_id").references(() => scopeRuns.id),
+    agentRunId: uuid("agent_run_id").references(() => agentRuns.id),
+    jurisdictionId: uuid("jurisdiction_id").references(() => jurisdictions.id),
+    sourceId: uuid("source_id").references(() => sources.id),
+    /** transient | blocked | unreadable | language | conflict | structure_unknown | primary_not_found | attempt_cap | needs_human */
+    exceptionType: text("exception_type").notNull(),
+    severity: text("severity").notNull().default("medium"),
+    /** open | resolved */
+    status: text("status").notNull().default("open"),
+    detail: text("detail"),
+    resolution: text("resolution"),
+    datavalues: datavalues(),
+    ...timestamps,
+  },
+  (t) => [index("exceptions_open_idx").on(t.status, t.jurisdictionId)],
+);
+
+export const taxTypeRelationships = pgTable(
+  "tax_type_relationships",
+  {
+    id: id(),
+    fromTaxTypeId: uuid("from_tax_type_id").notNull().references(() => taxTypes.id),
+    toTaxTypeId: uuid("to_tax_type_id").notNull().references(() => taxTypes.id),
+    /** conforms_to | piggybacks_on | deductible_against | credit_for */
+    relationshipType: text("relationship_type").notNull(),
+    sourceId: uuid("source_id").references(() => sources.id),
+    ...effectiveDates,
+    ...provenance,
+    datavalues: datavalues(),
+    ...timestamps,
+  },
+  (t) => [index("tax_type_relationships_from_idx").on(t.fromTaxTypeId, t.relationshipType)],
+);
+
+// Reporting views (015): consumer lookups + globe/tie-out surfaces.
+export const reporting = pgSchema("reporting");
+
+export const reportingCurrentRates = reporting.view("current_rates").as((qb) =>
+  qb
+    .select({
+      taxTypeId: taxRates.taxTypeId,
+      jurisdictionId: taxRates.jurisdictionId,
+      rateValue: taxRates.rateValue,
+      rateUnit: taxRates.rateUnit,
+      appliesTo: taxRates.appliesTo,
+      effectiveFrom: taxRates.effectiveFrom,
+      effectiveTo: taxRates.effectiveTo,
+      verificationStatus: taxRates.verificationStatus,
+    })
+    .from(taxRates)
+    .where(sql`${taxRates.effectiveFrom} <= current_date and (${taxRates.effectiveTo} is null or ${taxRates.effectiveTo} >= current_date)`),
+);
+
+export const reportingCoverage = reporting.view("coverage_by_jurisdiction").as((qb) =>
+  qb
+    .select({
+      jurisdictionId: coverageAnswers.jurisdictionId,
+      status: coverageAnswers.status,
+      answers: count().as("answers"),
+    })
+    .from(coverageAnswers)
+    .groupBy(coverageAnswers.jurisdictionId, coverageAnswers.status),
+);
+
+export const reportingOpenExceptions = reporting.view("open_exceptions").as((qb) =>
+  qb
+    .select({
+      id: exceptions.id,
+      jurisdictionId: exceptions.jurisdictionId,
+      exceptionType: exceptions.exceptionType,
+      severity: exceptions.severity,
+      detail: exceptions.detail,
+      createdAt: exceptions.createdAt,
+    })
+    .from(exceptions)
+    .where(eq(exceptions.status, "open")),
+);
+
 export type Jurisdiction = typeof jurisdictions.$inferSelect;
 export type TaxType = typeof taxTypes.$inferSelect;
 export type Source = typeof sources.$inferSelect;
@@ -641,6 +784,11 @@ export type CoverageQuestion = typeof coverageQuestions.$inferSelect;
 export type CoverageAnswer = typeof coverageAnswers.$inferSelect;
 export type JurisdictionContext = typeof jurisdictionContext.$inferSelect;
 export type SourceSnapshot = typeof sourceSnapshots.$inferSelect;
+export type Proposal = typeof proposals.$inferSelect;
+export type ProposalItem = typeof proposalItems.$inferSelect;
+export type RunEvent = typeof runEvents.$inferSelect;
+export type ExceptionRow = typeof exceptions.$inferSelect;
+export type TaxTypeRelationship = typeof taxTypeRelationships.$inferSelect;
 
 
 
