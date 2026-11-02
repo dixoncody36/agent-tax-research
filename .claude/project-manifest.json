@@ -27,5 +27,11 @@
     "contacts": "contacts/README.md"
   },
   "phase2Decree": "specs/phase-2-agentic-population.html",
+  "loopState": {
+    "currentBranch": "milestone-4-federal-texas",
+    "milestonesComplete": ["M1 (6/6)", "M2 (3/3)", "M3 (5/5)"],
+    "inProgress": "M4: #15 federal closed; #16 Texas completion in-progress (all 28 TX sources snapshotted, Decision extraction next); #17 queued",
+    "note": "Per loop cadence, milestone PRs to main happen only after ALL milestones are implemented. Human approvals pending in review queue (proposals verified; federal rates needs_review)."
+  },
   "lastSession": "Phase 1 built and verified (Postgres+pgvector, Texas seeded, Austin 8.25% tie-out). Phase 2 decree authored: harness-ready (Muse first, goal kickoff), operator context fence, per-jurisdiction context hooks (pre/post-run local-expert injection, guidance-never-evidence), agent-first/human-last approval, primary-sources-only, federal-first, three-act demo, product classification last. GitHub handoff blocked: gh account pull-only; needs dixoncody36 auth or write grant, then Phase 0 creates M1-M7 + 28 issues + 5 needs-human. Four-role foundation built (config/models.yaml, AGENTS.md, agents/*.md, scope_runs/agent_runs/research_ledger migrated, pnpm tax status + ledger check verified) — no fetching has run."
 }
