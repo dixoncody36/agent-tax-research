@@ -5,6 +5,8 @@ import { and, count, desc, eq, sql } from "drizzle-orm";
 import {
   agentRuns,
   client,
+  coverageAnswers,
+  coverageQuestions,
   db,
   jurisdictionContext,
   jurisdictions,
@@ -548,6 +550,86 @@ async function contextPackApprove(args: string[]) {
   out({ contextPackId: id, status: "active", approvedBy: by });
 }
 
+async function coveragePacks() {
+  const rows = await db.select({ category: coverageQuestions.category, n: count() }).from(coverageQuestions).groupBy(coverageQuestions.category).orderBy(coverageQuestions.category);
+  out({ packs: rows, totalQuestions: rows.reduce((a, r) => a + r.n, 0) });
+}
+
+async function coverageOpen(args: string[]) {
+  const slug = argVal(args, "--jurisdiction");
+  if (!slug) { out({ error: "usage: tax coverage open --jurisdiction <slug>" }); process.exitCode = 2; return; }
+  const jur = await jurisdictionBySlug(slug);
+  if (!jur) { out({ error: "unknown_jurisdiction", jurisdiction: slug }); process.exitCode = 2; return; }
+  // Peer-profile catalog: every category present anywhere in tax_types,
+  // plus conformity for US states. New categories discovered anywhere
+  // back-ask every open jurisdiction on its next coverage open.
+  const typeRows = await db.select({ id: taxTypes.id, slug: taxTypes.slug, category: taxTypes.category, jurisdictionId: taxTypes.jurisdictionId }).from(taxTypes);
+  const ownTypes = typeRows.filter((t) => t.jurisdictionId === jur.id);
+  const catalogCategories = [...new Set(typeRows.map((t) => t.category))];
+  const questions = await db.select().from(coverageQuestions);
+  const existing = await db.select({ taxTypeId: coverageAnswers.taxTypeId, questionKey: coverageAnswers.questionKey }).from(coverageAnswers).where(eq(coverageAnswers.jurisdictionId, jur.id));
+  const have = new Set(existing.map((e) => `${e.taxTypeId ?? "jur"}:${e.questionKey}`));
+  let created = 0;
+  // Per own tax type: its category pack.
+  for (const tt of ownTypes) {
+    for (const q of questions.filter((x) => x.category === tt.category)) {
+      const key = `${tt.id}:${q.questionKey}`;
+      if (have.has(key)) continue;
+      await db.insert(coverageAnswers).values({ jurisdictionId: jur.id, taxTypeId: tt.id, questionKey: q.questionKey, status: "unknown" });
+      created += 1;
+    }
+  }
+  // Jurisdiction-level peer interrogation: one existence question per
+  // catalog category this jurisdiction has no tax type for.
+  const ownCats = new Set(ownTypes.map((t) => t.category));
+  for (const cat of catalogCategories) {
+    if (ownCats.has(cat)) continue;
+    const qk = `peer_existence.${cat}`;
+    if (have.has(`jur:${qk}`)) continue;
+    await db.insert(coverageAnswers).values({ jurisdictionId: jur.id, taxTypeId: null, questionKey: qk, status: "unknown", evidence: { peerCategory: cat, note: "Peer jurisdictions have this category; determine found (register the tax type) or confirmed_absent with recorded negative search." } });
+    created += 1;
+  }
+  out({ jurisdiction: slug, created, catalogCategories, instruction: "Answer via tax coverage answer; confirmed_absent requires evidence.searches (recorded negative search)." });
+}
+
+async function coverageShow(slug: string) {
+  const jur = await jurisdictionBySlug(slug);
+  if (!jur) { out({ error: "unknown_jurisdiction", jurisdiction: slug }); process.exitCode = 2; return; }
+  const rows = await db.select({ status: coverageAnswers.status, n: count() }).from(coverageAnswers).where(eq(coverageAnswers.jurisdictionId, jur.id)).groupBy(coverageAnswers.status);
+  const total = rows.reduce((a, r) => a + r.n, 0);
+  const unknown = rows.find((r) => r.status === "unknown")?.n ?? 0;
+  out({ jurisdiction: slug, total, byStatus: rows, coverageComplete: total > 0 && unknown === 0 });
+}
+
+async function coverageAnswer(args: string[]) {
+  const slug = argVal(args, "--jurisdiction"); const qk = argVal(args, "--question"); const st = argVal(args, "--status");
+  const answer = argVal(args, "--answer"); const searches = argVal(args, "--searches");
+  if (!slug || !qk || !st || !["found", "confirmed_absent", "unknown"].includes(st)) {
+    out({ error: "usage: tax coverage answer --jurisdiction <slug> [--tax-type <slug>] --question <key> --status found|confirmed_absent|unknown [--answer <text>] [--searches <semicolon-list>]" }); process.exitCode = 2; return;
+  }
+  if (st === "confirmed_absent" && !searches) {
+    out({ error: "absence_requires_searches", instruction: "confirmed_absent requires --searches recording the negative search (authority index, statutes, queries tried)." }); process.exitCode = 2; return;
+  }
+  const jur = await jurisdictionBySlug(slug);
+  if (!jur) { out({ error: "unknown_jurisdiction", jurisdiction: slug }); process.exitCode = 2; return; }
+  let taxTypeId: string | null = null;
+  const ttSlug = argVal(args, "--tax-type");
+  if (ttSlug) {
+    const [tt] = await db.select().from(taxTypes).where(eq(taxTypes.slug, ttSlug)).limit(1);
+    if (!tt) { out({ error: "unknown_tax_type", taxType: ttSlug }); process.exitCode = 2; return; }
+    taxTypeId = tt.id;
+  }
+  const rows = await db.select().from(coverageAnswers).where(sql`${coverageAnswers.jurisdictionId} = ${jur.id} and ${coverageAnswers.questionKey} = ${qk} and ${taxTypeId ? sql`${coverageAnswers.taxTypeId} = ${taxTypeId}` : sql`${coverageAnswers.taxTypeId} is null`}`).limit(1);
+  const evidence = searches ? { searches: searches.split(";").map((s) => s.trim()).filter(Boolean) } : {};
+  if (rows[0]) {
+    await db.update(coverageAnswers).set({ status: st, answer: answer ?? rows[0].answer, evidence, updatedAt: new Date() }).where(eq(coverageAnswers.id, rows[0].id));
+    out({ updated: rows[0].id, question: qk, status: st });
+  } else {
+    const [row] = await db.insert(coverageAnswers).values({ jurisdictionId: jur.id, taxTypeId, questionKey: qk, status: st, answer: answer ?? null, evidence }).returning({ id: coverageAnswers.id });
+    out({ created: row?.id ?? null, question: qk, status: st });
+  }
+}
+
 async function reviewList() {
   const rows = await db.select({ questionKey: researchLedger.questionKey, determination: researchLedger.determination, status: researchLedger.status, jurisdictionId: researchLedger.jurisdictionId })
     .from(researchLedger).where(eq(researchLedger.status, "pending_review")).limit(50);
@@ -679,6 +761,16 @@ async function main() {
     await contextPackAdd(args);
   } else if (cmd === "context-pack" && args[1] === "approve") {
     await contextPackApprove(args);
+  } else if (cmd === "coverage" && args[1] === "packs") {
+    await coveragePacks();
+  } else if (cmd === "coverage" && args[1] === "open") {
+    await coverageOpen(args);
+  } else if (cmd === "coverage" && args[1] === "show") {
+    const slug = argVal(args, "--jurisdiction");
+    if (!slug) { out({ error: "usage: tax coverage show --jurisdiction <slug>" }); process.exitCode = 2; return; }
+    await coverageShow(slug);
+  } else if (cmd === "coverage" && args[1] === "answer") {
+    await coverageAnswer(args);
   } else if (cmd === "config" && args[1] === "show") {
     await configShow();
   } else if (cmd === "review" && args[1] === "list") {
