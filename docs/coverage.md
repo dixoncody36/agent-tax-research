@@ -25,3 +25,7 @@ pnpm tax coverage answer --jurisdiction us-tx --question peer_existence.income -
 ## Worked example — Texas absence (recorded 2026-11-01/02 loop run)
 
 `peer_existence.income` → `confirmed_absent`: "Texas imposes no personal income tax." Searches recorded: Comptroller A-to-Z full scan (27 levies, none an income tax), Tax Code title review (no personal income tax chapter), Texas Constitution Art. VIII restriction. The same command without `--searches` is rejected with `absence_requires_searches`.
+
+## Federal conformity & niche overlays
+
+The `federal_conformity` pack (6 questions) is answered per US state against the federal profile; answers that establish a link also create `tax_type_relationships` rows (`conforms_to`, `piggybacks_on`, `deductible_against`, `credit_for`). Texas worked answers: conformity N/A (no income tax; franchise margin under ch. 171 is not IRC-conformed), starting point is Texas-computed taxable margin, no federal-AGI starting point. Niche overlays (`oil_and_gas`, `telecom`, `short_term_rentals`, `marketplace`, `software_digital`, `delivery`) ride on top of category packs via context-profile industries — depth follows the operator's niches, and rules carry `datavalues.industry` until promoted.
