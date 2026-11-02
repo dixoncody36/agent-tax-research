@@ -892,6 +892,26 @@ async function proposalPublish(id: string) {
   out({ proposalId: id, status: "published", published });
 }
 
+async function proposalList(status: string) {
+  const rows = await db
+    .select({
+      id: proposals.id, status: proposals.status,
+      jurisdiction: jurisdictions.slug, taxType: taxTypes.slug,
+      items: sql<number>`(select count(*) from proposal_items pi where pi.proposal_id = ${proposals.id})`,
+      summary: sql<string>`(select string_agg(pi.target_table || ':' || coalesce(pi.payload->>'rateValue', pi.payload->>'title', '?'), ', ') from proposal_items pi where pi.proposal_id = ${proposals.id})`,
+      createdAt: proposals.createdAt,
+    })
+    .from(proposals)
+    .leftJoin(jurisdictions, eq(proposals.jurisdictionId, jurisdictions.id))
+    .leftJoin(taxTypes, eq(proposals.taxTypeId, taxTypes.id))
+    .where(eq(proposals.status, status))
+    .orderBy(proposals.createdAt);
+  out({
+    status, count: rows.length, proposals: rows,
+    howToApprove: "pnpm tax proposal approve --id <proposalId> --approved-by <your name>  then  pnpm tax proposal publish --id <proposalId>  — or just tell the agent in chat which to approve.",
+  });
+}
+
 async function analytics() {
   const byRole = await db
     .select({
@@ -998,6 +1018,8 @@ async function main() {
     await sourceClassify(args);
   } else if (cmd === "fetch" && args[1] === "source") {
     await fetchSource(args);
+  } else if (cmd === "proposal" && args[1] === "list") {
+    await proposalList(argVal(args, "--status") ?? "verified");
   } else if (cmd === "proposal" && args[1] === "create") {
     await proposalCreate(args);
   } else if (cmd === "proposal" && args[1] === "add-item") {
