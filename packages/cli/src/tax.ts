@@ -860,8 +860,14 @@ async function proposalPublish(id: string) {
     const p = item.payload as Record<string, unknown>;
     if (item.targetTable === "tax_rates") {
       if (!prop.taxTypeId) { out({ error: "publish_needs_tax_type", proposalId: id }); process.exitCode = 2; return; }
+      let rateJurisdictionId = prop.jurisdictionId;
+      if (typeof p.jurisdictionSlug === "string") {
+        const rj = await jurisdictionBySlug(p.jurisdictionSlug);
+        if (!rj) { out({ error: "unknown_payload_jurisdiction", slug: p.jurisdictionSlug }); process.exitCode = 2; return; }
+        rateJurisdictionId = rj.id;
+      }
       const [row] = await db.insert(taxRatesTable).values({
-        taxTypeId: prop.taxTypeId, jurisdictionId: prop.jurisdictionId, sourceId: item.sourceId,
+        taxTypeId: prop.taxTypeId, jurisdictionId: rateJurisdictionId, sourceId: item.sourceId,
         rateValue: String(p.rateValue ?? ""), rateUnit: String(p.rateUnit ?? "percent"),
         appliesTo: (p.appliesTo as string) ?? null, conditions: (p.conditions as string) ?? null,
         effectiveFrom: String(p.effectiveFrom ?? new Date().toISOString().slice(0, 10)),
