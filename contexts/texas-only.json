@@ -1,0 +1,31 @@
+{
+  "profile": "texas-only",
+  "description": "All of Texas: the footprint slug pulls in its ancestor (us) automatically and, at depth null, every registered descendant under us-tx (counties, cities, special districts).",
+  "footprint": ["us-tx"],
+  "industries": [],
+  "categories": [
+    "sales_tax",
+    "vat_gst",
+    "franchise_margin",
+    "occupancy",
+    "excise",
+    "severance",
+    "gross_receipts",
+    "property",
+    "fee",
+    "other"
+  ],
+  "depth": null,
+  "history": "earliest_published",
+  "cadences": {
+    "default": "weekly",
+    "byCategory": {
+      "sales_tax": "weekly",
+      "franchise_margin": "monthly",
+      "severance": "monthly"
+    },
+    "byJurisdiction": {
+      "us-tx": "weekly"
+    }
+  }
+}

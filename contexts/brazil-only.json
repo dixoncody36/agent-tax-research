@@ -1,0 +1,18 @@
+{
+  "profile": "brazil-only",
+  "description": "Brazil is not yet a registered jurisdiction, so compiling this profile today fails with unknown slug \"br\" (error JSON, exit code 2) — that is the fence working: register Brazil's structure first, then compile. Kept as the worked example that the same clone serves a new country with only a profile edit once its structure exists.",
+  "footprint": ["br"],
+  "industries": [],
+  "categories": ["vat_gst", "gross_receipts", "excise", "fee", "other"],
+  "depth": null,
+  "history": "earliest_published",
+  "cadences": {
+    "default": "weekly",
+    "byCategory": {
+      "vat_gst": "weekly"
+    },
+    "byJurisdiction": {
+      "br": "weekly"
+    }
+  }
+}

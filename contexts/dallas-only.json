@@ -1,0 +1,18 @@
+{
+  "profile": "dallas-only",
+  "description": "Single-city business. Dallas is not yet a registered jurisdiction, so today the footprint names its state (us-tx) at depth 0 (ancestors only, no descendants — Dallas work must not claim Austin). Once Dallas is registered (expected slug us-tx-dallas), change footprint to that slug; the compiler will then pull in Dallas plus its ancestors (county, us-tx, us) automatically for rate stacking and conformity.",
+  "footprint": ["us-tx"],
+  "industries": [],
+  "categories": ["sales_tax", "occupancy", "property", "fee"],
+  "depth": 0,
+  "history": "earliest_published",
+  "cadences": {
+    "default": "monthly",
+    "byCategory": {
+      "sales_tax": "weekly"
+    },
+    "byJurisdiction": {
+      "us-tx": "weekly"
+    }
+  }
+}
