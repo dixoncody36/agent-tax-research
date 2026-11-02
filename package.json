@@ -1,0 +1,19 @@
+{
+  "name": "agent-tax-research",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "pnpm@10.0.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
+    "db:generate": "pnpm --filter @agent-tax-research/database db:generate",
+    "db:migrate": "pnpm --filter @agent-tax-research/database db:migrate",
+    "db:seed": "pnpm --filter @agent-tax-research/database db:seed",
+    "db:studio": "pnpm --filter @agent-tax-research/database db:studio",
+    "tax": "pnpm --filter @agent-tax-research/cli exec tsx src/tax.ts",
+    "typecheck": "pnpm --filter @agent-tax-research/database typecheck"
+  }
+}

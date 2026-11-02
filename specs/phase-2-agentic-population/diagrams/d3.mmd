@@ -1,0 +1,13 @@
+﻿flowchart TB
+  subgraph harness["Any harness"]
+    muse["Muse (Wonder conducting, goals, workflows)"]
+    others["Muse / Codex / Grok / OpenCode / Herdr lanes"]
+    headless["Headless Azure AI Foundry runner"]
+  end
+  adapters["AGENTS.md + thin adapters"] --> cli["tax CLI: JSON assignments and envelopes"]
+  muse --> adapters
+  others --> adapters
+  headless --> cli
+  cli --> db[("PostgreSQL: queue, runs, proposals, coverage, snapshots")]
+  db --> consumers["Downstream functions and services"]
+  context["tax-context.yaml (operator fence)"] --> cli

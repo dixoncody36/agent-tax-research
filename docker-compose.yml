@@ -1,0 +1,26 @@
+# Phase 1 local database: containerized PostgreSQL 18 + pgvector.
+# Start:  docker compose up -d
+# Stop:   docker compose down        (add -v to wipe local data)
+services:
+  db:
+    image: pgvector/pgvector:pg18
+    container_name: agent-tax-research-db
+    restart: unless-stopped
+    environment:
+      PGDATA: /var/lib/postgresql/18/docker
+      POSTGRES_DB: ${POSTGRES_DB:-agent_tax_research}
+      POSTGRES_USER: ${POSTGRES_USER:-tax}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-tax_dev_only}
+    ports:
+      - "${DB_PORT:-5433}:5432"
+    volumes:
+      - agent_tax_pgdata:/var/lib/postgresql
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  agent_tax_pgdata:

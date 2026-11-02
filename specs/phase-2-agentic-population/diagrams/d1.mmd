@@ -1,0 +1,12 @@
+﻿erDiagram
+  SCOPE_RUNS ||--o{ AGENT_RUNS : dispatches
+  AGENT_RUNS ||--o{ RUN_EVENTS : emits
+  AGENT_RUNS ||--o{ PROPOSALS : produces
+  PROPOSALS ||--o{ PROPOSAL_ITEMS : contains
+  SOURCES ||--o{ SOURCE_SNAPSHOTS : fetched_as
+  SOURCE_SNAPSHOTS ||--o{ PROPOSAL_ITEMS : evidences
+  JURISDICTIONS ||--o{ COVERAGE_ANSWERS : interrogated_by
+  COVERAGE_QUESTIONS ||--o{ COVERAGE_ANSWERS : asks
+  TAX_TYPES ||--o{ TAX_TYPE_RELATIONSHIPS : links
+  SCOPE_RUNS ||--o{ EXCEPTIONS : raises
+  PROPOSALS ||--o{ TAX_RATES : publishes_on_approval

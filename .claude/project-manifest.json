@@ -1,0 +1,31 @@
+{
+  "name": "agent-tax-research",
+  "description": "Agentic tax research platform for every jurisdiction on the planet — agents gather, structure, and monitor tax rates and rules worldwide.",
+  "phase": "phase-1-data-model",
+  "stack": {
+    "database": "PostgreSQL 18 + pgvector (containerized, docker-compose.yml)",
+    "orm": "Drizzle ORM 0.45.x (packages/database)",
+    "packageManager": "pnpm 10",
+    "runtime": "Node 24 (.nvmrc); local dev verified on Node 22",
+    "planned": {
+      "phase2": "Agentic population — agents discover/collect/monitor per-jurisdiction sources",
+      "phase3": "Monitoring/demo UI (Muse hackathon submission)"
+    }
+  },
+  "exampleJurisdiction": {
+    "slug": "us-tx",
+    "name": "Texas",
+    "sourceIndex": "https://comptroller.texas.gov/taxes/a-to-z.php",
+    "seededTaxTypes": 27,
+    "deepSeeded": ["us-tx-sales-use", "us-tx-franchise", "us-tx-hotel-occupancy"]
+  },
+  "entryPoints": {
+    "readme": "README.md",
+    "dataModel": "docs/data-model.md",
+    "schema": "packages/database/src/schema.ts",
+    "seed": "packages/database/src/seed.ts",
+    "contacts": "contacts/README.md"
+  },
+  "phase2Decree": "specs/phase-2-agentic-population.html",
+  "lastSession": "Phase 1 built and verified (Postgres+pgvector, Texas seeded, Austin 8.25% tie-out). Phase 2 decree authored: harness-ready (Muse first, goal kickoff), operator context fence, per-jurisdiction context hooks (pre/post-run local-expert injection, guidance-never-evidence), agent-first/human-last approval, primary-sources-only, federal-first, three-act demo, product classification last. GitHub handoff blocked: gh account pull-only; needs dixoncody36 auth or write grant, then Phase 0 creates M1-M7 + 28 issues + 5 needs-human. Four-role foundation built (config/models.yaml, AGENTS.md, agents/*.md, scope_runs/agent_runs/research_ledger migrated, pnpm tax status + ledger check verified) — no fetching has run."
+}

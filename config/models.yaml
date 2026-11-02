@@ -1,0 +1,31 @@
+# Agent role -> model assignment. Mix and match freely: each role is an
+# independent slot. `provider: harness` means "whatever model the running
+# harness gives this role" (Muse, Muse, Codex, Grok, OpenCode).
+# `provider: foundry` calls an Azure AI Foundry deployment directly
+# (headless runs). Keys/endpoints live in .env, never here.
+#
+# Roles (see AGENTS.md): orchestrator | fetch | decision | reviewer.
+# Gates require fetch, decision, reviewer, and the human approver to be
+# distinct run identities — distinct models are recommended, not required.
+
+roles:
+  orchestrator:
+    provider: harness
+    model: muse-wonder        # planning/dispatch judgment; never fetches
+  fetch:
+    provider: harness
+    model: muse-glimmer       # high-volume evidence gathering
+  decision:
+    provider: harness
+    model: muse-wonder        # interpretation judgment over evidence
+  reviewer:
+    provider: harness
+    model: muse-wonder        # independent re-read; use a different run/model than decision where possible
+  embedder:
+    provider: foundry
+    deployment: ${AZURE_AI_EMBEDDING_DEPLOYMENT:-}   # empty = embeddings deferred
+
+# Example Foundry override for headless runs:
+# roles:
+#   fetch:    { provider: foundry, deployment: gpt-5-mini }
+#   decision: { provider: foundry, deployment: gpt-5 }

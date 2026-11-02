@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Decree: Phase 2 — Harness-Ready Agentic Population &amp; Monitoring</title>
+<script type="application/json" id="plan-manifest">
+{
+  "planTitle": "Phase 2 — Harness-Ready Agentic Population & Monitoring",
+  "created": "2026-11-01T00:00:00-05:00",
+  "modified": [
+    "2026-11-01T12:00:00-05:00"
+  ],
+  "commits": [],
+  "agents": [
+    "muse-wonder-full-1.0"
+  ],
+  "sessions": [
+    "01a196fb-29d5-7ca2-baaa-43c3801426df"
+  ],
+  "planDir": "specs/",
+  "imageDir": "specs/phase-2-agentic-population/",
+  "refs": {
+    "back": [
+      {
+        "path": "README.md",
+        "label": "Project vision, phases, source principles"
+      },
+      {
+        "path": "docs/data-model.md",
+        "label": "Phase 1 data model (8 tables, Texas seeded)"
+      },
+      {
+        "path": "packages/database/src/schema.ts",
+        "label": "Phase 1 Drizzle schema"
+      },
+      {
+        "path": ".claude/project-manifest.json",
+        "label": "Machine-readable project state"
+      }
+    ],
+    "forward": [],
+    "issues": [],
+    "milestones": []
+  },
+  "diagrams": [
+    {
+      "id": "d1",
+      "kind": "erd",
+      "title": "Phase 2 data model additions",
+      "section": "data-model",
+      "status": "rendered"
+    },
+    {
+      "id": "d2",
+      "kind": "flow",
+      "title": "Agent workflow units and persisted carriers",
+      "section": "solution",
+      "status": "rendered"
+    },
+    {
+      "id": "d3",
+      "kind": "architecture",
+      "title": "Harness-ready layering",
+      "section": "solution",
+      "status": "rendered"
+    },
+    {
+      "id": "d4",
+      "kind": "sequence",
+      "title": "Scope kickoff to human approval",
+      "section": "solution",
+      "status": "rendered"
+    }
+  ],
+  "phases": [
+    {
+      "id": "p1",
+      "n": 1,
+      "name": "Harness Foundation & Schema Additions",
+      "status": "idle",
+      "tasks": [
+        {
+          "id": "p1.t1",
+          "name": "Portable work contract: tax CLI with JSON I/O",
+          "status": "idle",
+          "steps": [
+            {
+              "id": "p1.t1.s1",
+              "text": "Add packages/cli: tax scope start|status, tax work next, tax work claim, tax work submit, tax verify submit, tax review list — every command reads/writes JSON, exits non-zero on gate violations",
+              "status": "idle"
+            },
+            {
+              "id": "p1.t1.s2",
+              "text": "Assignment envelope schema (zod): scopeRunId, unit, jurisdiction, taxType, questionIds, input refs, model tier; result envelope: proposals, exceptions, sources classified, notes for dependents",
+              "status": "idle"
+            },
+            {
+              "id": "p1.t1.s3",
+              "text": "Document the CLI contract in docs/harness-contract.md as the single harness-neutral interface; no agent writes SQL directly",
+              "status": "idle"
+            },
+            {
+              "id": "p1.t1.s4",
+              "text": "Read-side consumption contract for downstream custom functions and services (the point of the database): tax rate lookup, tax rules query, tax coverage show over published, verified data only — sales/use-tax lookups and future calculators never read staging proposals",
+              "status": "idle"
+            }
+          ]
+        },
+        {
+          "id": "p1.t2",
+          "name": "Harness adapters — Muse first, portable to Claude Code, Codex, Grok, OpenCode, Herdr",
+          "status": "idle",
+          "steps": [
+            {
+              "id": "p1.t2.s1",
+              "text": "Write AGENTS.md (universal): project purpose, source eligibility hard rules, CLI contract, kickoff instructions, stop conditions; keep it the one instruction source",
+              "status": "idle"
+            },
+            {
+              "id": "p1.t2.s2",
+              "text": "Muse adapter: conductor workflow + subagent definitions under .muse/ (or workflows/), plus a kickoff skill that creates a Muse goal from a scope request and reports progress from DB state until agent work is exhausted",
+              "status": "idle"
+            },
+            {
+              "id": "p1.t2.s3",
+              "text": "Thin per-harness shims (CLAUDE.md pointer, Codex/OpenCode/Grok notes in docs/harnesses.md) that only say: read AGENTS.md, use the CLI; Herdr lane notes optional, never required",
+              "status": "idle"
+            },
+            {
+              "id": "p1.t2.s4",
+              "text": "Clone-and-go quickstart per harness in README: docker compose up, pnpm install, set keys, tell the harness the scope (e.g. collect and monitor Texas)",
+              "status": "idle"
+            }
+          ]
+        },
+        {
+          "id": "p1.t3",
+          "name": "Model & API-key configuration (Azure AI Foundry ready)",
+          "status": "idle",
+          "steps": [
+            {
+              "id": "p1.t3.s1",
+              "text": "config/models.yaml: the four agent roles — orchestrator, fetch, decision, reviewer — plus embedder, each an independent slot the operator fills with any model (harness-native default, Foundry deployment override); mix-and-match is the operator's prerogative, roles never hardcode a model",
+              "status": "idle"
+            },
+            {
+              "id": "p1.t3.s2",
+              "text": ".env.example gains AZURE_AI_FOUNDRY_ENDPOINT, AZURE_AI_FOUNDRY_API_KEY, per-tier deployment overrides, embedding deployment; validate with zod at CLI start; keys never committed",
+              "status": "idle"
+            },
+            {
+              "id": "p1.t3.s3",
+              "text": "Headless API runner mode: same CLI assignments executed via direct Foundry API calls with no interactive harness, producing identical result envelopes",
+              "status": "idle"
+            }
+          ]
+        },
+        {
+          "id": "p1.t4",
+          "name": "Phase 2 schema additions (one expand migration)",
+          "status": "idle",
+          "steps": [
+            {
+              "id": "p1.t4.s1",
+              "text": "New tables: scope_runs, agent_runs (role = orchestrator|fetch|decision|reviewer, handoff_notes for future agents), run_events, research_ledger (validated determinations: snapshot hash, validator, invalidated_reason — source_changed, human_objection, cadence_expired, context_changed, pack_changed), proposals, proposal_items, coverage_questions, coverage_answers, exceptions, source_snapshots, tax_type_relationships — datavalues on domain tables, append-only events/exceptions",
+              "status": "idle"
+            },
+            {
+              "id": "p1.t4.s2",
+              "text": "sources gains publisher_type, eligibility (eligible, noted_only, prohibited, gov_login_gated), exclusion_reason; backfill the 28 Texas sources as government/eligible",
+              "status": "idle"
+            },
+            {
+              "id": "p1.t4.s3",
+              "text": "Publish-gate enforcement in DB/CLI: a proposal item cannot verify without an eligible source citation; extractor, verifier, approver identities must be three distinct values (self-approval rejected)",
+              "status": "idle"
+            },
+            {
+              "id": "p1.t4.s4",
+              "text": "reporting views: reporting.coverage_by_jurisdiction, reporting.current_rates, reporting.open_exceptions for globe and tie-outs",
+              "status": "idle"
+            }
+          ]
+        },
+        {
+          "id": "p1.t5",
+          "name": "Contextualization layer: operator context profile that fences the crawl",
+          "status": "idle",
+          "steps": [
+            {
+              "id": "p1.t5.s1",
+              "text": "Define tax-context.yaml schema (zod-validated, documented in tax-context.example.yaml): operating footprint (jurisdiction slugs: country, state, city), industries, tax categories, activities and nexus triggers, entities, materiality thresholds, monitor cadences, history depth (default earliest published), languages",
+              "status": "idle"
+            },
+            {
+              "id": "p1.t5.s2",
+              "text": "Context compiler (tax context compile): profile becomes an explicit scope — jurisdiction set with ancestors always included (Dallas pulls in Texas and US Federal for rate stacking and conformity), descendants to chosen depth, filtered question packs and source subsets, per-jurisdiction cadences; output is a reviewable compiled-scope JSON before any agent runs",
+              "status": "idle"
+            },
+            {
+              "id": "p1.t5.s3",
+              "text": "Hard fence at the CLI: assignments outside the active context cannot be created or claimed, and discoveries outside scope are ignored; widening the fence requires editing the profile and recompiling — agents never self-expand scope",
+              "status": "idle"
+            },
+            {
+              "id": "p1.t5.s4",
+              "text": "Ship profiles: context-full-globe.yaml (the operator's own always-on world scan for the consulting practice) and worked examples — Texas-only, Dallas-only, Brazil-only — proving the same clone serves a single-city business and a global practice",
+              "status": "idle"
+            }
+          ]
+        },
+        {
+          "id": "p1.t6",
+          "name": "Jurisdiction context hooks: pre/post-run injection of local expert knowledge",
+          "status": "idle",
+          "steps": [
+            {
+              "id": "p1.t6.s1",
+              "text": "Jurisdiction context packs as versioned data: jurisdiction_context table plus repo mirror files jurisdiction-context/<slug>.yaml — local guidance a human who lives in and knows the jurisdiction layers on top of the standard packs (how to evaluate its sources, local traps and informal practice, terminology/language notes, things to remember outside the standard)",
+              "status": "idle"
+            },
+            {
+              "id": "p1.t6.s2",
+              "text": "Pre-run hook: when the CLI issues an assignment, resolved context packs ride inside the assignment envelope — inheritance down the hierarchy (a city assignment carries city + state + country packs, most specific wins) so every worker starts with the local knowledge before it reads a single source",
+              "status": "idle"
+            },
+            {
+              "id": "p1.t6.s3",
+              "text": "Post-run hooks at proposal, verified, and published transitions: jurisdiction-specific extra checks, local-expert notification routing, and memory-update proposals — agents may propose additions to a jurisdiction's memory from what they learned, but a human approves memory changes exactly like facts (append-only versions, never silent edits)",
+              "status": "idle"
+            },
+            {
+              "id": "p1.t6.s4",
+              "text": "Precedence rules enforced at the CLI gate: injected context guides interpretation and search, it is never evidence — facts still require eligible primary citations, context can never relax the source policy, context fence, or approval chain, and context that conflicts with a primary source raises a conflict exception for the verifier/human",
+              "status": "idle"
+            }
+          ]
+        }
+      ],
+      "validation": [
+        {
+          "id": "p1.v1",
+          "cmd": "docker compose down -v; docker compose up -d; pnpm db:migrate; pnpm db:seed; pnpm typecheck",
+          "proves": "Fresh-volume migrate + seed + types green with Phase 2 tables present",
+          "status": "idle"
+        },
+        {
+          "id": "p1.v2",
+          "cmd": "pnpm tax work next --json (against seeded Texas)",
+          "proves": "Harness-neutral CLI hands out a valid assignment envelope",
+          "status": "idle"
+        },
+        {
+          "id": "p1.v3",
+          "cmd": "audit: submit a proposal citing a noted_only source and a self-verification; both must be rejected",
+          "proves": "Eligible-source-only and maker-checker-approver gates hold mechanically",
+          "status": "idle"
+        }
+      ]
+    },
+    {
+      "id": "p2",
+      "n": 2,
+      "name": "Question Packs & Coverage Engine",
+      "status": "idle",
+      "tasks": [
+        {
+          "id": "p2.t1",
+          "name": "Category question packs v1 (as data, not prompts)",
+          "status": "idle",
+          "steps": [
+            {
+              "id": "p2.t1.s1",
+              "text": "Seed coverage_questions per category: sales_tax/vat_gst, franchise_margin/income, occupancy, excise, severance, gross_receipts, property, fee — rate, base, exemptions, thresholds/nexus, permits, filing, penalties/discounts, history depth",
+              "status": "idle"
+            },
+            {
+              "id": "p2.t1.s2",
+              "text": "Every question defines what evidence answers it (eligible source types) and what a confirmed-absent answer requires",
+              "status": "idle"
+            }
+          ]
+        },
+        {
+          "id": "p2.t2",
+          "name": "Peer-profile catalog & absence protocol",
+          "status": "idle",
+          "steps": [
+            {
+              "id": "p2.t2.s1",
+              "text": "Global category catalog = union of tax types found in profiled jurisdictions; opening a jurisdiction generates its checklist from the catalog so Texas findings interrogate Louisiana and vice versa",
+              "status": "idle"
+            },
+            {
+              "id": "p2.t2.s2",
+              "text": "Absence protocol: search the authority index and statutes, record queries tried in coverage_answers.evidence; verifier confirms before status becomes confirmed_absent",
+              "status": "idle"
+            },
+            {
+              "id": "p2.t2.s3",
+              "text": "New tax type discovered anywhere appends catalog questions to every open jurisdiction checklist (back-ask), never silently",
+              "status": "idle"
+            }
+          ]
+        },
+        {
+          "id": "p2.t3",
+          "name": "Federal conformity pack & industry overlays",
+          "status": "idle",
+          "steps": [
+            {
+              "id": "p2.t3.s1",
+              "text": "Conformity questions for US states: IRC conformity (rolling vs fixed-date), starting point (federal AGI/taxable income), decouplings, federal deductibility; answers create tax_type_relationships rows (conforms_to, piggybacks_on, deductible_against, credit_for)",
+              "status": "idle"
+            },
+            {
+              "id": "p2.t3.s2",
+              "text": "Industry/niche overlay packs: oil-and-gas (severance, well servicing, coastal), telecom (911 fees, utility gross receipts), short-term rentals and hotels (occupancy, local lodging rules), marketplace facilitators and e-commerce (collection duties, economic nexus), software/SaaS and digital goods (sourcing, taxability by delivery mode), delivery and gig logistics (delivery fees, retail delivery taxes) — each pack asks how the niche actually works end to end; overlays add questions and tag rules via datavalues.industry, promotion candidate",
+              "status": "idle"
+            }
+          ]
+        }
+      ],
+      "validation": [
+        {
+          "id": "p2.v1",
+          "cmd": "pnpm tax coverage show us-tx --json",
+          "proves": "Texas checklist renders found, confirmed_absent, and unknown per question",
+          "status": "idle"
+        },
+        {
+          "id": "p2.v2",
+          "cmd": "Coverage dry-run: Texas personal income tax resolves to confirmed_absent with recorded search evidence",
+          "proves": "Absence is an evidenced finding, not silence",
+          "status": "idle"
+        }
+      ]
+    },
+    {
+      "id": "p3",
+      "n": 3,
+      "name": "Four-Role Agent Workflow (Orchestrator, Fetch, Decision, Reviewer)",
+      "status": "idle",
+      "tasks": [
+        {
+          "id": "p3.t1",
+          "name": "Orchestrator role: scope intake, frontier, dispatch, goal progress (never fetches or decides)",
+          "status": "idle",
+          "steps": [
+            {
+              "id": "p3.t1.s1",
+              "text": "Scope intake = active context profile intersected with the ad-hoc ask (Texas, New Jersey, Brazil, South Africa, EU, world): the compiled scope becomes a scope_runs row and jurisdiction frontier; asks outside the context fence are refused with an explanation, never silently widened",
+              "status": "idle"
+            },
+            {
+              "id": "p3.t1.s2",
+              "text": "Breadth-first expansion with capped concurrency: structure before deep extraction; jurisdiction is a durable assignment, workers are pooled labor",
+              "status": "idle"
+            },
+            {
+              "id": "p3.t1.s3",
+              "text": "Goal integration: on Muse, kickoff creates a session goal whose objective is the scope; conductor reports percent from coverage state; agent-complete means no agent work remains, human approvals tracked separately",
+              "status": "idle"
+            }
+          ]
+        },
+        {
+          "id": "p3.t2",
+          "name": "Fetch role: discover, classify, fetch, snapshot, raw evidence bundles (evidence only, no truth judgments)",
+          "status": "idle",
+          "steps": [
+            {
+              "id": "p3.t2.s1",
+              "text": "Discover+Classify: find candidate sources, set publisher_type/eligibility before any fetch; vendor sources (Avalara, Vertex, TaxJar class) become noted_only and are never fetched into context",
+              "status": "idle"
+            },
+            {
+              "id": "p3.t2.s2",
+              "text": "Fetch: retrieve eligible source, store source_snapshots row (content hash, retrieved text/blob ref), append source_checks; changed hash opens extraction",
+              "status": "idle"
+            },
+            {
+              "id": "p3.t2.s3",
+              "text": "Extract: produce proposal_items for rates, rules, licenses, compliance plus coverage answers and historical backfill to earliest published data; every item cites snapshot + authority",
+              "status": "idle"
+            },
+            {
+              "id": "p3.t2.s4",
+              "text": "Each unit has a named standalone entry point via the CLI (tax work next --unit fetch) and is idempotent on re-run against the same snapshot; fetch output is an evidence bundle (snapshot refs, raw candidate values, locations in source), never a conclusion",
+              "status": "idle"
+            }
+          ]
+        },
+        {
+          "id": "p3.t5",
+          "name": "Decision role: interpret evidence into determinations (check-first, ledger-led)",
+          "status": "idle",
+          "steps": [
+            {
+              "id": "p3.t5.s1",
+              "text": "Check-first procedure (future-agent kindness): before any research, the decision agent reads research_ledger and prior agent_runs handoff notes for the assignment; a validated determination whose snapshot hash still matches is reused as-is — no re-fetch, no re-decision, no burned calories",
+              "status": "idle"
+            },
+            {
+              "id": "p3.t5.s2",
+              "text": "Decision work: apply question packs, category/niche overlays, and injected jurisdiction context to fetch evidence bundles; produce determinations (proposal items, coverage answers incl. confirmed-absent, classifications) with explicit reasoning refs; decide what is still unknown and what follow-up fetch is required",
+              "status": "idle"
+            },
+            {
+              "id": "p3.t5.s3",
+              "text": "Invalidation discipline: prior work is reopened only on a typed reason — source_changed, human_objection (from review), cadence_expired, context_changed, pack_changed — recorded on the ledger row; reopening is targeted to the invalidated determination, never a blanket redo",
+              "status": "idle"
+            },
+            {
+              "id": "p3.t5.s4",
+              "text": "Every decision run ends with handoff notes for future agents (what was determined, what to trust, what to watch) written to agent_runs; the next run must read them before acting",
+              "status": "idle"
+            }
+          ]
+        },
+        {
+          "id": "p3.t3",
+          "name": "Reviewer role and publish gate (independent re-read; human approves last)",
+          "status": "idle",
+          "steps": [
+            {
+              "id": "p3.t3.s1",
+              "text": "Verifier (stronger tier, different run identity) independently re-reads the snapshot: numbers, citation support, effective-date sanity, second-primary-source corroboration where available",
+              "status": "idle"
+            },
+            {
+              "id": "p3.t3.s2",
+              "text": "Publish transition applies approved items as effective-dated rows (supersede, never update published history) and stamps run, extractor, verifier, approver on every fact",
+              "status": "idle"
+            },
+            {
+              "id": "p3.t3.s3",
+              "text": "Re-performance check: re-extracting a stored snapshot must reproduce the same proposal hash; mismatch writes an exception automatically",
+              "status": "idle"
+            }
+          ]
+        },
+        {
+          "id": "p3.t4",
+          "name": "Monitor/refresh unit and exception handling",
+          "status": "idle",
+          "steps": [
+            {
+              "id": "p3.t4.s1",
+              "text": "Refresh selects due sources by cadence + last_checked_at, hash-compares at scale (no LLM for unchanged), queues extraction only on change",
+              "status": "idle"
+            },
+            {
+              "id": "p3.t4.s3",
+              "text": "Retry rule (hard cap): any assignment unit gets at most 3 attempts; after the 3rd failure the run is marked failed, a typed exception is written, and the orchestrator is notified — the cascade moves on, never loops",
+              "status": "idle"
+            },
+            {
+              "id": "p3.t4.s4",
+              "text": "Every run records metrics on agent_runs (tokens in/out, cost, wall time, attempt number, model, role) so cost-to-populate, cost-to-maintain, and cost-to-review are known per jurisdiction, tax type, role, and model — first-run estimates come from benchmark medians, then from the operator's own history",
+              "status": "idle"
+            },
+            {
+              "id": "p3.t4.s5",
+              "text": "Orchestrator watchdog: budgets per assignment derived from historical medians (tokens and wall time); a run exceeding budget without progress events is flagged spinning, stopped at the attempt boundary, and counted toward the 3-attempt cap",
+              "status": "idle"
+            },
+            {
+              "id": "p3.t4.s2",
+              "text": "Typed exceptions: transient (retry with backoff), blocked, unreadable, language, conflict, structure_unknown, primary_not_found; blocked/ineligible never pauses the cascade",
+              "status": "idle"
+            }
+          ]
+        }
+      ],
+      "validation": [
+        {
+          "id": "p3.v1",
+          "cmd": "Run each unit in isolation via tax work next --unit <unit> on seeded Texas fixtures",
+          "proves": "Slinky runnability: every unit runs alone, restarts, and re-runs idempotently",
+          "status": "idle"
+        },
+        {
+          "id": "p3.v2",
+          "cmd": "audit: re-extract one stored Texas snapshot; compare proposal hashes",
+          "proves": "Re-performance reproduces the proposal from evidence alone",
+          "status": "idle"
+        },
+        {
+          "id": "p3.v3",
+          "cmd": "Same Texas assignment completed via Muse workflow and via headless Foundry runner; diff result envelopes",
+          "proves": "Harness portability: identical contract, interchangeable labor",
+          "status": "idle"
+        }
+      ]
+    },
+    {
+      "id": "p4",
+      "n": 4,
+      "name": "Federal First Wave & Texas Cascade",
+      "status": "idle",
+      "tasks": [
+        {
+          "id": "p4.t1",
+          "name": "US Federal profile (primary sources only)",
+          "status": "idle",
+          "steps": [
+            {
+              "id": "p4.t1.s1",
+              "text": "Register federal jurisdiction sources: IRS, US Code (Title 26), Treasury regulations, Federal Register; classify all government/eligible",
+              "status": "idle"
+            },
+            {
+              "id": "p4.t1.s2",
+              "text": "Profile federal income (individual/corporate), payroll (FICA/FUTA), and major excise taxes with rates, rules, compliance, and history to earliest published data",
+              "status": "idle"
+            }
+          ]
+        },
+        {
+          "id": "p4.t2",
+          "name": "Texas state completion: remaining 24 types + conformity answers",
+          "status": "idle",
+          "steps": [
+            {
+              "id": "p4.t2.s1",
+              "text": "Deep-populate the 24 stub Texas types from Comptroller subpages, Tax Code, and 34 TAC through extract-verify-approve; clear seeded needs_review franchise labels from labelled tables",
+              "status": "idle"
+            },
+            {
+              "id": "p4.t2.s2",
+              "text": "Answer federal conformity pack for Texas (no personal income tax confirmed_absent; franchise margin is not IRC-conformed income tax) with relationships recorded",
+              "status": "idle"
+            },
+            {
+              "id": "p4.t2.s3",
+              "text": "Historical backfill: sales, franchise, hotel rate histories to earliest published Comptroller/statute data, each with earliest-found and searched-earlier evidence",
+              "status": "idle"
+            }
+          ]
+        },
+        {
+          "id": "p4.t3",
+          "name": "Texas subnational cascade (sales-tax proof case)",
+          "status": "idle",
+          "steps": [
+            {
+              "id": "p4.t3.s1",
+              "text": "Register 254 counties plus cities, transit authorities, and special purpose districts from Comptroller rate-table sources; verify Austin components and retire unverified seed flags",
+              "status": "idle"
+            },
+            {
+              "id": "p4.t3.s2",
+              "text": "Extract city/county/transit/SPD sales-tax components from official rate tables with quarterly-update sources on monitoring cadence; local hotel components recorded where primary local sources exist",
+              "status": "idle"
+            }
+          ]
+        }
+      ],
+      "validation": [
+        {
+          "id": "p4.v1",
+          "cmd": "audit: tie-out Austin and two sampled cities — sum of published components equals Comptroller combined-area rate, variance 0",
+          "proves": "Component stacking ties to the authority combined rates",
+          "status": "idle"
+        },
+        {
+          "id": "p4.v2",
+          "cmd": "pnpm tax coverage show us and us-tx: no unknown questions remain at federal/state level",
+          "proves": "Federal + Texas state coverage complete (found or confirmed_absent)",
+          "status": "idle"
+        }
+      ]
+    },
+    {
+      "id": "p5",
+      "n": 5,
+      "name": "World Skeleton & Monitored Refresh",
+      "status": "idle",
+      "tasks": [
+        {
+          "id": "p5.t1",
+          "name": "All-country structure + source discovery",
+          "status": "idle",
+          "steps": [
+            {
+              "id": "p5.t1.s1",
+              "text": "Cascade every country at structure depth: country jurisdiction, first-level subdivisions where published, tax authority sources discovered and classified; depth varies and stays visible as coverage state",
+              "status": "idle"
+            },
+            {
+              "id": "p5.t1.s2",
+              "text": "EU registered as region above member countries; EU-level instruments attach at region, member rates below",
+              "status": "idle"
+            }
+          ]
+        },
+        {
+          "id": "p5.t2",
+          "name": "Full-refresh pass at world scale",
+          "status": "idle",
+          "steps": [
+            {
+              "id": "p5.t2.s1",
+              "text": "Run world refresh: every active eligible source hash-checked, changes queued as proposals, failures typed into exceptions with per-jurisdiction rollup",
+              "status": "idle"
+            },
+            {
+              "id": "p5.t2.s2",
+              "text": "Respect per-host politeness (rate limits, robots, no credentialed access); gov_login_gated findings become needs-human exceptions",
+              "status": "idle"
+            }
+          ]
+        },
+        {
+          "id": "p5.t3",
+          "name": "Reserve virgin demo countries",
+          "status": "idle",
+          "steps": [
+            {
+              "id": "p5.t3.s1",
+              "text": "Designate primary + backup demo countries as held: no population runs touch them during build; preflight only checks authority-site reachability without extraction",
+              "status": "idle"
+            }
+          ]
+        }
+      ],
+      "validation": [
+        {
+          "id": "p5.v1",
+          "cmd": "World refresh completes; report counts by outcome (unchanged, changed, failed by exception type)",
+          "proves": "Monitoring operates at world scale with typed failure feedback",
+          "status": "idle"
+        },
+        {
+          "id": "p5.v2",
+          "cmd": "Coverage query: reserve countries show zero proposals and zero published facts",
+          "proves": "Virgin-country discipline held for the demo",
+          "status": "idle"
+        }
+      ]
+    },
+    {
+      "id": "p6",
+      "n": 6,
+      "name": "Globe, Human Review & Hackathon Demo",
+      "status": "idle",
+      "tasks": [
+        {
+          "id": "p6.t1",
+          "name": "Globe observability UI (Phase 3 surface, minimal cut)",
+          "status": "idle",
+          "steps": [
+            {
+              "id": "p6.t1.s1",
+              "text": "Interactive globe renders per-jurisdiction status from DB state only (undiscovered, queued, working, awaiting approval, verified-current, blocked) with drill-down country to state to county to city and a live run/step feed",
+              "status": "idle"
+            },
+            {
+              "id": "p6.t1.s2",
+              "text": "Field sense: status legends in lifecycle domain order (never alphabetical), rate tables sort numerically on values, effective-date ranges chronological, amounts locale-formatted at the edge, long jurisdiction lists searchable with explanatory empty states",
+              "status": "idle"
+            }
+          ]
+        },
+        {
+          "id": "p6.t2",
+          "name": "Human review queue (human last, built for speed)",
+          "status": "idle",
+          "steps": [
+            {
+              "id": "p6.t2.s1",
+              "text": "Review screen per proposal: proposed vs current diff, highlighted source excerpt from the snapshot, verifier verdict, coverage impact; approve, correct, or reject with reason codes",
+              "status": "idle"
+            },
+            {
+              "id": "p6.t2.s2",
+              "text": "Keyboard-first bulk flow for same-pattern items; approver identity recorded on every decision; queue ordered by risk (conflicts and rate changes before routine re-checks)",
+              "status": "idle"
+            }
+          ]
+        },
+        {
+          "id": "p6.t3",
+          "name": "Evidence (audit) pack export per jurisdiction",
+          "status": "idle",
+          "steps": [
+            {
+              "id": "p6.t3.s1",
+              "text": "Export per-jurisdiction workbook + PDF: rate/rule history, citations, snapshot hashes, extractor/verifier/approver chain, exceptions, coverage including confirmed absences",
+              "status": "idle"
+            }
+          ]
+        },
+        {
+          "id": "p6.t4",
+          "name": "Three-act demo rehearsal",
+          "status": "idle",
+          "steps": [
+            {
+              "id": "p6.t4.s1",
+              "text": "Act 1 full-world refresh live kickoff; Act 2 virgin-country population live (primary, backup on standby); Act 3 Texas maintenance with live human approval and history view",
+              "status": "idle"
+            },
+            {
+              "id": "p6.t4.s2",
+              "text": "Fallbacks rehearsed and labelled honestly: snapshot replay for Act 3 if no live Texas change exists that day; recorded run only if live network fails entirely",
+              "status": "idle"
+            }
+          ]
+        },
+        {
+          "id": "p6.t5",
+          "name": "Jurisdiction tax guide generation (final report stage)",
+          "status": "idle",
+          "steps": [
+            {
+              "id": "p6.t5.s1",
+              "text": "After a jurisdiction reaches coverage-complete (or on demand), a report run generates its tax guide from published, verified data only: every tax type with current rates and stacking, rules, licenses, compliance steps, conformity links, history summary, confirmed absences, and open unknowns/exceptions stated plainly",
+              "status": "idle"
+            },
+            {
+              "id": "p6.t5.s2",
+              "text": "Guides are version-stamped (data as-of date, source snapshot references per section) and regenerated on material change; a guide never contains staging proposals or unverified claims, and stale guides are visibly marked superseded",
+              "status": "idle"
+            }
+          ]
+        },
+        {
+          "id": "p6.t6",
+          "name": "Benchmark suite & public opt-in analytics",
+          "status": "idle",
+          "steps": [
+            {
+              "id": "p6.t6.s1",
+              "text": "Benchmark suite v1 in benchmarks/: fixed, versioned tasks against golden ground truth (starting from verified Texas facts — state/local rate stacking, hotel rate, confirmed absence of personal income tax, conformity answers) that any model or harness (Muse, Anthropic, Google, Microsoft, others) can run identically through the four roles",
+              "status": "idle"
+            },
+            {
+              "id": "p6.t6.s2",
+              "text": "Scoring (0-100, published rubric): determination accuracy vs gold, citation validity (eligible primary actually supports the claim), coverage/absence correctness, and efficiency (tokens + wall time normalized per correct determination); results record harness, per-role models, and suite version so scores are comparable across vendors",
+              "status": "idle"
+            },
+            {
+              "id": "p6.t6.s3",
+              "text": "Two analytics modes: private (default — all metrics stay in the operator's database) and public opt-in (config/analytics.yaml mode: public + endpoint): clone operators may contribute aggregate run metrics and benchmark results to the master public analytics database — jurisdiction slug, role, model ids, tokens, durations, outcomes, scores only; never source content, context profiles, product lists, or client data; off by default, revocable, exportable before sending",
+              "status": "idle"
+            }
+          ]
+        }
+      ],
+      "validation": [
+        {
+          "id": "p6.v1",
+          "cmd": "Full demo dry run timed end to end on the demo machine from a fresh clone",
+          "proves": "Clone-and-go works under stage conditions",
+          "status": "idle"
+        },
+        {
+          "id": "p6.v2",
+          "cmd": "audit: generate Texas evidence pack; re-perform Austin combined rate and one historical rate from pack contents alone",
+          "proves": "An outsider can reproduce figures from exported evidence",
+          "status": "idle"
+        },
+        {
+          "id": "p6.v3",
+          "cmd": "Field-sense check (023): status order, numeric sorts, chronological dates verified on globe and review surfaces",
+          "proves": "Typed data behaves per type on every demo surface",
+          "status": "idle"
+        }
+      ]
+    },
+    {
+      "id": "p7",
+      "n": 7,
+      "name": "Agentic Product Classification (Last Phase)",
+      "status": "idle",
+      "tasks": [
+        {
+          "id": "p7.t1",
+          "name": "Global product taxonomy & classification codes",
+          "status": "idle",
+          "steps": [
+            {
+              "id": "p7.t1.s1",
+              "text": "Add product_categories: hierarchical, coded taxonomy of goods and services the tax rules distinguish (software by delivery mode — downloaded, SaaS, electronically delivered; lodging incl. short-term rentals; telecom services; fuels; tobacco/e-cigarettes; marketplace-facilitated goods; delivery services; digital content) with definitions written the way statutes draw the lines",
+              "status": "idle"
+            },
+            {
+              "id": "p7.t1.s2",
+              "text": "Classification question pack per category: what facts decide the bucket in each jurisdiction (delivery mode, possession, duration, bundled components), so agents classify from product facts, never from the operator's marketing label",
+              "status": "idle"
+            }
+          ]
+        },
+        {
+          "id": "p7.t2",
+          "name": "Per-jurisdiction product taxability treatments",
+          "status": "idle",
+          "steps": [
+            {
+              "id": "p7.t2.s1",
+              "text": "Add product_tax_treatments: category x jurisdiction x tax type to treatment (taxable, exempt, reduced rate, special sourcing/collection rule), effective-dated and cited like every other fact; populated through the same extract-verify-approve chain, monitored for reclassification changes",
+              "status": "idle"
+            },
+            {
+              "id": "p7.t2.s2",
+              "text": "Worked proof — software: answer 'I sell software' across the populated footprint: where SaaS/downloads are taxable, sourcing rules, exemptions, and history, each from primary sources with confirmed-absent where software is not taxed",
+              "status": "idle"
+            }
+          ]
+        },
+        {
+          "id": "p7.t3",
+          "name": "Operator product contextualization & downstream lookup",
+          "status": "idle",
+          "steps": [
+            {
+              "id": "p7.t3.s1",
+              "text": "Context profile gains products[]: the operator lists what they actually sell; agents classify each item into the taxonomy (verifier-checked, human-approved) and treatments populate only inside the operator footprint — niche depth follows the client, not the whole catalog",
+              "status": "idle"
+            },
+            {
+              "id": "p7.t3.s2",
+              "text": "Read-side lookup for downstream functions: given product code + place + date, return treatment + applicable stacked rate + citations from published data only; unknown classification fails closed to an exception, never a guessed bucket",
+              "status": "idle"
+            }
+          ]
+        }
+      ],
+      "validation": [
+        {
+          "id": "p7.v1",
+          "cmd": "Software proof query: treatments for the software/SaaS category across Texas and sampled jurisdictions tie to cited primaries",
+          "proves": "Product classification answers the canonical niche question end to end",
+          "status": "idle"
+        },
+        {
+          "id": "p7.v2",
+          "cmd": "audit: re-classify a sampled operator product from its recorded facts; classification reproduces",
+          "proves": "Classification is evidence-based and re-performable, not label-based",
+          "status": "idle"
+        }
+      ]
+    }
+  ],
+  "globalValidation": [
+    {
+      "id": "g.v1",
+      "cmd": "node -e \"const fs=require('fs');const h=fs.readFileSync('specs/phase-2-agentic-population.html','utf8');const m=h.match(/id=\\\"plan-manifest\\\">([\\s\\S]*?)<\\/script>/);JSON.parse(m[1]);console.log('island ok')\"",
+      "proves": "Plan-manifest island parses as valid JSON",
+      "status": "idle"
+    },
+    {
+      "id": "g.v2",
+      "cmd": "pnpm typecheck",
+      "proves": "All workspace TypeScript compiles strict",
+      "status": "idle"
+    },
+    {
+      "id": "g.v3",
+      "cmd": "docker compose up -d; pnpm db:migrate; pnpm db:seed",
+      "proves": "Database brings up, migrates, and seeds from clone state",
+      "status": "idle"
+    },
+    {
+      "id": "g.v4",
+      "cmd": "End-to-end: scope Texas sales tax, run cascade to agent-complete, approve queue, query reporting.current_rates",
+      "proves": "The full discover-to-published chain works on the proof case",
+      "status": "idle"
+    }
+  ],
+  "questionables": [
+    {
+      "id": "q1",
+      "question": "Which non-Muse harnesses must be proven before the hackathon versus best-effort portable?",
+      "assumption": "Assumed: Muse proven end-to-end for the demo; Claude Code, Codex, OpenCode, Grok get one-assignment smoke tests through the shared CLI contract if time allows. Portability claim rests on the CLI, not per-harness code.",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "q2",
+      "question": "Which countries are the virgin demo primary and backup?",
+      "assumption": "Assumed: South Africa primary (SARS publishes well in English; mostly national taxes yield strong province-level confirmed-absence findings), New Zealand backup (simple, fast). Held unpopulated from Phase 5 onward pending confirmation.",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "q3",
+      "question": "Snapshot evidence retention period and storage class?",
+      "assumption": "Assumed for hackathon: local volume retention, indefinite during the project. Production target per audit standard: immutable (WORM) object storage, 7 years. Retention is an engagement decision, recorded not invented.",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "q4",
+      "question": "Human approver identity mechanism for the hackathon build?",
+      "assumption": "Assumed: named local approver identities recorded on decisions (distinctness enforced), Microsoft Entra-backed identities after the hackathon per platform standards.",
+      "status": "resolved",
+      "resolution": "The operator performs human verification locally (Texas-based) as the named approver for the hackathon build; distinctness from extractor/verifier enforced. Entra-backed identities remain the post-hackathon target."
+    },
+    {
+      "id": "q5",
+      "question": "Which Azure AI Foundry deployments (chat tiers, embeddings, region) are available to this project?",
+      "assumption": "Assumed: configured purely via environment; harness-native models carry the demo if Foundry keys are absent; embeddings stay null until an embedder deployment is named. No non-Foundry AI APIs.",
+      "status": "open",
+      "resolution": null
+    },
+    {
+      "id": "q6",
+      "question": "Does any first-wave jurisdiction require government login-gated data with no public equivalent?",
+      "assumption": "Assumed: none for federal + Texas. Any discovery becomes a needs-human exception; agents never hold credentials.",
+      "status": "open",
+      "resolution": null
+    }
+  ],
+  "amendments": [
+    {
+      "ts": "2026-11-01T12:00:00-05:00",
+      "summary": "Handoff attempted; blocked on GitHub permissions",
+      "detail": "Decree authored, 4 diagrams rendered to inline SVG, island validated (7 phases, 25 task groups). GitHub handoff (labels, M1-M7 milestones, 25 issues, 5 needs-human decision issues) could not execute: active gh account COdy-dixon_amtax has pull-only access to dixoncody36/agent-tax-research (404 on writes). Unblock: authenticate gh as dixoncody36 or grant COdy-dixon_amtax write, then re-run the Phase 0 handoff. No milestones or issues were created; refs remain empty and in-plan statuses stay canonical until handoff completes."
+    },
+    {
+      "ts": "2026-11-01T12:30:00-05:00",
+      "summary": "Added jurisdiction context hooks (p1.t6)",
+      "detail": "Operator requirement: pre/post-run context injection so local jurisdiction experts can layer guidance and memory on top of the standard packs. Added task group p1.t6 (context packs as versioned data + repo mirror, pre-run envelope injection with hierarchy inheritance, post-run transition hooks with human-approved memory updates, CLI-enforced precedence: context guides, never evidences, never relaxes gates). Solution prose and locked-decisions notes updated. Task groups now 26; pending GitHub handoff grows by one issue."
+    },
+    {
+      "ts": "2026-11-01T13:00:00-05:00",
+      "summary": "Four-role objective model, report stage, check-first ledger",
+      "detail": "Operator direction: specified roles Orchestrator / Fetch / Decision / Reviewer as mix-and-match model slots; final jurisdiction tax-guide report stage (p6.t5); procedural future-agent kindness — research_ledger check-first reuse, typed invalidation only (incl. human_objection), mandatory handoff notes. Phase 3 renamed, decision task p3.t5 added, config reframed from tiers to roles. Foundation built in-repo ahead of any fetching: config/models.yaml, AGENTS.md, agents/*.md role definitions, scope_runs/agent_runs/research_ledger tables, minimal tax CLI."
+    },
+    {
+      "ts": "2026-11-01T13:30:00-05:00",
+      "summary": "Analytics, 3-retry cap, benchmark suite, opt-in public telemetry",
+      "detail": "Operator requirement (sizing: multi-phase, folds into this decree rather than a standalone feature). Added per-run metrics (tokens, cost, wall time, attempt) with per-jurisdiction populate/maintain/review cost rollups, orchestrator watchdog budgets, hard 3-attempt retry cap then failed + notify orchestrator (p3.t4.s3-s5), versioned benchmark suite with published scoring for cross-vendor model/harness competition (p6.t6), and private-by-default analytics with opt-in public contribution of aggregates only to the master database. Foundation slice built: metrics columns on agent_runs migrated, tax analytics CLI, config/analytics.yaml, benchmarks/v1 golden tasks from verified Texas seed facts."
+    }
+  ]
+}
+</script>
+<style>
+:root {
+  --navy: #002B49;
+  --medium-blue: #5E8AB4;
+  --bright-blue: #0085CA;
+  --ink: #1a2433;
+  --muted: #5b6b7f;
+  --line: #d7e0ea;
+  --panel: #f2f6fa;
+  --font: Arial, Helvetica, sans-serif;
+  --mono: Consolas, "Courier New", monospace;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: var(--font); color: var(--ink); background: #fff; line-height: 1.55; }
+main { max-width: 920px; margin: 0 auto; padding: 40px 24px 80px; }
+header h1 { color: var(--navy); font-size: 28px; line-height: 1.25; margin: 0 0 12px; border-bottom: 4px solid var(--bright-blue); padding-bottom: 14px; }
+h2 { color: var(--navy); font-size: 21px; margin-top: 40px; border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+h3 { color: var(--navy); font-size: 17px; margin-top: 26px; }
+h4 { font-size: 15px; margin: 18px 0 6px; }
+p, li { font-size: 14.5px; }
+.meta dl { display: grid; grid-template-columns: 130px 1fr; gap: 2px 12px; font-size: 13px; }
+.meta dt { color: var(--muted); font-weight: bold; }
+.meta dd { margin: 0; }
+figure { margin: 18px 0; }
+figure img { max-width: 100%; }
+figcaption { font-size: 12.5px; color: var(--muted); margin-top: 6px; }
+figure.diagram { background: var(--panel); border: 1px solid var(--line); padding: 14px; }
+figure.diagram [data-diagram-render] svg { max-width: 100%; height: auto; }
+figure.diagram script { display: none; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; margin: 12px 0; }
+th, td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
+th { background: var(--navy); color: #fff; }
+code { font-family: var(--mono); font-size: 12.5px; background: var(--panel); padding: 1px 4px; }
+pre { background: var(--navy); color: #eaf2f9; padding: 14px; overflow-x: auto; font-family: var(--mono); font-size: 12.5px; }
+pre code { background: none; color: inherit; }
+.phase { border: 1px solid var(--line); border-left: 4px solid var(--medium-blue); padding: 6px 18px 14px; margin: 18px 0; }
+.checklist { list-style: none; padding-left: 4px; }
+.checklist li { margin: 5px 0; font-size: 13.5px; }
+code.status { color: var(--bright-blue); font-weight: bold; background: none; }
+.loop { background: #eef6fc; border: 1px solid var(--bright-blue); padding: 10px 14px; margin: 14px 0; font-size: 13.5px; }
+.tag { font-size: 11px; font-weight: bold; padding: 1px 7px; border-radius: 8px; color: #fff; }
+.tag.existing { background: var(--medium-blue); }
+.tag.new { background: var(--bright-blue); }
+details { margin: 8px 0; }
+summary { cursor: pointer; font-size: 14px; }
+.qa-answer { color: var(--muted); margin-left: 16px; font-size: 13.5px; }
+.files li { margin: 5px 0; }
+</style>
+</head>
+<body>
+<main>
+
+  <header>
+    <h1>Decree: Phase 2 — Harness-Ready Agentic Population &amp; Monitoring</h1>
+    <details class="meta">
+      <summary>Metadata</summary>
+      <dl data-hydrate="meta"></dl>
+    </details>
+  </header>
+
+  <figure>
+    <!-- {{HERO_IMAGE: stylised globe with agent frontier expanding across jurisdictions, navy and blue, minimal}} -->
+    <figcaption>Agents populate and monitor the world's tax data; the database is the product; the human signs last.</figcaption>
+  </figure>
+
+  <section id="purpose">
+    <h2>Purpose</h2>
+    <p><strong>Agent-first, human-last.</strong> Pulling tax rates, rules, licenses, and compliance obligations from primary sources — and keeping them current forever — is no longer a human function. In this system, agents discover, collect, structure, verify, and monitor; they write everything into the Phase 1 PostgreSQL database; downstream custom functions and services (sales/use-tax lookups, calculators, research tools) consume the published data. Humans do exactly one thing in the loop: final approval of agent-verified proposals, because humans are the slowest step and belong at the end of it.</p>
+    <p>Phase 2 builds that agent workforce as a <strong>harness-ready, clone-and-go system</strong>: clone the repo, describe your context (the jurisdictions, industries, and taxes you care about), point your agent harness at it — Muse first for the Meta hackathon, portable to Muse, Codex, Grok, OpenCode, Herdr-orchestrated lanes, or a headless Azure AI Foundry runner — and the cascade populates and monitors your slice of the world. The author's own deployment runs the full-globe context continuously as part of a consulting practice; a single-city business runs the identical code with a Dallas-only context.</p>
+    <p><strong>Audit scope (027): audit-scoped — yes.</strong> Regimes: tax examination (federal/state; ASC 740 adjacency), internal audit / client review. Historical rates exist explicitly so past periods can be re-performed. Every published figure must trace to its extraction run, source snapshot, verifier, and human approver (see Data Model register and per-phase <code>audit:</code> validations).</p>
+  </section>
+
+  <section id="problem">
+    <h2>Problem</h2>
+    <p>Phase 1 proved the container: eight tables, Texas seeded, combined-rate lookup working. But the data was gathered by hand for 3 of 27 Texas levies — the other 24 are stubs, Texas alone has thousands of sub-jurisdictions, and the planet has roughly 200 countries whose tax authorities publish change continuously. No human team keeps that current, and vendor data (Avalara, Vertex, TaxJar class) is deliberately off-limits: this platform's value is research <em>from the source</em>, so every fact must come from public-facing government primaries. The gap between "a schema that can hold the world" and "the world, in it, current, with evidence" is an agent system: scoped by operator context, fenced to eligible sources, self-verifying, observable at every step, and runnable from whatever harness the operator already uses.</p>
+    <figure>
+      <!-- {{PROBLEM_IMAGE: thousands of jurisdiction sources changing faster than a human team can read, minimal diagram style}} -->
+      <figcaption>Manual research does not scale to every jurisdiction, and standing still means decaying data.</figcaption>
+    </figure>
+  </section>
+
+  <section id="solution">
+    <h2>Solution</h2>
+    <p>Three layers, each independently replaceable. <strong>(1) A harness-neutral core</strong>: the PostgreSQL database holds all state (work queue, runs, proposals, coverage, exceptions, snapshots), and a <code>tax</code> CLI with JSON assignments and result envelopes is the only interface agents use — no agent writes SQL, no state lives in a chat transcript. <strong>(2) Harness adapters</strong>: <code>AGENTS.md</code> carries the universal instructions; Muse gets the first-class adapter (Wonder conducting workflows/subagents, a kickoff that creates a session <em>goal</em> from the scope and reports progress from database state); Claude Code, Codex, Grok, OpenCode, and Herdr lanes need only "read AGENTS.md, call the CLI"; a headless runner calls Azure AI Foundry APIs directly with the same envelopes. Models are logical tiers in <code>config/models.yaml</code> — conductor (Wonder), worker (Glimmer-class), verifier (strong tier), embedder — mapped to harness-native models by default and Foundry deployments by environment override. <strong>(3) The contextualization layer</strong> (below) decides what any of this is allowed to touch.</p>
+
+    <h3>Contextualization: the operator's fence, compiled before agents run</h3>
+    <p>Most operators do not need the planet. A business operating only in Dallas, or Texas, or Brazil should pay — in tokens, time, and review burden — only for its footprint. Each deployment carries a <code>tax-context.yaml</code>: operating footprint (jurisdictions), industries, tax categories, activities/nexus triggers, materiality thresholds, monitor cadences, and history depth. The context compiler turns it into an explicit, reviewable scope: the jurisdiction set (ancestors always included — Dallas cannot be answered without Texas and US Federal for stacking and conformity), filtered question packs, the source subset, and per-jurisdiction cadences. The CLI enforces the compiled scope as a hard fence: out-of-context assignments cannot be created or claimed, and agents never widen their own scope. The repo ships a full-globe profile (the author's always-on consulting scan) plus Texas-only, Dallas-only, and Brazil-only worked examples — one codebase, any footprint.</p>
+    <pre><code># tax-context.example.yaml (abridged)
+profile: dallas-only
+footprint: [us-tx-dallas]          # ancestors auto-included: us-tx, us
+industries: [retail]
+categories: [sales_tax, franchise_margin, occupancy, property]
+history: earliest_published
+monitor: { state: weekly, local: monthly }</code></pre>
+
+    <h3>Jurisdiction context hooks: local knowledge, injected pre- and post-run</h3>
+    <p>Standard question packs cannot know what a practitioner in the jurisdiction knows — that one authority's guidance lags its statute, that home-rule cities behave differently, that a term means something narrower locally. So every jurisdiction can carry a <strong>context pack</strong>: versioned local guidance and memory, authored by the humans who know that place, stored as data and mirrored to <code>jurisdiction-context/&lt;slug&gt;.yaml</code> for harness portability. <strong>Pre-run</strong>, the CLI injects the resolved packs (city inherits state and country; most specific wins) into every assignment envelope, so workers evaluate resources the local way from the first fetch. <strong>Post-run</strong>, hooks at the proposal, verified, and published transitions run jurisdiction-specific checks, route notifications to the local expert, and let agents <em>propose</em> memory updates from what they learned — approved by a human before they stick, append-only like everything else. The precedence rule is absolute: injected context steers interpretation and search; it is never evidence, cannot relax source eligibility or the context fence, and any conflict with a primary source becomes a typed exception rather than a quiet override.</p>
+
+    <h3>Decomposition map — agentic population &amp; monitoring (022)</h3>
+    <p>Described as one cascading process; decomposed to eight units with persisted state at every boundary. Any unit runs alone via <code>tax work next --unit &lt;name&gt;</code>, re-runs idempotently against stored snapshots, and restarts from its input rows.</p>
+    <table>
+      <tr><th>#</th><th>Unit</th><th>Trigger</th><th>Inputs</th><th>Outputs (persisted)</th><th>Actor / tier</th></tr>
+      <tr><td>1</td><td>Compile context</td><td>Kickoff or profile edit</td><td>tax-context.yaml</td><td>scope_runs row, compiled-scope JSON</td><td>System (CLI)</td></tr>
+      <tr><td>2</td><td>Discover + classify</td><td>Frontier reaches a jurisdiction</td><td>Compiled scope, catalog</td><td>sources rows with eligibility</td><td>Worker</td></tr>
+      <tr><td>3</td><td>Open coverage</td><td>Jurisdiction registered</td><td>Question packs + peer catalog</td><td>coverage_answers (unknown)</td><td>System</td></tr>
+      <tr><td>4</td><td>Fetch + fingerprint</td><td>Source due or new</td><td>Eligible sources</td><td>source_snapshots, source_checks</td><td>Worker / system</td></tr>
+      <tr><td>5</td><td>Extract</td><td>New or changed snapshot</td><td>Snapshot, open questions</td><td>proposals + proposal_items, coverage answers</td><td>Worker</td></tr>
+      <tr><td>6</td><td>Verify</td><td>Proposal submitted</td><td>Proposal + snapshot</td><td>Verdict on proposal; exceptions on mismatch</td><td>Verifier</td></tr>
+      <tr><td>7</td><td>Approve + publish</td><td>Verified proposal</td><td>Human decision</td><td>Effective-dated facts in Phase 1 tables, fully stamped</td><td>Human (last) + system</td></tr>
+      <tr><td>8</td><td>Monitor</td><td>Cadence due / full refresh</td><td>Active sources</td><td>source_checks; change re-enters unit 4</td><td>System + worker</td></tr>
+    </table>
+    <p><strong>Linkage:</strong> every arrow is a table row — compiled scope → sources → snapshots → proposals → published facts — never in-memory handoff. <strong>Runnability:</strong> end-to-end = one scope run; restart from unit k = its input rows exist; re-run = idempotent per snapshot (proposal hash must match — the audit re-performance check); unit alone = named CLI entry point. <strong>Failure:</strong> typed exceptions (transient retry, blocked, unreadable, language, conflict, structure-unknown, primary-not-found); nothing failing ever pauses the wider cascade.</p>
+    <h3>Four specified roles — objective slots, operator-chosen models</h3>
+    <table>
+      <tr><th>Role</th><th>Owns</th><th>Never does</th></tr>
+      <tr><td><strong>Orchestrator</strong></td><td>Scope intake from the compiled context, frontier, dispatch, goal progress, escalation</td><td>Fetch sources or decide facts</td></tr>
+      <tr><td><strong>Fetch</strong></td><td>Discover/classify sources, retrieve, snapshot, raw evidence bundles with locations</td><td>Judge truth or completeness</td></tr>
+      <tr><td><strong>Decision</strong></td><td>Check-first ledger read, apply packs/context to evidence, determinations and coverage answers, follow-up fetch requests</td><td>Verify its own determinations or publish</td></tr>
+      <tr><td><strong>Reviewer</strong></td><td>Independent re-read of snapshots vs determinations, verdicts, human-queue preparation</td><td>Fetch new evidence to rescue a determination</td></tr>
+    </table>
+    <p>Each role is a slot in <code>config/models.yaml</code> — the operator assigns any model to any role (Wonder orchestrating, Glimmer fetching, stronger models deciding/reviewing, or any other mix). Roles are enforced by the CLI: an assignment names its role, run identities are role-stamped, and gates require fetch, decision, reviewer, and human approver to be distinct identities. <strong>Check-first, then research:</strong> validated determinations live in the research ledger with their snapshot hashes and handoff notes; future runs must read them first and reuse anything still valid. Prior work reopens only on a typed invalidation — source changed, human objection, cadence expiry, context or pack change — targeted, never a blanket redo. The final stage of any completed jurisdiction is a generated <strong>tax guide</strong> written from published data alone: rates, rules, licenses, compliance, history, confirmed absences, and honest unknowns, version-stamped and regenerated on material change.</p>
+    <p><strong>Question standard.</strong> Coverage is interrogation, not collection. Category question packs (rate, base, exemptions, thresholds, permits, filing, penalties, history) combine with the peer-profile catalog — the union of tax types found in already-profiled jurisdictions — so each new jurisdiction is asked about everything its peers have, under any name. Answers are <em>found</em> (eligible citation), <em>confirmed absent</em> (authority index + statutes searched, queries recorded, verifier-confirmed), or <em>unknown</em>. Federal conformity is a first-class pack because US states build on federal rails; industry overlays (oil &amp; gas, telecom first) add specialist questions without forking the pipeline.</p>
+    <p><strong>Source policy (hard constraint).</strong> Eligible = public-facing government primaries. Vendor content (Avalara/Vertex/TaxJar class, however free) is noted-only: registered, never fetched into context, never cited, never corroboration. Paywalled or non-government login-gated material is prohibited. Government login-gated data is a needs-human exception — agents hold no credentials. The publish gate mechanically rejects any fact whose citation is not an eligible source.</p>
+
+    <figure class="diagram">
+      <script type="text/mermaid" data-diagram="d2">
+flowchart LR
+  ctx["Compile context"] -->|scope_runs row| disc["Discover + classify"]
+  disc -->|sources rows| fetch["Fetch + fingerprint"]
+  fetch -->|source_snapshots| ext["Extract"]
+  ext -->|proposals| ver["Verify"]
+  ver -->|verified proposal| pub["Human approve + publish"]
+  pub -->|effective-dated facts| mon["Monitor"]
+  mon -->|changed hash| fetch
+  ext -->|typed failures| exc["Exceptions"]
+      </script>
+      <div data-diagram-render="d2"><svg id="diagram-d2" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="flowchart" style="max-width: 2182.14px; background-color: transparent;" viewBox="0 0 2182.140625 233" role="graphics-document document" aria-roledescription="flowchart-v2"><style>#diagram-d2{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;fill:#333;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#diagram-d2 .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#diagram-d2 .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#diagram-d2 .error-icon{fill:#552222;}#diagram-d2 .error-text{fill:#552222;stroke:#552222;}#diagram-d2 .edge-thickness-normal{stroke-width:1px;}#diagram-d2 .edge-thickness-thick{stroke-width:3.5px;}#diagram-d2 .edge-pattern-solid{stroke-dasharray:0;}#diagram-d2 .edge-thickness-invisible{stroke-width:0;fill:none;}#diagram-d2 .edge-pattern-dashed{stroke-dasharray:3;}#diagram-d2 .edge-pattern-dotted{stroke-dasharray:2;}#diagram-d2 .marker{fill:#333333;stroke:#333333;}#diagram-d2 .marker.cross{stroke:#333333;}#diagram-d2 svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;}#diagram-d2 p{margin:0;}#diagram-d2 .label{font-family:"trebuchet ms",verdana,arial,sans-serif;color:#333;}#diagram-d2 .cluster-label text{fill:#333;}#diagram-d2 .cluster-label span{color:#333;}#diagram-d2 .cluster-label span p{background-color:transparent;}#diagram-d2 .label text,#diagram-d2 span{fill:#333;color:#333;}#diagram-d2 .node rect,#diagram-d2 .node circle,#diagram-d2 .node ellipse,#diagram-d2 .node polygon,#diagram-d2 .node path{fill:#ECECFF;stroke:#9370DB;stroke-width:1px;}#diagram-d2 .rough-node .label text,#diagram-d2 .node .label text,#diagram-d2 .image-shape .label,#diagram-d2 .icon-shape .label{text-anchor:middle;}#diagram-d2 .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#diagram-d2 .rough-node .label,#diagram-d2 .node .label,#diagram-d2 .image-shape .label,#diagram-d2 .icon-shape .label{text-align:center;}#diagram-d2 .node.clickable{cursor:pointer;}#diagram-d2 .root .anchor path{fill:#333333!important;stroke-width:0;stroke:#333333;}#diagram-d2 .arrowheadPath{fill:#333333;}#diagram-d2 .edgePaths .path{stroke:#333333;stroke-width:1px;}#diagram-d2 .flowchart-link{stroke:#333333;fill:none;}#diagram-d2 .edgeLabel{background-color:rgba(232,232,232, 0.8);text-align:center;}#diagram-d2 .edgeLabel p{background-color:rgba(232,232,232, 0.8);}#diagram-d2 .edgeLabel rect{opacity:0.5;background-color:rgba(232,232,232, 0.8);fill:rgba(232,232,232, 0.8);}#diagram-d2 .labelBkg{background-color:rgba(232, 232, 232, 0.5);}#diagram-d2 .cluster rect{fill:#ffffde;stroke:#aaaa33;stroke-width:1px;}#diagram-d2 .cluster text{fill:#333;}#diagram-d2 .cluster span{color:#333;}#diagram-d2 .node .collapsed-indicator{fill:#aaaa33;stroke:none;opacity:0.6;}#diagram-d2 .node .collapsed-separator{stroke:#aaaa33;stroke-width:0.75px;}#diagram-d2 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:12px;background:hsl(80, 100%, 96.2745098039%);border:1px solid #aaaa33;border-radius:2px;pointer-events:none;z-index:100;}#diagram-d2 .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#333;}#diagram-d2 rect.text{fill:none;stroke-width:0;}#diagram-d2 .icon-shape,#diagram-d2 .image-shape{background-color:rgba(232,232,232, 0.8);text-align:center;}#diagram-d2 .icon-shape p,#diagram-d2 .image-shape p{background-color:rgba(232,232,232, 0.8);padding:2px;}#diagram-d2 .icon-shape .label rect,#diagram-d2 .image-shape .label rect{opacity:0.5;background-color:rgba(232,232,232, 0.8);fill:rgba(232,232,232, 0.8);}#diagram-d2 .label-icon{display:inline-block;height:1em;overflow:visible;vertical-align:-0.125em;}#diagram-d2 .node .label-icon path{fill:currentColor;stroke:revert;stroke-width:revert;}#diagram-d2 .node .neo-node{stroke:#9370DB;}#diagram-d2 [data-look="neo"].node rect,#diagram-d2 [data-look="neo"].cluster rect,#diagram-d2 [data-look="neo"].node polygon{stroke:#9370DB;filter:drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));}#diagram-d2 [data-look="neo"].swimlane.cluster rect{filter:none;}#diagram-d2 [data-look="neo"].node path{stroke:#9370DB;stroke-width:1px;}#diagram-d2 [data-look="neo"].node .outer-path{filter:drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));}#diagram-d2 [data-look="neo"].node .neo-line path{stroke:#9370DB;filter:none;}#diagram-d2 [data-look="neo"].node circle{stroke:#9370DB;filter:drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));}#diagram-d2 [data-look="neo"].node circle .state-start{fill:#000000;}#diagram-d2 [data-look="neo"].icon-shape .icon{fill:#9370DB;filter:drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));}#diagram-d2 [data-look="neo"].icon-shape .icon-neo path{stroke:#9370DB;filter:drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));}#diagram-d2 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g><marker id="diagram-d2_flowchart-v2-pointEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="diagram-d2_flowchart-v2-pointStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="4.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 5 L 10 10 L 10 0 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="diagram-d2_flowchart-v2-pointEnd-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="11.5" refY="7" markerUnits="userSpaceOnUse" markerWidth="10.5" markerHeight="14" orient="auto"><path d="M 0 0 L 11.5 7 L 0 14 z" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="diagram-d2_flowchart-v2-pointStart-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="1" refY="7" markerUnits="userSpaceOnUse" markerWidth="11.5" markerHeight="14" orient="auto"><polygon points="0,7 11.5,14 11.5,0" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="diagram-d2_flowchart-v2-circleEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="11" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="diagram-d2_flowchart-v2-circleStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-1" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="diagram-d2_flowchart-v2-circleEnd-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refY="5" refX="12.25" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="diagram-d2_flowchart-v2-circleStart-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-2" refY="5" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="diagram-d2_flowchart-v2-crossEnd" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="12" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><marker id="diagram-d2_flowchart-v2-crossStart" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="-1" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><marker id="diagram-d2_flowchart-v2-crossEnd-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="17.7" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5;"/></marker><marker id="diagram-d2_flowchart-v2-crossStart-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="-3.5" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5; stroke-dasharray: 1, 0;"/></marker><g class="root"><g class="clusters"/><g class="edgePaths"><path d="M185.859,124L199.254,124C212.648,124,239.438,124,265.56,124C291.682,124,317.138,124,329.866,124L342.594,124" id="diagram-d2-L_ctx_disc_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_ctx_disc_0" data-points="W3sieCI6MTg1Ljg1OTM3NSwieSI6MTI0fSx7IngiOjI2Ni4yMjY1NjI1LCJ5IjoxMjR9LHsieCI6MzQ2LjU5Mzc1LCJ5IjoxMjR9XQ==" data-look="classic" marker-end="url(#diagram-d2_flowchart-v2-pointEnd)"/><path d="M537.141,124L548.904,124C560.667,124,584.193,124,607.052,124C629.911,124,652.104,124,663.201,124L674.297,124" id="diagram-d2-L_disc_fetch_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_disc_fetch_0" data-points="W3sieCI6NTM3LjE0MDYyNSwieSI6MTI0fSx7IngiOjYwNy43MTg3NSwieSI6MTI0fSx7IngiOjY3OC4yOTY4NzUsInkiOjEyNH1d" data-look="classic" marker-end="url(#diagram-d2_flowchart-v2-pointEnd)"/><path d="M873.438,104.453L887.957,101.544C902.477,98.635,931.516,92.818,959.888,89.909C988.26,87,1015.966,87,1029.819,87L1043.672,87" id="diagram-d2-L_fetch_ext_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_fetch_ext_0" data-points="W3sieCI6ODczLjQzNzUsInkiOjEwNC40NTI5MTg3ODE3MjU4OH0seyJ4Ijo5NjAuNTU0Njg3NSwieSI6ODd9LHsieCI6MTA0Ny42NzE4NzUsInkiOjg3fV0=" data-look="classic" marker-end="url(#diagram-d2_flowchart-v2-pointEnd)"/><path d="M1159.5,64.737L1171.948,59.781C1184.396,54.825,1209.292,44.912,1236.452,39.956C1263.612,35,1293.036,35,1307.749,35L1322.461,35" id="diagram-d2-L_ext_ver_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_ext_ver_0" data-points="W3sieCI6MTE1OS41LCJ5Ijo2NC43MzczOTMwNzI5MTk3OX0seyJ4IjoxMjM0LjE4NzUsInkiOjM1fSx7IngiOjEzMjYuNDYwOTM3NSwieSI6MzV9XQ==" data-look="classic" marker-end="url(#diagram-d2_flowchart-v2-pointEnd)"/><path d="M1428.148,35L1445.339,35C1462.529,35,1496.909,35,1527.691,35C1558.474,35,1585.659,35,1599.251,35L1612.844,35" id="diagram-d2-L_ver_pub_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_ver_pub_0" data-points="W3sieCI6MTQyOC4xNDg0Mzc1LCJ5IjozNX0seyJ4IjoxNTMxLjI4OTA2MjUsInkiOjM1fSx7IngiOjE2MTYuODQzNzUsInkiOjM1fV0=" data-look="classic" marker-end="url(#diagram-d2_flowchart-v2-pointEnd)"/><path d="M1858.016,35L1874.827,35C1891.638,35,1925.26,35,1959.843,45.006C1994.425,55.012,2029.966,75.025,2047.737,85.031L2065.508,95.037" id="diagram-d2-L_pub_mon_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_pub_mon_0" data-points="W3sieCI6MTg1OC4wMTU2MjUsInkiOjM1fSx7IngiOjE5NTguODgyODEyNSwieSI6MzV9LHsieCI6MjA2OC45OTM3Njc1NTYxNzk2LCJ5Ijo5N31d" data-look="classic" marker-end="url(#diagram-d2_flowchart-v2-pointEnd)"/><path d="M2068.994,151L2050.642,161.333C2032.29,171.667,1995.586,192.333,1940.326,202.667C1885.065,213,1811.247,213,1739.982,213C1668.716,213,1600.003,213,1539.982,213C1479.961,213,1428.633,213,1379.116,213C1329.599,213,1281.893,213,1236.273,213C1190.654,213,1147.12,213,1101.514,213C1055.909,213,1008.232,213,963.551,202.956C918.87,192.912,877.184,172.824,856.342,162.78L835.499,152.736" id="diagram-d2-L_mon_fetch_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_mon_fetch_0" data-points="W3sieCI6MjA2OC45OTM3Njc1NTYxNzk2LCJ5IjoxNTF9LHsieCI6MTk1OC44ODI4MTI1LCJ5IjoyMTN9LHsieCI6MTczNy40Mjk2ODc1LCJ5IjoyMTN9LHsieCI6MTUzMS4yODkwNjI1LCJ5IjoyMTN9LHsieCI6MTM3Ny4zMDQ2ODc1LCJ5IjoyMTN9LHsieCI6MTIzNC4xODc1LCJ5IjoyMTN9LHsieCI6MTEwMy41ODU5Mzc1LCJ5IjoyMTN9LHsieCI6OTYwLjU1NDY4NzUsInkiOjIxM30seyJ4Ijo4MzEuODk1OTc5NjM0ODMxNSwieSI6MTUxfV0=" data-look="classic" marker-end="url(#diagram-d2_flowchart-v2-pointEnd)"/><path d="M1159.5,109.263L1171.948,114.219C1184.396,119.175,1209.292,129.088,1233.521,134.044C1257.75,139,1281.313,139,1293.094,139L1304.875,139" id="diagram-d2-L_ext_exc_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_ext_exc_0" data-points="W3sieCI6MTE1OS41LCJ5IjoxMDkuMjYyNjA2OTI3MDgwMjF9LHsieCI6MTIzNC4xODc1LCJ5IjoxMzl9LHsieCI6MTMwOC44NzUsInkiOjEzOX1d" data-look="classic" marker-end="url(#diagram-d2_flowchart-v2-pointEnd)"/></g><g class="edgeLabels"><g class="edgeLabel" transform="translate(266.2265625, 124)"><g class="label" data-id="L_ctx_disc_0" transform="translate(-55.3671875, -12)"><foreignObject width="110.734375" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>scope_runs row</p></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(607.71875, 124)"><g class="label" data-id="L_disc_fetch_0" transform="translate(-45.578125, -12)"><foreignObject width="91.15625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>sources rows</p></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(960.5546875, 87)"><g class="label" data-id="L_fetch_ext_0" transform="translate(-62.1171875, -12)"><foreignObject width="124.234375" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>source_snapshots</p></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(1234.1875, 35)"><g class="label" data-id="L_ext_ver_0" transform="translate(-33.6484375, -12)"><foreignObject width="67.296875" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>proposals</p></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(1531.2890625, 35)"><g class="label" data-id="L_ver_pub_0" transform="translate(-60.5546875, -12)"><foreignObject width="121.109375" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>verified proposal</p></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(1958.8828125, 35)"><g class="label" data-id="L_pub_mon_0" transform="translate(-75.8671875, -12)"><foreignObject width="151.734375" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>effective-dated facts</p></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(1377.3046875, 213)"><g class="label" data-id="L_mon_fetch_0" transform="translate(-48.3359375, -12)"><foreignObject width="96.671875" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>changed hash</p></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(1234.1875, 139)"><g class="label" data-id="L_ext_exc_0" transform="translate(-49.6875, -12)"><foreignObject width="99.375" height="24"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>typed failures</p></span></div></foreignObject></g></g></g><g class="nodes"><g class="node default" id="diagram-d2-flowchart-ctx-0" data-look="classic" transform="translate(96.9296875, 124)"><rect class="basic label-container" style="" x="-88.9296875" y="-27" width="177.859375" height="54"/><g class="label" style="" transform="translate(-58.9296875, -12)"><rect/><foreignObject width="117.859375" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Compile context</p></span></div></foreignObject></g></g><g class="node default" id="diagram-d2-flowchart-disc-1" data-look="classic" transform="translate(441.8671875, 124)"><rect class="basic label-container" style="" x="-95.2734375" y="-27" width="190.546875" height="54"/><g class="label" style="" transform="translate(-65.2734375, -12)"><rect/><foreignObject width="130.546875" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Discover + classify</p></span></div></foreignObject></g></g><g class="node default" id="diagram-d2-flowchart-fetch-3" data-look="classic" transform="translate(775.8671875, 124)"><rect class="basic label-container" style="" x="-97.5703125" y="-27" width="195.140625" height="54"/><g class="label" style="" transform="translate(-67.5703125, -12)"><rect/><foreignObject width="135.140625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Fetch + fingerprint</p></span></div></foreignObject></g></g><g class="node default" id="diagram-d2-flowchart-ext-5" data-look="classic" transform="translate(1103.5859375, 87)"><rect class="basic label-container" style="" x="-55.9140625" y="-27" width="111.828125" height="54"/><g class="label" style="" transform="translate(-25.9140625, -12)"><rect/><foreignObject width="51.828125" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Extract</p></span></div></foreignObject></g></g><g class="node default" id="diagram-d2-flowchart-ver-7" data-look="classic" transform="translate(1377.3046875, 35)"><rect class="basic label-container" style="" x="-50.84375" y="-27" width="101.6875" height="54"/><g class="label" style="" transform="translate(-20.84375, -12)"><rect/><foreignObject width="41.6875" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Verify</p></span></div></foreignObject></g></g><g class="node default" id="diagram-d2-flowchart-pub-9" data-look="classic" transform="translate(1737.4296875, 35)"><rect class="basic label-container" style="" x="-120.5859375" y="-27" width="241.171875" height="54"/><g class="label" style="" transform="translate(-90.5859375, -12)"><rect/><foreignObject width="181.171875" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Human approve + publish</p></span></div></foreignObject></g></g><g class="node default" id="diagram-d2-flowchart-mon-11" data-look="classic" transform="translate(2116.9453125, 124)"><rect class="basic label-container" style="" x="-57.1953125" y="-27" width="114.390625" height="54"/><g class="label" style="" transform="translate(-27.1953125, -12)"><rect/><foreignObject width="54.390625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Monitor</p></span></div></foreignObject></g></g><g class="node default" id="diagram-d2-flowchart-exc-15" data-look="classic" transform="translate(1377.3046875, 139)"><rect class="basic label-container" style="" x="-68.4296875" y="-27" width="136.859375" height="54"/><g class="label" style="" transform="translate(-38.4296875, -12)"><rect/><foreignObject width="76.859375" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Exceptions</p></span></div></foreignObject></g></g></g></g></g><defs><filter id="diagram-d2-drop-shadow" height="130%" width="130%"><feDropShadow dx="4" dy="4" stdDeviation="0" flood-opacity="0.06" flood-color="#000000"/></filter></defs><defs><filter id="diagram-d2-drop-shadow-small" height="150%" width="150%"><feDropShadow dx="2" dy="2" stdDeviation="0" flood-opacity="0.06" flood-color="#000000"/></filter></defs></svg></div>
+      <figcaption>Eight units, persisted carriers on every edge; the monitor loop closes the system.</figcaption>
+    </figure>
+
+    <figure class="diagram">
+      <script type="text/mermaid" data-diagram="d3">
+flowchart TB
+  subgraph harness["Any harness"]
+    muse["Muse (Wonder conducting, goals, workflows)"]
+    others["Muse / Codex / Grok / OpenCode / Herdr lanes"]
+    headless["Headless Azure AI Foundry runner"]
+  end
+  adapters["AGENTS.md + thin adapters"] --> cli["tax CLI: JSON assignments and envelopes"]
+  muse --> adapters
+  others --> adapters
+  headless --> cli
+  cli --> db[("PostgreSQL: queue, runs, proposals, coverage, snapshots")]
+  db --> consumers["Downstream functions and services"]
+  context["tax-context.yaml (operator fence)"] --> cli
+      </script>
+      <div data-diagram-render="d3"><svg id="diagram-d3" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="flowchart" style="max-width: 1096px; background-color: transparent;" viewBox="0 0 1096 712.4264526367188" role="graphics-document document" aria-roledescription="flowchart-v2"><style>#diagram-d3{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;fill:#333;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#diagram-d3 .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#diagram-d3 .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#diagram-d3 .error-icon{fill:#552222;}#diagram-d3 .error-text{fill:#552222;stroke:#552222;}#diagram-d3 .edge-thickness-normal{stroke-width:1px;}#diagram-d3 .edge-thickness-thick{stroke-width:3.5px;}#diagram-d3 .edge-pattern-solid{stroke-dasharray:0;}#diagram-d3 .edge-thickness-invisible{stroke-width:0;fill:none;}#diagram-d3 .edge-pattern-dashed{stroke-dasharray:3;}#diagram-d3 .edge-pattern-dotted{stroke-dasharray:2;}#diagram-d3 .marker{fill:#333333;stroke:#333333;}#diagram-d3 .marker.cross{stroke:#333333;}#diagram-d3 svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;}#diagram-d3 p{margin:0;}#diagram-d3 .label{font-family:"trebuchet ms",verdana,arial,sans-serif;color:#333;}#diagram-d3 .cluster-label text{fill:#333;}#diagram-d3 .cluster-label span{color:#333;}#diagram-d3 .cluster-label span p{background-color:transparent;}#diagram-d3 .label text,#diagram-d3 span{fill:#333;color:#333;}#diagram-d3 .node rect,#diagram-d3 .node circle,#diagram-d3 .node ellipse,#diagram-d3 .node polygon,#diagram-d3 .node path{fill:#ECECFF;stroke:#9370DB;stroke-width:1px;}#diagram-d3 .rough-node .label text,#diagram-d3 .node .label text,#diagram-d3 .image-shape .label,#diagram-d3 .icon-shape .label{text-anchor:middle;}#diagram-d3 .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#diagram-d3 .rough-node .label,#diagram-d3 .node .label,#diagram-d3 .image-shape .label,#diagram-d3 .icon-shape .label{text-align:center;}#diagram-d3 .node.clickable{cursor:pointer;}#diagram-d3 .root .anchor path{fill:#333333!important;stroke-width:0;stroke:#333333;}#diagram-d3 .arrowheadPath{fill:#333333;}#diagram-d3 .edgePaths .path{stroke:#333333;stroke-width:1px;}#diagram-d3 .flowchart-link{stroke:#333333;fill:none;}#diagram-d3 .edgeLabel{background-color:rgba(232,232,232, 0.8);text-align:center;}#diagram-d3 .edgeLabel p{background-color:rgba(232,232,232, 0.8);}#diagram-d3 .edgeLabel rect{opacity:0.5;background-color:rgba(232,232,232, 0.8);fill:rgba(232,232,232, 0.8);}#diagram-d3 .labelBkg{background-color:rgba(232, 232, 232, 0.5);}#diagram-d3 .cluster rect{fill:#ffffde;stroke:#aaaa33;stroke-width:1px;}#diagram-d3 .cluster text{fill:#333;}#diagram-d3 .cluster span{color:#333;}#diagram-d3 .node .collapsed-indicator{fill:#aaaa33;stroke:none;opacity:0.6;}#diagram-d3 .node .collapsed-separator{stroke:#aaaa33;stroke-width:0.75px;}#diagram-d3 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:12px;background:hsl(80, 100%, 96.2745098039%);border:1px solid #aaaa33;border-radius:2px;pointer-events:none;z-index:100;}#diagram-d3 .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#333;}#diagram-d3 rect.text{fill:none;stroke-width:0;}#diagram-d3 .icon-shape,#diagram-d3 .image-shape{background-color:rgba(232,232,232, 0.8);text-align:center;}#diagram-d3 .icon-shape p,#diagram-d3 .image-shape p{background-color:rgba(232,232,232, 0.8);padding:2px;}#diagram-d3 .icon-shape .label rect,#diagram-d3 .image-shape .label rect{opacity:0.5;background-color:rgba(232,232,232, 0.8);fill:rgba(232,232,232, 0.8);}#diagram-d3 .label-icon{display:inline-block;height:1em;overflow:visible;vertical-align:-0.125em;}#diagram-d3 .node .label-icon path{fill:currentColor;stroke:revert;stroke-width:revert;}#diagram-d3 .node .neo-node{stroke:#9370DB;}#diagram-d3 [data-look="neo"].node rect,#diagram-d3 [data-look="neo"].cluster rect,#diagram-d3 [data-look="neo"].node polygon{stroke:#9370DB;filter:drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));}#diagram-d3 [data-look="neo"].swimlane.cluster rect{filter:none;}#diagram-d3 [data-look="neo"].node path{stroke:#9370DB;stroke-width:1px;}#diagram-d3 [data-look="neo"].node .outer-path{filter:drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));}#diagram-d3 [data-look="neo"].node .neo-line path{stroke:#9370DB;filter:none;}#diagram-d3 [data-look="neo"].node circle{stroke:#9370DB;filter:drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));}#diagram-d3 [data-look="neo"].node circle .state-start{fill:#000000;}#diagram-d3 [data-look="neo"].icon-shape .icon{fill:#9370DB;filter:drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));}#diagram-d3 [data-look="neo"].icon-shape .icon-neo path{stroke:#9370DB;filter:drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));}#diagram-d3 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g><marker id="diagram-d3_flowchart-v2-pointEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="diagram-d3_flowchart-v2-pointStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="4.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 5 L 10 10 L 10 0 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="diagram-d3_flowchart-v2-pointEnd-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="11.5" refY="7" markerUnits="userSpaceOnUse" markerWidth="10.5" markerHeight="14" orient="auto"><path d="M 0 0 L 11.5 7 L 0 14 z" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="diagram-d3_flowchart-v2-pointStart-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="1" refY="7" markerUnits="userSpaceOnUse" markerWidth="11.5" markerHeight="14" orient="auto"><polygon points="0,7 11.5,14 11.5,0" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="diagram-d3_flowchart-v2-circleEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="11" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="diagram-d3_flowchart-v2-circleStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-1" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"/></marker><marker id="diagram-d3_flowchart-v2-circleEnd-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refY="5" refX="12.25" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="diagram-d3_flowchart-v2-circleStart-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-2" refY="5" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"/></marker><marker id="diagram-d3_flowchart-v2-crossEnd" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="12" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><marker id="diagram-d3_flowchart-v2-crossStart" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="-1" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"/></marker><marker id="diagram-d3_flowchart-v2-crossEnd-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="17.7" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5;"/></marker><marker id="diagram-d3_flowchart-v2-crossStart-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="-3.5" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5; stroke-dasharray: 1, 0;"/></marker><g class="root"><g class="clusters"><g class="cluster" id="diagram-d3-harness" data-look="classic"><rect style="" x="8" y="8" width="950" height="128"/><g class="cluster-label" transform="translate(440.65625, 8)"><foreignObject width="84.6875" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5;"><span class="nodeLabel"><p>Any harness</p></span></div></foreignObject></g></g></g><g class="edgePaths"><path d="M328,252L328,258.167C328,264.333,328,276.667,383.173,290.427C438.346,304.187,548.692,319.375,603.864,326.968L659.037,334.562" id="diagram-d3-L_adapters_cli_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_adapters_cli_0" data-points="W3sieCI6MzI4LCJ5IjoyNTJ9LHsieCI6MzI4LCJ5IjoyODl9LHsieCI6NjYzLCJ5IjozMzUuMTA3NTI2ODgxNzIwNDV9XQ==" data-look="classic" marker-end="url(#diagram-d3_flowchart-v2-pointEnd)"/><path d="M173,111L173,115.167C173,119.333,173,127.667,173,136C173,144.333,173,152.667,187.319,162.746C201.637,172.824,230.275,184.649,244.593,190.561L258.912,196.473" id="diagram-d3-L_muse_adapters_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_muse_adapters_0" data-points="W3sieCI6MTczLCJ5IjoxMTF9LHsieCI6MTczLCJ5IjoxMzZ9LHsieCI6MTczLCJ5IjoxNjF9LHsieCI6MjYyLjYwOTM3NSwieSI6MTk4fV0=" data-look="classic" marker-end="url(#diagram-d3_flowchart-v2-pointEnd)"/><path d="M483,111L483,115.167C483,119.333,483,127.667,483,136C483,144.333,483,152.667,468.681,162.746C454.363,172.824,425.725,184.649,411.407,190.561L397.088,196.473" id="diagram-d3-L_others_adapters_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_others_adapters_0" data-points="W3sieCI6NDgzLCJ5IjoxMTF9LHsieCI6NDgzLCJ5IjoxMzZ9LHsieCI6NDgzLCJ5IjoxNjF9LHsieCI6MzkzLjM5MDYyNSwieSI6MTk4fV0=" data-look="classic" marker-end="url(#diagram-d3_flowchart-v2-pointEnd)"/><path d="M793,111L793,115.167C793,119.333,793,127.667,793,136C793,144.333,793,152.667,793,167.5C793,182.333,793,203.667,793,225C793,246.333,793,267.667,793,281.833C793,296,793,303,793,306.5L793,310" id="diagram-d3-L_headless_cli_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_headless_cli_0" data-points="W3sieCI6NzkzLCJ5IjoxMTF9LHsieCI6NzkzLCJ5IjoxMzZ9LHsieCI6NzkzLCJ5IjoxNjF9LHsieCI6NzkzLCJ5IjoyMjV9LHsieCI6NzkzLCJ5IjoyODl9LHsieCI6NzkzLCJ5IjozMTR9XQ==" data-look="classic" marker-end="url(#diagram-d3_flowchart-v2-pointEnd)"/><path d="M793,392L793,396.167C793,400.333,793,408.667,793,416.333C793,424,793,431,793,434.5L793,438" id="diagram-d3-L_cli_db_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_cli_db_0" data-points="W3sieCI6NzkzLCJ5IjozOTJ9LHsieCI6NzkzLCJ5Ijo0MTd9LHsieCI6NzkzLCJ5Ijo0NDJ9XQ==" data-look="classic" marker-end="url(#diagram-d3_flowchart-v2-pointEnd)"/><path d="M793,576.426L793,580.593C793,584.76,793,593.093,793,600.76C793,608.426,793,615.426,793,618.926L793,622.426" id="diagram-d3-L_db_consumers_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_db_consumers_0" data-points="W3sieCI6NzkzLCJ5Ijo1NzYuNDI2NDY3ODk1NTA3OH0seyJ4Ijo3OTMsInkiOjYwMS40MjY0Njc4OTU1MDc4fSx7IngiOjc5MywieSI6NjI2LjQyNjQ2Nzg5NTUwNzh9XQ==" data-look="classic" marker-end="url(#diagram-d3_flowchart-v2-pointEnd)"/><path d="M958,264L958,268.167C958,272.333,958,280.667,947.879,288.759C937.759,296.851,917.517,304.702,907.397,308.628L897.276,312.553" id="diagram-d3-L_context_cli_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_context_cli_0" data-points="W3sieCI6OTU4LCJ5IjoyNjR9LHsieCI6OTU4LCJ5IjoyODl9LHsieCI6ODkzLjU0Njg3NSwieSI6MzE0fV0=" data-look="classic" marker-end="url(#diagram-d3_flowchart-v2-pointEnd)"/></g><g class="edgeLabels"><g class="edgeLabel"><g class="label" data-id="L_adapters_cli_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_muse_adapters_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_others_adapters_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_headless_cli_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_cli_db_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_db_consumers_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" data-id="L_context_cli_0" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node default" id="diagram-d3-flowchart-muse-0" data-look="classic" transform="translate(173, 72)"><rect class="basic label-container" style="" x="-130" y="-39" width="260" height="78"/><g class="label" style="" transform="translate(-100, -24)"><rect/><foreignObject width="200" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel"><p>Muse (Wonder conducting, goals, workflows)</p></span></div></foreignObject></g></g><g class="node default" id="diagram-d3-flowchart-others-1" data-look="classic" transform="translate(483, 72)"><rect class="basic label-container" style="" x="-130" y="-39" width="260" height="78"/><g class="label" style="" transform="translate(-100, -24)"><rect/><foreignObject width="200" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel"><p>Muse / Codex / Grok / OpenCode / Herdr lanes</p></span></div></foreignObject></g></g><g class="node default" id="diagram-d3-flowchart-headless-2" data-look="classic" transform="translate(793, 72)"><rect class="basic label-container" style="" x="-130" y="-39" width="260" height="78"/><g class="label" style="" transform="translate(-100, -24)"><rect/><foreignObject width="200" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel"><p>Headless Azure AI Foundry runner</p></span></div></foreignObject></g></g><g class="node default" id="diagram-d3-flowchart-adapters-3" data-look="classic" transform="translate(328, 225)"><rect class="basic label-container" style="" x="-128.875" y="-27" width="257.75" height="54"/><g class="label" style="" transform="translate(-98.875, -12)"><rect/><foreignObject width="197.75" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>AGENTS.md + thin adapters</p></span></div></foreignObject></g></g><g class="node default" id="diagram-d3-flowchart-cli-4" data-look="classic" transform="translate(793, 353)"><rect class="basic label-container" style="" x="-130" y="-39" width="260" height="78"/><g class="label" style="" transform="translate(-100, -24)"><rect/><foreignObject width="200" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel"><p>tax CLI: JSON assignments and envelopes</p></span></div></foreignObject></g></g><g class="node default" id="diagram-d3-flowchart-db-12" data-look="classic" transform="translate(793, 509.2132339477539)"><path d="M0,15.808823529411764 a107.5,15.808823529411764 0,0,0 215,0 a107.5,15.808823529411764 0,0,0 -215,0 l0,102.80882352941177 a107.5,15.808823529411764 0,0,0 215,0 l0,-102.80882352941177" class="basic label-container outer-path" style="" transform="translate(-107.5, -67.21323529411765)"/><g class="label" style="" transform="translate(-100, -26)"><rect/><foreignObject width="200" height="72"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel"><p>PostgreSQL: queue, runs, proposals, coverage, snapshots</p></span></div></foreignObject></g></g><g class="node default" id="diagram-d3-flowchart-consumers-14" data-look="classic" transform="translate(793, 665.4264678955078)"><rect class="basic label-container" style="" x="-130" y="-39" width="260" height="78"/><g class="label" style="" transform="translate(-100, -24)"><rect/><foreignObject width="200" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel"><p>Downstream functions and services</p></span></div></foreignObject></g></g><g class="node default" id="diagram-d3-flowchart-context-15" data-look="classic" transform="translate(958, 225)"><rect class="basic label-container" style="" x="-130" y="-39" width="260" height="78"/><g class="label" style="" transform="translate(-100, -24)"><rect/><foreignObject width="200" height="48"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table; white-space: break-spaces; line-height: 1.5; max-width: 200px; text-align: center; width: 200px;"><span class="nodeLabel"><p>tax-context.yaml (operator fence)</p></span></div></foreignObject></g></g></g></g></g><defs><filter id="diagram-d3-drop-shadow" height="130%" width="130%"><feDropShadow dx="4" dy="4" stdDeviation="0" flood-opacity="0.06" flood-color="#000000"/></filter></defs><defs><filter id="diagram-d3-drop-shadow-small" height="150%" width="150%"><feDropShadow dx="2" dy="2" stdDeviation="0" flood-opacity="0.06" flood-color="#000000"/></filter></defs></svg></div>
+      <figcaption>Harness-ready layering: interchangeable labor on top, one contract, one database, operator context fencing everything.</figcaption>
+    </figure>
+
+    <figure class="diagram">
+      <script type="text/mermaid" data-diagram="d4">
+sequenceDiagram
+  participant U as Operator
+  participant C as Conductor (Wonder)
+  participant W as Worker (Glimmer)
+  participant V as Verifier
+  participant H as Human approver
+  U->>C: Kick off scope (goal created on Muse)
+  C->>W: Assignment: discover and extract Texas
+  W-->>C: Proposal with snapshot citations
+  C->>V: Verify independently
+  V-->>C: Verdict (pass, or exception)
+  C-->>H: Approved-ready queue with diffs and evidence
+  H-->>C: Approve (last step)
+  C->>C: Publish effective-dated, monitor forever
+      </script>
+      <div data-diagram-render="d4"><svg id="diagram-d4" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="max-width: 1293px; background-color: transparent;" viewBox="-50 -10 1293 553" role="graphics-document document" aria-roledescription="sequence"><g><rect x="1043" y="467" fill="#eaeaea" stroke="#666" width="150" height="65" name="H" rx="3" ry="3" class="actor actor-bottom"/><text x="1118" y="499.5" dominant-baseline="central" alignment-baseline="central" class="actor actor-box" style="text-anchor: middle; font-size: 16px; font-weight: 400;"><tspan x="1118" dy="0">Human approver</tspan></text></g><g><rect x="843" y="467" fill="#eaeaea" stroke="#666" width="150" height="65" name="V" rx="3" ry="3" class="actor actor-bottom"/><text x="918" y="499.5" dominant-baseline="central" alignment-baseline="central" class="actor actor-box" style="text-anchor: middle; font-size: 16px; font-weight: 400;"><tspan x="918" dy="0">Verifier</tspan></text></g><g><rect x="643" y="467" fill="#eaeaea" stroke="#666" width="150" height="65" name="W" rx="3" ry="3" class="actor actor-bottom"/><text x="718" y="499.5" dominant-baseline="central" alignment-baseline="central" class="actor actor-box" style="text-anchor: middle; font-size: 16px; font-weight: 400;"><tspan x="718" dy="0">Worker (Glimmer)</tspan></text></g><g><rect x="316" y="467" fill="#eaeaea" stroke="#666" width="152" height="65" name="C" rx="3" ry="3" class="actor actor-bottom"/><text x="392" y="499.5" dominant-baseline="central" alignment-baseline="central" class="actor actor-box" style="text-anchor: middle; font-size: 16px; font-weight: 400;"><tspan x="392" dy="0">Conductor (Wonder)</tspan></text></g><g><rect x="0" y="467" fill="#eaeaea" stroke="#666" width="150" height="65" name="U" rx="3" ry="3" class="actor actor-bottom"/><text x="75" y="499.5" dominant-baseline="central" alignment-baseline="central" class="actor actor-box" style="text-anchor: middle; font-size: 16px; font-weight: 400;"><tspan x="75" dy="0">Operator</tspan></text></g><g><line id="actor4" x1="1118" y1="65" x2="1118" y2="467" class="actor-line 200" stroke-width="0.5px" stroke="#999" name="H" data-et="life-line" data-id="H"/><g id="root-4" data-et="participant" data-type="participant" data-id="H"><rect x="1043" y="0" fill="#eaeaea" stroke="#666" width="150" height="65" name="H" rx="3" ry="3" class="actor actor-top"/><text x="1118" y="32.5" dominant-baseline="central" alignment-baseline="central" class="actor actor-box" style="text-anchor: middle; font-size: 16px; font-weight: 400;"><tspan x="1118" dy="0">Human approver</tspan></text></g></g><g><line id="actor3" x1="918" y1="65" x2="918" y2="467" class="actor-line 200" stroke-width="0.5px" stroke="#999" name="V" data-et="life-line" data-id="V"/><g id="root-3" data-et="participant" data-type="participant" data-id="V"><rect x="843" y="0" fill="#eaeaea" stroke="#666" width="150" height="65" name="V" rx="3" ry="3" class="actor actor-top"/><text x="918" y="32.5" dominant-baseline="central" alignment-baseline="central" class="actor actor-box" style="text-anchor: middle; font-size: 16px; font-weight: 400;"><tspan x="918" dy="0">Verifier</tspan></text></g></g><g><line id="actor2" x1="718" y1="65" x2="718" y2="467" class="actor-line 200" stroke-width="0.5px" stroke="#999" name="W" data-et="life-line" data-id="W"/><g id="root-2" data-et="participant" data-type="participant" data-id="W"><rect x="643" y="0" fill="#eaeaea" stroke="#666" width="150" height="65" name="W" rx="3" ry="3" class="actor actor-top"/><text x="718" y="32.5" dominant-baseline="central" alignment-baseline="central" class="actor actor-box" style="text-anchor: middle; font-size: 16px; font-weight: 400;"><tspan x="718" dy="0">Worker (Glimmer)</tspan></text></g></g><g><line id="actor1" x1="392" y1="65" x2="392" y2="467" class="actor-line 200" stroke-width="0.5px" stroke="#999" name="C" data-et="life-line" data-id="C"/><g id="root-1" data-et="participant" data-type="participant" data-id="C"><rect x="316" y="0" fill="#eaeaea" stroke="#666" width="152" height="65" name="C" rx="3" ry="3" class="actor actor-top"/><text x="392" y="32.5" dominant-baseline="central" alignment-baseline="central" class="actor actor-box" style="text-anchor: middle; font-size: 16px; font-weight: 400;"><tspan x="392" dy="0">Conductor (Wonder)</tspan></text></g></g><g><line id="actor0" x1="75" y1="65" x2="75" y2="467" class="actor-line 200" stroke-width="0.5px" stroke="#999" name="U" data-et="life-line" data-id="U"/><g id="root-0" data-et="participant" data-type="participant" data-id="U"><rect x="0" y="0" fill="#eaeaea" stroke="#666" width="150" height="65" name="U" rx="3" ry="3" class="actor actor-top"/><text x="75" y="32.5" dominant-baseline="central" alignment-baseline="central" class="actor actor-box" style="text-anchor: middle; font-size: 16px; font-weight: 400;"><tspan x="75" dy="0">Operator</tspan></text></g></g><style>#diagram-d4{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;fill:#333;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#diagram-d4 .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#diagram-d4 .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#diagram-d4 .error-icon{fill:#552222;}#diagram-d4 .error-text{fill:#552222;stroke:#552222;}#diagram-d4 .edge-thickness-normal{stroke-width:1px;}#diagram-d4 .edge-thickness-thick{stroke-width:3.5px;}#diagram-d4 .edge-pattern-solid{stroke-dasharray:0;}#diagram-d4 .edge-thickness-invisible{stroke-width:0;fill:none;}#diagram-d4 .edge-pattern-dashed{stroke-dasharray:3;}#diagram-d4 .edge-pattern-dotted{stroke-dasharray:2;}#diagram-d4 .marker{fill:#333333;stroke:#333333;}#diagram-d4 .marker.cross{stroke:#333333;}#diagram-d4 svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;}#diagram-d4 p{margin:0;}#diagram-d4 .actor{stroke:#9370DB;fill:#ECECFF;stroke-width:1;}#diagram-d4 rect.actor.outer-path[data-look="neo"]{filter:drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));}#diagram-d4 rect.note[data-look="neo"]{stroke:#aaaa33;fill:#fff5ad;filter:drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));}#diagram-d4 text.actor&gt;tspan{fill:black;stroke:none;}#diagram-d4 .actor-line{stroke:#9370DB;}#diagram-d4 .innerArc{stroke-width:1.5;stroke-dasharray:none;}#diagram-d4 .messageLine0{stroke-width:1.5;stroke-dasharray:none;stroke:#333;}#diagram-d4 .messageLine1{stroke-width:1.5;stroke-dasharray:2,2;stroke:#333;}#diagram-d4 [id$="-arrowhead"] path{fill:#333;stroke:#333;}#diagram-d4 .sequenceNumber{fill:white;}#diagram-d4 [id$="-sequencenumber"]{fill:#333;}#diagram-d4 [id$="-crosshead"] path{fill:#333;stroke:#333;}#diagram-d4 .messageText{fill:#333;stroke:none;}#diagram-d4 .labelBox{stroke:#9370DB;fill:#ECECFF;filter:none;}#diagram-d4 .labelText,#diagram-d4 .labelText&gt;tspan{fill:black;stroke:none;}#diagram-d4 .loopText,#diagram-d4 .loopText&gt;tspan{fill:black;stroke:none;}#diagram-d4 .sectionTitle,#diagram-d4 .sectionTitle&gt;tspan{fill:black;stroke:none;}#diagram-d4 .loopLine{stroke-width:2px;stroke-dasharray:2,2;stroke:#9370DB;fill:#9370DB;}#diagram-d4 .note{stroke:#aaaa33;fill:#fff5ad;}#diagram-d4 .noteText,#diagram-d4 .noteText&gt;tspan{fill:black;stroke:none;font-weight:normal;}#diagram-d4 .activation0{fill:#f4f4f4;stroke:#666;}#diagram-d4 .activation1{fill:#f4f4f4;stroke:#666;}#diagram-d4 .activation2{fill:#f4f4f4;stroke:#666;}#diagram-d4 .actorPopupMenu{position:absolute;}#diagram-d4 .actorPopupMenuPanel{position:absolute;fill:#ECECFF;box-shadow:0px 8px 16px 0px rgba(0,0,0,0.2);filter:drop-shadow(3px 5px 2px rgb(0 0 0 / 0.4));}#diagram-d4 .actor-man circle,#diagram-d4 line{fill:#ECECFF;stroke-width:2px;}#diagram-d4 g rect.rect{filter:drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));stroke:#9370DB;}#diagram-d4 .node .neo-node{stroke:#9370DB;}#diagram-d4 [data-look="neo"].node rect,#diagram-d4 [data-look="neo"].cluster rect,#diagram-d4 [data-look="neo"].node polygon{stroke:#9370DB;filter:drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));}#diagram-d4 [data-look="neo"].swimlane.cluster rect{filter:none;}#diagram-d4 [data-look="neo"].node path{stroke:#9370DB;stroke-width:1px;}#diagram-d4 [data-look="neo"].node .outer-path{filter:drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));}#diagram-d4 [data-look="neo"].node .neo-line path{stroke:#9370DB;filter:none;}#diagram-d4 [data-look="neo"].node circle{stroke:#9370DB;filter:drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));}#diagram-d4 [data-look="neo"].node circle .state-start{fill:#000000;}#diagram-d4 [data-look="neo"].icon-shape .icon{fill:#9370DB;filter:drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));}#diagram-d4 [data-look="neo"].icon-shape .icon-neo path{stroke:#9370DB;filter:drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));}#diagram-d4 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g/><defs><symbol id="diagram-d4-computer" width="24" height="24"><path transform="scale(.5)" d="M2 2v13h20v-13h-20zm18 11h-16v-9h16v9zm-10.228 6l.466-1h3.524l.467 1h-4.457zm14.228 3h-24l2-6h2.104l-1.33 4h18.45l-1.297-4h2.073l2 6zm-5-10h-14v-7h14v7z"/></symbol></defs><defs><symbol id="diagram-d4-database" fill-rule="evenodd" clip-rule="evenodd"><path transform="scale(.5)" d="M12.258.001l.256.004.255.005.253.008.251.01.249.012.247.015.246.016.242.019.241.02.239.023.236.024.233.027.231.028.229.031.225.032.223.034.22.036.217.038.214.04.211.041.208.043.205.045.201.046.198.048.194.05.191.051.187.053.183.054.18.056.175.057.172.059.168.06.163.061.16.063.155.064.15.066.074.033.073.033.071.034.07.034.069.035.068.035.067.035.066.035.064.036.064.036.062.036.06.036.06.037.058.037.058.037.055.038.055.038.053.038.052.038.051.039.05.039.048.039.047.039.045.04.044.04.043.04.041.04.04.041.039.041.037.041.036.041.034.041.033.042.032.042.03.042.029.042.027.042.026.043.024.043.023.043.021.043.02.043.018.044.017.043.015.044.013.044.012.044.011.045.009.044.007.045.006.045.004.045.002.045.001.045v17l-.001.045-.002.045-.004.045-.006.045-.007.045-.009.044-.011.045-.012.044-.013.044-.015.044-.017.043-.018.044-.02.043-.021.043-.023.043-.024.043-.026.043-.027.042-.029.042-.03.042-.032.042-.033.042-.034.041-.036.041-.037.041-.039.041-.04.041-.041.04-.043.04-.044.04-.045.04-.047.039-.048.039-.05.039-.051.039-.052.038-.053.038-.055.038-.055.038-.058.037-.058.037-.06.037-.06.036-.062.036-.064.036-.064.036-.066.035-.067.035-.068.035-.069.035-.07.034-.071.034-.073.033-.074.033-.15.066-.155.064-.16.063-.163.061-.168.06-.172.059-.175.057-.18.056-.183.054-.187.053-.191.051-.194.05-.198.048-.201.046-.205.045-.208.043-.211.041-.214.04-.217.038-.22.036-.223.034-.225.032-.229.031-.231.028-.233.027-.236.024-.239.023-.241.02-.242.019-.246.016-.247.015-.249.012-.251.01-.253.008-.255.005-.256.004-.258.001-.258-.001-.256-.004-.255-.005-.253-.008-.251-.01-.249-.012-.247-.015-.245-.016-.243-.019-.241-.02-.238-.023-.236-.024-.234-.027-.231-.028-.228-.031-.226-.032-.223-.034-.22-.036-.217-.038-.214-.04-.211-.041-.208-.043-.204-.045-.201-.046-.198-.048-.195-.05-.19-.051-.187-.053-.184-.054-.179-.056-.176-.057-.172-.059-.167-.06-.164-.061-.159-.063-.155-.064-.151-.066-.074-.033-.072-.033-.072-.034-.07-.034-.069-.035-.068-.035-.067-.035-.066-.035-.064-.036-.063-.036-.062-.036-.061-.036-.06-.037-.058-.037-.057-.037-.056-.038-.055-.038-.053-.038-.052-.038-.051-.039-.049-.039-.049-.039-.046-.039-.046-.04-.044-.04-.043-.04-.041-.04-.04-.041-.039-.041-.037-.041-.036-.041-.034-.041-.033-.042-.032-.042-.03-.042-.029-.042-.027-.042-.026-.043-.024-.043-.023-.043-.021-.043-.02-.043-.018-.044-.017-.043-.015-.044-.013-.044-.012-.044-.011-.045-.009-.044-.007-.045-.006-.045-.004-.045-.002-.045-.001-.045v-17l.001-.045.002-.045.004-.045.006-.045.007-.045.009-.044.011-.045.012-.044.013-.044.015-.044.017-.043.018-.044.02-.043.021-.043.023-.043.024-.043.026-.043.027-.042.029-.042.03-.042.032-.042.033-.042.034-.041.036-.041.037-.041.039-.041.04-.041.041-.04.043-.04.044-.04.046-.04.046-.039.049-.039.049-.039.051-.039.052-.038.053-.038.055-.038.056-.038.057-.037.058-.037.06-.037.061-.036.062-.036.063-.036.064-.036.066-.035.067-.035.068-.035.069-.035.07-.034.072-.034.072-.033.074-.033.151-.066.155-.064.159-.063.164-.061.167-.06.172-.059.176-.057.179-.056.184-.054.187-.053.19-.051.195-.05.198-.048.201-.046.204-.045.208-.043.211-.041.214-.04.217-.038.22-.036.223-.034.226-.032.228-.031.231-.028.234-.027.236-.024.238-.023.241-.02.243-.019.245-.016.247-.015.249-.012.251-.01.253-.008.255-.005.256-.004.258-.001.258.001zm-9.258 20.499v.01l.001.021.003.021.004.022.005.021.006.022.007.022.009.023.01.022.011.023.012.023.013.023.015.023.016.024.017.023.018.024.019.024.021.024.022.025.023.024.024.025.052.049.056.05.061.051.066.051.07.051.075.051.079.052.084.052.088.052.092.052.097.052.102.051.105.052.11.052.114.051.119.051.123.051.127.05.131.05.135.05.139.048.144.049.147.047.152.047.155.047.16.045.163.045.167.043.171.043.176.041.178.041.183.039.187.039.19.037.194.035.197.035.202.033.204.031.209.03.212.029.216.027.219.025.222.024.226.021.23.02.233.018.236.016.24.015.243.012.246.01.249.008.253.005.256.004.259.001.26-.001.257-.004.254-.005.25-.008.247-.011.244-.012.241-.014.237-.016.233-.018.231-.021.226-.021.224-.024.22-.026.216-.027.212-.028.21-.031.205-.031.202-.034.198-.034.194-.036.191-.037.187-.039.183-.04.179-.04.175-.042.172-.043.168-.044.163-.045.16-.046.155-.046.152-.047.148-.048.143-.049.139-.049.136-.05.131-.05.126-.05.123-.051.118-.052.114-.051.11-.052.106-.052.101-.052.096-.052.092-.052.088-.053.083-.051.079-.052.074-.052.07-.051.065-.051.06-.051.056-.05.051-.05.023-.024.023-.025.021-.024.02-.024.019-.024.018-.024.017-.024.015-.023.014-.024.013-.023.012-.023.01-.023.01-.022.008-.022.006-.022.006-.022.004-.022.004-.021.001-.021.001-.021v-4.127l-.077.055-.08.053-.083.054-.085.053-.087.052-.09.052-.093.051-.095.05-.097.05-.1.049-.102.049-.105.048-.106.047-.109.047-.111.046-.114.045-.115.045-.118.044-.12.043-.122.042-.124.042-.126.041-.128.04-.13.04-.132.038-.134.038-.135.037-.138.037-.139.035-.142.035-.143.034-.144.033-.147.032-.148.031-.15.03-.151.03-.153.029-.154.027-.156.027-.158.026-.159.025-.161.024-.162.023-.163.022-.165.021-.166.02-.167.019-.169.018-.169.017-.171.016-.173.015-.173.014-.175.013-.175.012-.177.011-.178.01-.179.008-.179.008-.181.006-.182.005-.182.004-.184.003-.184.002h-.37l-.184-.002-.184-.003-.182-.004-.182-.005-.181-.006-.179-.008-.179-.008-.178-.01-.176-.011-.176-.012-.175-.013-.173-.014-.172-.015-.171-.016-.17-.017-.169-.018-.167-.019-.166-.02-.165-.021-.163-.022-.162-.023-.161-.024-.159-.025-.157-.026-.156-.027-.155-.027-.153-.029-.151-.03-.15-.03-.148-.031-.146-.032-.145-.033-.143-.034-.141-.035-.14-.035-.137-.037-.136-.037-.134-.038-.132-.038-.13-.04-.128-.04-.126-.041-.124-.042-.122-.042-.12-.044-.117-.043-.116-.045-.113-.045-.112-.046-.109-.047-.106-.047-.105-.048-.102-.049-.1-.049-.097-.05-.095-.05-.093-.052-.09-.051-.087-.052-.085-.053-.083-.054-.08-.054-.077-.054v4.127zm0-5.654v.011l.001.021.003.021.004.021.005.022.006.022.007.022.009.022.01.022.011.023.012.023.013.023.015.024.016.023.017.024.018.024.019.024.021.024.022.024.023.025.024.024.052.05.056.05.061.05.066.051.07.051.075.052.079.051.084.052.088.052.092.052.097.052.102.052.105.052.11.051.114.051.119.052.123.05.127.051.131.05.135.049.139.049.144.048.147.048.152.047.155.046.16.045.163.045.167.044.171.042.176.042.178.04.183.04.187.038.19.037.194.036.197.034.202.033.204.032.209.03.212.028.216.027.219.025.222.024.226.022.23.02.233.018.236.016.24.014.243.012.246.01.249.008.253.006.256.003.259.001.26-.001.257-.003.254-.006.25-.008.247-.01.244-.012.241-.015.237-.016.233-.018.231-.02.226-.022.224-.024.22-.025.216-.027.212-.029.21-.03.205-.032.202-.033.198-.035.194-.036.191-.037.187-.039.183-.039.179-.041.175-.042.172-.043.168-.044.163-.045.16-.045.155-.047.152-.047.148-.048.143-.048.139-.05.136-.049.131-.05.126-.051.123-.051.118-.051.114-.052.11-.052.106-.052.101-.052.096-.052.092-.052.088-.052.083-.052.079-.052.074-.051.07-.052.065-.051.06-.05.056-.051.051-.049.023-.025.023-.024.021-.025.02-.024.019-.024.018-.024.017-.024.015-.023.014-.023.013-.024.012-.022.01-.023.01-.023.008-.022.006-.022.006-.022.004-.021.004-.022.001-.021.001-.021v-4.139l-.077.054-.08.054-.083.054-.085.052-.087.053-.09.051-.093.051-.095.051-.097.05-.1.049-.102.049-.105.048-.106.047-.109.047-.111.046-.114.045-.115.044-.118.044-.12.044-.122.042-.124.042-.126.041-.128.04-.13.039-.132.039-.134.038-.135.037-.138.036-.139.036-.142.035-.143.033-.144.033-.147.033-.148.031-.15.03-.151.03-.153.028-.154.028-.156.027-.158.026-.159.025-.161.024-.162.023-.163.022-.165.021-.166.02-.167.019-.169.018-.169.017-.171.016-.173.015-.173.014-.175.013-.175.012-.177.011-.178.009-.179.009-.179.007-.181.007-.182.005-.182.004-.184.003-.184.002h-.37l-.184-.002-.184-.003-.182-.004-.182-.005-.181-.007-.179-.007-.179-.009-.178-.009-.176-.011-.176-.012-.175-.013-.173-.014-.172-.015-.171-.016-.17-.017-.169-.018-.167-.019-.166-.02-.165-.021-.163-.022-.162-.023-.161-.024-.159-.025-.157-.026-.156-.027-.155-.028-.153-.028-.151-.03-.15-.03-.148-.031-.146-.033-.145-.033-.143-.033-.141-.035-.14-.036-.137-.036-.136-.037-.134-.038-.132-.039-.13-.039-.128-.04-.126-.041-.124-.042-.122-.043-.12-.043-.117-.044-.116-.044-.113-.046-.112-.046-.109-.046-.106-.047-.105-.048-.102-.049-.1-.049-.097-.05-.095-.051-.093-.051-.09-.051-.087-.053-.085-.052-.083-.054-.08-.054-.077-.054v4.139zm0-5.666v.011l.001.02.003.022.004.021.005.022.006.021.007.022.009.023.01.022.011.023.012.023.013.023.015.023.016.024.017.024.018.023.019.024.021.025.022.024.023.024.024.025.052.05.056.05.061.05.066.051.07.051.075.052.079.051.084.052.088.052.092.052.097.052.102.052.105.051.11.052.114.051.119.051.123.051.127.05.131.05.135.05.139.049.144.048.147.048.152.047.155.046.16.045.163.045.167.043.171.043.176.042.178.04.183.04.187.038.19.037.194.036.197.034.202.033.204.032.209.03.212.028.216.027.219.025.222.024.226.021.23.02.233.018.236.017.24.014.243.012.246.01.249.008.253.006.256.003.259.001.26-.001.257-.003.254-.006.25-.008.247-.01.244-.013.241-.014.237-.016.233-.018.231-.02.226-.022.224-.024.22-.025.216-.027.212-.029.21-.03.205-.032.202-.033.198-.035.194-.036.191-.037.187-.039.183-.039.179-.041.175-.042.172-.043.168-.044.163-.045.16-.045.155-.047.152-.047.148-.048.143-.049.139-.049.136-.049.131-.051.126-.05.123-.051.118-.052.114-.051.11-.052.106-.052.101-.052.096-.052.092-.052.088-.052.083-.052.079-.052.074-.052.07-.051.065-.051.06-.051.056-.05.051-.049.023-.025.023-.025.021-.024.02-.024.019-.024.018-.024.017-.024.015-.023.014-.024.013-.023.012-.023.01-.022.01-.023.008-.022.006-.022.006-.022.004-.022.004-.021.001-.021.001-.021v-4.153l-.077.054-.08.054-.083.053-.085.053-.087.053-.09.051-.093.051-.095.051-.097.05-.1.049-.102.048-.105.048-.106.048-.109.046-.111.046-.114.046-.115.044-.118.044-.12.043-.122.043-.124.042-.126.041-.128.04-.13.039-.132.039-.134.038-.135.037-.138.036-.139.036-.142.034-.143.034-.144.033-.147.032-.148.032-.15.03-.151.03-.153.028-.154.028-.156.027-.158.026-.159.024-.161.024-.162.023-.163.023-.165.021-.166.02-.167.019-.169.018-.169.017-.171.016-.173.015-.173.014-.175.013-.175.012-.177.01-.178.01-.179.009-.179.007-.181.006-.182.006-.182.004-.184.003-.184.001-.185.001-.185-.001-.184-.001-.184-.003-.182-.004-.182-.006-.181-.006-.179-.007-.179-.009-.178-.01-.176-.01-.176-.012-.175-.013-.173-.014-.172-.015-.171-.016-.17-.017-.169-.018-.167-.019-.166-.02-.165-.021-.163-.023-.162-.023-.161-.024-.159-.024-.157-.026-.156-.027-.155-.028-.153-.028-.151-.03-.15-.03-.148-.032-.146-.032-.145-.033-.143-.034-.141-.034-.14-.036-.137-.036-.136-.037-.134-.038-.132-.039-.13-.039-.128-.041-.126-.041-.124-.041-.122-.043-.12-.043-.117-.044-.116-.044-.113-.046-.112-.046-.109-.046-.106-.048-.105-.048-.102-.048-.1-.05-.097-.049-.095-.051-.093-.051-.09-.052-.087-.052-.085-.053-.083-.053-.08-.054-.077-.054v4.153zm8.74-8.179l-.257.004-.254.005-.25.008-.247.011-.244.012-.241.014-.237.016-.233.018-.231.021-.226.022-.224.023-.22.026-.216.027-.212.028-.21.031-.205.032-.202.033-.198.034-.194.036-.191.038-.187.038-.183.04-.179.041-.175.042-.172.043-.168.043-.163.045-.16.046-.155.046-.152.048-.148.048-.143.048-.139.049-.136.05-.131.05-.126.051-.123.051-.118.051-.114.052-.11.052-.106.052-.101.052-.096.052-.092.052-.088.052-.083.052-.079.052-.074.051-.07.052-.065.051-.06.05-.056.05-.051.05-.023.025-.023.024-.021.024-.02.025-.019.024-.018.024-.017.023-.015.024-.014.023-.013.023-.012.023-.01.023-.01.022-.008.022-.006.023-.006.021-.004.022-.004.021-.001.021-.001.021.001.021.001.021.004.021.004.022.006.021.006.023.008.022.01.022.01.023.012.023.013.023.014.023.015.024.017.023.018.024.019.024.02.025.021.024.023.024.023.025.051.05.056.05.06.05.065.051.07.052.074.051.079.052.083.052.088.052.092.052.096.052.101.052.106.052.11.052.114.052.118.051.123.051.126.051.131.05.136.05.139.049.143.048.148.048.152.048.155.046.16.046.163.045.168.043.172.043.175.042.179.041.183.04.187.038.191.038.194.036.198.034.202.033.205.032.21.031.212.028.216.027.22.026.224.023.226.022.231.021.233.018.237.016.241.014.244.012.247.011.25.008.254.005.257.004.26.001.26-.001.257-.004.254-.005.25-.008.247-.011.244-.012.241-.014.237-.016.233-.018.231-.021.226-.022.224-.023.22-.026.216-.027.212-.028.21-.031.205-.032.202-.033.198-.034.194-.036.191-.038.187-.038.183-.04.179-.041.175-.042.172-.043.168-.043.163-.045.16-.046.155-.046.152-.048.148-.048.143-.048.139-.049.136-.05.131-.05.126-.051.123-.051.118-.051.114-.052.11-.052.106-.052.101-.052.096-.052.092-.052.088-.052.083-.052.079-.052.074-.051.07-.052.065-.051.06-.05.056-.05.051-.05.023-.025.023-.024.021-.024.02-.025.019-.024.018-.024.017-.023.015-.024.014-.023.013-.023.012-.023.01-.023.01-.022.008-.022.006-.023.006-.021.004-.022.004-.021.001-.021.001-.021-.001-.021-.001-.021-.004-.021-.004-.022-.006-.021-.006-.023-.008-.022-.01-.022-.01-.023-.012-.023-.013-.023-.014-.023-.015-.024-.017-.023-.018-.024-.019-.024-.02-.025-.021-.024-.023-.024-.023-.025-.051-.05-.056-.05-.06-.05-.065-.051-.07-.052-.074-.051-.079-.052-.083-.052-.088-.052-.092-.052-.096-.052-.101-.052-.106-.052-.11-.052-.114-.052-.118-.051-.123-.051-.126-.051-.131-.05-.136-.05-.139-.049-.143-.048-.148-.048-.152-.048-.155-.046-.16-.046-.163-.045-.168-.043-.172-.043-.175-.042-.179-.041-.183-.04-.187-.038-.191-.038-.194-.036-.198-.034-.202-.033-.205-.032-.21-.031-.212-.028-.216-.027-.22-.026-.224-.023-.226-.022-.231-.021-.233-.018-.237-.016-.241-.014-.244-.012-.247-.011-.25-.008-.254-.005-.257-.004-.26-.001-.26.001z"/></symbol></defs><defs><symbol id="diagram-d4-clock" width="24" height="24"><path transform="scale(.5)" d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.848 12.459c.202.038.202.333.001.372-1.907.361-6.045 1.111-6.547 1.111-.719 0-1.301-.582-1.301-1.301 0-.512.77-5.447 1.125-7.445.034-.192.312-.181.343.014l.985 6.238 5.394 1.011z"/></symbol></defs><defs><marker id="diagram-d4-arrowhead" refX="7.9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path d="M -1 0 L 10 5 L 0 10 z"/></marker></defs><defs><marker id="diagram-d4-crosshead" markerWidth="15" markerHeight="8" orient="auto" refX="4" refY="4.5"><path fill="none" stroke="#000000" stroke-width="1pt" d="M 1,2 L 6,7 M 6,2 L 1,7" style="stroke-dasharray: 0, 0;"/></marker></defs><defs><marker id="diagram-d4-filled-head" refX="15.5" refY="7" markerWidth="20" markerHeight="28" orient="auto"><path d="M 18,7 L9,13 L14,7 L9,1 Z"/></marker></defs><defs><marker id="diagram-d4-sequencenumber" refX="15" refY="15" markerWidth="60" markerHeight="40" orient="auto"><circle cx="15" cy="15" r="6"/></marker></defs><defs><marker id="diagram-d4-solidTopArrowHead" refX="7.9" refY="7.25" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path d="M 0 0 L 10 8 L 0 8 z"/></marker></defs><defs><marker id="diagram-d4-solidBottomArrowHead" refX="7.9" refY="0.75" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path d="M 0 0 L 10 0 L 0 8 z"/></marker></defs><defs><marker id="diagram-d4-stickTopArrowHead" refX="7.5" refY="7" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path d="M 0 0 L 7 7" stroke="black" stroke-width="1.5" fill="none"/></marker></defs><defs><marker id="diagram-d4-stickBottomArrowHead" refX="7.5" refY="0" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path d="M 0 7 L 7 0" stroke="black" stroke-width="1.5" fill="none"/></marker></defs><text x="232" y="80" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" class="messageText" dy="1em" style="font-size: 16px; font-weight: 400;">Kick off scope (goal created on Muse)</text><line x1="76" y1="109" x2="388" y2="109" class="messageLine0" data-et="message" data-id="i0" data-from="U" data-to="C" stroke-width="2" stroke="none" marker-end="url(#diagram-d4-arrowhead)" style="fill: none;"/><text x="554" y="124" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" class="messageText" dy="1em" style="font-size: 16px; font-weight: 400;">Assignment: discover and extract Texas</text><line x1="393" y1="153" x2="714" y2="153" class="messageLine0" data-et="message" data-id="i1" data-from="C" data-to="W" stroke-width="2" stroke="none" marker-end="url(#diagram-d4-arrowhead)" style="fill: none;"/><text x="557" y="168" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" class="messageText" dy="1em" style="font-size: 16px; font-weight: 400;">Proposal with snapshot citations</text><line x1="717" y1="197" x2="396" y2="197" class="messageLine1" data-et="message" data-id="i2" data-from="W" data-to="C" stroke-width="2" stroke="none" marker-end="url(#diagram-d4-arrowhead)" style="stroke-dasharray: 3, 3; fill: none;"/><text x="654" y="212" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" class="messageText" dy="1em" style="font-size: 16px; font-weight: 400;">Verify independently</text><line x1="393" y1="241" x2="914" y2="241" class="messageLine0" data-et="message" data-id="i3" data-from="C" data-to="V" stroke-width="2" stroke="none" marker-end="url(#diagram-d4-arrowhead)" style="fill: none;"/><text x="657" y="256" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" class="messageText" dy="1em" style="font-size: 16px; font-weight: 400;">Verdict (pass, or exception)</text><line x1="917" y1="285" x2="396" y2="285" class="messageLine1" data-et="message" data-id="i4" data-from="V" data-to="C" stroke-width="2" stroke="none" marker-end="url(#diagram-d4-arrowhead)" style="stroke-dasharray: 3, 3; fill: none;"/><text x="754" y="300" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" class="messageText" dy="1em" style="font-size: 16px; font-weight: 400;">Approved-ready queue with diffs and evidence</text><line x1="393" y1="329" x2="1114" y2="329" class="messageLine1" data-et="message" data-id="i5" data-from="C" data-to="H" stroke-width="2" stroke="none" marker-end="url(#diagram-d4-arrowhead)" style="stroke-dasharray: 3, 3; fill: none;"/><text x="757" y="344" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" class="messageText" dy="1em" style="font-size: 16px; font-weight: 400;">Approve (last step)</text><line x1="1117" y1="373" x2="396" y2="373" class="messageLine1" data-et="message" data-id="i6" data-from="H" data-to="C" stroke-width="2" stroke="none" marker-end="url(#diagram-d4-arrowhead)" style="stroke-dasharray: 3, 3; fill: none;"/><text x="393" y="388" text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" class="messageText" dy="1em" style="font-size: 16px; font-weight: 400;">Publish effective-dated, monitor forever</text><path d="M 393,417 C 453,407 453,447 393,437" class="messageLine0" data-et="message" data-id="i7" data-from="C" data-to="C" stroke-width="2" stroke="none" marker-end="url(#diagram-d4-arrowhead)" style="fill: none;"/></svg></div>
+      <figcaption>Kickoff to publication: three distinct hands — extractor, verifier, human — in that order.</figcaption>
+    </figure>
+
+    <figure>
+      <!-- {{SOLUTION_IMAGE: conductor agent dispatching small worker agents across a jurisdiction tree, minimal}} -->
+      <figcaption>One conductor, pooled tiered workers, jurisdiction as durable assignment.</figcaption>
+    </figure>
+  </section>
+
+  <section id="data-model">
+    <h2>Data Model</h2>
+    <p>Phase 1 tables (<code>jurisdictions, tax_types, sources, tax_rates, tax_rules, tax_licenses, tax_compliance, source_checks</code>) remain the published store — downstream services read only these. Phase 2 adds the work-and-evidence layer around them; agents never write published tables directly, only proposals.</p>
+    <table>
+      <tr><th>New table</th><th>Purpose</th></tr>
+      <tr><td><code>scope_runs</code></td><td>One compiled-context cascade: profile hash, compiled jurisdiction set, status, goal reference. The unit of observability for a kickoff.</td></tr>
+      <tr><td><code>agent_runs</code> / <code>run_events</code></td><td>Every agent assignment and step transition; append-only events power the globe feed and the audit trail.</td></tr>
+      <tr><td><code>proposals</code> / <code>proposal_items</code></td><td>Staging for extracted facts. Items carry target table, payload, snapshot citation, extractor and verifier identities, verdict, human decision. Nothing publishes except through here.</td></tr>
+      <tr><td><code>coverage_questions</code> / <code>coverage_answers</code></td><td>Question packs as data; per-jurisdiction answers: found / confirmed_absent / unknown with evidence (sources, search queries tried).</td></tr>
+      <tr><td><code>exceptions</code></td><td>Append-only typed failure log: transient, blocked, unreadable, language, conflict, structure_unknown, primary_not_found — severity, owner, resolution.</td></tr>
+      <tr><td><code>source_snapshots</code></td><td>What the agent actually read: content hash + retrieved text/blob reference per fetch. The re-performance substrate.</td></tr>
+      <tr><td><code>tax_type_relationships</code></td><td>Cross-jurisdiction links: conforms_to, piggybacks_on, deductible_against, credit_for (federal–state conformity first).</td></tr>
+      <tr><td><code>sources +3 cols</code></td><td><code>publisher_type</code>, <code>eligibility</code>, <code>exclusion_reason</code> — the source-policy fence, enforced at publish.</td></tr>
+    </table>
+    <p><strong>Expected early <code>datavalues</code> keys:</strong> <code>industry</code> tags on rules (promotion candidate once queried), machine due-date rules on compliance, per-source fetch hints. <strong>Reporting views:</strong> <code>reporting.current_rates</code> (consumer lookups + tie-outs), <code>reporting.coverage_by_jurisdiction</code> (globe status), <code>reporting.open_exceptions</code> (feedback queue).</p>
+    <h3>Audit register (027)</h3>
+    <table>
+      <tr><th>calc_id</th><th>Method / authority</th><th>Rounding &amp; evidence</th></tr>
+      <tr><td>RATE-STACK</td><td>Combined rate = sum of currently-effective published components per imposing jurisdiction; authority = each component's citation (e.g. Tex. Tax Code ch. 151 + local codes)</td><td>Rates <code>numeric(14,6)</code> percent-points, no float, no rounding beyond published source precision; tie-out vs authority combined tables, variance 0</td></tr>
+      <tr><td>EXTRACT-FACT</td><td>Extraction + independent verification protocol over an immutable snapshot; authority = cited eligible primary source</td><td>Proposal hash must reproduce on re-extraction of the same snapshot; extractor ≠ verifier ≠ approver enforced</td></tr>
+      <tr><td>COVERAGE-ABSENCE</td><td>Absence determination: authority index + statute search with recorded queries, verifier-confirmed</td><td>Evidence = search log on the coverage answer; absence is superseded, never edited, if later found</td></tr>
+    </table>
+    <figure class="diagram">
+      <script type="text/mermaid" data-diagram="d1">
+erDiagram
+  SCOPE_RUNS ||--o{ AGENT_RUNS : dispatches
+  AGENT_RUNS ||--o{ RUN_EVENTS : emits
+  AGENT_RUNS ||--o{ PROPOSALS : produces
+  PROPOSALS ||--o{ PROPOSAL_ITEMS : contains
+  SOURCES ||--o{ SOURCE_SNAPSHOTS : fetched_as
+  SOURCE_SNAPSHOTS ||--o{ PROPOSAL_ITEMS : evidences
+  JURISDICTIONS ||--o{ COVERAGE_ANSWERS : interrogated_by
+  COVERAGE_QUESTIONS ||--o{ COVERAGE_ANSWERS : asks
+  TAX_TYPES ||--o{ TAX_TYPE_RELATIONSHIPS : links
+  SCOPE_RUNS ||--o{ EXCEPTIONS : raises
+  PROPOSALS ||--o{ TAX_RATES : publishes_on_approval
+      </script>
+      <div data-diagram-render="d1"><svg id="diagram-d1" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="erDiagram" style="max-width: 1620.48px; background-color: transparent;" viewBox="0 0 1620.484375 655" role="graphics-document document" aria-roledescription="er"><style>#diagram-d1{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;fill:#333;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#diagram-d1 .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#diagram-d1 .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#diagram-d1 .error-icon{fill:#552222;}#diagram-d1 .error-text{fill:#552222;stroke:#552222;}#diagram-d1 .edge-thickness-normal{stroke-width:1px;}#diagram-d1 .edge-thickness-thick{stroke-width:3.5px;}#diagram-d1 .edge-pattern-solid{stroke-dasharray:0;}#diagram-d1 .edge-thickness-invisible{stroke-width:0;fill:none;}#diagram-d1 .edge-pattern-dashed{stroke-dasharray:3;}#diagram-d1 .edge-pattern-dotted{stroke-dasharray:2;}#diagram-d1 .marker{fill:#333333;stroke:#333333;}#diagram-d1 .marker.cross{stroke:#333333;}#diagram-d1 svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;}#diagram-d1 p{margin:0;}#diagram-d1 .entityBox{fill:#ECECFF;stroke:#9370DB;}#diagram-d1 .relationshipLabelBox{fill:hsl(80, 100%, 96.2745098039%);opacity:0.7;background-color:hsl(80, 100%, 96.2745098039%);}#diagram-d1 .relationshipLabelBox rect{opacity:0.5;}#diagram-d1 .labelBkg{background-color:rgba(248.6666666666, 255, 235.9999999999, 0.5);}#diagram-d1 .edgeLabel{background-color:rgba(232,232,232, 0.8);}#diagram-d1 .edgeLabel .label rect{fill:rgba(232,232,232, 0.8);}#diagram-d1 .edgeLabel .label text{fill:#333;}#diagram-d1 .edgeLabel .label{fill:#9370DB;font-size:14px;}#diagram-d1 .label{font-family:"trebuchet ms",verdana,arial,sans-serif;color:#333;}#diagram-d1 .edge-pattern-dashed{stroke-dasharray:8,8;}#diagram-d1 .node rect,#diagram-d1 .node circle,#diagram-d1 .node ellipse,#diagram-d1 .node polygon{fill:#ECECFF;stroke:#9370DB;stroke-width:1px;}#diagram-d1 .relationshipLine{stroke:#333333;stroke-width:1px;fill:none;}#diagram-d1 .marker{fill:none!important;stroke:#333333!important;stroke-width:1;}#diagram-d1 [data-look=neo].labelBkg{background-color:rgba(248.6666666666, 255, 235.9999999999, 0.5);}#diagram-d1 .cluster rect{fill:#ffffde;stroke:#aaaa33;stroke-width:1px;}#diagram-d1 .cluster text{fill:#333;}#diagram-d1 .cluster-label text{fill:#333;}#diagram-d1 .node .neo-node{stroke:#9370DB;}#diagram-d1 [data-look="neo"].node rect,#diagram-d1 [data-look="neo"].cluster rect,#diagram-d1 [data-look="neo"].node polygon{stroke:#9370DB;filter:drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));}#diagram-d1 [data-look="neo"].swimlane.cluster rect{filter:none;}#diagram-d1 [data-look="neo"].node path{stroke:#9370DB;stroke-width:1px;}#diagram-d1 [data-look="neo"].node .outer-path{filter:drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));}#diagram-d1 [data-look="neo"].node .neo-line path{stroke:#9370DB;filter:none;}#diagram-d1 [data-look="neo"].node circle{stroke:#9370DB;filter:drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));}#diagram-d1 [data-look="neo"].node circle .state-start{fill:#000000;}#diagram-d1 [data-look="neo"].icon-shape .icon{fill:#9370DB;filter:drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));}#diagram-d1 [data-look="neo"].icon-shape .icon-neo path{stroke:#9370DB;filter:drop-shadow(1px 2px 2px rgba(185, 185, 185, 1));}#diagram-d1 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g><defs><marker id="diagram-d1_er-onlyOneStart" class="marker onlyOne er" refX="0" refY="9" markerWidth="18" markerHeight="18" orient="auto"><path d="M9,0 L9,18 M15,0 L15,18"/></marker></defs><defs><marker id="diagram-d1_er-onlyOneEnd" class="marker onlyOne er" refX="18" refY="9" markerWidth="18" markerHeight="18" orient="auto"><path d="M3,0 L3,18 M9,0 L9,18"/></marker></defs><defs><marker id="diagram-d1_er-zeroOrOneStart" class="marker zeroOrOne er" refX="0" refY="9" markerWidth="30" markerHeight="18" orient="auto"><circle fill="white" cx="21" cy="9" r="6"/><path d="M9,0 L9,18"/></marker></defs><defs><marker id="diagram-d1_er-zeroOrOneEnd" class="marker zeroOrOne er" refX="30" refY="9" markerWidth="30" markerHeight="18" orient="auto"><circle fill="white" cx="9" cy="9" r="6"/><path d="M21,0 L21,18"/></marker></defs><defs><marker id="diagram-d1_er-oneOrMoreStart" class="marker oneOrMore er" refX="18" refY="18" markerWidth="45" markerHeight="36" orient="auto"><path d="M0,18 Q 18,0 36,18 Q 18,36 0,18 M42,9 L42,27"/></marker></defs><defs><marker id="diagram-d1_er-oneOrMoreEnd" class="marker oneOrMore er" refX="27" refY="18" markerWidth="45" markerHeight="36" orient="auto"><path d="M3,9 L3,27 M9,18 Q27,0 45,18 Q27,36 9,18"/></marker></defs><defs><marker id="diagram-d1_er-zeroOrMoreStart" class="marker zeroOrMore er" refX="18" refY="18" markerWidth="57" markerHeight="36" orient="auto"><circle fill="white" cx="48" cy="18" r="6"/><path d="M0,18 Q18,0 36,18 Q18,36 0,18"/></marker></defs><defs><marker id="diagram-d1_er-zeroOrMoreEnd" class="marker zeroOrMore er" refX="39" refY="18" markerWidth="57" markerHeight="36" orient="auto"><circle fill="white" cx="9" cy="18" r="6"/><path d="M21,18 Q39,0 57,18 Q39,36 21,18"/></marker></defs><g class="root"><g class="clusters"/><g class="edgePaths"><path d="M1104.841,92L1117.154,100.417C1129.467,108.833,1154.093,125.667,1166.406,142.5C1178.719,159.333,1178.719,176.167,1178.719,184.583L1178.719,193" id="diagram-d1-id_entity-SCOPE_RUNS-0_entity-AGENT_RUNS-1_0" class="edge-thickness-normal edge-pattern-solid relationshipLine" style="undefined;;;undefined" data-edge="true" data-et="edge" data-id="id_entity-SCOPE_RUNS-0_entity-AGENT_RUNS-1_0" data-points="W3sieCI6MTEwNC44NDExNzM5ODY0ODY0LCJ5Ijo5Mn0seyJ4IjoxMTc4LjcxODc1LCJ5IjoxNDIuNX0seyJ4IjoxMTc4LjcxODc1LCJ5IjoxOTN9XQ==" data-look="classic" marker-start="url(#diagram-d1_er-onlyOneStart)" marker-end="url(#diagram-d1_er-zeroOrMoreEnd)"/><path d="M1239.299,277L1251.44,285.417C1263.58,293.833,1287.86,310.667,1300,327.5C1312.141,344.333,1312.141,361.167,1312.141,369.583L1312.141,378" id="diagram-d1-id_entity-AGENT_RUNS-1_entity-RUN_EVENTS-2_1" class="edge-thickness-normal edge-pattern-solid relationshipLine" style="undefined;;;undefined" data-edge="true" data-et="edge" data-id="id_entity-AGENT_RUNS-1_entity-RUN_EVENTS-2_1" data-points="W3sieCI6MTIzOS4yOTk0OTMyNDMyNDMyLCJ5IjoyNzd9LHsieCI6MTMxMi4xNDA2MjUsInkiOjMyNy41fSx7IngiOjEzMTIuMTQwNjI1LCJ5IjozNzh9XQ==" data-look="classic" marker-start="url(#diagram-d1_er-onlyOneStart)" marker-end="url(#diagram-d1_er-zeroOrMoreEnd)"/><path d="M1118.138,277L1105.998,285.417C1093.858,293.833,1069.577,310.667,1057.437,327.5C1045.297,344.333,1045.297,361.167,1045.297,369.583L1045.297,378" id="diagram-d1-id_entity-AGENT_RUNS-1_entity-PROPOSALS-3_2" class="edge-thickness-normal edge-pattern-solid relationshipLine" style="undefined;;;undefined" data-edge="true" data-et="edge" data-id="id_entity-AGENT_RUNS-1_entity-PROPOSALS-3_2" data-points="W3sieCI6MTExOC4xMzgwMDY3NTY3NTY4LCJ5IjoyNzd9LHsieCI6MTA0NS4yOTY4NzUsInkiOjMyNy41fSx7IngiOjEwNDUuMjk2ODc1LCJ5IjozNzh9XQ==" data-look="classic" marker-start="url(#diagram-d1_er-onlyOneStart)" marker-end="url(#diagram-d1_er-zeroOrMoreEnd)"/><path d="M1071.905,462L1077.237,470.417C1082.57,478.833,1093.234,495.667,1080.204,512.929C1067.174,530.19,1030.451,547.881,1012.089,556.726L993.727,565.571" id="diagram-d1-id_entity-PROPOSALS-3_entity-PROPOSAL_ITEMS-4_3" class="edge-thickness-normal edge-pattern-solid relationshipLine" style="undefined;;;undefined" data-edge="true" data-et="edge" data-id="id_entity-PROPOSALS-3_entity-PROPOSAL_ITEMS-4_3" data-points="W3sieCI6MTA3MS45MDUxNTIwMjcwMjcsInkiOjQ2Mn0seyJ4IjoxMTAzLjg5ODQzNzUsInkiOjUxMi41fSx7IngiOjk5My43MjY1NjI1LCJ5Ijo1NjUuNTcxMTE3NjIwNzMzMn1d" data-look="classic" marker-start="url(#diagram-d1_er-onlyOneStart)" marker-end="url(#diagram-d1_er-zeroOrMoreEnd)"/><path d="M581.027,277L581.027,285.417C581.027,293.833,581.027,310.667,581.027,327.5C581.027,344.333,581.027,361.167,581.027,369.583L581.027,378" id="diagram-d1-id_entity-SOURCES-5_entity-SOURCE_SNAPSHOTS-6_4" class="edge-thickness-normal edge-pattern-solid relationshipLine" style="undefined;;;undefined" data-edge="true" data-et="edge" data-id="id_entity-SOURCES-5_entity-SOURCE_SNAPSHOTS-6_4" data-points="W3sieCI6NTgxLjAyNzM0Mzc1LCJ5IjoyNzd9LHsieCI6NTgxLjAyNzM0Mzc1LCJ5IjozMjcuNX0seyJ4Ijo1ODEuMDI3MzQzNzUsInkiOjM3OH1d" data-look="classic" marker-start="url(#diagram-d1_er-onlyOneStart)" marker-end="url(#diagram-d1_er-zeroOrMoreEnd)"/><path d="M581.027,462L581.027,470.417C581.027,478.833,581.027,495.667,622.527,515.686C664.026,535.705,747.025,558.91,788.524,570.513L830.023,582.116" id="diagram-d1-id_entity-SOURCE_SNAPSHOTS-6_entity-PROPOSAL_ITEMS-4_5" class="edge-thickness-normal edge-pattern-solid relationshipLine" style="undefined;;;undefined" data-edge="true" data-et="edge" data-id="id_entity-SOURCE_SNAPSHOTS-6_entity-PROPOSAL_ITEMS-4_5" data-points="W3sieCI6NTgxLjAyNzM0Mzc1LCJ5Ijo0NjJ9LHsieCI6NTgxLjAyNzM0Mzc1LCJ5Ijo1MTIuNX0seyJ4Ijo4MzAuMDIzNDM3NSwieSI6NTgyLjExNTU0MTI4MjQ1Mzl9XQ==" data-look="classic" marker-start="url(#diagram-d1_er-onlyOneStart)" marker-end="url(#diagram-d1_er-zeroOrMoreEnd)"/><path d="M425.602,92L425.602,100.417C425.602,108.833,425.602,125.667,411.26,142.5C396.918,159.333,368.235,176.167,353.893,184.583L339.551,193" id="diagram-d1-id_entity-JURISDICTIONS-7_entity-COVERAGE_ANSWERS-8_6" class="edge-thickness-normal edge-pattern-solid relationshipLine" style="undefined;;;undefined" data-edge="true" data-et="edge" data-id="id_entity-JURISDICTIONS-7_entity-COVERAGE_ANSWERS-8_6" data-points="W3sieCI6NDI1LjYwMTU2MjUsInkiOjkyfSx7IngiOjQyNS42MDE1NjI1LCJ5IjoxNDIuNX0seyJ4IjozMzkuNTUxMDk3OTcyOTcyOTcsInkiOjE5M31d" data-look="classic" marker-start="url(#diagram-d1_er-onlyOneStart)" marker-end="url(#diagram-d1_er-zeroOrMoreEnd)"/><path d="M110.367,92L110.367,100.417C110.367,108.833,110.367,125.667,124.709,142.5C139.051,159.333,167.734,176.167,182.076,184.583L196.418,193" id="diagram-d1-id_entity-COVERAGE_QUESTIONS-9_entity-COVERAGE_ANSWERS-8_7" class="edge-thickness-normal edge-pattern-solid relationshipLine" style="undefined;;;undefined" data-edge="true" data-et="edge" data-id="id_entity-COVERAGE_QUESTIONS-9_entity-COVERAGE_ANSWERS-8_7" data-points="W3sieCI6MTEwLjM2NzE4NzUsInkiOjkyfSx7IngiOjExMC4zNjcxODc1LCJ5IjoxNDIuNX0seyJ4IjoxOTYuNDE3NjUyMDI3MDI3MDMsInkiOjE5M31d" data-look="classic" marker-start="url(#diagram-d1_er-onlyOneStart)" marker-end="url(#diagram-d1_er-zeroOrMoreEnd)"/><path d="M1499.18,92L1499.18,100.417C1499.18,108.833,1499.18,125.667,1499.18,142.5C1499.18,159.333,1499.18,176.167,1499.18,184.583L1499.18,193" id="diagram-d1-id_entity-TAX_TYPES-10_entity-TAX_TYPE_RELATIONSHIPS-11_8" class="edge-thickness-normal edge-pattern-solid relationshipLine" style="undefined;;;undefined" data-edge="true" data-et="edge" data-id="id_entity-TAX_TYPES-10_entity-TAX_TYPE_RELATIONSHIPS-11_8" data-points="W3sieCI6MTQ5OS4xNzk2ODc1LCJ5Ijo5Mn0seyJ4IjoxNDk5LjE3OTY4NzUsInkiOjE0Mi41fSx7IngiOjE0OTkuMTc5Njg3NSwieSI6MTkzfV0=" data-look="classic" marker-start="url(#diagram-d1_er-onlyOneStart)" marker-end="url(#diagram-d1_er-zeroOrMoreEnd)"/><path d="M977.633,79.404L954.113,89.92C930.592,100.436,883.552,121.468,860.032,140.401C836.512,159.333,836.512,176.167,836.512,184.583L836.512,193" id="diagram-d1-id_entity-SCOPE_RUNS-0_entity-EXCEPTIONS-12_9" class="edge-thickness-normal edge-pattern-solid relationshipLine" style="undefined;;;undefined" data-edge="true" data-et="edge" data-id="id_entity-SCOPE_RUNS-0_entity-EXCEPTIONS-12_9" data-points="W3sieCI6OTc3LjYzMjgxMjUsInkiOjc5LjQwNDExMjMwNDgxNjU4fSx7IngiOjgzNi41MTE3MTg3NSwieSI6MTQyLjV9LHsieCI6ODM2LjUxMTcxODc1LCJ5IjoxOTN9XQ==" data-look="classic" marker-start="url(#diagram-d1_er-onlyOneStart)" marker-end="url(#diagram-d1_er-zeroOrMoreEnd)"/><path d="M984.469,460.124L971.235,468.853C958.001,477.583,931.534,495.041,882.46,515.885C833.385,536.73,761.704,560.959,725.864,573.074L690.023,585.189" id="diagram-d1-id_entity-PROPOSALS-3_entity-TAX_RATES-13_10" class="edge-thickness-normal edge-pattern-solid relationshipLine" style="undefined;;;undefined" data-edge="true" data-et="edge" data-id="id_entity-PROPOSALS-3_entity-TAX_RATES-13_10" data-points="W3sieCI6OTg0LjQ2ODc1LCJ5Ijo0NjAuMTIzOTU4ODg0NjQ4Nn0seyJ4Ijo5MDUuMDY2NDA2MjUsInkiOjUxMi41fSx7IngiOjY5MC4wMjM0Mzc1LCJ5Ijo1ODUuMTg4ODUxNjE2NTg2OX1d" data-look="classic" marker-start="url(#diagram-d1_er-onlyOneStart)" marker-end="url(#diagram-d1_er-zeroOrMoreEnd)"/></g><g class="edgeLabels"><g class="edgeLabel" transform="translate(1178.71875, 142.5)"><g class="label" data-id="id_entity-SCOPE_RUNS-0_entity-AGENT_RUNS-1_0" transform="translate(-33.03125, -10.5)"><foreignObject width="66.0625" height="21"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>dispatches</p></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(1312.140625, 327.5)"><g class="label" data-id="id_entity-AGENT_RUNS-1_entity-RUN_EVENTS-2_1" transform="translate(-17.234375, -10.5)"><foreignObject width="34.46875" height="21"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>emits</p></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(1045.296875, 327.5)"><g class="label" data-id="id_entity-AGENT_RUNS-1_entity-PROPOSALS-3_2" transform="translate(-28.21875, -10.5)"><foreignObject width="56.4375" height="21"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>produces</p></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(1103.8984375, 512.5)"><g class="label" data-id="id_entity-PROPOSALS-3_entity-PROPOSAL_ITEMS-4_3" transform="translate(-26.15625, -10.5)"><foreignObject width="52.3125" height="21"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>contains</p></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(581.02734375, 327.5)"><g class="label" data-id="id_entity-SOURCES-5_entity-SOURCE_SNAPSHOTS-6_4" transform="translate(-34.375, -10.5)"><foreignObject width="68.75" height="21"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>fetched_as</p></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(581.02734375, 512.5)"><g class="label" data-id="id_entity-SOURCE_SNAPSHOTS-6_entity-PROPOSAL_ITEMS-4_5" transform="translate(-30.90625, -10.5)"><foreignObject width="61.8125" height="21"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>evidences</p></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(425.6015625, 142.5)"><g class="label" data-id="id_entity-JURISDICTIONS-7_entity-COVERAGE_ANSWERS-8_6" transform="translate(-50.3203125, -10.5)"><foreignObject width="100.640625" height="21"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>interrogated_by</p></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(110.3671875, 142.5)"><g class="label" data-id="id_entity-COVERAGE_QUESTIONS-9_entity-COVERAGE_ANSWERS-8_7" transform="translate(-12.8828125, -10.5)"><foreignObject width="25.765625" height="21"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>asks</p></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(1499.1796875, 142.5)"><g class="label" data-id="id_entity-TAX_TYPES-10_entity-TAX_TYPE_RELATIONSHIPS-11_8" transform="translate(-14.25, -10.5)"><foreignObject width="28.5" height="21"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>links</p></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(836.51171875, 142.5)"><g class="label" data-id="id_entity-SCOPE_RUNS-0_entity-EXCEPTIONS-12_9" transform="translate(-17.8828125, -10.5)"><foreignObject width="35.765625" height="21"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>raises</p></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(842.60097, 533.61458)"><g class="label" data-id="id_entity-PROPOSALS-3_entity-TAX_RATES-13_10" transform="translate(-71.046875, -10.5)"><foreignObject width="142.09375" height="21"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>publishes_on_approval</p></span></div></foreignObject></g></g></g><g class="nodes"><g class="node default" id="diagram-d1-entity-SCOPE_RUNS-0" data-look="classic" transform="translate(1043.3984375, 50)"><rect class="basic label-container" style="" x="-65.765625" y="-42" width="131.53125" height="84"/><g class="label" style="" transform="translate(-45.765625, -12)"><rect/><foreignObject width="91.53125" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel markdown-node-label"><p>SCOPE_RUNS</p></span></div></foreignObject></g></g><g class="node default" id="diagram-d1-entity-AGENT_RUNS-1" data-look="classic" transform="translate(1178.71875, 235)"><rect class="basic label-container" style="" x="-67.15625" y="-42" width="134.3125" height="84"/><g class="label" style="" transform="translate(-47.15625, -12)"><rect/><foreignObject width="94.3125" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel markdown-node-label"><p>AGENT_RUNS</p></span></div></foreignObject></g></g><g class="node default" id="diagram-d1-entity-RUN_EVENTS-2" data-look="classic" transform="translate(1312.140625, 420)"><rect class="basic label-container" style="" x="-66.015625" y="-42" width="132.03125" height="84"/><g class="label" style="" transform="translate(-46.015625, -12)"><rect/><foreignObject width="92.03125" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel markdown-node-label"><p>RUN_EVENTS</p></span></div></foreignObject></g></g><g class="node default" id="diagram-d1-entity-PROPOSALS-3" data-look="classic" transform="translate(1045.296875, 420)"><rect class="basic label-container" style="" x="-60.828125" y="-42" width="121.65625" height="84"/><g class="label" style="" transform="translate(-40.828125, -12)"><rect/><foreignObject width="81.65625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel markdown-node-label"><p>PROPOSALS</p></span></div></foreignObject></g></g><g class="node default" id="diagram-d1-entity-PROPOSAL_ITEMS-4" data-look="classic" transform="translate(911.875, 605)"><rect class="basic label-container" style="" x="-81.8515625" y="-42" width="163.703125" height="84"/><g class="label" style="" transform="translate(-61.8515625, -12)"><rect/><foreignObject width="123.703125" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel markdown-node-label"><p>PROPOSAL_ITEMS</p></span></div></foreignObject></g></g><g class="node default" id="diagram-d1-entity-SOURCES-5" data-look="classic" transform="translate(581.02734375, 235)"><rect class="basic label-container" style="" x="-52" y="-42" width="104" height="84"/><g class="label" style="" transform="translate(-32, -12)"><rect/><foreignObject width="64" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel markdown-node-label"><p>SOURCES</p></span></div></foreignObject></g></g><g class="node default" id="diagram-d1-entity-SOURCE_SNAPSHOTS-6" data-look="classic" transform="translate(581.02734375, 420)"><rect class="basic label-container" style="" x="-93.4453125" y="-42" width="186.890625" height="84"/><g class="label" style="" transform="translate(-73.4453125, -12)"><rect/><foreignObject width="146.890625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel markdown-node-label"><p>SOURCE_SNAPSHOTS</p></span></div></foreignObject></g></g><g class="node default" id="diagram-d1-entity-JURISDICTIONS-7" data-look="classic" transform="translate(425.6015625, 50)"><rect class="basic label-container" style="" x="-72.8671875" y="-42" width="145.734375" height="84"/><g class="label" style="" transform="translate(-52.8671875, -12)"><rect/><foreignObject width="105.734375" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel markdown-node-label"><p>JURISDICTIONS</p></span></div></foreignObject></g></g><g class="node default" id="diagram-d1-entity-COVERAGE_ANSWERS-8" data-look="classic" transform="translate(267.984375, 235)"><rect class="basic label-container" style="" x="-95.703125" y="-42" width="191.40625" height="84"/><g class="label" style="" transform="translate(-75.703125, -12)"><rect/><foreignObject width="151.40625" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel markdown-node-label"><p>COVERAGE_ANSWERS</p></span></div></foreignObject></g></g><g class="node default" id="diagram-d1-entity-COVERAGE_QUESTIONS-9" data-look="classic" transform="translate(110.3671875, 50)"><rect class="basic label-container" style="" x="-102.3671875" y="-42" width="204.734375" height="84"/><g class="label" style="" transform="translate(-82.3671875, -12)"><rect/><foreignObject width="164.734375" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel markdown-node-label"><p>COVERAGE_QUESTIONS</p></span></div></foreignObject></g></g><g class="node default" id="diagram-d1-entity-TAX_TYPES-10" data-look="classic" transform="translate(1499.1796875, 50)"><rect class="basic label-container" style="" x="-59.0390625" y="-42" width="118.078125" height="84"/><g class="label" style="" transform="translate(-39.0390625, -12)"><rect/><foreignObject width="78.078125" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel markdown-node-label"><p>TAX_TYPES</p></span></div></foreignObject></g></g><g class="node default" id="diagram-d1-entity-TAX_TYPE_RELATIONSHIPS-11" data-look="classic" transform="translate(1499.1796875, 235)"><rect class="basic label-container" style="" x="-113.3046875" y="-42" width="226.609375" height="84"/><g class="label" style="" transform="translate(-93.3046875, -12)"><rect/><foreignObject width="186.609375" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel markdown-node-label"><p>TAX_TYPE_RELATIONSHIPS</p></span></div></foreignObject></g></g><g class="node default" id="diagram-d1-entity-EXCEPTIONS-12" data-look="classic" transform="translate(836.51171875, 235)"><rect class="basic label-container" style="" x="-63.484375" y="-42" width="126.96875" height="84"/><g class="label" style="" transform="translate(-43.484375, -12)"><rect/><foreignObject width="86.96875" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel markdown-node-label"><p>EXCEPTIONS</p></span></div></foreignObject></g></g><g class="node default" id="diagram-d1-entity-TAX_RATES-13" data-look="classic" transform="translate(631.4140625, 605)"><rect class="basic label-container" style="" x="-58.609375" y="-42" width="117.21875" height="84"/><g class="label" style="" transform="translate(-38.609375, -12)"><rect/><foreignObject width="77.21875" height="24"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel markdown-node-label"><p>TAX_RATES</p></span></div></foreignObject></g></g></g></g></g><defs><filter id="diagram-d1-drop-shadow" height="130%" width="130%"><feDropShadow dx="4" dy="4" stdDeviation="0" flood-opacity="0.06" flood-color="#000000"/></filter></defs><defs><filter id="diagram-d1-drop-shadow-small" height="150%" width="150%"><feDropShadow dx="2" dy="2" stdDeviation="0" flood-opacity="0.06" flood-color="#000000"/></filter></defs></svg></div>
+      <figcaption>Phase 2 additions around the Phase 1 published store (full Phase 1 ERD: docs/data-model.md).</figcaption>
+    </figure>
+  </section>
+
+  <section id="files" class="files">
+    <h2>Relevant Files</h2>
+    <h3>Existing Files</h3>
+    <ul>
+      <li><span class="tag existing">existing</span> <code>packages/database/src/schema.ts</code> — Phase 1 schema; Phase 2 tables extend it</li>
+      <li><span class="tag existing">existing</span> <code>packages/database/src/seed.ts</code> — Texas seed; gains source eligibility backfill</li>
+      <li><span class="tag existing">existing</span> <code>docs/data-model.md</code> — Phase 1 model documentation</li>
+      <li><span class="tag existing">existing</span> <code>docker-compose.yml</code> — PostgreSQL 18 + pgvector container</li>
+      <li><span class="tag existing">existing</span> <code>.claude/project-manifest.json</code> — project state; updated at each milestone</li>
+    </ul>
+    <h3>New Files</h3>
+    <ul>
+      <li><span class="tag new">new</span> <code>AGENTS.md</code> — universal harness instructions (single source)</li>
+      <li><span class="tag new">new</span> <code>tax-context.yaml</code> + <code>tax-context.example.yaml</code> + <code>contexts/*.yaml</code> — operator context profiles (full-globe, Texas, Dallas, Brazil)</li>
+      <li><span class="tag new">new</span> <code>config/models.yaml</code> — logical model tiers to harness/Foundry deployments</li>
+      <li><span class="tag new">new</span> <code>packages/cli/</code> — the <code>tax</code> CLI: work contract, context compiler, publish gate, read-side lookups</li>
+      <li><span class="tag new">new</span> <code>docs/harness-contract.md</code>, <code>docs/harnesses.md</code> — CLI contract and per-harness setup notes</li>
+      <li><span class="tag new">new</span> <code>workflows/</code> (Muse adapter) — conductor workflow, worker/verifier subagent definitions, kickoff skill</li>
+      <li><span class="tag new">new</span> <code>packages/database/src/seed-data/question-packs.ts</code> — category packs, conformity pack, industry overlays as data</li>
+      <li><span class="tag new">new</span> <code>apps/web/</code> (Phase 6) — globe observability + human review queue (minimal Phase 3 cut)</li>
+    </ul>
+  </section>
+
+  <section id="phases">
+    <h2>Implementation Phases</h2>
+    <p><strong>IMPORTANT:</strong> Execute every phase and task step by step, in order, top to bottom.</p>
+    <p>Status markers: <code>[]</code> idle · <code>[wip]</code> in progress · <code>[x]</code> complete · <code>[f]</code> failed. State lives in the <code>plan-manifest</code> island; this page renders it. On handoff, phases become GitHub milestones and task groups become issues — after that, GitHub is status-canonical.</p>
+
+    <div class="phase">
+      <h3><code class="status" data-status="p1"></code> Phase 1: Harness Foundation &amp; Schema Additions</h3>
+      <p>Everything an agent needs to work safely from any harness: the JSON work contract and CLI, AGENTS.md plus adapters (Muse first, goal-based kickoff), model-tier/API-key configuration for Azure AI Foundry, the contextualization layer with its hard scope fence, and the Phase 2 evidence tables with mechanical gates.</p>
+      <figure>
+        <!-- {{PHASE_IMAGE: universal CLI contract between many harnesses and one database, with a context fence gate}} -->
+        <figcaption>One contract, one fence, any harness.</figcaption>
+      </figure>
+      <div data-tasks-for="p1"></div>
+    </div>
+
+    <div class="phase">
+      <h3><code class="status" data-status="p2"></code> Phase 2: Question Packs &amp; Coverage Engine</h3>
+      <p>The interrogation standard as data: category question packs, the peer-profile catalog that makes absence an evidenced finding, the federal conformity pack, and oil-and-gas/telecom industry overlays.</p>
+      <div data-tasks-for="p2"></div>
+    </div>
+
+    <div class="phase">
+      <h3><code class="status" data-status="p3"></code> Phase 3: Agent Workflow Units (Conductor, Workers, Verifier, Monitor)</h3>
+      <p>The eight decomposition units implemented as tiered agent work: Wonder conducts and tracks the goal, Glimmer-class workers discover/fetch/extract, an independent verifier re-reads evidence, the human approves last, and the monitor keeps everything current with typed failure feedback.</p>
+      <div data-tasks-for="p3"></div>
+    </div>
+
+    <div class="phase">
+      <h3><code class="status" data-status="p4"></code> Phase 4: Federal First Wave &amp; Texas Cascade</h3>
+      <p>Proof at depth: the US Federal profile lands first (states conform to it), Texas state completes all 27 types with history to earliest published data, then counties, cities, transit, and special districts cascade for the sales-tax proof case with combined-rate tie-outs.</p>
+      <div data-tasks-for="p4"></div>
+    </div>
+
+    <div class="phase">
+      <h3><code class="status" data-status="p5"></code> Phase 5: World Skeleton &amp; Monitored Refresh</h3>
+      <p>Proof at breadth: every country structure-registered with classified sources (EU as region), a full-world hash refresh with typed exception rollups, and strict virgin-country discipline reserving the demo countries untouched.</p>
+      <div data-tasks-for="p5"></div>
+    </div>
+
+    <div class="phase">
+      <h3><code class="status" data-status="p6"></code> Phase 6: Globe, Human Review &amp; Hackathon Demo</h3>
+      <p>The visible surface: a globe rendering live database state, a keyboard-first human review queue (the operator verifies locally, last in the chain), per-jurisdiction evidence packs an auditor can re-perform from, and the rehearsed three-act demo — world refresh, virgin-country population, Texas live maintenance.</p>
+      <figure>
+        <!-- {{PHASE_IMAGE: interactive globe with jurisdiction status colors and a review queue panel}} -->
+        <figcaption>The globe is a live query over run state, not an animation.</figcaption>
+      </figure>
+      <div data-tasks-for="p6"></div>
+    </div>
+
+    <div class="phase">
+      <h3><code class="status" data-status="p7"></code> Phase 7: Agentic Product Classification (Last Phase)</h3>
+      <p>After rates, rules, licenses, and compliance are populated comes the layer operators feel daily: what is this product, tax-wise, in each place? A coded global product taxonomy (software by delivery mode, short-term-rental lodging, telecom, marketplace-facilitated goods, delivery services…), per-jurisdiction taxability treatments through the same verify-approve chain, and operator product lists in the context profile so niche depth follows what a given client actually sells — maintained and reclassification-monitored like everything else.</p>
+      <div data-tasks-for="p7"></div>
+    </div>
+  </section>
+
+  <section id="validation">
+    <h2>Validation Commands</h2>
+    <p>Execute these commands to validate the entire plan is complete:</p>
+    <div data-hydrate="global-validation"></div>
+    <div class="loop">
+      🔁 <strong>The plan is not complete until every box is checked and every command passes.
+      If a step is truly impossible, mark it <code>failed</code> in the island and move on if possible.</strong>
+    </div>
+  </section>
+
+  <section id="questionables">
+    <h2>Questionables</h2>
+    <figure>
+      <!-- {{QUESTIONABLES_IMAGE: open decisions as branching paths over a world map, minimal}} -->
+      <figcaption>Open decisions are recorded with their working assumptions; unresolved items become needs-human issues at handoff.</figcaption>
+    </figure>
+    <div data-hydrate="questionables"></div>
+  </section>
+
+  <section id="notes">
+    <h2>Notes</h2>
+    <h3>Locked decisions (operator, 2026-11-01)</h3>
+    <ul>
+      <li><strong>Agent-first, human-last:</strong> agents pull, verify, populate, and monitor; downstream custom functions consume the database; the human's only step is final approval. The operator performs verification locally (Texas) for the hackathon build.</li>
+      <li><strong>History</strong> to the earliest published data (audit lookback), with earliest-found/searched-earlier evidence.</li>
+      <li><strong>Muse-first, harness-ready:</strong> Wonder conducts, Glimmer-class workers extract; Muse/Codex/Grok/OpenCode/Herdr and headless Foundry API runs share the CLI contract. Kickoff is goal-driven on Muse.</li>
+      <li><strong>Contextualization fences every crawl:</strong> full-globe is one profile among many (the author's consulting deployment); Texas/Dallas/Brazil examples prove single-footprint operation of the same clone.</li>
+      <li><strong>Sources:</strong> public government primaries only; vendor content noted-never-used; no paywalls, no non-government logins, no credentials.</li>
+      <li><strong>Federal first wave,</strong> with federal–state conformity links modeled explicitly.</li>
+      <li><strong>Absence</strong> is established by peer-profile interrogation plus recorded negative search.</li>
+      <li><strong>Demo:</strong> full-world refresh → virgin-country population → populated-country (Texas) live maintenance and approval.</li>
+      <li><strong>Jurisdiction context hooks:</strong> per-jurisdiction context packs (local expert guidance and memory) inject pre-run into assignments and hook post-run transitions; guidance never becomes evidence and never relaxes gates.</li>
+      <li><strong>Build visibility:</strong> this decree hands off to GitHub milestones + issues; GitHub becomes the status-canonical work queue.</li>
+    </ul>
+    <h3>Rejected approaches</h3>
+    <ul>
+      <li><em>Persistent per-jurisdiction agents</em> (one process per county/city) — rejected for pooled workers with durable assignments; ~90k US jurisdictions cannot be ~90k processes.</li>
+      <li><em>Direct SQL by agents</em> — rejected; the CLI is the only write path so gates (eligibility, distinct approvers, context fence) cannot be bypassed by any harness.</li>
+      <li><em>Vendor data as bootstrap or corroboration</em> — rejected by source policy; a fact without a primary source stays unknown on purpose.</li>
+      <li><em>Auto-publish on agent confidence</em> — rejected; human approves everything, last. Auto-approval may be revisited only as a future recorded decision with evidence.</li>
+    </ul>
+    <h3>Risks</h3>
+    <ul>
+      <li>Live-demo dependence on third-party government sites: mitigated by backup virgin country, snapshot replay, and rehearsed fallbacks (Phase 6).</li>
+      <li>Token cost of world-scale extraction: mitigated by hash-first monitoring (no LLM for unchanged sources), structure-before-depth ordering, and context fencing for non-global operators.</li>
+      <li>Non-English primaries: language exceptions queue translation with originals preserved; first waves (federal, Texas) are English-published.</li>
+    </ul>
+    <p>Diagrams: ERD (d1), workflow flow (d2), architecture (d3), and sequence (d4) are included; a state diagram for proposal lifecycle is consciously deferred to the Phase 1 milestone issues, where the states are implemented. Field-sense obligations are carried in Phase 6 tasks/validations; the audit pass is in Purpose, the register above, and <code>audit:</code> validations throughout.</p>
+    <figure>
+      <!-- {{NOTES_IMAGE: full-globe context profile beside a single-city context profile feeding the same engine}} -->
+      <figcaption>Same clone, two contexts: the author's always-on world scan and a single-city deployment.</figcaption>
+    </figure>
+  </section>
+
+  <section id="amendments">
+    <h2>Amendments</h2>
+    <div data-hydrate="amendments"></div>
+  </section>
+
+</main>
+
+<script>
+(function () {
+  var MARK = { idle: "[]", wip: "[wip]", done: "[x]", failed: "[f]" };
+  var m = JSON.parse(document.getElementById("plan-manifest").textContent);
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  function checklist(items, line) {
+    var ul = el("ul", "checklist");
+    (items || []).forEach(function (it) {
+      var li = el("li");
+      li.appendChild(el("code", "status", MARK[it.status] || "[]"));
+      li.appendChild(document.createTextNode(" "));
+      line(li, it);
+      ul.appendChild(li);
+    });
+    return ul;
+  }
+  function cmdLine(li, v) {
+    li.appendChild(el("code", null, v.cmd));
+    li.appendChild(document.createTextNode(" — " + v.proves));
+  }
+  function joined(list, f) {
+    return (list || []).map(f || String).join(", ") || "—";
+  }
+
+  var meta = document.querySelector("[data-hydrate=meta]");
+  if (meta) {
+    [
+      ["created", m.created],
+      ["modified", joined(m.modified)],
+      ["commits", joined(m.commits)],
+      ["agents", joined(m.agents)],
+      ["sessions", joined(m.sessions)],
+      ["plan dir", m.planDir || "—"],
+      ["diagrams", joined(m.diagrams, function (d) { return d.id + " " + d.kind + ":" + d.status; })],
+      ["back refs", joined(m.refs.back, function (r) { return r.label || r.path; })],
+      ["forward refs", joined(m.refs.forward, function (r) { return r.label || r.path; })],
+      ["issues", joined(m.refs.issues)],
+      ["milestones", joined(m.refs.milestones)]
+    ].forEach(function (row) {
+      meta.appendChild(el("dt", null, row[0]));
+      meta.appendChild(el("dd", null, row[1]));
+    });
+  }
+
+  (m.phases || []).forEach(function (p) {
+    var marker = document.querySelector('[data-status="' + p.id + '"]');
+    if (marker) marker.textContent = MARK[p.status] || "[]";
+    var host = document.querySelector('[data-tasks-for="' + p.id + '"]');
+    if (!host) return;
+    (p.tasks || []).forEach(function (t, i) {
+      var h = el("h4");
+      h.appendChild(el("code", "status", MARK[t.status] || "[]"));
+      h.appendChild(document.createTextNode(" " + (i + 1) + ". " + t.name));
+      host.appendChild(h);
+      host.appendChild(checklist(t.steps, function (li, s) {
+        li.appendChild(document.createTextNode(s.text));
+      }));
+    });
+    if ((p.validation || []).length) {
+      host.appendChild(el("h4", null, "Testing Strategy"));
+      host.appendChild(checklist(p.validation, cmdLine));
+      host.appendChild(el("div", "loop",
+        "🔁 Do not exit this phase until every box above is checked. " +
+        "If any command fails, fix the cause and re-run — loop until all pass."));
+    }
+  });
+
+  var gv = document.querySelector("[data-hydrate=global-validation]");
+  if (gv) gv.appendChild(checklist(m.globalValidation, cmdLine));
+
+  var qh = document.querySelector("[data-hydrate=questionables]");
+  if (qh) (m.questionables || []).forEach(function (q) {
+    var d = el("details");
+    d.appendChild(el("summary", null, (q.status === "resolved" ? "✓ " : "? ") + q.question));
+    d.appendChild(el("p", "qa-answer",
+      q.status === "resolved" && q.resolution ? q.resolution : q.assumption));
+    qh.appendChild(d);
+  });
+
+  var ah = document.querySelector("[data-hydrate=amendments]");
+  if (ah) (m.amendments || []).forEach(function (a) {
+    var d = el("details");
+    d.appendChild(el("summary", null, a.ts + " — " + a.summary));
+    d.appendChild(el("p", null, a.detail));
+    ah.appendChild(d);
+  });
+})();
+</script>
+</body>
+</html>
+
+
+
+
+
+
