@@ -435,7 +435,7 @@ async function envelopeFor(run: typeof agentRuns.$inferSelect) {
     assignment: {
       v: 1, assignmentId: run.id, scopeRunId: run.scopeRunId, role: run.role, unit: run.unit,
       jurisdiction: jur?.slug ?? null, taxType: tt?.slug ?? null, attempt: run.attempt, maxAttempts: MAX_ATTEMPTS,
-      model: run.model,
+      model: run.model ?? loadRoleModels()[run.role]?.model ?? loadRoleModels()[run.role]?.deployment ?? null,
       contextPacks: [] as unknown[], // populated by jurisdiction context hooks (issue #6)
       instructions: [
         "Check first: pnpm tax ledger check for this jurisdiction; reuse validated determinations.",
@@ -500,6 +500,43 @@ async function reviewList() {
   const rows = await db.select({ questionKey: researchLedger.questionKey, determination: researchLedger.determination, status: researchLedger.status, jurisdictionId: researchLedger.jurisdictionId })
     .from(researchLedger).where(eq(researchLedger.status, "pending_review")).limit(50);
   out({ pendingReview: rows, count: rows.length, note: "Proposal-based review queue lands with schema issue #4; this lists ledger determinations awaiting review." });
+}
+
+// ponytail: minimal YAML reader for our own config files (flat role blocks
+// only). Swap for a real YAML parser if configs gain nesting beyond this.
+function loadRoleModels(): Record<string, { provider: string; model: string | null; deployment: string | null }> {
+  const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
+  const path = resolve(repoRoot, "config/models.yaml");
+  const result: Record<string, { provider: string; model: string | null; deployment: string | null }> = {};
+  if (!existsSync(path)) return result;
+  let current: string | null = null;
+  for (const line of readFileSync(path, "utf8").split(/\r?\n/)) {
+    const role = line.match(/^ {2}(orchestrator|fetch|decision|reviewer|embedder):\s*$/);
+    if (role) { current = role[1]!; result[current] = { provider: "harness", model: null, deployment: null }; continue; }
+    if (!current) continue;
+    const kv = line.match(/^ {4}(provider|model|deployment):\s*(.+?)\s*(?:#.*)?$/);
+    if (kv) {
+      const val = kv[2]!.replace(/\$\{([A-Z0-9_]+):-([^}]*)\}/g, (_m, name: string, dflt: string) => process.env[name] ?? dflt);
+      if (kv[1] === "provider") result[current]!.provider = val;
+      if (kv[1] === "model") result[current]!.model = val;
+      if (kv[1] === "deployment") result[current]!.deployment = val || null;
+    }
+  }
+  return result;
+}
+
+async function configShow() {
+  const roles = loadRoleModels();
+  out({
+    roles,
+    foundry: {
+      endpointConfigured: Boolean(process.env.AZURE_AI_FOUNDRY_ENDPOINT),
+      apiKeyConfigured: Boolean(process.env.AZURE_AI_FOUNDRY_API_KEY),
+      embeddingDeployment: process.env.AZURE_AI_EMBEDDING_DEPLOYMENT ?? null,
+    },
+    analyticsFile: "config/analytics.yaml (mode private by default)",
+    note: "Mix and match any model per role. provider=harness uses the running harness's model; provider=foundry calls the deployment directly (headless runner consumes identical envelopes).",
+  });
 }
 
 async function analytics() {
@@ -582,6 +619,8 @@ async function main() {
     const id = argVal(args, "--id");
     if (!id) { out({ error: "usage: tax work retry --id <uuid>" }); process.exitCode = 2; return; }
     await workRetry(id);
+  } else if (cmd === "config" && args[1] === "show") {
+    await configShow();
   } else if (cmd === "review" && args[1] === "list") {
     await reviewList();
   } else {
@@ -600,6 +639,7 @@ async function main() {
         "tax work submit --id <uuid> --status completed|failed [--notes <text>] [--tokens-in N] [--tokens-out N] [--cost-usd X]",
         "tax work retry --id <uuid>",
         "tax review list",
+        "tax config show",
       ],
     });
     process.exitCode = 2;
