@@ -25,8 +25,17 @@ if (!eu) {
 let registered = 0;
 for (const c of countries) {
   const slug = c.iso2Code.toLowerCase();
-  const [existing] = await db.select({ id: jurisdictions.id }).from(jurisdictions).where(eq(jurisdictions.slug, slug)).limit(1);
-  if (existing) continue;
+  const [existing] = await db.select({ id: jurisdictions.id, datavalues: jurisdictions.datavalues }).from(jurisdictions).where(eq(jurisdictions.slug, slug)).limit(1);
+  if (existing) {
+    // Backfill globe coordinates for pre-existing rows (e.g. the Phase 1 US seed).
+    const dv = (existing.datavalues ?? {}) as Record<string, unknown>;
+    if (dv.lat === undefined && c.latitude) {
+      await db.update(jurisdictions)
+        .set({ datavalues: { ...dv, lat: Number(c.latitude), lng: Number(c.longitude), capital: c.capitalCity || null, region: c.region.value } })
+        .where(eq(jurisdictions.id, existing.id));
+    }
+    continue;
+  }
   await db.insert(jurisdictions).values({
     slug, level: "country", code: c.iso2Code, name: c.name, countryCode: c.iso2Code,
     datavalues: {
