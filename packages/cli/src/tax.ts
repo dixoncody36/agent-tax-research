@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -12,6 +13,8 @@ import {
   jurisdictions,
   researchLedger,
   scopeRuns,
+  sourceChecks,
+  sourceSnapshots,
   sources,
   taxRates,
   taxRules,
@@ -692,6 +695,54 @@ async function scopeDispatch(scopeId: string) {
   out({ scopeRunId: scopeId, dispatched: created, inScopeJurisdictions: slugs.length, instruction: "Fetch role: pnpm tax work next --role fetch. Orchestrator never fetches or decides." });
 }
 
+async function sourceClassify(args: string[]) {
+  const url = argVal(args, "--url"); const publisherType = argVal(args, "--publisher") ?? "government";
+  const eligibility = argVal(args, "--eligibility") ?? "eligible";
+  if (!url || !["government", "vendor", "other"].includes(publisherType) || !["eligible", "noted_only", "prohibited", "gov_login_gated"].includes(eligibility)) {
+    out({ error: "usage: tax source classify --url <url> [--publisher government|vendor|other] [--eligibility eligible|noted_only|prohibited|gov_login_gated] [--name <name>] [--jurisdiction <slug>] [--reason <text>]" }); process.exitCode = 2; return;
+  }
+  if (publisherType === "vendor" && eligibility === "eligible") {
+    out({ error: "vendor_never_eligible", instruction: "Vendor sources are noted_only at best (source policy). Classify as noted_only and find the government primary." }); process.exitCode = 2; return;
+  }
+  let jurisdictionId: string | null = null;
+  const js = argVal(args, "--jurisdiction");
+  if (js) { const j = await jurisdictionBySlug(js); if (!j) { out({ error: "unknown_jurisdiction", jurisdiction: js }); process.exitCode = 2; return; } jurisdictionId = j.id; }
+  const [row] = await db.insert(sources).values({ name: argVal(args, "--name") ?? url, url, publisherType, eligibility, exclusionReason: argVal(args, "--reason") ?? null, jurisdictionId, sourceType: argVal(args, "--type") ?? "agency_guidance", isAuthoritative: publisherType === "government" && eligibility === "eligible" })
+    .onConflictDoUpdate({ target: sources.url, set: { publisherType, eligibility, updatedAt: new Date() } }).returning({ id: sources.id });
+  out({ sourceId: row?.id ?? null, url, publisherType, eligibility, fetchable: eligibility === "eligible" });
+}
+
+async function fetchSource(args: string[]) {
+  const sourceIdArg = argVal(args, "--source-id"); const urlArg = argVal(args, "--url"); const runId = argVal(args, "--run");
+  let source: typeof sources.$inferSelect | undefined;
+  if (sourceIdArg) [source] = await db.select().from(sources).where(eq(sources.id, sourceIdArg)).limit(1);
+  else if (urlArg) [source] = await db.select().from(sources).where(eq(sources.url, urlArg)).limit(1);
+  if (!source) { out({ error: "source_not_found", instruction: "Classify first: tax source classify --url <url> ..." }); process.exitCode = 2; return; }
+  if (source.eligibility !== "eligible") {
+    out({ error: "source_not_fetchable", eligibility: source.eligibility, instruction: source.eligibility === "noted_only" ? "Noted-only sources are never fetched into context. Find the government primary." : "This source may not be fetched by agents." });
+    process.exitCode = 2; return;
+  }
+  const started = Date.now();
+  let httpStatus: number | null = null; let body = ""; let fetchError: string | null = null;
+  try {
+    const res = await fetch(source.url, { headers: { "user-agent": "agent-tax-research/0.1 (primary-source research; respectful rate)" }, redirect: "follow" });
+    httpStatus = res.status; body = await res.text();
+  } catch (e: unknown) { fetchError = e instanceof Error ? e.message : String(e); }
+  const hash = createHash("sha256").update(body).digest("hex");
+  const changed = source.contentHash !== null && source.contentHash !== hash;
+  const firstSeen = source.contentHash === null;
+  let snapshotId: string | null = null;
+  if (!fetchError && httpStatus !== null && httpStatus < 400) {
+    const text = body.replace(/<script[\s\S]*?<\/script>/gi, " ").replace(/<style[\s\S]*?<\/style>/gi, " ").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 200000);
+    const [snap] = await db.insert(sourceSnapshots).values({ sourceId: source.id, contentHash: hash, retrievedText: text, fetchedByRunId: runId ?? null }).returning({ id: sourceSnapshots.id });
+    snapshotId = snap?.id ?? null;
+    await db.update(sources).set({ contentHash: hash, lastCheckedAt: new Date(), ...(changed ? { lastChangedAt: new Date() } : {}), updatedAt: new Date() }).where(eq(sources.id, source.id));
+  }
+  await db.insert(sourceChecks).values({ sourceId: source.id, checkedBy: runId ?? "fetch-cli", httpStatus, contentHash: fetchError ? null : hash, changed, notes: fetchError ?? (firstSeen ? "first snapshot" : changed ? "content changed" : "unchanged") });
+  out({ evidenceBundle: { sourceId: source.id, url: source.url, snapshotId, contentHash: fetchError ? null : hash, httpStatus, changed, firstSeen, bytes: body.length, wallMs: Date.now() - started, error: fetchError } });
+  if (fetchError) process.exitCode = 1;
+}
+
 async function analytics() {
   const byRole = await db
     .select({
@@ -794,6 +845,10 @@ async function main() {
     await coverageShow(slug);
   } else if (cmd === "coverage" && args[1] === "answer") {
     await coverageAnswer(args);
+  } else if (cmd === "source" && args[1] === "classify") {
+    await sourceClassify(args);
+  } else if (cmd === "fetch" && args[1] === "source") {
+    await fetchSource(args);
   } else if (cmd === "config" && args[1] === "show") {
     await configShow();
   } else if (cmd === "review" && args[1] === "list") {
