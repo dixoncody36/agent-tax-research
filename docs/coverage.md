@@ -21,3 +21,7 @@ pnpm tax coverage answer --jurisdiction us-tx --question peer_existence.income -
 - `tax coverage open` creates one `unknown` per (own tax type × its category pack) plus one `peer_existence.<category>` question for every catalog category this jurisdiction has no tax type for — peers' findings interrogate every new jurisdiction, and new categories back-ask on the next open.
 - `confirmed_absent` is rejected without `--searches` (recorded negative search). Absence is an evidenced finding, never silence.
 - A jurisdiction is coverage-complete when zero answers remain `unknown`.
+
+## Worked example — Texas absence (recorded 2026-11-01/02 loop run)
+
+`peer_existence.income` → `confirmed_absent`: "Texas imposes no personal income tax." Searches recorded: Comptroller A-to-Z full scan (27 levies, none an income tax), Tax Code title review (no personal income tax chapter), Texas Constitution Art. VIII restriction. The same command without `--searches` is rejected with `absence_requires_searches`.
