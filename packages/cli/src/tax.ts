@@ -15,6 +15,8 @@ import {
   proposals,
   researchLedger,
   scopeRuns,
+  taxRates as taxRatesTable,
+  taxRules as taxRulesTable,
   sourceChecks,
   sourceSnapshots,
   sources,
@@ -787,6 +789,78 @@ async function ledgerRecord(args: string[]) {
   out({ ledgerId: row?.id ?? null, question: qk, status, instruction: status === "validated" ? "Future runs must reuse this while the snapshot hash matches." : "Recorded." });
 }
 
+async function proposalVerify(args: string[]) {
+  const id = argVal(args, "--id"); const verifierRunId = argVal(args, "--verifier-run");
+  if (!id || !verifierRunId) { out({ error: "usage: tax proposal verify --id <uuid> --verifier-run <agent_run uuid>" }); process.exitCode = 2; return; }
+  const [prop] = await db.select().from(proposals).where(eq(proposals.id, id)).limit(1);
+  if (!prop) { out({ error: "proposal_not_found", id }); process.exitCode = 2; return; }
+  if (prop.extractorRunId && prop.extractorRunId === verifierRunId) { out({ error: "self_verification_rejected", instruction: "Reviewer run must differ from extractor run." }); process.exitCode = 2; return; }
+  const items = await db.select().from(proposalItems).where(eq(proposalItems.proposalId, id));
+  const verdicts: { itemId: string; verdict: string; reasons: string[] }[] = [];
+  for (const item of items) {
+    const reasons: string[] = [];
+    let src: typeof sources.$inferSelect | undefined;
+    if (item.sourceId) [src] = await db.select().from(sources).where(eq(sources.id, item.sourceId)).limit(1);
+    if (!src) reasons.push("missing source");
+    else if (src.eligibility !== "eligible") reasons.push(`source not eligible (${src.eligibility})`);
+    if (!item.snapshotId) reasons.push("missing snapshot evidence");
+    if (!item.citation) reasons.push("missing citation");
+    if (Object.keys(item.payload).length === 0) reasons.push("empty payload");
+    const verdict = reasons.length === 0 ? "pass" : "fail";
+    await db.update(proposalItems).set({ verdict, updatedAt: new Date() }).where(eq(proposalItems.id, item.id));
+    verdicts.push({ itemId: item.id, verdict, reasons });
+  }
+  const allPass = verdicts.length > 0 && verdicts.every((v) => v.verdict === "pass");
+  await db.update(proposals).set({ verifierRunId, status: allPass ? "verified" : "proposed", updatedAt: new Date() }).where(eq(proposals.id, id));
+  out({ proposalId: id, status: allPass ? "verified" : "proposed", verdicts, instruction: allPass ? "Human approves last: tax proposal approve --id <uuid> --approved-by <name>" : "Fix failed items and re-verify with a distinct reviewer run." });
+}
+
+async function proposalApprove(args: string[]) {
+  const id = argVal(args, "--id"); const by = argVal(args, "--approved-by");
+  if (!id || !by) { out({ error: "usage: tax proposal approve --id <uuid> --approved-by <human name>" }); process.exitCode = 2; return; }
+  const [prop] = await db.select().from(proposals).where(eq(proposals.id, id)).limit(1);
+  if (!prop) { out({ error: "proposal_not_found", id }); process.exitCode = 2; return; }
+  if (prop.status !== "verified") { out({ error: "not_verified", status: prop.status }); process.exitCode = 2; return; }
+  await db.update(proposals).set({ status: "approved", approvedBy: by, updatedAt: new Date() }).where(eq(proposals.id, id));
+  out({ proposalId: id, status: "approved", approvedBy: by });
+}
+
+async function proposalPublish(id: string) {
+  const [prop] = await db.select().from(proposals).where(eq(proposals.id, id)).limit(1);
+  if (!prop) { out({ error: "proposal_not_found", id }); process.exitCode = 2; return; }
+  if (prop.status !== "approved") { out({ error: "not_approved", status: prop.status, instruction: "Publish requires reviewer pass + human approval." }); process.exitCode = 2; return; }
+  const items = await db.select().from(proposalItems).where(eq(proposalItems.proposalId, id));
+  const published: string[] = [];
+  for (const item of items) {
+    const p = item.payload as Record<string, unknown>;
+    if (item.targetTable === "tax_rates") {
+      if (!prop.taxTypeId) { out({ error: "publish_needs_tax_type", proposalId: id }); process.exitCode = 2; return; }
+      const [row] = await db.insert(taxRatesTable).values({
+        taxTypeId: prop.taxTypeId, jurisdictionId: prop.jurisdictionId, sourceId: item.sourceId,
+        rateValue: String(p.rateValue ?? ""), rateUnit: String(p.rateUnit ?? "percent"),
+        appliesTo: (p.appliesTo as string) ?? null, conditions: (p.conditions as string) ?? null,
+        effectiveFrom: String(p.effectiveFrom ?? new Date().toISOString().slice(0, 10)),
+        effectiveTo: (p.effectiveTo as string) ?? null, citation: item.citation, verificationStatus: "verified",
+      }).returning({ id: taxRatesTable.id });
+      if (row) published.push(`tax_rates:${row.id}`);
+    } else if (item.targetTable === "tax_rules") {
+      if (!prop.taxTypeId) { out({ error: "publish_needs_tax_type", proposalId: id }); process.exitCode = 2; return; }
+      const [row] = await db.insert(taxRulesTable).values({
+        taxTypeId: prop.taxTypeId, jurisdictionId: prop.jurisdictionId, sourceId: item.sourceId,
+        ruleType: String(p.ruleType ?? "other"), authorityLevel: String(p.authorityLevel ?? "guidance"),
+        title: String(p.title ?? "Untitled rule"), summary: (p.summary as string) ?? null, fullText: (p.fullText as string) ?? null,
+        effectiveFrom: String(p.effectiveFrom ?? new Date().toISOString().slice(0, 10)),
+        effectiveTo: (p.effectiveTo as string) ?? null, citation: item.citation, verificationStatus: "verified",
+      }).returning({ id: taxRulesTable.id });
+      if (row) published.push(`tax_rules:${row.id}`);
+    } else {
+      out({ error: "unsupported_target_v1", targetTable: item.targetTable, instruction: "Publish v1 applies tax_rates and tax_rules; other targets fail closed." }); process.exitCode = 2; return;
+    }
+  }
+  await db.update(proposals).set({ status: "published", updatedAt: new Date() }).where(eq(proposals.id, id));
+  out({ proposalId: id, status: "published", published });
+}
+
 async function analytics() {
   const byRole = await db
     .select({
@@ -897,6 +971,14 @@ async function main() {
     await proposalCreate(args);
   } else if (cmd === "proposal" && args[1] === "add-item") {
     await proposalAddItem(args);
+  } else if (cmd === "proposal" && args[1] === "verify") {
+    await proposalVerify(args);
+  } else if (cmd === "proposal" && args[1] === "approve") {
+    await proposalApprove(args);
+  } else if (cmd === "proposal" && args[1] === "publish") {
+    const id = argVal(args, "--id");
+    if (!id) { out({ error: "usage: tax proposal publish --id <uuid>" }); process.exitCode = 2; return; }
+    await proposalPublish(id);
   } else if (cmd === "ledger" && args[1] === "record") {
     await ledgerRecord(args);
   } else if (cmd === "config" && args[1] === "show") {
