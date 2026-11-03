@@ -661,7 +661,7 @@ export const proposalItems = pgTable(
   {
     id: id(),
     proposalId: uuid("proposal_id").notNull().references(() => proposals.id),
-    /** tax_rates | tax_rules | tax_licenses | tax_compliance | coverage_answers */
+    /** tax_rates | tax_rules | tax_licenses | tax_compliance | coverage_answers | jurisdiction_geo | product_tax_treatments */
     targetTable: text("target_table").notNull(),
     payload: jsonb("payload").$type<Record<string, unknown>>().notNull().default(sql`'{}'::jsonb`),
     citation: text("citation"),
@@ -803,6 +803,53 @@ export const operatorProducts = pgTable(
 );
 
 // Reporting views (015): consumer lookups + globe/tie-out surfaces.
+// ---------------------------------------------------------------------------
+// Jurisdiction geo (M8, #36) — effective-dated centroids and boundaries so
+// a lat/long resolves to its applicable jurisdictions. Geo facts are
+// facts: source-backed, proposal-gated, superseded never edited. A wrong
+// boundary misstates the rate, so rows carry the GEO-PIP register stamps
+// (geometry hash + simplification + vintage via citation). Coordinates are
+// numeric(9,6) WGS84, never float; `datavalues` never sources a published
+// coordinate. ponytail: GeoJSON in jsonb + bbox columns, point-in-polygon
+// in the CLI — PostGIS geometry + GiST is the upgrade when polygon count
+// or query volume hurts. Overlapping districts each carry their own row;
+// containment is decided per point at resolve time (#38), never by tree.
+// ---------------------------------------------------------------------------
+export const jurisdictionGeo = pgTable(
+  "jurisdiction_geo",
+  {
+    id: id(),
+    jurisdictionId: uuid("jurisdiction_id")
+      .notNull()
+      .references(() => jurisdictions.id),
+    sourceId: uuid("source_id").references(() => sources.id),
+    /** centroid | boundary (boundary rows also carry centroid + bbox). */
+    geoKind: text("geo_kind").notNull().default("boundary"),
+    centroidLat: numeric("centroid_lat", { precision: 9, scale: 6 }),
+    centroidLng: numeric("centroid_lng", { precision: 9, scale: 6 }),
+    minLat: numeric("min_lat", { precision: 9, scale: 6 }),
+    maxLat: numeric("max_lat", { precision: 9, scale: 6 }),
+    minLng: numeric("min_lng", { precision: 9, scale: 6 }),
+    maxLng: numeric("max_lng", { precision: 9, scale: 6 }),
+    /** WGS84 GeoJSON Polygon/MultiPolygon; null for centroid-only rows. */
+    boundaryGeojson: jsonb("boundary_geojson").$type<Record<string, unknown>>(),
+    /** sha256 of the canonical GeoJSON — re-performance identity (027). */
+    geometryHash: text("geometry_hash"),
+    /** Simplification applied, e.g. "douglas-peucker 0.0001deg", or "none". */
+    simplification: text("simplification"),
+    /** published | approximate (legal line follows parcels/streets). */
+    precision: text("precision").notNull().default("published"),
+    ...effectiveDates,
+    ...provenance,
+    datavalues: datavalues(),
+    ...timestamps,
+  },
+  (t) => [
+    index("jurisdiction_geo_jurisdiction_idx").on(t.jurisdictionId, t.effectiveFrom),
+    index("jurisdiction_geo_bbox_idx").on(t.minLat, t.maxLat, t.minLng, t.maxLng),
+  ],
+);
+
 export const reporting = pgSchema("reporting");
 
 export const reportingCurrentRates = reporting.view("current_rates").as((qb) =>
@@ -819,6 +866,27 @@ export const reportingCurrentRates = reporting.view("current_rates").as((qb) =>
     })
     .from(taxRates)
     .where(sql`${taxRates.effectiveFrom} <= current_date and (${taxRates.effectiveTo} is null or ${taxRates.effectiveTo} >= current_date)`),
+);
+
+export const reportingCurrentGeo = reporting.view("current_geo").as((qb) =>
+  qb
+    .select({
+      jurisdictionId: jurisdictionGeo.jurisdictionId,
+      geoKind: jurisdictionGeo.geoKind,
+      centroidLat: jurisdictionGeo.centroidLat,
+      centroidLng: jurisdictionGeo.centroidLng,
+      minLat: jurisdictionGeo.minLat,
+      maxLat: jurisdictionGeo.maxLat,
+      minLng: jurisdictionGeo.minLng,
+      maxLng: jurisdictionGeo.maxLng,
+      geometryHash: jurisdictionGeo.geometryHash,
+      precision: jurisdictionGeo.precision,
+      effectiveFrom: jurisdictionGeo.effectiveFrom,
+      effectiveTo: jurisdictionGeo.effectiveTo,
+      verificationStatus: jurisdictionGeo.verificationStatus,
+    })
+    .from(jurisdictionGeo)
+    .where(sql`${jurisdictionGeo.effectiveFrom} <= current_date and (${jurisdictionGeo.effectiveTo} is null or ${jurisdictionGeo.effectiveTo} >= current_date)`),
 );
 
 export const reportingCoverage = reporting.view("coverage_by_jurisdiction").as((qb) =>
@@ -887,6 +955,7 @@ export type TaxTypeRelationship = typeof taxTypeRelationships.$inferSelect;
 export type ProductCategory = typeof productCategories.$inferSelect;
 export type ProductTaxTreatment = typeof productTaxTreatments.$inferSelect;
 export type OperatorProduct = typeof operatorProducts.$inferSelect;
+export type JurisdictionGeo = typeof jurisdictionGeo.$inferSelect;
 
 
 

@@ -26,7 +26,11 @@ erDiagram
 
 Self-referencing hierarchy: `country → state | province | region → county → city → special_district`. Every tax fact hangs off a jurisdiction. `slug` is the stable machine key (`us`, `us-tx`, `us-tx-austin`); `code` holds an official code where one exists (ISO 3166, FIPS).
 
-Overlapping special districts (one address inside several districts at once) are **not** forced into a single tree path. The tree records administrative parentage; which overlapping districts apply to a specific address is resolved at rate-lookup time (Phase 2, with the Comptroller rate-locator-style sources).
+Overlapping special districts (one address inside several districts at once) are **not** forced into a single tree path. The tree records administrative parentage; which overlapping districts apply to a specific point is resolved at lookup time from `jurisdiction_geo` boundaries (M8).
+
+### `jurisdiction_geo` — where jurisdictions are (M8)
+
+One effective-dated row per published centroid or boundary: `centroid_lat/lng` + bbox as `numeric(9,6)` WGS84 (never float), `boundary_geojson` (Polygon/MultiPolygon, null for centroid-only), `geometry_hash` (sha256 of the canonical GeoJSON — the re-performance identity), recorded `simplification`, and `precision` (`published` | `approximate` where the legal line follows parcels/streets). Geo facts are facts: source-backed (`source_id` + citation with GIS vintage), proposal-gated, superseded never edited — a wrong boundary misstates the rate (GEO-PIP register, M8 milestone). Government GIS only (Census TIGER/Line, Texas GIS); districts with no published boundary are `confirmed_absent` in coverage, never hand-drawn. `reporting.current_geo` is the currently-effective view consumers read. PostGIS is the named upgrade when polygon count or query volume outgrows bbox + app-side point-in-polygon.
 
 ### `tax_types` — the hub
 
@@ -96,7 +100,7 @@ Seeded today: 28 Texas sources — one official landing page per tax type, plus 
 
 ## What Phase 1 deliberately does not model yet
 
-- Address → applicable-jurisdictions resolution (geocoding / district boundaries). Phase 2.
+- Street-address → lat/long geocoding. Lat/long is the input; point → applicable-jurisdictions resolution is modeled (`jurisdiction_geo`, M8). No vendor geocoder, ever.
 - Treaties and cross-jurisdiction credits (e.g. withholding treaty rates). Add when the first non-US jurisdiction lands.
 - Taxpayer accounts, returns, or payments. This platform stores tax law data, not taxpayer data.
 - Change-proposal workflow tables (agent-proposed vs. approved facts). Phase 2 adds review state on top of `verification_status`.
