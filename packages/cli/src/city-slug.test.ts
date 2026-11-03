@@ -74,6 +74,20 @@ describe("citySlug", () => {
   });
 });
 
+describe("parseCityRows (#43 seven-decimal rates)", () => {
+  it("keeps max-rate cities printed with seven decimals (Arlington)", () => {
+    // Observed verbatim in the stored snapshot: rate .0200000 (7dp) where
+    // the old pattern demanded exactly 6 — the row silently dropped.
+    const text = "Arlington (Tarrant Co) 2220095 .0200000 .082500";
+    const { rows, rejected } = parseCityRows(text);
+    assert.equal(rejected.length, 0);
+    assert.equal(rows.length, 1);
+    assert.equal(rows[0]?.name, "Arlington");
+    assert.equal(rows[0]?.rate, 2);
+    assert.equal(rows[0]?.total, 8.25);
+  });
+});
+
 describe("parseCityRows", () => {
   it("keeps cities and rejects districts/fragments with reasons", () => {
     const text = [
