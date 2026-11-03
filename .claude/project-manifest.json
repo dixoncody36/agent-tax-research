@@ -28,9 +28,9 @@
   },
   "phase2Decree": "specs/phase-2-agentic-population.html",
   "loopState": {
-    "currentBranch": "milestone-4-federal-texas (stack synced forward through milestone-7)",
+    "currentBranch": "milestone-8-geolocation-boundaries (stack synced M4->M8 at 427c737)",
     "milestonesComplete": ["M1 (6/6)", "M2 (3/3)", "M3 (5/5)", "M5 (3/3)", "M7 (3/3 built, reconciled 2026-11-03)"],
-    "inProgress": "M4: #16 (batch 2 verified awaiting human; subpage-deep + licenses/compliance remain) and #17 (four bulk proposals verified awaiting human; city bulk regenerated clean as 355dbcb4 after #35). M6: #21 needs-human visual eyeball, #24 demo rehearsal pickable. M8 Geolocation filed (#36-#41, due 2026-11-04). #35 and #42 fixed; Austin tie-out 8.25 exact.",
+    "inProgress": "MORNING GATE (Nov 4): 7 verified proposals await human approval+publish — 6 geo (1,481 Census boundaries) + #43 reconciliation (Arlington-class 5 cities). On publish: globe Texas overlay + point lookup light up; Austin by-point = PARTIAL 7.25 + transit unresolved (no gov transit tax boundary exists; service-area shapefiles are not tax evidence). Open agent tails: #16 subpage/licenses remainder, #17 hotel components, #24 fresh-clone + visual eyeball, #39 sampled tie-outs post-publish. All else built: M8 #36-#41, #21 realism, #35/#42/#43 fixed. Austin slug tie-out 8.25 exact.",
     "note": "Per loop cadence, milestone PRs to main happen only after ALL milestones are implemented. Submission due 2026-11-04: human approval queue is the critical path (pnpm tax proposal list)."
   },
   "lastSession": "2026-11-03 loop resume: filed M8 Geolocation & Jurisdiction Boundaries (#36 geo schema, #37 GIS ingest, #38 point resolution, #39 Texas population, #40 globe surfaces, #41 evidence pack; GeoJSON+app lookup, Texas-deep, gov GIS only; due 2026-11-04). Fixed #35 (city slugs: city-slug.ts + regression tests, DB re-derived, proposal 355dbcb4 re-verified) and found/fixed #42 (duplicate state rate; Austin 8.25 restored, rate-tieouts.test.ts 14/14 green). Reconciled M6/M7 built-but-open issues (#23/#25/#26/#27/#28/#29 closed implemented; #21 needs-human eyeball; #24 rehearsal open). Milestone branches merge-synced M4->M7. Next agent work: #42-style overlap watch, #16 remaining extraction, #24 rehearsal, then M8 oldest-first after M4 human approvals clear."
