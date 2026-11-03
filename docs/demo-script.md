@@ -34,6 +34,27 @@ pnpm --filter @agent-tax-research/cli exec tsx src/audit-pack.ts us-tx
 Austin combined = 6.25 + 1.00 + 1.00 = 8.25% from verified components,
 each pinned to a SHA-256 source snapshot.
 
+## Beat 2b — Point to rate: where is 30.2672, -97.7431 taxed? (90s, M8)
+
+Same globe: type the downtown Austin lat/long (or click the globe on
+Austin). The cascade resolves from **published Census boundaries**:
+Texas → Travis County → Austin → combined rate, each boundary pinned
+to a geometry hash in the audit pack (`geo-fixtures.csv`).
+
+```bash
+pnpm tax rate at-point --lat 30.2672 --lng -97.7431 --tax-type us-tx-sales-use
+```
+
+Honesty beat worth saying out loud: if a transit/SPD boundary is not
+published by any government GIS, the answer says **PARTIAL** and names
+the undecided component — the platform never presents a floor as the
+final rate. Districts with no published polygon are `confirmed_absent`
+with the search trail recorded (519 tonight), not hand-drawn.
+
+Fallback if geo approval has not happened yet: `/review` shows the six
+verified geo proposals (1,481 boundaries); approve + publish live —
+that *is* the human-last beat — then re-run the lookup.
+
 ## Beat 3 — Populate a virgin country live (Mexico)
 
 Kick off a scoped run (operator fence = Mexico only):

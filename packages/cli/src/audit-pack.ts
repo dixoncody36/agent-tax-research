@@ -90,11 +90,44 @@ if (stateRate) {
 }
 save("tie-out-sales-stack.csv", tieOut.length ? toCsv(tieOut) : "no bulk city extraction items to tie out yet\n");
 
+// Geo tab (M8 #41, GEO-PIP): published boundaries with re-performance
+// identity (geometry hash + simplification + vintage citation), plus
+// verified-but-unpublished proposals in their own file, clearly labeled.
+// Fixture sheet: downtown Austin must resolve state+county+city from
+// published rows (falling back to verified proposals pre-publish, marked).
+const geoPublished = await client`
+  SELECT j.slug AS jurisdiction, j.level, g.geo_kind, g.centroid_lat, g.centroid_lng,
+    g.min_lat, g.max_lat, g.min_lng, g.max_lng, g.geometry_hash, g.simplification,
+    g.precision, g.effective_from, g.effective_to, g.citation, s.url AS source_url
+  FROM jurisdiction_geo g JOIN jurisdictions j ON j.id = g.jurisdiction_id
+  LEFT JOIN sources s ON s.id = g.source_id
+  WHERE j.slug = ${slug} OR j.slug LIKE ${slug + "-%"}
+  ORDER BY j.level, j.slug`;
+save("geo-boundaries-published.csv", geoPublished.length ? toCsv(geoPublished as unknown as Record<string, unknown>[]) : "no published geo yet (human publish gate pending)\n");
+const geoProposed = await client`
+  SELECT (i.payload->>'jurisdictionSlug') AS jurisdiction, p.status AS proposal_status,
+    i.payload->>'centroidLat' AS centroid_lat, i.payload->>'centroidLng' AS centroid_lng,
+    i.payload->>'geometryHash' AS geometry_hash, i.payload->>'simplification' AS simplification,
+    i.citation
+  FROM proposal_items i JOIN proposals p ON p.id = i.proposal_id
+  WHERE i.target_table = 'jurisdiction_geo' AND p.status IN ('verified', 'approved')
+  ORDER BY 1`;
+save("geo-boundaries-verified-unpublished.csv", geoProposed.length ? toCsv(geoProposed as unknown as Record<string, unknown>[]) : "none\n");
+const geoTieOut = await client`SELECT * FROM reporting.geo_tie_out ORDER BY level`;
+save("geo-tie-out.csv", toCsv(geoTieOut as unknown as Record<string, unknown>[]));
+const geoFixtures = [
+  { fixture: "downtown-austin", lat: 30.2672, lng: -97.7431, expected_cascade: "us-tx > us-tx-travis > us-tx-austin", check: "re-perform with: pnpm tax geo resolve --lat 30.2672 --lng -97.7431 (needs published geo; proposals in geo-boundaries-verified-unpublished.csv until then)", expected_combined: "8.25 when transit boundary published or confirmed_absent accepted; else PARTIAL 7.25 + transit unresolved" },
+  { fixture: "buda-centroid", lat: "payload centroid", lng: "payload centroid", expected_cascade: "us-tx > us-tx-hays-county > us-tx-city-buda", check: "geo-populate fixture run (packages/cli/src/geo-populate.ts)", expected_combined: "per Comptroller combined total on the Buda extraction row" },
+  { fixture: "outside-texas", lat: 35.0, lng: -106.0, expected_cascade: "(empty)", check: "pnpm tax geo resolve --lat 35 --lng -106", expected_combined: "n/a" },
+];
+save("geo-fixtures.csv", toCsv(geoFixtures as unknown as Record<string, unknown>[]));
+
 const register = [
   { calc_id: "RATE-STACK", purpose: "Combined rate for a place = stack of jurisdictional components", method: "Sum effective-dated verified components (state+county+city+SPD+transit)", formula: "combined = Σ component.rate_value (percent-points), integer micro-units in tie-out", inputs: "tax_rates verified rows + official combined totals on extraction items", outputs: "tie-out-sales-stack.csv rows with residual vs published total", authority: "Texas Tax Code ch. 151 (state) + local ch. 321-327; TX Comptroller combined-rate tables", rounding: "storage numeric exact; no rounding in stack; display 6dp (table precision); tolerance 0 micro-units", owner: "agent-tax-research operators", elections: "percent stored as percent-points (6.25 = 6.25%)" },
   { calc_id: "EXTRACT-FACT", purpose: "Every published fact traces to pinned evidence + three distinct actors", method: "Snapshot SHA-256 pins source bytes; DB triggers reject pass verdicts without eligible citation and reject self-approval", formula: "publish allowed iff eligible(source) AND extractor ≠ verifier ≠ approver", inputs: "source_snapshots, proposal_items, proposals", outputs: "verified tax_rates/tax_rules rows with citation + snapshot hash", authority: "anvil decision 027; AGENTS.md source policy", rounding: "n/a", owner: "agent-tax-research operators", elections: "vendor/secondary content noted-only, never evidence" },
   { calc_id: "COVERAGE-ABSENCE", purpose: "Distinguish 'searched, not there' from 'not yet searched'", method: "Peer-profile question packs answered found/confirmed_absent/unknown with recorded negative search", formula: "n/a (classification)", inputs: "question packs, coverage answers", outputs: "coverage rows", authority: "docs/coverage.md", rounding: "n/a", owner: "agent-tax-research operators", elections: "unknown is honest default; absence requires recorded search" },
 ];
+register.push({ calc_id: "GEO-PIP", purpose: "Point (lat/long) -> applicable jurisdictions whose published boundary contains it", method: "Ray-casting point-in-polygon over WGS84 GeoJSON, bbox prefilter; boundary point counts inside (flagged); test point never rounded", formula: "applicable = { j : PIP(boundary_j, point) } ordered by level rank; feeds RATE-STACK", inputs: "jurisdiction_geo verified rows (geometry_hash per row) + point", outputs: "geo resolve envelope with calc versions + deciding geometry hashes", authority: "Boundary as published by US Census Bureau TIGER/Line (TIGERweb) / Texas GIS, cited per row", rounding: "coordinates numeric(9,6) storage; simplification tolerance recorded per geometry; no rounding in containment", owner: "agent-tax-research operators", elections: "centroid-only jurisdictions never claim containment; unpublished SPD/transit boundaries are confirmed_absent, never drawn" });
 save("calculation-register.csv", toCsv(register));
 
 const inputSha = createHash("sha256").update(files.get("verified-rates.csv") ?? "").digest("hex");
@@ -105,7 +138,7 @@ const manifest = {
   calcVersion: "audit-pack 1.0.0", gitSha,
   generator: "packages/cli/src/audit-pack.ts",
   inputsHash: inputSha, inputsNote: "SHA-256 of verified-rates.csv (canonical input rows for this pack)",
-  counts: { ratesTotal: rates.length, ratesVerified: rates.filter((r) => r.verification_status === "verified").length, tieOutRows: tieOut.length, tieOutNegativeVariances: variances },
+  counts: { ratesTotal: rates.length, ratesVerified: rates.filter((r) => r.verification_status === "verified").length, tieOutRows: tieOut.length, tieOutNegativeVariances: variances, geoPublished: geoPublished.length, geoVerifiedUnpublished: geoProposed.length, geoUnaccounted: geoTieOut.reduce((s, r) => s + Number(r.unaccounted), 0) },
   files: [...files.entries()].map(([name, content]) => ({ name, sha256: createHash("sha256").update(content).digest("hex"), bytes: Buffer.byteLength(content) })),
   retention: "default 7 years per anvil 027 — CONFIRM with engagement; local filesystem for now, Azure Blob WORM is the ship target (gap)",
   knownGaps: ["combined totals sourced from extraction records, not first-class published total rows", "no Entra signer identity locally — approver names are CLI-recorded strings", "CSV pack; live-formula .xlsx workpaper + PDF summary pending shared generator (027 s6)"],
