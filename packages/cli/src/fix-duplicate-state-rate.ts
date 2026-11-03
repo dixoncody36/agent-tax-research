@@ -44,7 +44,7 @@ const [austin] = await client`
   SELECT sum(cr.rate_value) AS total FROM reporting.current_rates cr
   JOIN tax_types t ON t.id = cr.tax_type_id
   JOIN jurisdictions j ON j.id = cr.jurisdiction_id
-  WHERE t.slug = 'us-tx-sales-use' AND j.slug IN ('us-tx','us-tx-austin','us-tx-capmetro')`;
+  WHERE t.slug = 'us-tx-sales-use' AND j.slug IN ('us-tx','us-tx-austin','us-tx-mta-3227999')`;
 console.log(`duplicate current groups: ${dup.length}; Austin combined: ${austin?.total}`);
 if (dup.length) throw new Error("duplicate current rate rows remain");
 if (Number(austin?.total) !== 8.25) throw new Error(`Austin tie-out failed: ${austin?.total} != 8.25`);
