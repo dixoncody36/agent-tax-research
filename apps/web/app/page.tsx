@@ -5,6 +5,12 @@ import Globe, { type GlobePoint } from "./Globe";
 type Totals = { jurisdictions: number; tax_types: number; verified_rates: number; awaiting_human: number; snapshots: number; exceptions: number };
 type EventRow = { created_at: string; level: string; message: string; role: string | null; jurisdiction: string | null };
 type ExRow = { created_at: string; type: string; title: string };
+type ResolveResult = {
+  applicable: { slug: string; name: string; level: string }[];
+  components: { slug: string; name: string; rateValue: number; rateUnit: string }[];
+  combinedPercent: number; complete: boolean; unresolvedCount: number; reason: string | null;
+  error?: string;
+};
 
 export default function Home() {
   const [points, setPoints] = useState<GlobePoint[] | null>(null);
@@ -13,6 +19,22 @@ export default function Home() {
   const [exceptions, setExceptions] = useState<ExRow[]>([]);
   const [selected, setSelected] = useState<GlobePoint | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [latIn, setLatIn] = useState("30.2672");
+  const [lngIn, setLngIn] = useState("-97.7431");
+  const [lookup, setLookup] = useState<ResolveResult | null>(null);
+  const [lookupBusy, setLookupBusy] = useState(false);
+
+  const runLookup = useCallback(async (lat: number, lng: number) => {
+    setLookupBusy(true);
+    try {
+      const r = await fetch(`/api/geo/resolve?lat=${lat}&lng=${lng}&taxType=us-tx-sales-use`);
+      setLookup((await r.json()) as ResolveResult);
+    } catch (e) { setLookup({ applicable: [], components: [], combinedPercent: 0, complete: false, unresolvedCount: 0, reason: null, error: String(e) }); }
+    setLookupBusy(false);
+  }, []);
+  const latNum = Number(latIn); const lngNum = Number(lngIn);
+  const latOk = Number.isFinite(latNum) && latNum >= -90 && latNum <= 90;
+  const lngOk = Number.isFinite(lngNum) && lngNum >= -180 && lngNum <= 180;
 
   const loadData = useCallback(async () => {
     try {
@@ -55,7 +77,7 @@ export default function Home() {
       <div className="wrap" style={{ padding: 0 }}>
         <section className="panel">
           <h2>World jurisdictions by verification status</h2>
-          {points ? <Globe points={points} onSelect={setSelected} /> : <p className="note">Loading globe…</p>}
+          {points ? <Globe points={points} onSelect={setSelected} onPoint={(la, ln) => { setLatIn(String(la)); setLngIn(String(ln)); void runLookup(la, ln); }} /> : <p className="note">Loading globe…</p>}
           <div className="legend">
             <span><i className="dot" style={{ background: "#2ecc71" }} />verified data published</span>
             <span><i className="dot" style={{ background: "#0085ca" }} />populated (in review)</span>
@@ -70,6 +92,44 @@ export default function Home() {
               {" "}{selected.publishedCount} published proposals, {selected.verifiedQueue} awaiting human approval.
             </p>
           )}
+          <form data-testid="geo-lookup" onSubmit={(e) => { e.preventDefault(); if (latOk && lngOk) void runLookup(latNum, lngNum); }} style={{ marginTop: 12 }}>
+            <strong>Point lookup — which jurisdictions tax here?</strong>
+            <p style={{ margin: "6px 0" }}>
+              <label>Lat {" "}
+                <input value={latIn} onChange={(e) => setLatIn(e.target.value)} inputMode="decimal" aria-invalid={!latOk} style={{ width: 110 }} />
+              </label>{" "}
+              <label>Lng {" "}
+                <input value={lngIn} onChange={(e) => setLngIn(e.target.value)} inputMode="decimal" aria-invalid={!lngOk} style={{ width: 120 }} />
+              </label>{" "}
+              <button className="btn" type="submit" disabled={!latOk || !lngOk || lookupBusy}>Resolve</button>
+            </p>
+            {!latOk && <span className="err">Latitude must be between -90 and 90. </span>}
+            {!lngOk && <span className="err">Longitude must be between -180 and 180.</span>}
+            <p className="note">Or click any point on the globe. Defaults to downtown Austin.</p>
+          </form>
+          <div data-testid="geo-result">
+            {lookup?.error && <p className="err">{lookup.error}</p>}
+            {lookup && !lookup.error && lookup.applicable.length > 0 && (
+              <div>
+                <ol style={{ margin: "6px 0", paddingLeft: 20 }}>
+                  {lookup.applicable.map((a) => {
+                    const comp = lookup.components.find((x) => x.slug === a.slug);
+                    return <li key={a.slug}><strong>{a.name}</strong> ({a.level}){comp ? ` — ${comp.rateValue}%` : ""}</li>;
+                  })}
+                </ol>
+                <p>Combined sales tax: <strong>{lookup.combinedPercent}%</strong>
+                  {lookup.complete
+                    ? <> — complete, every imposing jurisdiction boundary-tested.</>
+                    : <> — <em>partial</em>: {lookup.unresolvedCount} imposing jurisdiction(s) have no published boundary yet, so this sum is a floor, not the final rate.</>}
+                </p>
+              </div>
+            )}
+            {lookup && !lookup.error && lookup.applicable.length === 0 && (
+              <p className="note">{lookup.reason === "no_published_geo"
+                ? "No published boundaries yet — Texas geo is verified and awaiting the human publish gate; this lights up on approval."
+                : "Outside published boundary coverage for this point."}</p>
+            )}
+          </div>
         </section>
         <aside className="panel">
           <h2>Agent activity</h2>

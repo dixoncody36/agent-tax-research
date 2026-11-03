@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 
 type Item = {
   target_table: string; citation: string; verdict: string; source_url: string | null;
-  payload: { rateValue?: number; rateUnit?: string; jurisdictionSlug?: string; appliesTo?: string; summary?: string; ruleType?: string };
+  payload: { rateValue?: number; rateUnit?: string; jurisdictionSlug?: string; appliesTo?: string; summary?: string; ruleType?: string; centroidLat?: number; centroidLng?: number; geometryHash?: string; precision?: string };
 };
 type Proposal = {
   id: string; status: string; created_at: string; jurisdiction: string | null; tax_type: string | null;
@@ -65,7 +65,7 @@ export default function Review() {
                     <div key={i} style={{ marginBottom: 6 }}>
                       {it.target_table === "tax_rates"
                         ? <>{it.payload.rateValue}{it.payload.rateUnit === "percent" ? "%" : ` ${it.payload.rateUnit ?? ""}`} — {it.payload.appliesTo}</>
-                        : <>{it.payload.summary ?? it.payload.ruleType ?? "rule"}</>}
+                        : it.target_table === "jurisdiction_geo" ? <>Boundary for <strong>{it.payload.jurisdictionSlug}</strong> — centroid {it.payload.centroidLat}, {it.payload.centroidLng} · precision {it.payload.precision ?? "published"} · geometry {String(it.payload.geometryHash ?? "").slice(0, 12)}…</> : <>{it.payload.summary ?? it.payload.ruleType ?? "rule"}</>}
                       <br /><span className="note">{it.citation} · verdict {it.verdict}
                         {it.source_url && <> · <a href={it.source_url} target="_blank" rel="noreferrer">primary source</a></>}
                       </span>
