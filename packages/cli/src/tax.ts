@@ -26,7 +26,9 @@ import {
   taxRates,
   taxRules,
   taxTypes,
+  jurisdictionGeo as jurisdictionGeoTable,
 } from "@agent-tax-research/database";
+import { runGeoIngest } from "./geo-ingest.js";
 
 /**
  * tax CLI — the harness-neutral work contract (foundation cut).
@@ -909,6 +911,25 @@ async function proposalPublish(id: string) {
         effectiveTo: (p.effectiveTo as string) ?? null, citation: item.citation, verificationStatus: "verified",
       }).returning({ id: productTreatmentsTable.id });
       if (row) published.push(`product_tax_treatments:${row.id}`);
+    } else if (item.targetTable === "jurisdiction_geo") {
+      if (typeof p.jurisdictionSlug !== "string" || typeof p.geometryHash !== "string") {
+        out({ error: "bad_geo_payload", instruction: "payload needs jurisdictionSlug + geometryHash" }); process.exitCode = 2; return;
+      }
+      const rj = await jurisdictionBySlug(p.jurisdictionSlug);
+      if (!rj) { out({ error: "unknown_payload_jurisdiction", slug: p.jurisdictionSlug }); process.exitCode = 2; return; }
+      const num = (v: unknown) => (v === undefined || v === null ? null : String(v));
+      const [row] = await db.insert(jurisdictionGeoTable).values({
+        jurisdictionId: rj.id, sourceId: item.sourceId,
+        geoKind: String(p.geoKind ?? "boundary"),
+        centroidLat: num(p.centroidLat), centroidLng: num(p.centroidLng),
+        minLat: num(p.minLat), maxLat: num(p.maxLat), minLng: num(p.minLng), maxLng: num(p.maxLng),
+        boundaryGeojson: (p.boundaryGeojson as Record<string, unknown>) ?? null,
+        geometryHash: p.geometryHash, simplification: (p.simplification as string) ?? null,
+        precision: String(p.precision ?? "published"),
+        effectiveFrom: String(p.effectiveFrom ?? new Date().toISOString().slice(0, 10)),
+        effectiveTo: (p.effectiveTo as string) ?? null, citation: item.citation, verificationStatus: "verified",
+      }).returning({ id: jurisdictionGeoTable.id });
+      if (row) published.push(`jurisdiction_geo:${row.id}`);
     } else {
       out({ error: "unsupported_target_v1", targetTable: item.targetTable, instruction: "Publish applies tax_rates, tax_rules and product_tax_treatments; other targets fail closed." }); process.exitCode = 2; return;
     }
@@ -1059,6 +1080,10 @@ async function main() {
     await proposalPublish(id);
   } else if (cmd === "ledger" && args[1] === "record") {
     await ledgerRecord(args);
+  } else if (cmd === "geo" && args[1] === "ingest") {
+    const result = await runGeoIngest(args.slice(2));
+    if ("error" in result) process.exitCode = 2;
+    out(result);
   } else if (cmd === "monitor" && args[1] === "refresh") {
     await monitorRefresh(args);
   } else if (cmd === "config" && args[1] === "show") {
@@ -1081,6 +1106,7 @@ async function main() {
         "tax work submit --id <uuid> --status completed|failed [--notes <text>] [--tokens-in N] [--tokens-out N] [--cost-usd X]",
         "tax work retry --id <uuid>",
         "tax review list",
+        "tax geo ingest --jurisdiction <us-tx slug> | --level state|county|place",
         "tax config show",
       ],
     });
