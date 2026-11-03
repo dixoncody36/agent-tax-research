@@ -28,10 +28,10 @@
   },
   "phase2Decree": "specs/phase-2-agentic-population.html",
   "loopState": {
-    "currentBranch": "milestone-4-federal-texas",
-    "milestonesComplete": ["M1 (6/6)", "M2 (3/3)", "M3 (5/5)"],
-    "inProgress": "M4: #15 federal closed; #16 Texas completion in-progress (all 28 TX sources snapshotted, Decision extraction next); #17 queued",
-    "note": "Per loop cadence, milestone PRs to main happen only after ALL milestones are implemented. Human approvals pending in review queue (proposals verified; federal rates needs_review)."
+    "currentBranch": "milestone-4-federal-texas (stack synced forward through milestone-7)",
+    "milestonesComplete": ["M1 (6/6)", "M2 (3/3)", "M3 (5/5)", "M5 (3/3)", "M7 (3/3 built, reconciled 2026-11-03)"],
+    "inProgress": "M4: #16 (batch 2 verified awaiting human; subpage-deep + licenses/compliance remain) and #17 (four bulk proposals verified awaiting human; city bulk regenerated clean as 355dbcb4 after #35). M6: #21 needs-human visual eyeball, #24 demo rehearsal pickable. M8 Geolocation filed (#36-#41, due 2026-11-04). #35 and #42 fixed; Austin tie-out 8.25 exact.",
+    "note": "Per loop cadence, milestone PRs to main happen only after ALL milestones are implemented. Submission due 2026-11-04: human approval queue is the critical path (pnpm tax proposal list)."
   },
-  "lastSession": "Phase 1 built and verified (Postgres+pgvector, Texas seeded, Austin 8.25% tie-out). Phase 2 decree authored: harness-ready (Muse first, goal kickoff), operator context fence, per-jurisdiction context hooks (pre/post-run local-expert injection, guidance-never-evidence), agent-first/human-last approval, primary-sources-only, federal-first, three-act demo, product classification last. GitHub handoff blocked: gh account pull-only; needs dixoncody36 auth or write grant, then Phase 0 creates M1-M7 + 28 issues + 5 needs-human. Four-role foundation built (config/models.yaml, AGENTS.md, agents/*.md, scope_runs/agent_runs/research_ledger migrated, pnpm tax status + ledger check verified) — no fetching has run."
+  "lastSession": "2026-11-03 loop resume: filed M8 Geolocation & Jurisdiction Boundaries (#36 geo schema, #37 GIS ingest, #38 point resolution, #39 Texas population, #40 globe surfaces, #41 evidence pack; GeoJSON+app lookup, Texas-deep, gov GIS only; due 2026-11-04). Fixed #35 (city slugs: city-slug.ts + regression tests, DB re-derived, proposal 355dbcb4 re-verified) and found/fixed #42 (duplicate state rate; Austin 8.25 restored, rate-tieouts.test.ts 14/14 green). Reconciled M6/M7 built-but-open issues (#23/#25/#26/#27/#28/#29 closed implemented; #21 needs-human eyeball; #24 rehearsal open). Milestone branches merge-synced M4->M7. Next agent work: #42-style overlap watch, #16 remaining extraction, #24 rehearsal, then M8 oldest-first after M4 human approvals clear."
 }
