@@ -29,6 +29,7 @@ import {
   jurisdictionGeo as jurisdictionGeoTable,
 } from "@agent-tax-research/database";
 import { runGeoIngest } from "./geo-ingest.js";
+import { runGeoResolve, runRateAtPoint } from "./geo-resolve.js";
 
 /**
  * tax CLI — the harness-neutral work contract (foundation cut).
@@ -1080,6 +1081,14 @@ async function main() {
     await proposalPublish(id);
   } else if (cmd === "ledger" && args[1] === "record") {
     await ledgerRecord(args);
+  } else if (cmd === "geo" && args[1] === "resolve") {
+    const result = await runGeoResolve(args.slice(2));
+    if ("error" in result) process.exitCode = 2;
+    out(result);
+  } else if (cmd === "rate" && args[1] === "at-point") {
+    const result = await runRateAtPoint(args.slice(2));
+    if ("error" in result) process.exitCode = 2;
+    out(result);
   } else if (cmd === "geo" && args[1] === "ingest") {
     const result = await runGeoIngest(args.slice(2));
     if ("error" in result) process.exitCode = 2;
@@ -1107,6 +1116,8 @@ async function main() {
         "tax work retry --id <uuid>",
         "tax review list",
         "tax geo ingest --jurisdiction <us-tx slug> | --level state|county|place",
+        "tax geo resolve --lat <n> --lng <n> [--date <yyyy-mm-dd>]",
+        "tax rate at-point --lat <n> --lng <n> --tax-type <slug> [--date <yyyy-mm-dd>]",
         "tax config show",
       ],
     });
