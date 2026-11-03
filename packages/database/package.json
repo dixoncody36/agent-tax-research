@@ -7,7 +7,8 @@
   "types": "./src/index.ts",
   "scripts": {
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate",
+    "db:prepare": "tsx src/prepare.ts",
+    "db:migrate": "tsx src/prepare.ts && drizzle-kit migrate",
     "db:seed": "tsx src/seed.ts",
     "db:seed:federal": "tsx src/seed-federal.ts",
     "db:seed:products": "tsx src/seed-products.ts",
