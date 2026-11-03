@@ -34,7 +34,7 @@ function layerUrl(level: Level): string {
   return `https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/${l.service}/MapServer/${l.layer}`;
 }
 
-async function fetchFeatures(level: Level, where: string): Promise<{ features: Feature[]; text: string }> {
+export async function fetchFeatures(level: Level, where: string): Promise<{ features: Feature[]; text: string }> {
   const features: Feature[] = [];
   const pages: string[] = [];
   for (let offset = 0; ; offset += 500) {

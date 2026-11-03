@@ -50,6 +50,13 @@
       "when": 1793686350645,
       "tag": "0006_lean_star_brand",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1793690854858,
+      "tag": "0007_eager_rachel_grey",
+      "breakpoints": true
     }
   ]
 }
