@@ -11,19 +11,19 @@ docker compose up -d
 pnpm install
 pnpm --filter @agent-tax-research/web run build
 pnpm --filter @agent-tax-research/web run start   # http://localhost:3100
-pnpm tax status     # sanity: jurisdictions ~1591
+pnpm tax status     # sanity: jurisdictions ~2297, taxRates 1866
 ```
 
 ## Beat 1 — The globe (60s)
 
-Open http://localhost:3100 — 217 countries registered, status-colored.
+Open http://localhost:3100 (if an old dev server holds 3100, restart it so tonight's web commits load) — 217 countries registered, status-colored.
 US populated; Mexico/Canada/Ireland amber = held virgin for this demo.
 Stats strip: verified rates, proposals awaiting a human, snapshots.
 
 ## Beat 2 — Agent-first, human-last in Texas (2 min)
 
 `/review` queue: agent-extracted, agent-reviewed proposals (incl. the
-1,202-item Texas city table) wait for one human click. Approve as
+1,173-item regenerated Texas city table (plus 6 verified geo proposals: 1,481 Census boundaries)) wait for one human click. Approve as
 yourself → Publish. Re-run the Austin tie-out:
 
 ```sql
