@@ -1,5 +1,6 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
+import { approveDisabled, approveHint } from "./approveGate";
 
 type Item = {
   target_table: string; citation: string; verdict: string; source_url: string | null;
@@ -24,13 +25,18 @@ export default function Review() {
 
   const act = async (id: string, action: "approve" | "publish") => {
     setBusy(id); setMsg(null);
+    try {
     const r = await fetch(`/api/proposals/${id}`, {
       method: "POST", headers: { "content-type": "application/json" },
       body: JSON.stringify({ action, approvedBy: name }),
     });
     const d = (await r.json()) as { ok?: boolean; error?: string };
     setMsg(r.ok ? `${action} ok` : `failed: ${d.error ?? r.status}`);
-    setBusy(null);
+    } catch (e) {
+      setMsg(`failed: ${String(e)}`);
+    } finally {
+      setBusy(null);
+    }
     await load();
   };
 
@@ -44,10 +50,11 @@ export default function Review() {
           verified facts. The database refuses self-approval and ineligible sources regardless of this page.
         </p>
         <p>
-          <label>Your name (recorded as approver):{" "}
-            <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Cody Dixon" />
+          <label>Your name (recorded as approver) *:{" "}
+            <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Cody Dixon" autoFocus aria-required="true" />
           </label>
         </p>
+        <p className="note" data-testid="approve-hint">{approveHint(name)}</p>
         {msg && <p className={msg.startsWith("failed") ? "err" : "note"}>{msg}</p>}
         <table>
           <thead><tr><th>Proposal</th><th>Facts (agent-extracted, reviewer-passed)</th><th>Status</th><th>Human action</th></tr></thead>
@@ -76,7 +83,7 @@ export default function Review() {
                 <td><span className={`pill ${p.status}`}>{p.status}</span></td>
                 <td>
                   {p.status === "verified" && (
-                    <button className="btn" disabled={busy === p.id || name.trim().length < 3} onClick={() => void act(p.id, "approve")}>Approve</button>
+                    <button className="btn" disabled={approveDisabled(name, busy, p.id)} onClick={() => void act(p.id, "approve")}>Approve</button>
                   )}
                   {p.status === "approved" && (
                     <button className="btn secondary" disabled={busy === p.id} onClick={() => void act(p.id, "publish")}>Publish</button>
