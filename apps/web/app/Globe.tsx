@@ -6,6 +6,7 @@ export type GlobePoint = {
   slug: string; name: string; lat: number | null; lng: number | null;
   status: "verified" | "populated" | "blocked" | "held" | "skeleton";
   typeCount: number; verifiedQueue: number; publishedCount: number;
+  geoStatus?: string; level?: string;
 };
 
 const COLORS: Record<GlobePoint["status"], number> = {
@@ -36,12 +37,14 @@ function latLngToVec3(lat: number, lng: number, radius: number): THREE.Vector3 {
   );
 }
 
-export default function Globe({ points, onSelect }: { points: GlobePoint[]; onSelect: (p: GlobePoint) => void }) {
+export default function Globe({ points, onSelect, onPoint }: { points: GlobePoint[]; onSelect: (p: GlobePoint) => void; onPoint?: (lat: number, lng: number) => void }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const pointsRef = useRef(points);
   pointsRef.current = points;
   const onSelectRef = useRef(onSelect);
   onSelectRef.current = onSelect;
+  const onPointRef = useRef(onPoint);
+  onPointRef.current = onPoint;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -102,6 +105,30 @@ export default function Globe({ points, onSelect }: { points: GlobePoint[]; onSe
     markers.userData.points = withCoords;
     group.add(markers);
 
+    // Published boundary overlay (#40): Texas state + county polygons from
+    // /api/geo/boundaries (published rows only; empty until human publish).
+    let overlayAlive = true;
+    const addOverlay = async () => {
+      for (const [level, opacity] of [["state", 0.9], ["county", 0.4]] as const) {
+        try {
+          const r = await fetch(`/api/geo/boundaries?level=${level}`);
+          if (!r.ok || !overlayAlive) continue;
+          const fc = (await r.json()) as { features: { geometry: { type: string; coordinates: unknown } }[] };
+          const mat = new THREE.LineBasicMaterial({ color: 0x7fb2e5, transparent: true, opacity });
+          for (const f of fc.features) {
+            const polys = (f.geometry.type === "Polygon" ? [f.geometry.coordinates] : f.geometry.coordinates) as number[][][][];
+            for (const poly of polys) {
+              for (const ring of poly) {
+                const pts = ring.map(([lng, lat]) => latLngToVec3(lat!, lng!, R * 1.006));
+                group.add(new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(pts), mat));
+              }
+            }
+          }
+        } catch { /* overlay is best-effort; globe keeps working */ }
+      }
+    };
+    void addOverlay();
+
     scene.add(new THREE.AmbientLight(0xbfd8f2, 1.1));
     const key = new THREE.DirectionalLight(0xffffff, 1.6);
     key.position.set(5, 3, 4);
@@ -136,6 +163,18 @@ export default function Globe({ points, onSelect }: { points: GlobePoint[]; onSe
       ray.setFromCamera(mouse, camera);
       const hits = ray.intersectObject(markers);
       const hit = hits[0];
+      if ((!hits[0] || hits[0].index === undefined) && onPointRef.current) {
+        const sphereHits = ray.intersectObject(sphere);
+        const sp = sphereHits[0];
+        if (sp) {
+          const local = group.worldToLocal(sp.point.clone()).normalize();
+          const phi = Math.acos(THREE.MathUtils.clamp(local.y, -1, 1));
+          const theta = Math.atan2(local.z, -local.x);
+          let lngDeg = THREE.MathUtils.radToDeg(theta) - 180;
+          if (lngDeg < -180) lngDeg += 360;
+          onPointRef.current(Number((90 - THREE.MathUtils.radToDeg(phi)).toFixed(6)), Number(lngDeg.toFixed(6)));
+        }
+      }
       if (hit && hit.index !== undefined) {
         const p = (markers.userData.points as GlobePoint[])[hit.index];
         if (p) onSelectRef.current(p);
@@ -169,6 +208,7 @@ export default function Globe({ points, onSelect }: { points: GlobePoint[]; onSe
     tick();
 
     return () => {
+      overlayAlive = false;
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
       canvas.removeEventListener("pointerdown", onDown);
