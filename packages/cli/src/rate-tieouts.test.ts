@@ -17,7 +17,7 @@ describe("RATE-STACK tie-outs", () => {
       JOIN tax_types t ON t.id = cr.tax_type_id
       JOIN jurisdictions j ON j.id = cr.jurisdiction_id
       WHERE t.slug = 'us-tx-sales-use'
-        AND j.slug IN ('us-tx', 'us-tx-austin', 'us-tx-capmetro')`;
+        AND j.slug IN ('us-tx', 'us-tx-austin', 'us-tx-mta-3227999')`;
     assert.equal(Number(row?.total), 8.25);
   });
 
