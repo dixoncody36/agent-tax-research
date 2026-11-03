@@ -17,7 +17,7 @@ export async function GET() {
   const out = [] as unknown[];
   for (const p of proposals) {
     const items = await client`
-      SELECT target_table, payload, citation, verdict, s.url AS source_url
+      SELECT target_table, (payload - 'boundaryGeojson') AS payload, citation, verdict, s.url AS source_url
       FROM proposal_items i LEFT JOIN sources s ON s.id = i.source_id
       WHERE i.proposal_id = ${p.id} LIMIT 50`;
     out.push({ ...p, items });
