@@ -13,6 +13,72 @@ const COLORS: Record<GlobePoint["status"], number> = {
   verified: 0x2ecc71, populated: 0x0085ca, blocked: 0xe05d5d, held: 0xf0b429, skeleton: 0x3d5a7a,
 };
 
+// Equirectangular landmass texture drawn from the bundled Natural Earth
+// asset (public domain, /ne-countries-110m.geojson) — no runtime CDN.
+async function makeLandTexture(): Promise<THREE.Texture | null> {
+  try {
+    const r = await fetch("/ne-countries-110m.geojson");
+    if (!r.ok) return null;
+    const fc = (await r.json()) as { features: { geometry: { type: string; coordinates: unknown } }[] };
+    const W = 2048, H = 1024;
+    const cv = document.createElement("canvas");
+    cv.width = W; cv.height = H;
+    const ctx = cv.getContext("2d")!;
+    const grad = ctx.createLinearGradient(0, 0, 0, H);
+    grad.addColorStop(0, "#0d2c47");
+    grad.addColorStop(0.5, "#0a2238");
+    grad.addColorStop(1, "#081a2c");
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = "#26506f";
+    ctx.strokeStyle = "rgba(127,178,229,0.55)";
+    ctx.lineWidth = 0.7;
+    const px = (lng: number) => ((lng + 180) / 360) * W;
+    const py = (lat: number) => ((90 - lat) / 180) * H;
+    for (const f of fc.features) {
+      const polys = (f.geometry.type === "Polygon" ? [f.geometry.coordinates] : f.geometry.coordinates) as number[][][][];
+      for (const poly of polys) {
+        const path = new Path2D();
+        for (const ring of poly) {
+          let started = false;
+          let prevLng = 0;
+          for (const [lng, lat] of ring as [number, number][]) {
+            if (!started || Math.abs(lng - prevLng) > 180) { path.moveTo(px(lng), py(lat)); started = true; }
+            else path.lineTo(px(lng), py(lat));
+            prevLng = lng;
+          }
+          path.closePath();
+        }
+        ctx.fill(path, "evenodd");
+        ctx.stroke(path);
+      }
+    }
+    const tex = new THREE.CanvasTexture(cv);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    tex.anisotropy = 4;
+    return tex;
+  } catch { return null; }
+}
+
+function makeAtmosphere(radius: number): THREE.Mesh {
+  const mat = new THREE.ShaderMaterial({
+    vertexShader: `
+      varying vec3 vNormal;
+      void main() {
+        vNormal = normalize(normalMatrix * normal);
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }`,
+    fragmentShader: `
+      varying vec3 vNormal;
+      void main() {
+        float intensity = pow(0.72 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 3.2);
+        gl_FragColor = vec4(0.15, 0.45, 0.75, 1.0) * intensity;
+      }`,
+    blending: THREE.AdditiveBlending, side: THREE.BackSide, transparent: true, depthWrite: false,
+  });
+  return new THREE.Mesh(new THREE.SphereGeometry(radius, 48, 48), mat);
+}
+
 // Soft round sprite so markers never render as hard squares.
 function makeSprite(): THREE.Texture {
   const c = document.createElement("canvas");
@@ -65,14 +131,32 @@ export default function Globe({ points, onSelect, onPoint }: { points: GlobePoin
     scene.add(group);
 
     // Ocean sphere
+    const sphereMat = new THREE.MeshStandardMaterial({ color: 0x0a2238, roughness: 0.85, metalness: 0.08 });
+    let sphereAlive = true;
+    void makeLandTexture().then((tex) => {
+      if (tex && sphereAlive) { sphereMat.map = tex; sphereMat.needsUpdate = true; }
+    });
+    const stars = (() => {
+      const n = 900;
+      const pos = new Float32Array(n * 3);
+      for (let i = 0; i < n; i++) {
+        const v = new THREE.Vector3().randomDirection().multiplyScalar(30);
+        pos.set([v.x, v.y, v.z], i * 3);
+      }
+      const g = new THREE.BufferGeometry();
+      g.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+      return new THREE.Points(g, new THREE.PointsMaterial({ color: 0x9fc3e8, size: 1.4, sizeAttenuation: false, transparent: true, opacity: 0.75 }));
+    })();
+    scene.add(stars);
+    scene.add(makeAtmosphere(R * 1.16));
     const sphere = new THREE.Mesh(
       new THREE.SphereGeometry(R, 64, 64),
-      new THREE.MeshStandardMaterial({ color: 0x0a2238, roughness: 0.9, metalness: 0.05 }),
+      sphereMat,
     );
     group.add(sphere);
 
     // Graticule (lat/lng lines) drawn as line loops
-    const graticuleMat = new THREE.LineBasicMaterial({ color: 0x1e4a6b, transparent: true, opacity: 0.55 });
+    const graticuleMat = new THREE.LineBasicMaterial({ color: 0x1e4a6b, transparent: true, opacity: 0.22 });
     for (let lat = -75; lat <= 75; lat += 15) {
       const pts: THREE.Vector3[] = [];
       for (let lng = -180; lng <= 180; lng += 5) pts.push(latLngToVec3(lat, lng, R * 1.002));
@@ -209,6 +293,7 @@ export default function Globe({ points, onSelect, onPoint }: { points: GlobePoin
 
     return () => {
       overlayAlive = false;
+      sphereAlive = false;
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
       canvas.removeEventListener("pointerdown", onDown);
