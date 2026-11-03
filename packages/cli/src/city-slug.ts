@@ -62,8 +62,14 @@ export function isValidCitySlug(slug: string): boolean {
 }
 
 /** Parse the city rate-table snapshot text into accepted + rejected rows. */
+/** Decimal fraction digits -> percent points via integer micro-units (no float dust). */
+function fracToPercent(digits: string): number {
+  const micro = Number.parseInt(digits, 10) * 10 ** (8 - digits.length);
+  return micro / 1e6;
+}
+
 export function parseCityRows(text: string): { rows: CityRow[]; rejected: RejectedRow[] } {
-  const re = /([A-Z][A-Za-z'.()\- ]+?)\s+(\d{7})\s+\.(\d{6})\s+\.(\d{6})/g;
+  const re = /([A-Z][A-Za-z'.()\- ]+?)\s+(\d{7})\s+\.(\d{6,7})\s+\.(\d{6,7})/g;
   const byCode = new Map<string, CityRow>();
   const rejected: RejectedRow[] = [];
   for (const m of text.matchAll(re)) {
@@ -79,8 +85,8 @@ export function parseCityRows(text: string): { rows: CityRow[]; rejected: Reject
     byCode.set(code, {
       name,
       code,
-      rate: Number(`0.${m[3]}`) * 100,
-      total: Number(`0.${m[4]}`) * 100,
+      rate: fracToPercent(m[3]!),
+      total: fracToPercent(m[4]!),
     });
   }
   return { rows: [...byCode.values()], rejected };
