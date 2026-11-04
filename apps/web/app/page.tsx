@@ -88,7 +88,7 @@ export default function Home() {
           <p className="note">Drag to spin. Click a marker for detail. Markers sit at capital coordinates; color is the aggregate verification state of that jurisdiction subtree.</p>
           {selected && (
             <p className="selected">
-              <strong>{selected.name}</strong> ({selected.slug}) — status <em>{selected.status}</em>, {selected.typeCount} tax types,
+              <a href={`/explore?slug=${selected.slug}`}><strong>{selected.name}</strong></a> ({selected.slug}) — status <em>{selected.status}</em>, {selected.typeCount} tax types,
               {" "}{selected.publishedCount} published proposals, {selected.verifiedQueue} awaiting human approval.
             </p>
           )}
@@ -114,7 +114,7 @@ export default function Home() {
                 <ol className="result-list">
                   {lookup.applicable.map((a) => {
                     const comp = lookup.components.find((x) => x.slug === a.slug);
-                    return <li key={a.slug}><strong>{a.name}</strong> ({a.level}){comp ? ` — ${comp.rateValue}%` : ""}</li>;
+                    return <li key={a.slug}><a href={`/explore?slug=${a.slug}`}><strong>{a.name}</strong></a> ({a.level}){comp ? ` — ${comp.rateValue}%` : ""}</li>;
                   })}
                 </ol>
                 <p className="combined">Combined sales tax: <strong>{lookup.combinedPercent}%</strong>
