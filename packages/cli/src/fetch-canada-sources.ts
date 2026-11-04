@@ -23,6 +23,12 @@ export const DESCRIPTORS: Descriptor[] = [
   },
   {
     jurisdictionSlug: "ca", taxTypeSlug: "ca-gst-hst", publisher: CRA,
+    name: "GST/HST calculator and rates table (incl. history since 2013) — CRA",
+    url: "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-which-rate/calculator.html",
+    notes: "Canonical CRA table: current GST/HST by province + PST for non-participating provinces, and GST/HST rate bands back to April 1, 2013. Primary evidence for #48 determinations; pre-2013 history lives in CRA GST/HST Statistics Tables (named gap).",
+  },
+  {
+    jurisdictionSlug: "ca", taxTypeSlug: "ca-gst-hst", publisher: CRA,
     name: "GST/HST — when to register and start charging — CRA",
     url: "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/when-register-charge.html",
     notes: "Small-supplier threshold / registration triggers (compliance issue).",
@@ -44,6 +50,12 @@ export const DESCRIPTORS: Descriptor[] = [
     name: "Collecting GST and QST — Revenu Quebec",
     url: "https://www.revenuquebec.ca/en/businesses/consumption-taxes/gsthst-and-qst/collecting-gst-and-qst/",
     notes: "QST rate authority (9.975%, GST-excluded base since 2013).",
+  },
+  {
+    jurisdictionSlug: "ca-qc", taxTypeSlug: "ca-qst", publisher: "Revenu Quebec",
+    name: "Basic rules for applying the GST/HST and QST — Revenu Quebec",
+    url: "https://www.revenuquebec.ca/en/businesses/consumption-taxes/gsthst-and-qst/basic-rules-for-applying-the-gsthst-and-qst/",
+    notes: "RQ statement of GST/QST rates and base rules for #48/#49.",
   },
   {
     jurisdictionSlug: "ca-bc", taxTypeSlug: "ca-bc-pst", publisher: "British Columbia Ministry of Finance",
