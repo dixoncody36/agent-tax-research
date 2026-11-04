@@ -41,7 +41,7 @@ export default function Review() {
   };
 
   return (
-    <main style={{ padding: "16px 20px" }}>
+    <main>
       <section className="panel">
         <h2>Human review queue — you are the last gate</h2>
         <p className="note">
@@ -49,11 +49,11 @@ export default function Review() {
           independent agent reviewer. Approving records your name as the human approver; publishing writes the
           verified facts. The database refuses self-approval and ineligible sources regardless of this page.
         </p>
-        <p>
-          <label>Your name (recorded as approver) *:{" "}
+        <div className="review-name">
+          <label className="field">Your name (recorded as approver) *
             <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Cody Dixon" autoFocus aria-required="true" />
           </label>
-        </p>
+        </div>
         <p className="note" data-testid="approve-hint">{approveHint(name)}</p>
         {msg && <p className={msg.startsWith("failed") ? "err" : "note"}>{msg}</p>}
         <table>
@@ -69,7 +69,7 @@ export default function Review() {
                 </td>
                 <td>
                   {p.items.slice(0, 12).map((it, i) => (
-                    <div key={i} style={{ marginBottom: 6 }}>
+                    <div key={i} className="fact">
                       {it.target_table === "tax_rates"
                         ? <>{it.payload.rateValue}{it.payload.rateUnit === "percent" ? "%" : ` ${it.payload.rateUnit ?? ""}`} — {it.payload.appliesTo}</>
                         : it.target_table === "jurisdiction_geo" ? <>Boundary for <strong>{it.payload.jurisdictionSlug}</strong> — centroid {it.payload.centroidLat}, {it.payload.centroidLng} · precision {it.payload.precision ?? "published"} · geometry {String(it.payload.geometryHash ?? "").slice(0, 12)}…</> : <>{it.payload.summary ?? it.payload.ruleType ?? "rule"}</>}
