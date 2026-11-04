@@ -1136,7 +1136,7 @@ async function main() {
         "tax work submit --id <uuid> --status completed|failed [--notes <text>] [--tokens-in N] [--tokens-out N] [--cost-usd X]",
         "tax work retry --id <uuid>",
         "tax review list",
-        "tax geo ingest --jurisdiction <us-tx slug> | --level state|county|place",
+        "tax geo ingest --jurisdiction <slug> | --level state|county|place [--fips 48|20]",
         "tax geo resolve --lat <n> --lng <n> [--date <yyyy-mm-dd>]",
         "tax rate at-point --lat <n> --lng <n> --tax-type <slug> [--date <yyyy-mm-dd>]",
         "tax config show",

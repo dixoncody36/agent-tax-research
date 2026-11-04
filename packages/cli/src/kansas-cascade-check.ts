@@ -17,7 +17,7 @@ const FILE_URL = "https://www.ksrevenue.gov/pdf/pub17001026.xlsx";
 const [src] = await db.select().from(sources).where(eq(sources.url, FILE_URL)).limit(1);
 const snaps = await db.select().from(sourceSnapshots).where(eq(sourceSnapshots.sourceId, src!.id));
 const snap = snaps.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())[0]!;
-const rows = JSON.parse(snap.retrievedText) as Pub1700Row[];
+const rows = JSON.parse(snap.retrievedText ?? "[]") as Pub1700Row[];
 
 let checked = 0;
 let bad = 0;
