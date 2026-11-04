@@ -1,0 +1,26 @@
+{
+  "profile": "canada-only",
+  "description": "All of Canada: the footprint slug pulls in every registered descendant under ca (provinces and territories) at depth null. Consumption taxes first (GST/HST, PST, QST); federal income and payroll registered for coverage.",
+  "footprint": ["ca"],
+  "industries": [],
+  "categories": [
+    "sales_tax",
+    "vat_gst",
+    "income",
+    "payroll",
+    "excise",
+    "other"
+  ],
+  "depth": null,
+  "history": "earliest_published",
+  "cadences": {
+    "default": "weekly",
+    "byCategory": {
+      "vat_gst": "weekly",
+      "sales_tax": "weekly"
+    },
+    "byJurisdiction": {
+      "ca": "weekly"
+    }
+  }
+}
