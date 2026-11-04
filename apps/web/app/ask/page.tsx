@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { fmtDate } from "../../lib/format";
 import { EXAMPLES, type AskResult } from "../../lib/askTypes";
 
 export default function Ask() {
@@ -72,7 +73,7 @@ export default function Ask() {
                 {res.evidence.map((e, k) => (
                   <li key={k}>
                     {e.url ? <a href={e.url} {...(e.url.startsWith("http") ? { target: "_blank", rel: "noreferrer" } : {})}>{e.title}</a> : e.title}
-                    <span className="note"> {e.citation ?? ""}{e.snapshotAt ? ` · snapshot ${new Date(e.snapshotAt).toLocaleDateString()}` : ""}</span>
+                    <span className="note"> {e.citation ?? ""}{e.snapshotAt ? ` · snapshot ${fmtDate(e.snapshotAt)}` : ""}</span>
                   </li>
                 ))}
               </ul>

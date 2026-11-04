@@ -1,7 +1,7 @@
 "use client";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { LEVEL_LABEL, LEVEL_ORDER } from "../../lib/levels";
-import { fmtDate, fmtRate } from "../../lib/format";
+import { fmtDate, fmtDateTime, fmtRate } from "../../lib/format";
 
 type JRow = { slug: string; name: string; level: string; parent_slug: string | null };
 type TableRow = { table: string; purpose: string; tab: string | null; total: number; published: number | null };
@@ -22,11 +22,11 @@ type Detail = {
   agentRuns: { id: string; role: string; model: string | null; unit: string | null; status: string; attempt: number; started_at: string | null; finished_at: string | null; created_at: string }[];
 };
 
-type Tab = "rates" | "rules" | "licenses" | "compliance" | "geo" | "sources" | "ledger";
+type Tab = "rates" | "rules" | "licenses" | "compliance" | "geo" | "sources" | "ledger" | "agents";
 const TABS: { key: Tab; label: string }[] = [
   { key: "rates", label: "Rates" }, { key: "rules", label: "Rules" }, { key: "licenses", label: "Licenses" },
   { key: "compliance", label: "Compliance" }, { key: "geo", label: "Geo boundary" },
-  { key: "sources", label: "Sources & evidence" }, { key: "ledger", label: "Research ledger" },
+  { key: "sources", label: "Sources & evidence" }, { key: "ledger", label: "Research ledger" }, { key: "agents", label: "Agent activity" },
 ];
 const isTab = (v: string | null): v is Tab => TABS.some((t) => t.key === v);
 const GROUP_CAP = 100;
@@ -302,6 +302,23 @@ export default function Explore() {
                             {l.invalidated_reason && <><br /><span className="note">{l.invalidated_reason}</span></>}
                             {l.validated_at && <><br /><span className="note">{fmtDate(l.validated_at)}</span></>}</td>
                           <td>{l.snapshot_hash ? <code title={l.snapshot_hash}>{l.snapshot_hash.slice(0, 12)}…</code> : <span className="note">not recorded</span>}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )
+              )}
+
+              {tab === "agents" && (
+                detail.agentRuns.length === 0 ? <Empty why="No agent run has touched this jurisdiction yet." /> : (
+                  <table>
+                    <thead><tr><th>Started</th><th>Role</th><th>Unit</th><th>Model</th><th>Status</th></tr></thead>
+                    <tbody>
+                      {detail.agentRuns.map((r) => (
+                        <tr key={r.id}>
+                          <td><a href={`/agents?run=${r.id}`} title={r.started_at ?? r.created_at}>{fmtDateTime(r.started_at ?? r.created_at)}</a></td>
+                          <td>{r.role}</td><td>{r.unit ?? <span className="note">not recorded</span>}</td><td>{r.model ?? <span className="note">not recorded</span>}</td>
+                          <td><span className={`pill ${r.status === "completed" ? "approved" : "verified"}`}>{r.status}</span>{r.attempt > 1 && <span className="note"> attempt {r.attempt}</span>}</td>
                         </tr>
                       ))}
                     </tbody>
