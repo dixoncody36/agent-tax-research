@@ -1,0 +1,4 @@
+fixture,lat,lng,expected_cascade,check,expected_combined
+downtown-austin,30.2672,-97.7431,us-tx > us-tx-travis > us-tx-austin,re-perform with: pnpm tax geo resolve --lat 30.2672 --lng -97.7431 (needs published geo; proposals in geo-boundaries-verified-unpublished.csv until then),8.25 when transit boundary published or confirmed_absent accepted; else PARTIAL 7.25 + transit unresolved
+buda-centroid,payload centroid,payload centroid,us-tx > us-tx-hays-county > us-tx-city-buda,geo-populate fixture run (packages/cli/src/geo-populate.ts),per Comptroller combined total on the Buda extraction row
+outside-texas,35,-106,(empty),pnpm tax geo resolve --lat 35 --lng -106,n/a
