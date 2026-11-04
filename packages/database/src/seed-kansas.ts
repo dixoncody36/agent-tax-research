@@ -16,32 +16,32 @@ const KDOR = "Kansas Department of Revenue";
 const TAX_TYPES = [
   {
     slug: "us-ks-sales-use", name: "Sales and Use Tax", category: "sales_tax",
-    url: "https://www.ksrevenue.gov/sales.html",
+    url: "https://www.ksrevenue.gov/bustaxtypessales.html",
     description: "State sales/use tax plus local (county/city/special district) components, which attach per jurisdiction under this type like Texas locals under us-tx-sales-use.",
   },
   {
     slug: "us-ks-income-corporate", name: "Corporate Income Tax", category: "income",
-    url: "https://www.ksrevenue.gov/buscorporate.html",
+    url: "https://www.ksrevenue.gov/bustaxtypescorp.html",
     description: "Kansas corporate income tax administered by KDOR.",
   },
   {
     slug: "us-ks-income-individual", name: "Individual Income Tax", category: "income",
-    url: "https://www.ksrevenue.gov/perstax.html",
+    url: "https://www.ksrevenue.gov/perstaxtypes.html",
     description: "Kansas individual income tax administered by KDOR.",
   },
   {
     slug: "us-ks-motor-fuels", name: "Motor Fuel Tax", category: "excise",
-    url: "https://www.ksrevenue.gov/motorfuel.html",
+    url: "https://www.ksrevenue.gov/bustaxtypesmf.html",
     description: "Kansas motor fuel excise administered by KDOR (Motor Fuel Tax Section).",
   },
   {
     slug: "us-ks-tobacco", name: "Cigarette and Tobacco Products Tax", category: "excise",
-    url: "https://www.ksrevenue.gov/cigtob.html",
+    url: "https://www.ksrevenue.gov/bustaxtypescig.html",
     description: "Kansas cigarette and tobacco products excise administered by KDOR.",
   },
   {
     slug: "us-ks-property", name: "Property Tax (Statewide Levies)", category: "property",
-    url: "https://www.ksrevenue.gov/pvd.html",
+    url: "https://www.ksrevenue.gov/pvdindex.html",
     description: "Kansas statewide mill levies (educational/institution building funds) within the county-administered property tax system; Property Valuation Division oversight. Local mill-levy depth is out of M10 scope.",
   },
 ] as const;
