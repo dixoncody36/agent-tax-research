@@ -62,7 +62,7 @@ export default function Home() {
   }, [loadData, loadFeed]);
 
   return (
-    <main style={{ padding: "16px 20px" }}>
+    <main>
       {error && <p className="err">Could not load data ({error}). Is the database up? <code>docker compose up -d</code></p>}
       {totals && (
         <div className="stats">
@@ -74,7 +74,7 @@ export default function Home() {
           <div className="stat"><b>{Number(totals.exceptions).toLocaleString()}</b><span>exceptions</span></div>
         </div>
       )}
-      <div className="wrap" style={{ padding: 0 }}>
+      <div className="wrap">
         <section className="panel">
           <h2>World jurisdictions by verification status</h2>
           {points ? <Globe points={points} onSelect={setSelected} onPoint={(la, ln) => { setLatIn(String(la)); setLngIn(String(ln)); void runLookup(la, ln); }} /> : <p className="note">Loading globe…</p>}
@@ -83,26 +83,26 @@ export default function Home() {
             <span><i className="dot" style={{ background: "#0085ca" }} />populated (in review)</span>
             <span><i className="dot" style={{ background: "#f0b429" }} />held for live demo</span>
             <span><i className="dot" style={{ background: "#e05d5d" }} />blocked / exceptions</span>
-            <span><i className="dot" style={{ background: "#3d5a7a" }} />skeleton only</span>
+            <span><i className="dot" style={{ background: "#7fa8c9" }} />skeleton only</span>
           </div>
           <p className="note">Drag to spin. Click a marker for detail. Markers sit at capital coordinates; color is the aggregate verification state of that jurisdiction subtree.</p>
           {selected && (
-            <p>
-              <strong>{selected.name}</strong> ({selected.slug}) — status <em>{selected.status}</em>, {selected.typeCount} tax types,
+            <p className="selected">
+              <a href={`/explore?slug=${selected.slug}`}><strong>{selected.name}</strong></a> ({selected.slug}) — status <em>{selected.status}</em>, {selected.typeCount} tax types,
               {" "}{selected.publishedCount} published proposals, {selected.verifiedQueue} awaiting human approval.
             </p>
           )}
-          <form data-testid="geo-lookup" onSubmit={(e) => { e.preventDefault(); if (latOk && lngOk) void runLookup(latNum, lngNum); }} style={{ marginTop: 12 }}>
+          <form data-testid="geo-lookup" className="lookup" onSubmit={(e) => { e.preventDefault(); if (latOk && lngOk) void runLookup(latNum, lngNum); }}>
             <strong>Point lookup — which jurisdictions tax here?</strong>
-            <p style={{ margin: "6px 0" }}>
-              <label>Lat {" "}
-                <input value={latIn} onChange={(e) => setLatIn(e.target.value)} inputMode="decimal" aria-invalid={!latOk} style={{ width: 110 }} />
-              </label>{" "}
-              <label>Lng {" "}
-                <input value={lngIn} onChange={(e) => setLngIn(e.target.value)} inputMode="decimal" aria-invalid={!lngOk} style={{ width: 120 }} />
-              </label>{" "}
+            <div className="lookup-row">
+              <label className="field">Lat
+                <input value={latIn} onChange={(e) => setLatIn(e.target.value)} inputMode="decimal" aria-invalid={!latOk} style={{ width: 120 }} />
+              </label>
+              <label className="field">Lng
+                <input value={lngIn} onChange={(e) => setLngIn(e.target.value)} inputMode="decimal" aria-invalid={!lngOk} style={{ width: 130 }} />
+              </label>
               <button className="btn" type="submit" disabled={!latOk || !lngOk || lookupBusy}>Resolve</button>
-            </p>
+            </div>
             {!latOk && <span className="err">Latitude must be between -90 and 90. </span>}
             {!lngOk && <span className="err">Longitude must be between -180 and 180.</span>}
             <p className="note">Or click any point on the globe. Defaults to downtown Austin.</p>
@@ -111,13 +111,13 @@ export default function Home() {
             {lookup?.error && <p className="err">{lookup.error}</p>}
             {lookup && !lookup.error && lookup.applicable.length > 0 && (
               <div>
-                <ol style={{ margin: "6px 0", paddingLeft: 20 }}>
+                <ol className="result-list">
                   {lookup.applicable.map((a) => {
                     const comp = lookup.components.find((x) => x.slug === a.slug);
-                    return <li key={a.slug}><strong>{a.name}</strong> ({a.level}){comp ? ` — ${comp.rateValue}%` : ""}</li>;
+                    return <li key={a.slug}><a href={`/explore?slug=${a.slug}`}><strong>{a.name}</strong></a> ({a.level}){comp ? ` — ${comp.rateValue}%` : ""}</li>;
                   })}
                 </ol>
-                <p>Combined sales tax: <strong>{lookup.combinedPercent}%</strong>
+                <p className="combined">Combined sales tax: <strong>{lookup.combinedPercent}%</strong>
                   {lookup.complete
                     ? <> — complete, every imposing jurisdiction boundary-tested.</>
                     : <> — <em>partial</em>: {lookup.unresolvedCount} imposing jurisdiction(s) have no published boundary yet, so this sum is a floor, not the final rate.</>}
@@ -142,7 +142,7 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <h2 style={{ marginTop: 16 }}>Latest exceptions</h2>
+          <h2 className="sub">Latest exceptions</h2>
           <div className="feed" style={{ maxHeight: 200 }}>
             {exceptions.length === 0 && <div className="note">None.</div>}
             {exceptions.map((x, i) => <div key={i}><time>{new Date(x.created_at).toLocaleDateString()}</time>[{x.type}] {x.title}</div>)}
