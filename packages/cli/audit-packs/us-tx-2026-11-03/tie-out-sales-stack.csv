@@ -1,0 +1,1174 @@
+city,name,state_component,city_component,recomputed_state_plus_city,published_combined_total,residual,proposal_status,assessment
+us-tx-city-alamo,Alamo,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-alba,Alba,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-allen,Allen,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-alto,Alto,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-alvord,Alvord,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-anthony,Anthony,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-athens,Athens,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-aubrey,Aubrey,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-baileys-prairie,Baileys Prairie,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-balcones-heights,Balcones Heights,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-ballinger,Ballinger,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-balmorhea,Balmorhea,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-bandera,Bandera,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-bangs,Bangs,6.250000,1.750000,8.000000,8.250000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-bardwell,Bardwell,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-bartlett,Bartlett,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-bartonville,Bartonville,6.250000,1.750000,8.000000,8.250000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-bastrop,Bastrop,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-bay-city,Bay City,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-bayou-vista,Bayou Vista,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-bayside,Bayside,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-baytown,Baytown,6.250000,1.250000,7.500000,8.250000,0.750000,published,residual = county/SPD/transit components on official row
+us-tx-city-beach-city,Beach City,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-beasley,Beasley,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-beaumont,Beaumont,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-beckville,Beckville,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-bedford,Bedford,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-bedias,Bedias,6.250000,1.250000,7.500000,8.000000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-bee-cave,Bee Cave,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-beeville,Beeville,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-bellaire,Bellaire,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-bellevue,Bellevue,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-bellmead,Bellmead,6.250000,1.250000,7.500000,8.000000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-bells,Bells,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-bellville,Bellville,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-belton,Belton,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-benavides,Benavides,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-benbrook,Benbrook,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-benjamin,Benjamin,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-berryville,Berryville,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-bevil-oaks,Bevil Oaks,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-big-lake,Big Lake,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-big-sandy,Big Sandy,6.250000,1.250000,7.500000,8.250000,0.750000,published,residual = county/SPD/transit components on official row
+us-tx-city-big-spring,Big Spring,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-big-wells,Big Wells,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-bishop,Bishop,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-blackwell,Blackwell,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-blanco,Blanco,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-blanket,Blanket,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-bloomburg,Bloomburg,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-blooming-grove,Blooming Grove,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-bloomington,Bloomington,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-blossom,Blossom,6.250000,1.250000,7.500000,8.000000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-blue-mound,Blue Mound,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-blue-ridge,Blue Ridge,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-blum,Blum,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-brackettville,Brackettville,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-brady,Brady,6.250000,1.250000,7.500000,8.250000,0.750000,published,residual = county/SPD/transit components on official row
+us-tx-city-brazoria,Brazoria,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-brazos-country,Brazos Country,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-breckenridge,Breckenridge,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-bremond,Bremond,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-brenham,Brenham,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-briarcliff,Briarcliff,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-briaroaks,Briaroaks,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-bridge-city,Bridge City,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-bridgeport,Bridgeport,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-broaddus,Broaddus,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-brock,Brock,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-bronte,Bronte,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-brookshire,Brookshire,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-brookside-village,Brookside Village,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-browndell,Browndell,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-brownfield,Brownfield,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-brownsville,Brownsville,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-brownwood,Brownwood,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-bruceville-eddy,Bruceville Eddy,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-bryan,Bryan,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-bryson,Bryson,6.250000,1.500000,7.750000,7.750000,0.000000,published,T ties exactly
+us-tx-city-buckholts,Buckholts,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-buda,Buda,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-buffalo,Buffalo,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-buffalo-gap,Buffalo Gap,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-buffalo-springs,Buffalo Springs,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-bullard,Bullard,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-bulverde,Bulverde,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-bunker-hill-village,Bunker Hill Village,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-burkburnett,Burkburnett,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-burke,Burke,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-burleson,Burleson,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-burnet,Burnet,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-burton,Burton,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-bynum,Bynum,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-cactus,Cactus,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-caddo-mills,Caddo Mills,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-caldwell,Caldwell,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-callisburg,Callisburg,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-calvert,Calvert,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-cameron,Cameron,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-camp-wood,Camp Wood,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-campbell,Campbell,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-canadian,Canadian,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-caney-city,Caney City,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-canton,Canton,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-canyon,Canyon,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-carbon,Carbon,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-carls-corner,Carls Corner,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-carmine,Carmine,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-carrizo-springs,Carrizo Springs,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-carrollton,Carrollton,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-castle-hills,Castle Hills,6.250000,1.250000,7.500000,8.250000,0.750000,published,residual = county/SPD/transit components on official row
+us-tx-city-castroville,Castroville,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-cedar-hill,Cedar Hill,6.250000,1.875000,8.125000,8.250000,0.125000,published,residual = county/SPD/transit components on official row
+us-tx-city-cedar-park,Cedar Park,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-celeste,Celeste,6.250000,1.250000,7.500000,8.000000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-celina,Celina,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-center,Center,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-centerville,Centerville,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-chandler,Chandler,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-channing,Channing,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-charlotte,Charlotte,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-chester,Chester,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-chico,Chico,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-childress,Childress,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-chillicothe,Chillicothe,6.250000,1.250000,7.500000,8.000000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-china,China,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-china-grove,China Grove,6.250000,1.250000,7.500000,8.250000,0.750000,published,residual = county/SPD/transit components on official row
+us-tx-city-chireno,Chireno,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-cisco,Cisco,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-clarendon,Clarendon,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-clarksville,Clarksville,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-clarksville-city,Clarksville City,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-claude,Claude,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-clear-lake-shores,Clear Lake Shores,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-cleburne,Cleburne,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-cleveland,Cleveland,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-clifton,Clifton,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-clint,Clint,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-clute,Clute,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-clyde,Clyde,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-coahoma,Coahoma,6.250000,1.500000,7.750000,7.750000,0.000000,published,T ties exactly
+us-tx-city-cockrell-hill,Cockrell Hill,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-coffee-city,Coffee City,6.250000,1.500000,7.750000,7.750000,0.000000,published,T ties exactly
+us-tx-city-coldspring,Coldspring,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-coleman,Coleman,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-college-station,College Station,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-collinsville,Collinsville,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-colmesneil,Colmesneil,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-colorado-city,Colorado City,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-columbus,Columbus,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-comanche,Comanche,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-combes,Combes,6.250000,1.750000,8.000000,8.250000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-combine,Combine,6.250000,1.500000,7.750000,7.750000,0.000000,published,T ties exactly
+us-tx-city-commerce,Commerce,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-como,Como,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-conroe,Conroe,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-converse,Converse,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-cool,Cool,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-coolidge,Coolidge,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-cooper,Cooper,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-coppell,Coppell,6.250000,1.750000,8.000000,8.250000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-copper-canyon,Copper Canyon,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-copperas-cove,Copperas Cove,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-corinth,Corinth,6.250000,1.500000,7.750000,8.000000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-corral-city,Corral City,6.250000,1.500000,7.750000,8.000000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-corrigan,Corrigan,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-corsicana,Corsicana,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-cottonwood-shores,Cottonwood Shores,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-cotulla,Cotulla,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-coupland,Coupland,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-cove,Cove,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-covington,Covington,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-crandall,Crandall,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-crane,Crane,6.250000,1.500000,7.750000,7.750000,0.000000,published,T ties exactly
+us-tx-city-cranfills-gap,Cranfills Gap,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-crawford,Crawford,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-creedmoor,Creedmoor,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-cresson,Cresson,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-crockett,Crockett,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-crosbyton,Crosbyton,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-cross-plains,Cross Plains,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-cross-roads,Cross Roads,6.250000,1.750000,8.000000,8.250000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-crowell,Crowell,6.250000,1.750000,8.000000,8.000000,0.000000,published,T ties exactly
+us-tx-city-crowley,Crowley,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-crystal-city,Crystal City,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-cuero,Cuero,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-cumby,Cumby,6.250000,1.250000,7.500000,8.000000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-cuney,Cuney,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-cushing,Cushing,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-cut-and-shoot,Cut And Shoot,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-daingerfield,Daingerfield,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-daisetta,Daisetta,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-dalhart,Dalhart,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-dallas,Dallas,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-dalworthington-gardens,Dalworthington Gardens,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-danbury,Danbury,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-darrouzett,Darrouzett,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-dawson,Dawson,6.250000,1.250000,7.500000,8.000000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-dayton,Dayton,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-de-kalb,De Kalb,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-de-soto,De Soto,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-dean,Dean,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-decatur,Decatur,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-deer-park,Deer Park,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-del-rio,Del Rio,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-dell-city,Dell City,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-denison,Denison,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-dennis,Dennis,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-denton,Denton,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-denver-city,Denver City,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-deport,Deport,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-detroit,Detroit,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-devers,Devers,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-devine,Devine,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-diboll,Diboll,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-dickens,Dickens,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-dickinson,Dickinson,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-dilley,Dilley,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-dish,Dish,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-dodd-city,Dodd City,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-domino,Domino,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-donna,Donna,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-dorchester,Dorchester,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-double-oak,Double Oak,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-douglassville,Douglassville,6.250000,0.250000,6.500000,6.500000,0.000000,published,T ties exactly
+us-tx-city-dripping-springs,Dripping Springs,6.250000,1.250000,7.500000,8.250000,0.750000,published,residual = county/SPD/transit components on official row
+us-tx-city-driscoll,Driscoll,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-dublin,Dublin,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-dumas,Dumas,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-duncanville,Duncanville,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-eagle-lake,Eagle Lake,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-eagle-pass,Eagle Pass,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-earth,Earth,6.250000,1.500000,7.750000,7.750000,0.000000,published,T ties exactly
+us-tx-city-east-bernard,East Bernard,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-east-mountain,East Mountain,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-east-tawakoni,East Tawakoni,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-easton,Easton,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-ector,Ector,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-edcouch,Edcouch,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-eden,Eden,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-edgecliff-village,Edgecliff Village,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-edgewood,Edgewood,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-edinburg,Edinburg,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-edmonson,Edmonson,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-edna,Edna,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-edom,Edom,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-el-campo,El Campo,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-el-cenizo,El Cenizo,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-el-lago,El Lago,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-el-paso,El Paso,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-eldorado,Eldorado,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-electra,Electra,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-elgin,Elgin,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-elkhart,Elkhart,6.250000,1.250000,7.500000,8.000000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-elmendorf,Elmendorf,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-elsa,Elsa,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-emhouse,Emhouse,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-emory,Emory,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-encinal,Encinal,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-ennis,Ennis,6.250000,1.750000,8.000000,8.250000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-escobares,Escobares,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-euless,Euless,6.250000,1.750000,8.000000,8.250000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-eureka,Eureka,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-eustace,Eustace,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-evant,Evant,6.250000,1.250000,7.500000,8.250000,0.750000,published,residual = county/SPD/transit components on official row
+us-tx-city-everman,Everman,6.250000,1.750000,8.000000,8.250000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-fair-oaks-ranch,Fair Oaks Ranch,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-bulverde-libr,Bulverde Libr,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-fairchilds,Fairchilds,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-fairfield,Fairfield,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-fairview,Fairview,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-falfurrias,Falfurrias,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-farmers-branch,Farmers Branch,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-farmersville,Farmersville,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-farwell,Farwell,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-fate,Fate,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-fayetteville,Fayetteville,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-ferris,Ferris,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-flatonia,Flatonia,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-florence,Florence,6.250000,1.750000,8.000000,8.250000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-floresville,Floresville,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-flower-mound,Flower Mound,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-floydada,Floydada,6.250000,1.750000,8.000000,8.000000,0.000000,published,T ties exactly
+us-tx-city-follett,Follett,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-forest-hill,Forest Hill,6.250000,1.750000,8.000000,8.250000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-forney,Forney,6.250000,1.750000,8.000000,8.250000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-forsan,Forsan,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-fruitvale,Fruitvale,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-fort-stockton,Fort Stockton,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-fort-worth,Fort Worth,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-frankston,Frankston,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-fredericksburg,Fredericksburg,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-freeport,Freeport,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-freer,Freer,6.250000,1.750000,8.000000,8.250000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-friendswood,Friendswood,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-friona,Friona,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-frisco,Frisco,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-fritch,Fritch,6.250000,1.750000,8.000000,8.250000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-frost,Frost,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-fulshear,Fulshear,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-fulton,Fulton,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-gainesville,Gainesville,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-galena-park,Galena Park,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-galveston,Galveston,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-ganado,Ganado,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-garden-ridge,Garden Ridge,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-garland,Garland,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-garrett,Garrett,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-gary,Gary,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-gatesville,Gatesville,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-george-west,George West,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-georgetown,Georgetown,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-gholson,Gholson,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-giddings,Giddings,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-gilmer,Gilmer,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-gladewater,Gladewater,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-glen-rose,Glen Rose,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-glenn-heights,Glenn Heights,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-godley,Godley,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-goldsmith,Goldsmith,6.250000,1.000000,7.250000,8.000000,0.750000,published,residual = county/SPD/transit components on official row
+us-tx-city-goldthwaite,Goldthwaite,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-goliad,Goliad,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-golinda,Golinda,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-gonzales,Gonzales,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-goodlow,Goodlow,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-goodrich,Goodrich,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-goree,Goree,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-gorman,Gorman,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-graford,Graford,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-graham,Graham,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-granbury,Granbury,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-grand-prairie,Grand Prairie,6.250000,1.750000,8.000000,8.250000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-grand-saline,Grand Saline,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-grandfalls,Grandfalls,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-grandview,Grandview,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-granger,Granger,6.250000,1.250000,7.500000,8.000000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-granite-shoals,Granite Shoals,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-granjeno,Granjeno,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-grapeland,Grapeland,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-grapevine,Grapevine,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-grays-prairie,Grays Prairie,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-greenville,Greenville,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-gregory,Gregory,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-grey-forest,Grey Forest,6.250000,1.250000,7.500000,7.500000,0.000000,published,T ties exactly
+us-tx-city-groom,Groom,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-groves,Groves,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-groveton,Groveton,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-gruver,Gruver,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-gun-barrel-city,Gun Barrel City,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-gunter,Gunter,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-gustine,Gustine,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-hackberry,Hackberry,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-hale-center,Hale Center,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-hallettsville,Hallettsville,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-hallsburg,Hallsburg,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-hallsville,Hallsville,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-haltom-city,Haltom City,6.250000,1.750000,8.000000,8.250000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-hamilton,Hamilton,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-hamlin,Hamlin,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-happy,Happy,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-hardin,Hardin,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-harker-heights,Harker Heights,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-hart,Hart,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-haskell,Haskell,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-haslet,Haslet,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-hawk-cove,Hawk Cove,6.250000,1.000000,7.250000,8.000000,0.750000,published,residual = county/SPD/transit components on official row
+us-tx-city-hawkins,Hawkins,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-hawley,Hawley,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-hays,Hays,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-hearne,Hearne,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-heath,Heath,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-hebron,Hebron,6.250000,0.500000,6.750000,6.750000,0.000000,published,T ties exactly
+us-tx-city-hedley,Hedley,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-hedwig-village,Hedwig Village,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-helotes,Helotes,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-hemphill,Hemphill,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-hempstead,Hempstead,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-henderson,Henderson,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-henrietta,Henrietta,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-hereford,Hereford,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-hickory-creek,Hickory Creek,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-hico,Hico,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-hidalgo,Hidalgo,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-higgins,Higgins,6.250000,1.750000,8.000000,8.000000,0.000000,published,T ties exactly
+us-tx-city-highland-haven,Highland Haven,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-highland-park,Highland Park,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-highland-village,Highland Village,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-hill-country-village,Hill Country Village,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-hillsboro,Hillsboro,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-hilshire-village,Hilshire Village,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-hitchcock,Hitchcock,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-holiday-lakes,Holiday Lakes,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-holland,Holland,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-holliday,Holliday,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-hollywood-park,Hollywood Park,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-hondo,Hondo,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-honey-grove,Honey Grove,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-hooks,Hooks,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-horseshoe-bay,Horseshoe Bay,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-houston,Houston,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-howardwick,Howardwick,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-howe,Howe,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-hubbard,Hubbard,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-hudson,Hudson,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-hudson-oaks,Hudson Oaks,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-hughes-springs,Hughes Springs,6.250000,1.500000,7.750000,7.750000,0.000000,published,T ties exactly
+us-tx-city-humble,Humble,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-hunters-creek-village,Hunters Creek Village,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-huntington,Huntington,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-huntsville,Huntsville,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-hurst,Hurst,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-hutchins,Hutchins,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-hutto,Hutto,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-huxley,Huxley,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-idalou,Idalou,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-impact,Impact,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-ingleside,Ingleside,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-ingleside-on-the-bay,Ingleside On The Bay,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-ingram,Ingram,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-iola,Iola,6.250000,1.250000,7.500000,8.000000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-iowa-colony,Iowa Colony,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-iowa-park,Iowa Park,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-iraan,Iraan,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-iredell,Iredell,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-irving,Irving,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-italy,Italy,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-itasca,Itasca,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-ivanhoe,Ivanhoe,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-jacinto-city,Jacinto City,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-jacksboro,Jacksboro,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-jacksonville,Jacksonville,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-jamaica-beach,Jamaica Beach,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-jarrell,Jarrell,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-jasper,Jasper,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-jefferson,Jefferson,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-jersey-village,Jersey Village,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-jewett,Jewett,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-joaquin,Joaquin,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-johnson-city,Johnson City,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-jolly,Jolly,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-jones-creek,Jones Creek,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-jonestown,Jonestown,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-josephine,Josephine,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-joshua,Joshua,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-jourdanton,Jourdanton,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-junction,Junction,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-justin,Justin,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-karnes-city,Karnes City,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-katy,Katy,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-kaufman,Kaufman,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-keene,Keene,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-keller,Keller,6.250000,1.750000,8.000000,8.250000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-kemp,Kemp,6.250000,1.750000,8.000000,8.250000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-kempner,Kempner,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-kendleton,Kendleton,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-kenedy,Kenedy,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-kenefick,Kenefick,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-kennard,Kennard,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-kennedale,Kennedale,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-kerens,Kerens,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-kermit,Kermit,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-kerrville,Kerrville,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-kilgore,Kilgore,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-killeen,Killeen,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-kingsbury,Kingsbury,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-kingsville,Kingsville,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-kirby,Kirby,6.250000,1.250000,7.500000,8.250000,0.750000,published,residual = county/SPD/transit components on official row
+us-tx-city-kirbyville,Kirbyville,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-knollwood,Knollwood,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-knox-city,Knox City,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-kountze,Kountze,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-kress,Kress,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-krugerville,Krugerville,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-krum,Krum,6.250000,1.750000,8.000000,8.250000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-kurten,Kurten,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-kyle,Kyle,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-la-coste,La Coste,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-la-feria,La Feria,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-la-grange,La Grange,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-la-grulla,La Grulla,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-la-joya,La Joya,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-la-marque,La Marque,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-la-porte,La Porte,6.250000,1.750000,8.000000,8.250000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-la-vernia,La Vernia,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-la-villa,La Villa,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-la-ward,La Ward,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-lacy-lakeview,Lacy Lakeview,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-ladonia,Ladonia,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-laguna-vista,Laguna Vista,6.250000,1.500000,7.750000,7.750000,0.000000,published,T ties exactly
+us-tx-city-lake-bridgeport,Lake Bridgeport,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-lake-dallas,Lake Dallas,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-lake-jackson,Lake Jackson,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-lake-worth,Lake Worth,6.250000,1.750000,8.000000,8.250000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-lakeport,Lakeport,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-lakeside,Lakeside,6.250000,1.750000,8.000000,8.000000,0.000000,published,T ties exactly
+us-tx-city-lakeside-city,Lakeside City,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-lakeview,Lakeview,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-lakeway,Lakeway,6.250000,1.750000,8.000000,8.250000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-lakewood-village,Lakewood Village,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-lamesa,Lamesa,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-lampasas,Lampasas,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-lancaster,Lancaster,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-laredo,Laredo,6.250000,1.250000,7.500000,8.250000,0.750000,published,residual = county/SPD/transit components on official row
+us-tx-city-latexo,Latexo,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-lavon,Lavon,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-lawn,Lawn,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-leakey,Leakey,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-leander,Leander,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-leary,Leary,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-lefors,Lefors,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-leon-valley,Leon Valley,6.250000,1.375000,7.625000,8.250000,0.625000,published,residual = county/SPD/transit components on official row
+us-tx-city-leona,Leona,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-leonard,Leonard,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-leroy,Leroy,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-levelland,Levelland,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-lewisville,Lewisville,6.250000,1.250000,7.500000,8.250000,0.750000,published,residual = county/SPD/transit components on official row
+us-tx-city-lexington,Lexington,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-liberty,Liberty,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-liberty-hill,Liberty Hill,6.250000,1.750000,8.000000,8.250000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-lindale,Lindale,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-linden,Linden,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-lindsay,Lindsay,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-lipan,Lipan,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-little-elm,Little Elm,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-littlefield,Littlefield,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-live-oak,Live Oak,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-liverpool,Liverpool,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-livingston,Livingston,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-llano,Llano,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-lockhart,Lockhart,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-lockney,Lockney,6.250000,1.500000,7.750000,7.750000,0.000000,published,T ties exactly
+us-tx-city-log-cabin,Log Cabin,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-lometa,Lometa,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-lone-oak,Lone Oak,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-lone-star,Lone Star,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-longview,Longview,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-loraine,Loraine,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-lorena,Lorena,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-lorenzo,Lorenzo,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-los-fresnos,Los Fresnos,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-los-indios,Los Indios,6.250000,1.750000,8.000000,8.000000,0.000000,published,T ties exactly
+us-tx-city-los-ybanez,Los Ybanez,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-lovelady,Lovelady,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-lowry-crossing,Lowry Crossing,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-lubbock,Lubbock,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-lucas,Lucas,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-lueders,Lueders,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-lufkin,Lufkin,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-luling,Luling,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-lumberton,Lumberton,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-lyford,Lyford,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-lytle,Lytle,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-mabank,Mabank,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-madisonville,Madisonville,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-magnolia,Magnolia,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-malakoff,Malakoff,6.250000,1.625000,7.875000,8.250000,0.375000,published,residual = county/SPD/transit components on official row
+us-tx-city-malone,Malone,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-manor,Manor,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-mansfield,Mansfield,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-manvel,Manvel,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-marfa,Marfa,6.250000,1.750000,8.000000,8.000000,0.000000,published,T ties exactly
+us-tx-city-marion,Marion,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-marlin,Marlin,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-marquez,Marquez,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-marshall,Marshall,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-mart,Mart,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-martindale,Martindale,6.250000,1.250000,7.500000,8.250000,0.750000,published,residual = county/SPD/transit components on official row
+us-tx-city-mason,Mason,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-matador,Matador,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-mathis,Mathis,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-maud,Maud,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-maypearl,Maypearl,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-mc-gregor,Mc Gregor,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-mcallen,McAllen,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-mccamey,McCamey,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-mckinney,McKinney,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-mclean,McLean,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-mclendon-chisholm,McLendon Chisholm,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-meadows-place,Meadows Place,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-megargel,Megargel,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-melissa,Melissa,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-melvin,Melvin,6.250000,1.000000,7.250000,8.000000,0.750000,published,residual = county/SPD/transit components on official row
+us-tx-city-memphis,Memphis,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-menard,Menard,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-mercedes,Mercedes,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-meridian,Meridian,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-merkel,Merkel,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-mertens,Mertens,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-mertzon,Mertzon,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-mesquite,Mesquite,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-mexia,Mexia,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-miami,Miami,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-midland,Midland,6.250000,1.250000,7.500000,7.500000,0.000000,published,T ties exactly
+us-tx-city-midlothian,Midlothian,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-midway,Midway,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-milano,Milano,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-miles,Miles,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-milford,Milford,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-millers-cove,Millers Cove,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-millsap,Millsap,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-mineola,Mineola,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-mineral-wells,Mineral Wells,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-mingus,Mingus,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-mission,Mission,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-missouri-city,Missouri City,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-mobeetie,Mobeetie,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-mobile-city,Mobile City,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-monahans,Monahans,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-mont-belvieu,Mont Belvieu,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-montgomery,Montgomery,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-moody,Moody,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-moran,Moran,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-morgan,Morgan,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-morgans-point,Morgans Point,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-morton,Morton,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-moulton,Moulton,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-mount-calm,Mount Calm,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-mount-enterprise,Mount Enterprise,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-mount-pleasant,Mount Pleasant,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-mount-vernon,Mount Vernon,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-mountain-city,Mountain City,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-muenster,Muenster,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-muleshoe,Muleshoe,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-mullin,Mullin,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-munday,Munday,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-murchison,Murchison,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-murphy,Murphy,6.250000,1.750000,8.000000,8.250000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-mustang,Mustang,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-mustang-ridge,Mustang Ridge,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-nacogdoches,Nacogdoches,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-naples,Naples,6.250000,1.250000,7.500000,8.000000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-nash,Nash,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-natalia,Natalia,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-navarro,Navarro,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-navasota,Navasota,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-nazareth,Nazareth,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-nederland,Nederland,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-needville,Needville,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-nevada,Nevada,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-new-berlin,New Berlin,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-new-boston,New Boston,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-new-braunfels,New Braunfels,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-new-chapel-hill,New Chapel Hill,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-new-deal,New Deal,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-new-fairview,New Fairview,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-new-hope,New Hope,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-new-summerfield,New Summerfield,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-new-waverly,New Waverly,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-newark,Newark,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-newcastle,Newcastle,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-neylandville,Neylandville,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-niederwald,Niederwald,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-nixon,Nixon,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-nocona,Nocona,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-nolanville,Nolanville,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-nome,Nome,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-noonday,Noonday,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-nordheim,Nordheim,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-normangee,Normangee,6.250000,1.250000,7.500000,8.250000,0.750000,published,residual = county/SPD/transit components on official row
+us-tx-city-north-cleveland,North Cleveland,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-north-richland-hills,North Richland Hills,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-northlake,Northlake,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-novice,Novice,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-o-brien,O Brien,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-oak-leaf,Oak Leaf,6.250000,1.750000,8.000000,8.000000,0.000000,published,T ties exactly
+us-tx-city-oak-point,Oak Point,6.250000,1.750000,8.000000,8.000000,0.000000,published,T ties exactly
+us-tx-city-oak-ridge,Oak Ridge,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-oak-ridge-2049067,Oak Ridge,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-oak-valley,Oak Valley,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-oakwood,Oakwood,6.250000,1.250000,7.500000,8.000000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-odem,Odem,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-odessa,Odessa,6.250000,1.250000,7.500000,8.250000,0.750000,published,residual = county/SPD/transit components on official row
+us-tx-city-odonnell,ODonnell,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-oglesby,Oglesby,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-old-river-winfree,Old River Winfree,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-olmos-park,Olmos Park,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-olney,Olney,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-olton,Olton,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-omaha,Omaha,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-onalaska,Onalaska,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-opdyke-west,Opdyke West,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-orange,Orange,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-orange-grove,Orange Grove,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-orchard,Orchard,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-ore-city,Ore City,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-overton,Overton,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-oyster-creek,Oyster Creek,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-paducah,Paducah,6.250000,1.750000,8.000000,8.250000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-paint-rock,Paint Rock,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-palacios,Palacios,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-palestine,Palestine,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-palm-valley,Palm Valley,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-palmer,Palmer,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-palmhurst,Palmhurst,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-palmview,Palmview,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-pampa,Pampa,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-panhandle,Panhandle,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-panorama-village,Panorama Village,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-pantego,Pantego,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-paradise,Paradise,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-paris,Paris,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-parker,Parker,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-pasadena,Pasadena,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-pattison,Pattison,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-payne-springs,Payne Springs,6.250000,1.750000,8.000000,8.000000,0.000000,published,T ties exactly
+us-tx-city-pearland,Pearland,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-pearsall,Pearsall,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-peaster,Peaster,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-pecan-gap,Pecan Gap,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-pecan-hill,Pecan Hill,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-pecos,Pecos,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-pelican-bay,Pelican Bay,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-penelope,Penelope,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-penitas,Penitas,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-perryton,Perryton,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-petersburg,Petersburg,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-petrolia,Petrolia,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-petronila,Petronila,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-pflugerville,Pflugerville,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-pharr,Pharr,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-pilot-point,Pilot Point,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-pine-forest,Pine Forest,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-pinehurst,Pinehurst,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-pineland,Pineland,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-piney-point-village,Piney Point Village,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-pittsburg,Pittsburg,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-plains,Plains,6.250000,1.500000,7.750000,7.750000,0.000000,published,T ties exactly
+us-tx-city-plainview,Plainview,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-plano,Plano,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-plantersville,Plantersville,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-pleak,Pleak,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-pleasant-valley,Pleasant Valley,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-pleasanton,Pleasanton,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-plum-grove,Plum Grove,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-poetry,Poetry,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-point,Point,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-point-blank,Point Blank,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-point-comfort,Point Comfort,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-point-venture,Point Venture,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-ponder,Ponder,6.250000,1.750000,8.000000,8.000000,0.000000,published,T ties exactly
+us-tx-city-port-arthur,Port Arthur,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-port-isabel,Port Isabel,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-port-lavaca,Port Lavaca,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-port-neches,Port Neches,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-portland,Portland,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-post,Post,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-post-oak-bend,Post Oak Bend,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-poteet,Poteet,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-poth,Poth,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-pottsboro,Pottsboro,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-poynor,Poynor,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-prairie-view,Prairie View,6.250000,1.500000,7.750000,8.000000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-premont,Premont,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-presidio,Presidio,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-primera,Primera,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-princeton,Princeton,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-progreso,Progreso,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-progreso-lakes,Progreso Lakes,6.250000,1.500000,7.750000,7.750000,0.000000,published,T ties exactly
+us-tx-city-providence-village,Providence Village,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-putnam,Putnam,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-pyote,Pyote,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-quanah,Quanah,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-queen-city,Queen City,6.250000,1.750000,8.000000,8.250000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-quinlan,Quinlan,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-quintana,Quintana,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-quitaque,Quitaque,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-quitman,Quitman,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-ralls,Ralls,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-rancho-viejo,Rancho Viejo,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-ranger,Ranger,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-rankin,Rankin,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-ransom-canyon,Ransom Canyon,6.250000,0.500000,6.750000,7.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-ravenna,Ravenna,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-raymondville,Raymondville,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-red-oak,Red Oak,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-redwater,Redwater,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-reklaw,Reklaw,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-reno,Reno,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-reno-2184062,Reno,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-rhome,Rhome,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-rice,Rice,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-richardson,Richardson,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-richland,Richland,6.250000,1.250000,7.500000,8.000000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-richland-hills,Richland Hills,6.250000,1.625000,7.875000,8.250000,0.375000,published,residual = county/SPD/transit components on official row
+us-tx-city-richland-springs,Richland Springs,6.250000,1.250000,7.500000,8.000000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-richmond,Richmond,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-richwood,Richwood,6.250000,1.250000,7.500000,8.250000,0.750000,published,residual = county/SPD/transit components on official row
+us-tx-city-riesel,Riesel,6.250000,1.250000,7.500000,8.000000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-rio-bravo,Rio Bravo,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-rio-grande-city,Rio Grande City,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-rio-hondo,Rio Hondo,6.250000,1.500000,7.750000,8.000000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-rio-vista,Rio Vista,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-rising-star,Rising Star,6.250000,1.750000,8.000000,8.250000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-river-oaks,River Oaks,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-roanoke,Roanoke,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-roaring-springs,Roaring Springs,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-robert-lee,Robert Lee,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-robinson,Robinson,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-robstown,Robstown,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-roby,Roby,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-rochester,Rochester,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-rockdale,Rockdale,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-rockport,Rockport,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-rocksprings,Rocksprings,6.250000,1.750000,8.000000,8.000000,0.000000,published,T ties exactly
+us-tx-city-rockwall,Rockwall,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-rocky-mound,Rocky Mound,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-rogers,Rogers,6.250000,1.250000,7.500000,8.250000,0.750000,published,residual = county/SPD/transit components on official row
+us-tx-city-rollingwood,Rollingwood,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-roma,Roma,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-ropesville,Ropesville,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-roscoe,Roscoe,6.250000,1.750000,8.000000,8.000000,0.000000,published,T ties exactly
+us-tx-city-rose-city,Rose City,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-rosenberg,Rosenberg,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-ross,Ross,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-rosser,Rosser,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-rotan,Rotan,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-round-mountain,Round Mountain,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-round-rock,Round Rock,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-round-top,Round Top,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-rowlett,Rowlett,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-roxton,Roxton,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-royse-city,Royse City,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-rule,Rule,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-runaway-bay,Runaway Bay,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-runge,Runge,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-rusk,Rusk,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-sabinal,Sabinal,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-sachse,Sachse,6.250000,1.750000,8.000000,8.250000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-sadler,Sadler,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-saginaw,Saginaw,6.250000,1.625000,7.875000,8.250000,0.375000,published,residual = county/SPD/transit components on official row
+us-tx-city-saint-jo,Saint Jo,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-saint-paul,Saint Paul,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-salado,Salado,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-san-angelo,San Angelo,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-san-antonio,San Antonio,6.250000,1.125000,7.375000,8.250000,0.875000,published,residual = county/SPD/transit components on official row
+us-tx-city-san-augustine,San Augustine,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-san-benito,San Benito,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-san-diego,San Diego,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-san-elizario,San Elizario,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-san-felipe,San Felipe,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-san-juan,San Juan,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-san-marcos,San Marcos,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-san-saba,San Saba,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-sanctuary,Sanctuary,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-sandy-oaks,Sandy Oaks,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-sandy-point,Sandy Point,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-sanford,Sanford,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-sanger,Sanger,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-santa-anna,Santa Anna,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-santa-clara,Santa Clara,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-santa-fe,Santa Fe,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-savoy,Savoy,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-schertz,Schertz,6.250000,1.500000,7.750000,7.750000,0.000000,published,T ties exactly
+us-tx-city-schulenburg,Schulenburg,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-scotland,Scotland,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-scottsville,Scottsville,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-scurry,Scurry,6.250000,1.750000,8.000000,8.000000,0.000000,published,T ties exactly
+us-tx-city-seabrook,Seabrook,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-seadrift,Seadrift,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-seagoville,Seagoville,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-seagraves,Seagraves,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-sealy,Sealy,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-seguin,Seguin,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-selma,Selma,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-seminole,Seminole,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-seven-oaks,Seven Oaks,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-seymour,Seymour,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-shady-shores,Shady Shores,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-shallowater,Shallowater,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-shamrock,Shamrock,6.250000,1.750000,8.000000,8.000000,0.000000,published,T ties exactly
+us-tx-city-shavano-park,Shavano Park,6.250000,1.250000,7.500000,8.250000,0.750000,published,residual = county/SPD/transit components on official row
+us-tx-city-shenandoah,Shenandoah,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-shepherd,Shepherd,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-sherman,Sherman,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-shiner,Shiner,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-shoreacres,Shoreacres,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-silsbee,Silsbee,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-silverton,Silverton,6.250000,1.750000,8.000000,8.000000,0.000000,published,T ties exactly
+us-tx-city-simonton,Simonton,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-sinton,Sinton,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-skellytown,Skellytown,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-slaton,Slaton,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-smiley,Smiley,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-smithville,Smithville,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-snook,Snook,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-snyder,Snyder,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-socorro,Socorro,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-somerset,Somerset,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-somerville,Somerville,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-sonora,Sonora,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-sour-lake,Sour Lake,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-south-frydek,South Frydek,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-south-houston,South Houston,6.250000,1.750000,8.000000,8.250000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-south-padre-island,South Padre Island,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-southlake,Southlake,6.250000,1.875000,8.125000,8.250000,0.125000,published,residual = county/SPD/transit components on official row
+us-tx-city-southmayd,Southmayd,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-southside-place,Southside Place,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-spearman,Spearman,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-splendora,Splendora,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-spring-valley,Spring Valley,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-springtown,Springtown,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-spur,Spur,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-stagecoach,Stagecoach,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-stamford,Stamford,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-stanton,Stanton,6.250000,1.750000,8.000000,8.000000,0.000000,published,T ties exactly
+us-tx-city-staples,Staples,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-stephenville,Stephenville,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-sterling-city,Sterling City,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-stinnett,Stinnett,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-stockdale,Stockdale,6.250000,1.500000,7.750000,7.750000,0.000000,published,T ties exactly
+us-tx-city-stratford,Stratford,6.250000,1.500000,7.750000,7.750000,0.000000,published,T ties exactly
+us-tx-city-strawn,Strawn,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-streetman,Streetman,6.250000,1.500000,7.750000,7.750000,0.000000,published,T ties exactly
+us-tx-city-sudan,Sudan,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-sugar-land,Sugar Land,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-sullivan-city,Sullivan City,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-sulphur-springs,Sulphur Springs,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-sun-valley,Sun Valley,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-sundown,Sundown,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-sunnyvale,Sunnyvale,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-sunrise-beach,Sunrise Beach,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-sunset-valley,Sunset Valley,6.250000,1.875000,8.125000,8.250000,0.125000,published,residual = county/SPD/transit components on official row
+us-tx-city-surfside-beach,Surfside Beach,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-sweeny,Sweeny,6.250000,1.375000,7.625000,8.250000,0.625000,published,residual = county/SPD/transit components on official row
+us-tx-city-sweetwater,Sweetwater,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-taft,Taft,6.250000,1.750000,8.000000,8.000000,0.000000,published,T ties exactly
+us-tx-city-tahoka,Tahoka,6.250000,1.500000,7.750000,8.000000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-talco,Talco,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-talty,Talty,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-tatum,Tatum,6.250000,1.500000,7.750000,7.750000,0.000000,published,T ties exactly
+us-tx-city-taylor,Taylor,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-taylor-lake-village,Taylor Lake Village,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-teague,Teague,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-temple,Temple,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-tenaha,Tenaha,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-terrell,Terrell,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-terrell-hills,Terrell Hills,6.250000,1.250000,7.500000,8.000000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-texarkana,Texarkana,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-texline,Texline,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-the-colony,The Colony,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-thompsons,Thompsons,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-thorndale,Thorndale,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-thornton,Thornton,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-thorntonville,Thorntonville,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-thrall,Thrall,6.250000,1.250000,7.500000,8.250000,0.750000,published,residual = county/SPD/transit components on official row
+us-tx-city-three-rivers,Three Rivers,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-throckmorton,Throckmorton,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-tiki-island,Tiki Island,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-timpson,Timpson,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-tioga,Tioga,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-toco,Toco,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-todd-mission,Todd Mission,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-tolar,Tolar,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-tom-bean,Tom Bean,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-tomball,Tomball,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-tool,Tool,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-trent,Trent,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-trenton,Trenton,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-trinity,Trinity,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-trophy-club,Trophy Club,6.250000,1.750000,8.000000,8.250000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-troup,Troup,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-troy,Troy,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-tulia,Tulia,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-turkey,Turkey,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-tuscola,Tuscola,6.250000,1.250000,7.500000,8.250000,0.750000,published,residual = county/SPD/transit components on official row
+us-tx-city-tye,Tye,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-tyler,Tyler,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-uhland,Uhland,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-uncertain,Uncertain,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-union-grove,Union Grove,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-union-valley,Union Valley,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-universal-city,Universal City,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-university-park,University Park,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-unspecified-city,Unspecified City,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-valentine,Valentine,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-valley-mills,Valley Mills,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-valley-view,Valley View,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-van,Van,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-van-alstyne,Van Alstyne,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-van-horn,Van Horn,6.250000,1.750000,8.000000,8.000000,0.000000,published,T ties exactly
+us-tx-city-vega,Vega,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-venus,Venus,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-vernon,Vernon,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-victoria,Victoria,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-vidor,Vidor,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-village-of-the-hills,Village Of The Hills,6.250000,0.750000,7.000000,8.250000,1.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-vinton,Vinton,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-volente,Volente,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-von-ormy,Von Ormy,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-waco,Waco,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-waelder,Waelder,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-wake-village,Wake Village,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-wallis,Wallis,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-walnut-springs,Walnut Springs,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-warren-city,Warren City,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-waskom,Waskom,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-watauga,Watauga,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-waxahachie,Waxahachie,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-weatherford,Weatherford,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-webberville,Webberville,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-webster,Webster,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-weimar,Weimar,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-weinert,Weinert,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-weir,Weir,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-wellington,Wellington,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-wellman,Wellman,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-wells,Wells,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-weslaco,Weslaco,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-west,West,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-west-columbia,West Columbia,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-west-orange,West Orange,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-west-tawakoni,West Tawakoni,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-west-university-place,West University Place,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-westbrook,Westbrook,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-westlake,Westlake,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-weston,Weston,6.250000,1.500000,7.750000,7.750000,0.000000,published,T ties exactly
+us-tx-city-weston-lakes,Weston Lakes,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-westworth-village,Westworth Village,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-wharton,Wharton,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-wheeler,Wheeler,6.250000,1.750000,8.000000,8.000000,0.000000,published,T ties exactly
+us-tx-city-white-deer,White Deer,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-white-oak,White Oak,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-white-settlement,White Settlement,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-whiteface,Whiteface,6.250000,1.500000,7.750000,7.750000,0.000000,published,T ties exactly
+us-tx-city-whitehouse,Whitehouse,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-whitesboro,Whitesboro,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-whitewright,Whitewright,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-whitney,Whitney,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-wickett,Wickett,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-willis,Willis,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-willow-park,Willow Park,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-wills-point,Wills Point,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-wilmer,Wilmer,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-wilson,Wilson,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-wimberley,Wimberley,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-windcrest,Windcrest,6.250000,1.750000,8.000000,8.250000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-windom,Windom,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-windthorst,Windthorst,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-winfield,Winfield,6.250000,1.250000,7.500000,8.000000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-wink,Wink,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-winnsboro,Winnsboro,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-winona,Winona,6.250000,1.250000,7.500000,8.250000,0.750000,published,residual = county/SPD/transit components on official row
+us-tx-city-winters,Winters,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-wixon-valley,Wixon Valley,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-wolfe-city,Wolfe City,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-wolfforth,Wolfforth,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-boerne,Boerne,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-bogata,Bogata,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-bonham,Bonham,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-bonney,Bonney,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-booker,Booker,6.250000,1.500000,7.750000,7.750000,0.000000,published,T ties exactly
+us-tx-city-borger,Borger,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-bovina,Bovina,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-bowie,Bowie,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-woodsboro,Woodsboro,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-woodson,Woodson,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-woodville,Woodville,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-woodway,Woodway,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-wortham,Wortham,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-wylie,Wylie,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-yantis,Yantis,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-yoakum,Yoakum,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-yorktown,Yorktown,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-zavalla,Zavalla,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-abbott,Abbott,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-abernathy,Abernathy,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-abilene,Abilene,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-ackerly,Ackerly,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-addison,Addison,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-adrian,Adrian,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-agua-dulce,Agua Dulce,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-alamo-heights,Alamo Heights,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-albany,Albany,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-aledo,Aledo,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-alice,Alice,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-alma,Alma,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-alpine,Alpine,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-alton,Alton,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-alvarado,Alvarado,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-alvin,Alvin,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-amarillo,Amarillo,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-ames,Ames,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-amherst,Amherst,6.250000,1.250000,7.500000,7.500000,0.000000,published,T ties exactly
+us-tx-city-anahuac,Anahuac,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-anderson,Anderson,6.250000,1.250000,7.500000,8.000000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-andrews,Andrews,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-angleton,Angleton,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-angus,Angus,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-anna,Anna,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-annetta,Annetta,6.250000,1.250000,7.500000,8.250000,0.750000,published,residual = county/SPD/transit components on official row
+us-tx-city-annetta-north,Annetta North,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-annetta-south,Annetta South,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-annona,Annona,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-anson,Anson,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-anton,Anton,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-appleby,Appleby,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-aquilla,Aquilla,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-aransas-pass,Aransas Pass,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-archer-city,Archer City,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-arcola,Arcola,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-argyle,Argyle,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-arp,Arp,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-asherton,Asherton,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-aspermont,Aspermont,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-atlanta,Atlanta,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-aurora,Aurora,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-austin,Austin,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-austwell,Austwell,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-avery,Avery,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-avinger,Avinger,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-azle,Azle,6.250000,1.250000,7.500000,8.250000,0.750000,published,residual = county/SPD/transit components on official row
+us-tx-city-bailey,Bailey,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-baird,Baird,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-balch-springs,Balch Springs,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-bayview,Bayview,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-bertram,Bertram,6.250000,1.500000,7.750000,8.000000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-beverly-hills,Beverly Hills,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-boyd,Boyd,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-brownsboro,Brownsboro,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-byers,Byers,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-carthage,Carthage,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-cibolo,Cibolo,6.250000,1.500000,7.750000,7.750000,0.000000,published,T ties exactly
+us-tx-city-colleyville,Colleyville,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-corpus-christi,Corpus Christi,6.250000,1.375000,7.625000,8.250000,0.625000,published,residual = county/SPD/transit components on official row
+us-tx-city-cross-timber,Cross Timber,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-de-leon,De Leon,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-dimmitt,Dimmitt,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-eastland,Eastland,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-ellinger,Ellinger,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-falls-city,Falls City,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-franklin,Franklin,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-garrison,Garrison,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-gordon,Gordon,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-groesbeck,Groesbeck,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-harlingen,Harlingen,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-hewitt,Hewitt,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-horizon-city,Horizon City,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-industry,Industry,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-jayton,Jayton,6.250000,1.000000,7.250000,7.250000,0.000000,published,T ties exactly
+us-tx-city-kemah,Kemah,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-kosse,Kosse,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-lago-vista,Lago Vista,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-league-city,League City,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-little-river-academy,Little River Academy,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-lott,Lott,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-marble-falls,Marble Falls,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-meadow,Meadow,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-mildred,Mildred,6.250000,1.000000,7.250000,7.750000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-morgans-point-resort,Morgans Point Resort,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-nassau-bay,Nassau Bay,6.250000,1.750000,8.000000,8.000000,0.000000,published,T ties exactly
+us-tx-city-newton,Newton,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-oak-ridge-north,Oak Ridge North,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-ovilla,Ovilla,6.250000,1.750000,8.000000,8.250000,0.250000,published,residual = county/SPD/transit components on official row
+us-tx-city-patton-village,Patton Village,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-pine-island,Pine Island,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-port-aransas,Port Aransas,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-prosper,Prosper,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-refugio,Refugio,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-riverside,Riverside,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-rosebud,Rosebud,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-saint-hedwig,Saint Hedwig,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-sansom-park,Sansom Park,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-seven-points,Seven Points,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-smyer,Smyer,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-stafford,Stafford,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-sunray,Sunray,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-texas-city,Texas City,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-toyah,Toyah,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-uvalde,Uvalde,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-tx-city-waller,Waller,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-west-lake-hills,West Lake Hills,6.250000,1.500000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-tx-city-wichita-falls,Wichita Falls,6.250000,2.000000,8.250000,8.250000,0.000000,published,T ties exactly
+us-tx-city-woodcreek,Woodcreek,6.250000,1.000000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
