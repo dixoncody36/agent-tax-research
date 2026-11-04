@@ -1,0 +1,11 @@
+jurisdiction,federal_component,provincial_portion,recomputed_combined,cra_published_combined,residual,effective_from,effective_to,proposal_status,assessment
+ca,5.000000,0.000000,5.000000,5.000000,0.000000,2013-04-01,,verified,T ties exactly
+ca-nb,5.000000,8.000000,13.000000,13.000000,0.000000,2013-04-01,2016-09-30,verified,T ties exactly
+ca-nb,5.000000,10.000000,15.000000,15.000000,0.000000,2016-10-01,,verified,T ties exactly
+ca-nl,5.000000,8.000000,13.000000,13.000000,0.000000,2013-04-01,2016-06-30,verified,T ties exactly
+ca-nl,5.000000,10.000000,15.000000,15.000000,0.000000,2016-07-01,,verified,T ties exactly
+ca-ns,5.000000,10.000000,15.000000,15.000000,0.000000,2013-04-01,2025-03-31,verified,T ties exactly
+ca-ns,5.000000,9.000000,14.000000,14.000000,0.000000,2025-04-01,,verified,T ties exactly
+ca-on,5.000000,8.000000,13.000000,13.000000,0.000000,2013-04-01,,verified,T ties exactly
+ca-pe,5.000000,9.000000,14.000000,14.000000,0.000000,2013-04-01,2016-09-30,verified,T ties exactly
+ca-pe,5.000000,10.000000,15.000000,15.000000,0.000000,2016-10-01,,verified,T ties exactly

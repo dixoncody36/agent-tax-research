@@ -1,0 +1,15 @@
+jurisdiction,level,active_sources,snapshots,ledger_validated,ledger_pending,absence_findings,proposals_verified,proposals_published,proposals_proposed,geo_accounting
+ca,country,5,15,3,0,0,4,0,0,named_gap_national_outline_not_proposed
+ca-ab,state,1,1,2,0,1,0,0,0,verified_unpublished
+ca-bc,state,1,4,3,0,0,2,0,0,verified_unpublished
+ca-mb,state,1,1,2,0,0,1,0,0,verified_unpublished
+ca-nb,state,1,1,1,0,0,0,0,0,verified_unpublished
+ca-nl,state,1,4,1,0,0,0,0,0,verified_unpublished
+ca-ns,state,1,3,1,0,0,0,0,0,verified_unpublished
+ca-nt,state,1,4,2,0,1,0,0,0,verified_unpublished
+ca-nu,state,1,0,2,0,1,0,0,0,verified_unpublished
+ca-on,state,1,3,1,0,0,0,0,0,verified_unpublished
+ca-pe,state,1,4,1,0,0,0,0,0,verified_unpublished
+ca-qc,state,2,3,3,0,0,2,0,0,verified_unpublished
+ca-sk,state,1,4,3,0,0,2,0,0,verified_unpublished
+ca-yt,state,1,1,2,0,1,0,0,0,verified_unpublished

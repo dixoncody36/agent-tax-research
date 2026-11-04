@@ -1,0 +1,88 @@
+{
+  "pack": "audit-pack-v1",
+  "jurisdiction": "ca",
+  "generatedAt": "2026-11-04T14:43:31.067Z",
+  "calcVersion": "audit-pack 1.0.0",
+  "gitSha": "5ba7d797b9119bba445ad435a8cd233f820b629f",
+  "generator": "packages/cli/src/audit-pack.ts",
+  "inputsHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "inputsNote": "SHA-256 of verified-rates.csv (canonical input rows for this pack)",
+  "counts": {
+    "ratesTotal": 0,
+    "ratesVerified": 0,
+    "tieOutRows": 0,
+    "tieOutNegativeVariances": 0,
+    "geoPublished": 0,
+    "geoVerifiedUnpublished": 13,
+    "geoUnaccounted": 14,
+    "canadaBandRows": 10,
+    "canadaBandVariances": 0,
+    "canadaCoverageRows": 14,
+    "canadaUnaccountedJurisdictions": 0
+  },
+  "files": [
+    {
+      "name": "verified-rates.csv",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "name": "all-rates-incl-unverified.csv",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "name": "tie-out-sales-stack.csv",
+      "sha256": "73efe9e167b5efe10b833db1c68ca3f9664ca0c149fa991759147053cb59b4cb",
+      "bytes": 45
+    },
+    {
+      "name": "geo-boundaries-published.csv",
+      "sha256": "736c2b6652e77c4d1d0e05553598a44b6f90067f57f1934870869ee464dfa576",
+      "bytes": 50
+    },
+    {
+      "name": "geo-boundaries-verified-unpublished.csv",
+      "sha256": "2ef421e923c83f0dc8a1b804561a42eadb8ce5b844006b03ae3ab797f281ef88",
+      "bytes": 7025
+    },
+    {
+      "name": "geo-tie-out.csv",
+      "sha256": "da53e3dbac04276039d8db65fe5d3c971da093788eab87611ca3764d3a2bb4be",
+      "bytes": 110
+    },
+    {
+      "name": "geo-fixtures.csv",
+      "sha256": "b69926b6aeb34030353c83e23abf1da67debd10da6de2b7749ded51288b4790a",
+      "bytes": 542
+    },
+    {
+      "name": "canada-gst-hst-tie-out.csv",
+      "sha256": "359d27160485767d8c7b6a27ed7620359f688237708ae8c2256278bf79f1e117",
+      "bytes": 1086
+    },
+    {
+      "name": "canada-coverage.csv",
+      "sha256": "180875a19cc8e726ccc67f5778c71207c07a062e8a3c001f19cae4bc3e23c9e2",
+      "bytes": 871
+    },
+    {
+      "name": "calculation-register.csv",
+      "sha256": "80068c6e7ea3d6b4f40f258317d0bf9cf24be51fb30835347b8d0ed13c989386",
+      "bytes": 3011
+    }
+  ],
+  "retention": "default 7 years per anvil 027 — CONFIRM with engagement; local filesystem for now, Azure Blob WORM is the ship target (gap)",
+  "knownGaps": [
+    "combined totals sourced from extraction records, not first-class published total rows",
+    "no Entra signer identity locally — approver names are CLI-recorded strings",
+    "CSV pack; live-formula .xlsx workpaper + PDF summary pending shared generator (027 s6)",
+    "Canada: pre-2013 GST history (CRA GST/HST Statistics Tables) not yet evidenced",
+    "Canada: PST/QST rates evidenced from 2025-04-01 bound; earlier provincial bands pending archive evidence",
+    "Canada: SK PST 6% rests on CRA table alone (provincial landing states no rate)",
+    "Canada: boundaries are the Statistics Canada product via PAVICS/Ouranos GeoServer mirror (direct statcan.gc.ca download bot-walled 2026-11)",
+    "Canada: ca national outline polygon not proposed (provinces are the tax-relevant level)",
+    "Canada: MB RST + RQ registration pages and GST/HST filing-frequency table not yet snapshotted"
+  ],
+  "note": "DRAFT — generated for review. Re-perform: open CSVs in Excel; verify snapshot_sha256 against source_snapshots.content_hash; recompute stacks in tie-out file (integer micro-units, tolerance 0)."
+}
