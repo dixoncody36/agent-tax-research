@@ -13,8 +13,8 @@ import {
 // Bureau TIGERweb REST (public government GIS, no login). Fetch retrieves
 // and snapshots; this module normalizes to WGS84 GeoJSON proposal payloads
 // and matches features to registered jurisdictions — it publishes nothing
-// (Decision/Reviewer/human gate downstream, #39). Texas fence only;
-// ponytail: STATE=48 + name matching, generalize when a second state lands.
+// (Decision/Reviewer/human gate downstream, #39).
+// ponytail: --fips profile (48 Texas default, 20 Kansas #56) + name matching.
 
 type Level = "state" | "county" | "place";
 type Feature = {
@@ -23,6 +23,13 @@ type Feature = {
 };
 
 const SIMPLIFICATION = "tigerweb maxAllowableOffset=0.001deg, geometryPrecision=6";
+
+// State profiles (#56: Kansas is the second state — the generalization the
+// v1 header promised). Default 48 keeps Texas behavior byte-identical.
+const STATE_PROFILES: Record<string, { root: string; label: string }> = {
+  "48": { root: "us-tx", label: "Texas" },
+  "20": { root: "us-ks", label: "Kansas" },
+};
 const LAYERS: Record<Level, { service: string; layer: number; label: string }> = {
   state: { service: "State_County", layer: 0, label: "States" },
   county: { service: "State_County", layer: 1, label: "Counties" },
@@ -66,13 +73,13 @@ export async function fetchFeatures(level: Level, where: string): Promise<{ feat
   return { features, text: pages.join("\n") };
 }
 
-async function ensureSource(level: Level, txId: string) {
-  const url = `${layerUrl(level)}/query?where=STATE%3D%2748%27`;
+async function ensureSource(level: Level, rootId: string, fips: string, stateLabel: string) {
+  const url = `${layerUrl(level)}/query?where=STATE%3D%27${fips}%27`;
   const [existing] = await db.select().from(sources).where(eq(sources.url, url)).limit(1);
   if (existing) return existing;
   const [row] = await db.insert(sources).values({
-    jurisdictionId: txId,
-    name: `Census TIGERweb ${LAYERS[level].label} (Texas)`,
+    jurisdictionId: rootId,
+    name: `Census TIGERweb ${LAYERS[level].label} (${stateLabel})`,
     url,
     sourceType: "dataset",
     publisher: "US Census Bureau",
@@ -98,28 +105,31 @@ export async function runGeoIngest(args: string[]): Promise<Record<string, unkno
   const levelArg = argVal("--level") as Level | undefined;
   const today = new Date().toISOString().slice(0, 10);
 
-  const [tx] = await db.select().from(jurisdictions).where(eq(jurisdictions.slug, "us-tx")).limit(1);
-  if (!tx) throw new Error("us-tx jurisdiction missing");
+  const fips = argVal("--fips") ?? "48";
+  const profile = STATE_PROFILES[fips];
+  if (!profile) return { error: "unknown_fips", instruction: `supported: ${Object.keys(STATE_PROFILES).join(", ")}` };
+  const [tx] = await db.select().from(jurisdictions).where(eq(jurisdictions.slug, profile.root)).limit(1);
+  if (!tx) throw new Error(`${profile.root} jurisdiction missing`);
 
   // Resolve the work list: single jurisdiction or a Texas-wide level bulk.
   let level: Level;
-  let where = "STATE='48'";
+  let where = `STATE='${fips}'`;
   let onlySlug: string | undefined;
   if (jurSlug) {
     const [jur] = await db.select().from(jurisdictions).where(eq(jurisdictions.slug, jurSlug)).limit(1);
     if (!jur) return { error: "unknown_jurisdiction", jurisdiction: jurSlug };
-    if (!jurSlug.startsWith("us-tx")) return { error: "outside_fence", instruction: "Geo ingest v1 covers Texas only (M8)." };
+    if (!jurSlug.startsWith(profile.root)) return { error: "outside_fence", instruction: `Geo ingest --fips ${fips} covers ${profile.root} only.` };
     onlySlug = jurSlug;
     level = jur.level === "state" ? "state" : jur.level === "county" ? "county" : jur.level === "city" ? "place" : "state";
-    if (level === "county") where = `STATE='48' AND BASENAME='${cleanCityName(jur.name).replace(/\s+County$/, "").replace(/'/g, "''")}'`;
-    if (level === "place") where = `STATE='48' AND BASENAME='${cleanCityName(jur.name).replace(/'/g, "''")}'`;
+    if (level === "county") where = `STATE='${fips}' AND BASENAME='${cleanCityName(jur.name).replace(/\s+County$/, "").replace(/'/g, "''")}'`;
+    if (level === "place") where = `STATE='${fips}' AND BASENAME='${cleanCityName(jur.name).replace(/'/g, "''")}'`;
   } else if (levelArg && ["state", "county", "place"].includes(levelArg)) {
     level = levelArg;
   } else {
-    return { error: "usage: tax geo ingest --jurisdiction <us-tx slug> | --level state|county|place" };
+    return { error: "usage: tax geo ingest --jurisdiction <slug> | --level state|county|place [--fips 48|20]" };
   }
 
-  const source = await ensureSource(level, tx.id);
+  const source = await ensureSource(level, tx.id, fips, profile.label);
   const { features, text } = await fetchFeatures(level, where);
   const contentHash = createHash("sha256").update(text).digest("hex");
 
@@ -138,7 +148,7 @@ export async function runGeoIngest(args: string[]): Promise<Record<string, unkno
   if (!snap) throw new Error("snapshot missing");
 
   // Match maps from registered jurisdictions.
-  const allJur = await db.select().from(jurisdictions);
+  const allJur = (await db.select().from(jurisdictions)).filter((j) => j.slug === profile.root || j.slug.startsWith(`${profile.root}-`));
   const bySlug = new Map(allJur.map((j) => [j.slug, j]));
   const countyByName = new Map<string, typeof allJur[number][]>();
   const cityByName = new Map<string, typeof allJur[number][]>();
@@ -175,7 +185,7 @@ export async function runGeoIngest(args: string[]): Promise<Record<string, unkno
     const geom = f.geometry as Geometry;
 
     let jur: typeof allJur[number] | undefined;
-    if (level === "state") jur = bySlug.get("us-tx");
+    if (level === "state") jur = bySlug.get(profile.root);
     else {
       const pool = level === "county" ? countyByName.get(normName(baseName)) : cityByName.get(normName(baseName));
       if (!pool?.length) { unmatched.push({ name: baseName, reason: "no_registered_jurisdiction" }); continue; }
@@ -211,13 +221,13 @@ export async function runGeoIngest(args: string[]): Promise<Record<string, unkno
   if (items.length) {
     const [prop] = await db.insert(proposals).values({
       jurisdictionId: tx.id, status: "proposed",
-      datavalues: { geoIngest: level, where, snapshotHash: contentHash },
+      datavalues: { geoIngest: level, where, snapshotHash: contentHash, fips },
     }).returning({ id: proposals.id });
     proposalId = prop!.id;
     for (const it of items) {
       await db.insert(proposalItems).values({
         proposalId, targetTable: "jurisdiction_geo", payload: it.payload,
-        citation: `US Census Bureau TIGERweb ${LAYERS[level].label}, STATE=48 (retrieved ${today}); GEOID ${String(it.payload.censusGeoid ?? "")}`,
+        citation: `US Census Bureau TIGERweb ${LAYERS[level].label}, STATE=${fips} (retrieved ${today}); GEOID ${String(it.payload.censusGeoid ?? "")}`,
         sourceId: source.id, snapshotId: snap.id, verdict: "pending",
       });
     }
