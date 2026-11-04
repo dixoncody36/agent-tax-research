@@ -116,3 +116,36 @@ code { background: rgba(0, 0, 0, .3); padding: 1px 5px; border-radius: 4px; }
 .review-name { margin: 16px 0 6px; }
 .review-name .field { max-width: 360px; font-size: 12px; }
 .fact { margin-bottom: 10px; }
+
+/* ---- Type hierarchy (page title > section label > body > meta) ---- */
+.detail-title { margin: 6px 0 2px; font-size: 26px; line-height: 1.15; letter-spacing: -.3px; }
+.page-title { margin: 0 0 4px; font-size: 22px; letter-spacing: -.2px; }
+.crumbs { font-size: 12px; color: var(--dim); }
+.crumbs a { text-decoration: none; }
+.crumbs a:hover { text-decoration: underline; }
+ul.plain { list-style: none; margin: 0; padding: 0; }
+ul.plain li { padding: 3px 0; }
+
+/* ---- Explorer ---- */
+.tabs { display: flex; flex-wrap: wrap; align-items: center; gap: 2px; margin: 14px 0 12px; border-bottom: 1px solid var(--line); }
+.tab { background: transparent; color: var(--dim); border: 0; border-bottom: 3px solid transparent; padding: 9px 14px; font: 700 13px Arial, Helvetica, sans-serif; cursor: pointer; }
+.tab:hover { color: var(--ink); }
+.tab.on { color: var(--ink); border-bottom-color: var(--accent); }
+.tab:focus-visible { outline: 2px solid #7cc7f0; outline-offset: -2px; }
+.toggle { margin-left: auto; display: flex; align-items: center; gap: 6px; }
+.child-filter { width: 100%; margin: 4px 0 8px; background: #051625; border: 1px solid var(--line); color: var(--ink); border-radius: 4px; padding: 8px 10px; font: 13px Arial, Helvetica, sans-serif; }
+.chips { list-style: none; margin: 8px 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.chips li { border: 1px solid var(--line); border-radius: 4px; padding: 4px 9px; font-size: 13px; }
+.chips a { text-decoration: none; }
+.browse { max-height: 640px; overflow-y: auto; }
+.group-head { width: 100%; display: flex; justify-content: space-between; background: rgba(0, 0, 0, .2); color: var(--ink); border: 0; border-left: 3px solid var(--blue); padding: 8px 10px; margin-top: 6px; font: 700 13px Arial, Helvetica, sans-serif; cursor: pointer; text-align: left; }
+.group ul { padding: 4px 0 4px 12px; }
+.group li a { text-decoration: none; font-size: 13px; color: var(--ink); }
+.group li a:hover, .group li a.cur { color: #7cc7f0; }
+.group li a.cur { font-weight: 700; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.btn.link { display: inline-block; text-decoration: none; margin-right: 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn, .tab, .topbar nav a { transition: background-color .15s ease, color .15s ease, border-color .15s ease; }
+}
