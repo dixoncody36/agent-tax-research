@@ -19,6 +19,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <nav>
             <Link href="/">Globe</Link>
             <Link href="/explore">Explore</Link>
+            <Link href="/downloads">Downloads</Link>
             <Link href="/review">Human Review Queue</Link>
           </nav>
           <span className="draft-tag" title="Draft — not a final client deliverable">Draft</span>
