@@ -13,6 +13,7 @@
     "db:seed:federal": "tsx src/seed-federal.ts",
     "db:seed:products": "tsx src/seed-products.ts",
     "db:seed:canada": "tsx src/seed-canada.ts",
+    "db:seed:kansas": "tsx src/seed-kansas.ts",
     "db:studio": "drizzle-kit studio",
     "typecheck": "tsc --noEmit"
   },

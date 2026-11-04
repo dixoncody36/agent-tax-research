@@ -1,0 +1,26 @@
+{
+  "profile": "kansas-only",
+  "description": "All of Kansas: the footprint slug pulls in its ancestor (us) automatically and, at depth null, every registered descendant under us-ks (counties, cities, special districts as the cascade registers them).",
+  "footprint": ["us-ks"],
+  "industries": [],
+  "categories": [
+    "sales_tax",
+    "vat_gst",
+    "income",
+    "excise",
+    "property",
+    "fee",
+    "other"
+  ],
+  "depth": null,
+  "history": "earliest_published",
+  "cadences": {
+    "default": "weekly",
+    "byCategory": {
+      "sales_tax": "weekly"
+    },
+    "byJurisdiction": {
+      "us-ks": "weekly"
+    }
+  }
+}
