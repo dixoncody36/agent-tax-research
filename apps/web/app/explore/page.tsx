@@ -140,7 +140,15 @@ export default function Explore() {
                 {detail.jurisdiction.timezone && <> · {detail.jurisdiction.timezone}</>}
                 {detail.jurisdiction.currencyCode && <> · {detail.jurisdiction.currencyCode}</>}
               </p>
-              <div className="actions" data-slot="detail-actions" />
+              <div className="actions">
+                <a className="btn link" data-testid="download-rates" href={`/api/export/rates?jurisdiction=${detail.jurisdiction.slug}&format=csv`}>Rates CSV</a>
+                <a className="btn secondary link" href={`/api/export/rates?jurisdiction=${detail.jurisdiction.slug}&format=json`}>Rates JSON</a>
+                <a className="btn secondary link" href={`/api/export/rules?jurisdiction=${detail.jurisdiction.slug}&format=csv`}>Rules CSV</a>
+                <a className="btn secondary link" href={`/api/export/rules?jurisdiction=${detail.jurisdiction.slug}&format=json`}>Rules JSON</a>
+                {detail.geo.some((g) => g.has_boundary && g.status === "verified") && (
+                  <a className="btn secondary link" href={`/api/export/geo?jurisdiction=${detail.jurisdiction.slug}`}>Boundary GeoJSON</a>
+                )}
+              </div>
               <div className="tabs" role="tablist">
                 {TABS.map((t) => (
                   <button key={t.key} role="tab" aria-selected={tab === t.key} className={`tab${tab === t.key ? " on" : ""}`} onClick={() => go(slug, t.key)}>
