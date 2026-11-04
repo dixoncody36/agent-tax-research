@@ -1,0 +1,5 @@
+fixture,lat,lng,expected_cascade,check,expected_combined
+toronto,43.6532,-79.3832,ca > ca-on,geo-canada-fixtures.ts over proposal payloads pre-publish; pnpm tax geo resolve after publish,13 (HST) via published rates once approved
+montreal,45.5017,-73.5673,ca > ca-qc,geo-canada-fixtures.ts,GST 5 + QST 9.975 on parallel (GST-excluded) bases
+whitehorse,60.7212,-135.0568,ca > ca-yt,geo-canada-fixtures.ts,5 (GST only; territorial sales tax confirmed_absent)
+outside-canada,30.2672,-97.7431,(empty),geo-canada-fixtures.ts (Austin TX point),n/a

@@ -113,14 +113,89 @@ const geoProposed = await client`
   WHERE i.target_table = 'jurisdiction_geo' AND p.status IN ('verified', 'approved')
   ORDER BY 1`;
 save("geo-boundaries-verified-unpublished.csv", geoProposed.length ? toCsv(geoProposed as unknown as Record<string, unknown>[]) : "none\n");
-const geoTieOut = await client`SELECT * FROM reporting.geo_tie_out ORDER BY level`;
+const geoTieOut = slug === "ca" ? await client`SELECT * FROM reporting.geo_tie_out_ca ORDER BY level` : await client`SELECT * FROM reporting.geo_tie_out ORDER BY level`;
 save("geo-tie-out.csv", toCsv(geoTieOut as unknown as Record<string, unknown>[]));
 const geoFixtures = [
   { fixture: "downtown-austin", lat: 30.2672, lng: -97.7431, expected_cascade: "us-tx > us-tx-travis > us-tx-austin", check: "re-perform with: pnpm tax geo resolve --lat 30.2672 --lng -97.7431 (needs published geo; proposals in geo-boundaries-verified-unpublished.csv until then)", expected_combined: "8.25 when transit boundary published or confirmed_absent accepted; else PARTIAL 7.25 + transit unresolved" },
   { fixture: "buda-centroid", lat: "payload centroid", lng: "payload centroid", expected_cascade: "us-tx > us-tx-hays-county > us-tx-city-buda", check: "geo-populate fixture run (packages/cli/src/geo-populate.ts)", expected_combined: "per Comptroller combined total on the Buda extraction row" },
   { fixture: "outside-texas", lat: 35.0, lng: -106.0, expected_cascade: "(empty)", check: "pnpm tax geo resolve --lat 35 --lng -106", expected_combined: "n/a" },
 ];
-save("geo-fixtures.csv", toCsv(geoFixtures as unknown as Record<string, unknown>[]));
+if (slug === "ca") {
+  geoFixtures.splice(0, geoFixtures.length,
+    { fixture: "toronto", lat: 43.6532, lng: -79.3832, expected_cascade: "ca > ca-on", check: "geo-canada-fixtures.ts over proposal payloads pre-publish; pnpm tax geo resolve after publish", expected_combined: "13 (HST) via published rates once approved" },
+    { fixture: "montreal", lat: 45.5017, lng: -73.5673, expected_cascade: "ca > ca-qc", check: "geo-canada-fixtures.ts", expected_combined: "GST 5 + QST 9.975 on parallel (GST-excluded) bases" },
+    { fixture: "whitehorse", lat: 60.7212, lng: -135.0568, expected_cascade: "ca > ca-yt", check: "geo-canada-fixtures.ts", expected_combined: "5 (GST only; territorial sales tax confirmed_absent)" },
+    { fixture: "outside-canada", lat: 30.2672, lng: -97.7431, expected_cascade: "(empty)", check: "geo-canada-fixtures.ts (Austin TX point)", expected_combined: "n/a" },
+  );
+}save("geo-fixtures.csv", toCsv(geoFixtures as unknown as Record<string, unknown>[]));
+
+// Canada sections (#51, slug=ca only; Texas output untouched):
+//  - GST/HST band tie-out: recompute federal 5% + provincial portion
+//    against the CRA published combined parsed from each extraction
+//    item's appliesTo ("CRA combined X%"), integer micro-units,
+//    tolerance 0; negative residual writes an exception (027 #10/#11).
+//  - Coverage: every ca jurisdiction accounted once across sources,
+//    ledger, proposals, geo and absence findings — zero silent gaps.
+let canadaBandRows = 0;
+let canadaBandVariances = 0;
+let canadaCoverageRows = 0;
+let canadaUnaccountedJurisdictions = 0;
+if (slug === "ca") {
+  const bandItems = await client`
+    SELECT (i.payload->>'jurisdictionSlug') AS js_slug,
+      (i.payload->>'rateValue')::numeric AS rate_value,
+      i.payload->>'effectiveFrom' AS effective_from,
+      i.payload->>'effectiveTo' AS effective_to,
+      i.payload->>'appliesTo' AS applies_to, p.status AS proposal_status
+    FROM proposal_items i JOIN proposals p ON p.id = i.proposal_id
+    WHERE p.datavalues->>'m9issue' = '48' AND p.datavalues->>'plan' = 'gst-hst'
+      AND i.target_table = 'tax_rates' AND p.status IN ('verified', 'approved', 'published')
+    ORDER BY js_slug, effective_from`;
+  const bandTieOut: Record<string, unknown>[] = [];
+  for (const b of bandItems) {
+    const isFed = b.js_slug === "ca";
+    const m = /combined ([\d.]+)%/.exec(String(b.applies_to));
+    const expected = isFed ? micro(5) : m ? micro(m[1]) : null;
+    if (expected === null) continue;
+    const recomputed = isFed ? micro(b.rate_value) : micro(5) + micro(b.rate_value);
+    const residual = expected - recomputed;
+    const flag = residual === 0 ? "T ties exactly" : "EXCEPTION variance vs CRA published combined";
+    if (residual !== 0) {
+      canadaBandVariances += 1;
+      await client`INSERT INTO exceptions (jurisdiction_id, exception_type, severity, status, detail)
+        SELECT id, ${"audit_tie_out"}, ${"high"}, ${"open"}, ${`GST-HST-SPLIT tie-out variance ${fromMicro(residual)} for ${b.js_slug} from ${String(b.effective_from)}: 5 + ${String(b.rate_value)} vs CRA combined ${fromMicro(expected)} (audit-pack #51)`}
+        FROM jurisdictions WHERE slug = ${String(b.js_slug)}`;
+    }
+    bandTieOut.push({ jurisdiction: b.js_slug, federal_component: isFed ? fromMicro(micro(b.rate_value)) : fromMicro(micro(5)), provincial_portion: isFed ? "0.000000" : fromMicro(micro(b.rate_value)), recomputed_combined: fromMicro(recomputed), cra_published_combined: fromMicro(expected), residual: fromMicro(residual), effective_from: b.effective_from, effective_to: b.effective_to ?? "", proposal_status: b.proposal_status, assessment: flag });
+  }
+  canadaBandRows = bandTieOut.length;
+  save("canada-gst-hst-tie-out.csv", bandTieOut.length ? toCsv(bandTieOut) : "no verified GST/HST band items yet\n");
+
+  const coverage = await client`
+    SELECT j.slug AS jurisdiction, j.level,
+      (SELECT count(*) FROM sources s WHERE s.jurisdiction_id = j.id AND s.status = 'active')::int AS active_sources,
+      (SELECT count(*) FROM source_snapshots sn JOIN sources s ON s.id = sn.source_id WHERE s.jurisdiction_id = j.id)::int AS snapshots,
+      (SELECT count(*) FROM research_ledger l WHERE l.jurisdiction_id = j.id AND l.status = 'validated')::int AS ledger_validated,
+      (SELECT count(*) FROM research_ledger l WHERE l.jurisdiction_id = j.id AND l.status = 'pending_review')::int AS ledger_pending,
+      (SELECT count(*) FROM research_ledger l WHERE l.jurisdiction_id = j.id AND l.determination LIKE 'confirmed_absent%')::int AS absence_findings,
+      (SELECT count(*) FROM proposals p WHERE p.jurisdiction_id = j.id AND p.status IN ('verified','approved'))::int AS proposals_verified,
+      (SELECT count(*) FROM proposals p WHERE p.jurisdiction_id = j.id AND p.status = 'published')::int AS proposals_published,
+      (SELECT count(*) FROM proposals p WHERE p.jurisdiction_id = j.id AND p.status = 'proposed')::int AS proposals_proposed,
+      CASE
+        WHEN EXISTS (SELECT 1 FROM jurisdiction_geo g WHERE g.jurisdiction_id = j.id AND g.boundary_geojson IS NOT NULL) THEN 'published_boundary'
+        WHEN EXISTS (SELECT 1 FROM proposal_items i JOIN proposals p ON p.id = i.proposal_id WHERE i.target_table = 'jurisdiction_geo' AND (i.payload->>'jurisdictionSlug') = j.slug AND p.status IN ('verified','approved')) THEN 'verified_unpublished'
+        WHEN j.slug = 'ca' THEN 'named_gap_national_outline_not_proposed'
+        ELSE 'UNACCOUNTED'
+      END AS geo_accounting
+    FROM jurisdictions j
+    WHERE j.slug = 'ca' OR j.slug LIKE 'ca-%'
+    ORDER BY j.level, j.slug`;
+  canadaCoverageRows = coverage.length;
+  canadaUnaccountedJurisdictions = coverage.filter((r) => r.geo_accounting === "UNACCOUNTED"
+    || (Number(r.ledger_validated) + Number(r.absence_findings) === 0 && r.jurisdiction !== "ca")).length;
+  save("canada-coverage.csv", toCsv(coverage as unknown as Record<string, unknown>[]));
+}
+
 
 const register = [
   { calc_id: "RATE-STACK", purpose: "Combined rate for a place = stack of jurisdictional components", method: "Sum effective-dated verified components (state+county+city+SPD+transit)", formula: "combined = Σ component.rate_value (percent-points), integer micro-units in tie-out", inputs: "tax_rates verified rows + official combined totals on extraction items", outputs: "tie-out-sales-stack.csv rows with residual vs published total", authority: "Texas Tax Code ch. 151 (state) + local ch. 321-327; TX Comptroller combined-rate tables", rounding: "storage numeric exact; no rounding in stack; display 6dp (table precision); tolerance 0 micro-units", owner: "agent-tax-research operators", elections: "percent stored as percent-points (6.25 = 6.25%)" },
@@ -128,7 +203,7 @@ const register = [
   { calc_id: "COVERAGE-ABSENCE", purpose: "Distinguish 'searched, not there' from 'not yet searched'", method: "Peer-profile question packs answered found/confirmed_absent/unknown with recorded negative search", formula: "n/a (classification)", inputs: "question packs, coverage answers", outputs: "coverage rows", authority: "docs/coverage.md", rounding: "n/a", owner: "agent-tax-research operators", elections: "unknown is honest default; absence requires recorded search" },
 ];
 register.push({ calc_id: "GEO-PIP", purpose: "Point (lat/long) -> applicable jurisdictions whose published boundary contains it", method: "Ray-casting point-in-polygon over WGS84 GeoJSON, bbox prefilter; boundary point counts inside (flagged); test point never rounded", formula: "applicable = { j : PIP(boundary_j, point) } ordered by level rank; feeds RATE-STACK", inputs: "jurisdiction_geo verified rows (geometry_hash per row) + point", outputs: "geo resolve envelope with calc versions + deciding geometry hashes", authority: "Boundary as published by US Census Bureau TIGER/Line (TIGERweb) / Texas GIS, cited per row", rounding: "coordinates numeric(9,6) storage; simplification tolerance recorded per geometry; no rounding in containment", owner: "agent-tax-research operators", elections: "centroid-only jurisdictions never claim containment; unpublished SPD/transit boundaries are confirmed_absent, never drawn" });
-save("calculation-register.csv", toCsv(register));
+if (slug === "ca") register.push({ calc_id: "GST-HST-SPLIT", purpose: "Store CRA combined HST as federal 5% + provincial portion so RATE-STACK sums correctly", method: "portion = CRA published combined rate minus 5 percent-points; tie-out in canada-gst-hst-tie-out.csv", formula: "combined = 5 + portion (integer micro-units); QST excluded (parallel GST-excluded base, never stacked)", inputs: "CRA GST/HST calculator and rates table snapshot (bands since 2013-04-01)", outputs: "ca-gst-hst component rows per province and band", authority: "Excise Tax Act (Canada) as published by CRA GST/HST rates tables", rounding: "storage numeric exact; tolerance 0 micro-units", owner: "agent-tax-research operators", elections: "PST/QST are parallel-base taxes, NOT HST stack components" });save("calculation-register.csv", toCsv(register));
 
 const inputSha = createHash("sha256").update(files.get("verified-rates.csv") ?? "").digest("hex");
 let gitSha = "unknown";
@@ -138,10 +213,10 @@ const manifest = {
   calcVersion: "audit-pack 1.0.0", gitSha,
   generator: "packages/cli/src/audit-pack.ts",
   inputsHash: inputSha, inputsNote: "SHA-256 of verified-rates.csv (canonical input rows for this pack)",
-  counts: { ratesTotal: rates.length, ratesVerified: rates.filter((r) => r.verification_status === "verified").length, tieOutRows: tieOut.length, tieOutNegativeVariances: variances, geoPublished: geoPublished.length, geoVerifiedUnpublished: geoProposed.length, geoUnaccounted: geoTieOut.reduce((s, r) => s + Number(r.unaccounted), 0) },
+  counts: { ratesTotal: rates.length, ratesVerified: rates.filter((r) => r.verification_status === "verified").length, tieOutRows: tieOut.length, tieOutNegativeVariances: variances, geoPublished: geoPublished.length, geoVerifiedUnpublished: geoProposed.length, geoUnaccounted: geoTieOut.reduce((s, r) => s + Number(r.unaccounted), 0), canadaBandRows, canadaBandVariances, canadaCoverageRows, canadaUnaccountedJurisdictions },
   files: [...files.entries()].map(([name, content]) => ({ name, sha256: createHash("sha256").update(content).digest("hex"), bytes: Buffer.byteLength(content) })),
   retention: "default 7 years per anvil 027 — CONFIRM with engagement; local filesystem for now, Azure Blob WORM is the ship target (gap)",
-  knownGaps: ["combined totals sourced from extraction records, not first-class published total rows", "no Entra signer identity locally — approver names are CLI-recorded strings", "CSV pack; live-formula .xlsx workpaper + PDF summary pending shared generator (027 s6)"],
+  knownGaps: ["combined totals sourced from extraction records, not first-class published total rows", "no Entra signer identity locally — approver names are CLI-recorded strings", "CSV pack; live-formula .xlsx workpaper + PDF summary pending shared generator (027 s6)", ...(slug === "ca" ? ["Canada: pre-2013 GST history (CRA GST/HST Statistics Tables) not yet evidenced", "Canada: PST/QST rates evidenced from 2025-04-01 bound; earlier provincial bands pending archive evidence", "Canada: SK PST 6% rests on CRA table alone (provincial landing states no rate)", "Canada: boundaries are the Statistics Canada product via PAVICS/Ouranos GeoServer mirror (direct statcan.gc.ca download bot-walled 2026-11)", "Canada: ca national outline polygon not proposed (provinces are the tax-relevant level)", "Canada: MB RST + RQ registration pages and GST/HST filing-frequency table not yet snapshotted"] : [])],
   note: "DRAFT — generated for review. Re-perform: open CSVs in Excel; verify snapshot_sha256 against source_snapshots.content_hash; recompute stacks in tie-out file (integer micro-units, tolerance 0).",
 };
 save("manifest.json", JSON.stringify(manifest, null, 2) + "\n");
