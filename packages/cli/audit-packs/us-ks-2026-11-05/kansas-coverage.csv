@@ -1,0 +1,1088 @@
+jurisdiction,level,active_sources,snapshots,ledger_validated,ledger_pending,proposals_verified,proposals_published,verified_rates,published_items_for_slug,geo_accounting,name,levy_accounting
+us-ks,state,12,12,6,4,0,11,3,3,published_boundary,Kansas,rate_row
+us-ks-allen-county,county,0,0,0,0,0,0,1,1,published_boundary,Allen County,rate_row
+us-ks-anderson-county,county,0,0,0,0,0,0,1,1,published_boundary,Anderson County,rate_row
+us-ks-atchison-county,county,0,0,0,0,0,0,1,1,published_boundary,Atchison County,rate_row
+us-ks-barber-county,county,0,0,0,0,0,0,1,1,published_boundary,Barber County,rate_row
+us-ks-barton-county,county,0,0,0,0,0,0,1,1,published_boundary,Barton County,rate_row
+us-ks-bourbon-county,county,0,0,0,0,0,0,1,1,published_boundary,Bourbon County,rate_row
+us-ks-brown-county,county,0,0,0,0,0,0,1,1,published_boundary,Brown County,rate_row
+us-ks-butler-county,county,0,0,0,0,0,0,0,0,published_boundary,Butler County,pub1700_row_no_rate_extracted
+us-ks-chase-county,county,0,0,0,0,0,0,1,1,published_boundary,Chase County,rate_row
+us-ks-chautauqua-county,county,0,0,0,0,0,0,1,1,published_boundary,Chautauqua County,rate_row
+us-ks-cherokee-county,county,0,0,0,0,0,0,1,1,published_boundary,Cherokee County,rate_row
+us-ks-cheyenne-county,county,0,0,0,0,0,0,1,1,published_boundary,Cheyenne County,rate_row
+us-ks-clark-county,county,0,0,0,0,0,0,0,0,published_boundary,Clark County,pub1700_row_no_rate_extracted
+us-ks-clay-county,county,0,0,0,0,0,0,1,1,published_boundary,Clay County,rate_row
+us-ks-cloud-county,county,0,0,0,0,0,0,1,1,published_boundary,Cloud County,rate_row
+us-ks-coffey-county,county,0,0,0,0,0,0,0,0,published_boundary,Coffey County,pub1700_row_no_rate_extracted
+us-ks-comanche-county,county,0,0,0,0,0,0,0,0,published_boundary,Comanche County,pub1700_row_no_rate_extracted
+us-ks-cowley-county,county,0,0,0,0,0,0,0,0,published_boundary,Cowley County,pub1700_row_no_rate_extracted
+us-ks-crawford-county,county,0,0,0,0,0,0,1,1,published_boundary,Crawford County,rate_row
+us-ks-decatur-county,county,0,0,0,0,0,0,1,1,published_boundary,Decatur County,rate_row
+us-ks-dickinson-county,county,0,0,0,0,0,0,1,1,published_boundary,Dickinson County,rate_row
+us-ks-doniphan-county,county,0,0,0,0,0,0,1,1,published_boundary,Doniphan County,rate_row
+us-ks-douglas-county,county,0,0,0,0,0,0,1,1,published_boundary,Douglas County,rate_row
+us-ks-edwards-county,county,0,0,0,0,0,0,1,1,published_boundary,Edwards County,rate_row
+us-ks-elk-county,county,0,0,0,0,0,0,1,1,published_boundary,Elk County,rate_row
+us-ks-ellis-county,county,0,0,0,0,0,0,1,1,published_boundary,Ellis County,rate_row
+us-ks-ellsworth-county,county,0,0,0,0,0,0,1,1,published_boundary,Ellsworth County,rate_row
+us-ks-finney-county,county,0,0,0,0,0,0,1,1,published_boundary,Finney County,rate_row
+us-ks-ford-county,county,0,0,0,0,0,0,1,1,published_boundary,Ford County,rate_row
+us-ks-franklin-county,county,0,0,0,0,0,0,1,1,published_boundary,Franklin County,rate_row
+us-ks-geary-county,county,0,0,0,0,0,0,1,1,published_boundary,Geary County,rate_row
+us-ks-gove-county,county,0,0,0,0,0,0,1,1,published_boundary,Gove County,rate_row
+us-ks-graham-county,county,0,0,0,0,0,0,1,1,published_boundary,Graham County,rate_row
+us-ks-grant-county,county,0,0,0,0,0,0,0,0,published_boundary,Grant County,pub1700_row_no_rate_extracted
+us-ks-gray-county,county,0,0,0,0,0,0,1,1,published_boundary,Gray County,rate_row
+us-ks-greeley-county,county,0,0,0,0,0,0,1,1,published_boundary,Greeley County,rate_row
+us-ks-greenwood-county,county,0,0,0,0,0,0,1,1,published_boundary,Greenwood County,rate_row
+us-ks-hamilton-county,county,0,0,0,0,0,0,1,1,published_boundary,Hamilton County,rate_row
+us-ks-harper-county,county,0,0,0,0,0,0,0,0,published_boundary,Harper County,pub1700_row_no_rate_extracted
+us-ks-harvey-county,county,0,0,0,0,0,0,1,1,published_boundary,Harvey County,rate_row
+us-ks-haskell-county,county,0,0,0,0,0,0,1,1,published_boundary,Haskell County,rate_row
+us-ks-hodgeman-county,county,0,0,0,0,0,0,1,1,published_boundary,Hodgeman County,rate_row
+us-ks-jackson-county,county,0,0,0,0,0,0,1,1,published_boundary,Jackson County,rate_row
+us-ks-jefferson-county,county,0,0,0,0,0,0,1,1,published_boundary,Jefferson County,rate_row
+us-ks-jewell-county,county,0,0,0,0,0,0,1,1,published_boundary,Jewell County,rate_row
+us-ks-johnson-county,county,0,0,0,0,0,0,1,1,published_boundary,Johnson County,rate_row
+us-ks-kearny-county,county,0,0,0,0,0,0,0,0,published_boundary,Kearny County,pub1700_row_no_rate_extracted
+us-ks-kingman-county,county,0,0,0,0,0,0,1,1,published_boundary,Kingman County,rate_row
+us-ks-kiowa-county,county,0,0,0,0,0,0,1,1,published_boundary,Kiowa County,rate_row
+us-ks-labette-county,county,0,0,0,0,0,0,1,1,published_boundary,Labette County,rate_row
+us-ks-lane-county,county,0,0,0,0,0,0,1,1,published_boundary,Lane County,rate_row
+us-ks-leavenworth-county,county,0,0,0,0,0,0,1,1,published_boundary,Leavenworth County,rate_row
+us-ks-lincoln-county,county,0,0,0,0,0,0,1,1,published_boundary,Lincoln County,rate_row
+us-ks-linn-county,county,0,0,0,0,0,0,1,1,published_boundary,Linn County,rate_row
+us-ks-logan-county,county,0,0,0,0,0,0,1,1,published_boundary,Logan County,rate_row
+us-ks-lyon-county,county,0,0,0,0,0,0,1,1,published_boundary,Lyon County,rate_row
+us-ks-marion-county,county,0,0,0,0,0,0,1,1,published_boundary,Marion County,rate_row
+us-ks-marshall-county,county,0,0,0,0,0,0,1,1,published_boundary,Marshall County,rate_row
+us-ks-mcpherson-county,county,0,0,0,0,0,0,1,1,published_boundary,McPherson County,rate_row
+us-ks-meade-county,county,0,0,0,0,0,0,1,1,published_boundary,Meade County,rate_row
+us-ks-miami-county,county,0,0,0,0,0,0,1,1,published_boundary,Miami County,rate_row
+us-ks-mitchell-county,county,0,0,0,0,0,0,1,1,published_boundary,Mitchell County,rate_row
+us-ks-montgomery-county,county,0,0,0,0,0,0,0,0,published_boundary,Montgomery County,pub1700_row_no_rate_extracted
+us-ks-morris-county,county,0,0,0,0,0,0,1,1,published_boundary,Morris County,rate_row
+us-ks-morton-county,county,0,0,0,0,0,0,1,1,published_boundary,Morton County,rate_row
+us-ks-nemaha-county,county,0,0,0,0,0,0,1,1,published_boundary,Nemaha County,rate_row
+us-ks-neosho-county,county,0,0,0,0,0,0,1,1,published_boundary,Neosho County,rate_row
+us-ks-ness-county,county,0,0,0,0,0,0,0,0,published_boundary,Ness County,pub1700_row_no_rate_extracted
+us-ks-norton-county,county,0,0,0,0,0,0,0,0,published_boundary,Norton County,pub1700_row_no_rate_extracted
+us-ks-osage-county,county,0,0,0,0,0,0,1,1,published_boundary,Osage County,rate_row
+us-ks-osborne-county,county,0,0,0,0,0,0,1,1,published_boundary,Osborne County,rate_row
+us-ks-ottawa-county,county,0,0,0,0,0,0,1,1,published_boundary,Ottawa County,rate_row
+us-ks-pawnee-county,county,0,0,0,0,0,0,1,1,published_boundary,Pawnee County,rate_row
+us-ks-phillips-county,county,0,0,0,0,0,0,1,1,published_boundary,Phillips County,rate_row
+us-ks-pottawatomie-county,county,0,0,0,0,0,0,1,1,published_boundary,Pottawatomie County,rate_row
+us-ks-pratt-county,county,0,0,0,0,0,0,1,1,published_boundary,Pratt County,rate_row
+us-ks-rawlins-county,county,0,0,0,0,0,0,1,1,published_boundary,Rawlins County,rate_row
+us-ks-reno-county,county,0,0,0,0,0,0,1,1,published_boundary,Reno County,rate_row
+us-ks-republic-county,county,0,0,0,0,0,0,1,1,published_boundary,Republic County,rate_row
+us-ks-rice-county,county,0,0,0,0,0,0,1,1,published_boundary,Rice County,rate_row
+us-ks-riley-county,county,0,0,0,0,0,0,0,0,published_boundary,Riley County,pub1700_row_no_rate_extracted
+us-ks-rooks-county,county,0,0,0,0,0,0,1,1,published_boundary,Rooks County,rate_row
+us-ks-rush-county,county,0,0,0,0,0,0,0,0,published_boundary,Rush County,pub1700_row_no_rate_extracted
+us-ks-russell-county,county,0,0,0,0,0,0,1,1,published_boundary,Russell County,rate_row
+us-ks-saline-county,county,0,0,0,0,0,0,1,1,published_boundary,Saline County,rate_row
+us-ks-scott-county,county,0,0,0,0,0,0,1,1,published_boundary,Scott County,rate_row
+us-ks-sedgwick-county,county,0,0,0,0,0,0,0,0,published_boundary,Sedgwick County,pub1700_row_no_rate_extracted
+us-ks-seward-county,county,0,0,0,0,0,0,1,1,published_boundary,Seward County,rate_row
+us-ks-shawnee-county,county,0,0,0,0,0,0,1,1,published_boundary,Shawnee County,rate_row
+us-ks-sheridan-county,county,0,0,0,0,0,0,1,1,published_boundary,Sheridan County,rate_row
+us-ks-sherman-county,county,0,0,0,0,0,0,1,1,published_boundary,Sherman County,rate_row
+us-ks-smith-county,county,0,0,0,0,0,0,1,1,published_boundary,Smith County,rate_row
+us-ks-stafford-county,county,0,0,0,0,0,0,1,1,published_boundary,Stafford County,rate_row
+us-ks-stanton-county,county,0,0,0,0,0,0,1,1,published_boundary,Stanton County,rate_row
+us-ks-stevens-county,county,0,0,0,0,0,0,1,1,published_boundary,Stevens County,rate_row
+us-ks-sumner-county,county,0,0,0,0,0,0,1,1,published_boundary,Sumner County,rate_row
+us-ks-thomas-county,county,0,0,0,0,0,0,1,1,published_boundary,Thomas County,rate_row
+us-ks-trego-county,county,0,0,0,0,0,0,1,1,published_boundary,Trego County,rate_row
+us-ks-wabaunsee-county,county,0,0,0,0,0,0,1,1,published_boundary,Wabaunsee County,rate_row
+us-ks-wallace-county,county,0,0,0,0,0,0,1,1,published_boundary,Wallace County,rate_row
+us-ks-washington-county,county,0,0,0,0,0,0,1,1,published_boundary,Washington County,rate_row
+us-ks-wichita-county,county,0,0,0,0,0,0,1,1,published_boundary,Wichita County,rate_row
+us-ks-wilson-county,county,0,0,0,0,0,0,1,1,published_boundary,Wilson County,rate_row
+us-ks-woodson-county,county,0,0,0,0,0,0,1,1,published_boundary,Woodson County,rate_row
+us-ks-wyandotte-county,county,0,0,0,0,0,0,1,1,published_boundary,Wyandotte County,rate_row
+us-ks-city-abbyville,city,0,0,0,0,0,0,0,0,published_boundary,Abbyville,pub1700_row_no_rate_extracted
+us-ks-city-abilene,city,0,0,0,0,0,0,1,1,published_boundary,Abilene,rate_row
+us-ks-city-admire,city,0,0,0,0,0,0,0,0,published_boundary,Admire,pub1700_row_no_rate_extracted
+us-ks-city-agenda,city,0,0,0,0,0,0,0,0,published_boundary,Agenda,pub1700_row_no_rate_extracted
+us-ks-city-agra,city,0,0,0,0,0,0,0,0,published_boundary,Agra,pub1700_row_no_rate_extracted
+us-ks-city-albert,city,0,0,0,0,0,0,0,0,published_boundary,Albert,pub1700_row_no_rate_extracted
+us-ks-city-alden,city,0,0,0,0,0,0,1,1,published_boundary,Alden,rate_row
+us-ks-city-alexander,city,0,0,0,0,0,0,0,0,published_boundary,Alexander,pub1700_row_no_rate_extracted
+us-ks-city-allen,city,0,0,0,0,0,0,0,0,published_boundary,Allen,pub1700_row_no_rate_extracted
+us-ks-city-alma,city,0,0,0,0,0,0,1,1,published_boundary,Alma,rate_row
+us-ks-city-almena,city,0,0,0,0,0,0,1,1,published_boundary,Almena,rate_row
+us-ks-city-altamont,city,0,0,0,0,0,0,1,1,published_boundary,Altamont,rate_row
+us-ks-city-alta-vista,city,0,0,0,0,0,0,0,0,published_boundary,Alta Vista,pub1700_row_no_rate_extracted
+us-ks-city-alton,city,0,0,0,0,0,0,0,0,published_boundary,Alton,pub1700_row_no_rate_extracted
+us-ks-city-altoona,city,0,0,0,0,0,0,1,1,published_boundary,Altoona,rate_row
+us-ks-city-americus,city,0,0,0,0,0,0,1,1,published_boundary,Americus,rate_row
+us-ks-city-andale,city,0,0,0,0,0,0,0,0,published_boundary,Andale,pub1700_row_no_rate_extracted
+us-ks-city-andover,city,0,0,0,0,0,0,1,1,published_boundary,Andover,rate_row
+us-ks-city-anthony,city,0,0,0,0,0,0,1,1,published_boundary,Anthony,rate_row
+us-ks-city-arcadia,city,0,0,0,0,0,0,0,0,published_boundary,Arcadia,pub1700_row_no_rate_extracted
+us-ks-city-argonia,city,0,0,0,0,0,0,1,1,published_boundary,Argonia,rate_row
+us-ks-city-arkansas-city,city,0,0,0,0,0,0,1,1,published_boundary,Arkansas City,rate_row
+us-ks-city-arlington,city,0,0,0,0,0,0,1,1,published_boundary,Arlington,rate_row
+us-ks-city-arma,city,0,0,0,0,0,0,1,1,published_boundary,Arma,rate_row
+us-ks-city-ashland,city,0,0,0,0,0,0,0,0,published_boundary,Ashland,pub1700_row_no_rate_extracted
+us-ks-city-assaria,city,0,0,0,0,0,0,0,0,published_boundary,Assaria,pub1700_row_no_rate_extracted
+us-ks-city-atchison,city,0,0,0,0,0,0,1,1,published_boundary,Atchison,rate_row
+us-ks-city-athol,city,0,0,0,0,0,0,0,0,published_boundary,Athol,pub1700_row_no_rate_extracted
+us-ks-city-atlanta,city,0,0,0,0,0,0,0,0,published_boundary,Atlanta,pub1700_row_no_rate_extracted
+us-ks-city-attica,city,0,0,0,0,0,0,1,1,published_boundary,Attica,rate_row
+us-ks-city-atwood,city,0,0,0,0,0,0,0,0,published_boundary,Atwood,pub1700_row_no_rate_extracted
+us-ks-city-auburn,city,0,0,0,0,0,0,1,1,published_boundary,Auburn,rate_row
+us-ks-city-augusta,city,0,0,0,0,0,0,1,1,published_boundary,Augusta,rate_row
+us-ks-city-aurora,city,0,0,0,0,0,0,0,0,published_boundary,Aurora,pub1700_row_no_rate_extracted
+us-ks-city-axtell,city,0,0,0,0,0,0,0,0,published_boundary,Axtell,pub1700_row_no_rate_extracted
+us-ks-city-baldwin-city,city,0,0,0,0,0,0,1,1,published_boundary,Baldwin City,rate_row
+us-ks-city-barnard,city,0,0,0,0,0,0,0,0,published_boundary,Barnard,pub1700_row_no_rate_extracted
+us-ks-city-barnes,city,0,0,0,0,0,0,0,0,published_boundary,Barnes,pub1700_row_no_rate_extracted
+us-ks-city-bartlett,city,0,0,0,0,0,0,0,0,published_boundary,Bartlett,pub1700_row_no_rate_extracted
+us-ks-city-basehor,city,0,0,0,0,0,0,1,1,published_boundary,Basehor,rate_row
+us-ks-city-bassett,city,0,0,0,0,0,0,0,0,published_boundary,Bassett,pub1700_row_no_rate_extracted
+us-ks-city-baxter-springs,city,0,0,0,0,0,0,1,1,published_boundary,Baxter Springs,rate_row
+us-ks-city-bazine,city,0,0,0,0,0,0,0,0,published_boundary,Bazine,pub1700_row_no_rate_extracted
+us-ks-city-beattie,city,0,0,0,0,0,0,0,0,published_boundary,Beattie,pub1700_row_no_rate_extracted
+us-ks-city-bel-aire,city,0,0,0,0,0,0,0,0,published_boundary,Bel Aire,pub1700_row_no_rate_extracted
+us-ks-city-belle-plaine,city,0,0,0,0,0,0,1,1,published_boundary,Belle Plaine,rate_row
+us-ks-city-belleville,city,0,0,0,0,0,0,1,1,published_boundary,Belleville,rate_row
+us-ks-city-beloit,city,0,0,0,0,0,0,1,1,published_boundary,Beloit,rate_row
+us-ks-city-belpre,city,0,0,0,0,0,0,0,0,published_boundary,Belpre,pub1700_row_no_rate_extracted
+us-ks-city-belvue,city,0,0,0,0,0,0,0,0,published_boundary,Belvue,pub1700_row_no_rate_extracted
+us-ks-city-benedict,city,0,0,0,0,0,0,0,0,published_boundary,Benedict,pub1700_row_no_rate_extracted
+us-ks-city-bennington,city,0,0,0,0,0,0,1,1,published_boundary,Bennington,rate_row
+us-ks-city-bentley,city,0,0,0,0,0,0,0,0,published_boundary,Bentley,pub1700_row_no_rate_extracted
+us-ks-city-benton,city,0,0,0,0,0,0,1,1,published_boundary,Benton,rate_row
+us-ks-city-bern,city,0,0,0,0,0,0,0,0,published_boundary,Bern,pub1700_row_no_rate_extracted
+us-ks-city-beverly,city,0,0,0,0,0,0,1,1,published_boundary,Beverly,rate_row
+us-ks-city-bird-city,city,0,0,0,0,0,0,0,0,published_boundary,Bird City,pub1700_row_no_rate_extracted
+us-ks-city-bison,city,0,0,0,0,0,0,0,0,published_boundary,Bison,pub1700_row_no_rate_extracted
+us-ks-city-blue-mound,city,0,0,0,0,0,0,0,0,published_boundary,Blue Mound,pub1700_row_no_rate_extracted
+us-ks-city-blue-rapids,city,0,0,0,0,0,0,1,1,published_boundary,Blue Rapids,rate_row
+us-ks-city-bluff-city,city,0,0,0,0,0,0,0,0,published_boundary,Bluff City,pub1700_row_no_rate_extracted
+us-ks-city-bogue,city,0,0,0,0,0,0,0,0,published_boundary,Bogue,pub1700_row_no_rate_extracted
+us-ks-city-bonner-springs,city,0,0,0,0,0,0,1,1,UNACCOUNTED,Bonner Springs,rate_row
+us-ks-city-bonner-springs-bonlv,city,0,0,0,0,0,0,1,1,UNACCOUNTED,Bonner Springs,rate_row
+us-ks-city-bonner-springs-bonwy,city,0,0,0,0,0,0,1,1,UNACCOUNTED,Bonner Springs,rate_row
+us-ks-city-brewster,city,0,0,0,0,0,0,0,0,published_boundary,Brewster,pub1700_row_no_rate_extracted
+us-ks-city-bronson,city,0,0,0,0,0,0,1,1,published_boundary,Bronson,rate_row
+us-ks-city-brookville,city,0,0,0,0,0,0,0,0,published_boundary,Brookville,pub1700_row_no_rate_extracted
+us-ks-city-brownell,city,0,0,0,0,0,0,0,0,published_boundary,Brownell,pub1700_row_no_rate_extracted
+us-ks-city-bucklin,city,0,0,0,0,0,0,1,1,published_boundary,Bucklin,rate_row
+us-ks-city-buffalo,city,0,0,0,0,0,0,0,0,published_boundary,Buffalo,pub1700_row_no_rate_extracted
+us-ks-city-buhler,city,0,0,0,0,0,0,1,1,published_boundary,Buhler,rate_row
+us-ks-city-bunker-hill,city,0,0,0,0,0,0,0,0,published_boundary,Bunker Hill,pub1700_row_no_rate_extracted
+us-ks-city-burden,city,0,0,0,0,0,0,1,1,published_boundary,Burden,rate_row
+us-ks-city-burdett,city,0,0,0,0,0,0,0,0,published_boundary,Burdett,pub1700_row_no_rate_extracted
+us-ks-city-burlingame,city,0,0,0,0,0,0,1,1,published_boundary,Burlingame,rate_row
+us-ks-city-burlington,city,0,0,0,0,0,0,1,1,published_boundary,Burlington,rate_row
+us-ks-city-burns,city,0,0,0,0,0,0,0,0,published_boundary,Burns,pub1700_row_no_rate_extracted
+us-ks-city-burr-oak,city,0,0,0,0,0,0,0,0,published_boundary,Burr Oak,pub1700_row_no_rate_extracted
+us-ks-city-burrton,city,0,0,0,0,0,0,1,1,published_boundary,Burrton,rate_row
+us-ks-city-bushong,city,0,0,0,0,0,0,0,0,published_boundary,Bushong,pub1700_row_no_rate_extracted
+us-ks-city-bushton,city,0,0,0,0,0,0,0,0,published_boundary,Bushton,pub1700_row_no_rate_extracted
+us-ks-city-byers,city,0,0,0,0,0,0,0,0,published_boundary,Byers,pub1700_row_no_rate_extracted
+us-ks-city-caldwell,city,0,0,0,0,0,0,1,1,published_boundary,Caldwell,rate_row
+us-ks-city-cambridge,city,0,0,0,0,0,0,0,0,published_boundary,Cambridge,pub1700_row_no_rate_extracted
+us-ks-city-caney,city,0,0,0,0,0,0,0,0,published_boundary,Caney,pub1700_row_no_rate_extracted
+us-ks-city-canton,city,0,0,0,0,0,0,1,1,published_boundary,Canton,rate_row
+us-ks-city-carbondale,city,0,0,0,0,0,0,1,1,published_boundary,Carbondale,rate_row
+us-ks-city-carlton,city,0,0,0,0,0,0,0,0,published_boundary,Carlton,pub1700_row_no_rate_extracted
+us-ks-city-cassoday,city,0,0,0,0,0,0,0,0,published_boundary,Cassoday,pub1700_row_no_rate_extracted
+us-ks-city-cawker-city,city,0,0,0,0,0,0,1,1,published_boundary,Cawker City,rate_row
+us-ks-city-cedar,city,0,0,0,0,0,0,0,0,published_boundary,Cedar,pub1700_row_no_rate_extracted
+us-ks-city-cedar-point,city,0,0,0,0,0,0,0,0,published_boundary,Cedar Point,pub1700_row_no_rate_extracted
+us-ks-city-cedar-vale,city,0,0,0,0,0,0,1,1,published_boundary,Cedar Vale,rate_row
+us-ks-city-centralia,city,0,0,0,0,0,0,0,0,published_boundary,Centralia,pub1700_row_no_rate_extracted
+us-ks-city-chanute,city,0,0,0,0,0,0,1,1,published_boundary,Chanute,rate_row
+us-ks-city-chapman,city,0,0,0,0,0,0,1,1,published_boundary,Chapman,rate_row
+us-ks-city-chase,city,0,0,0,0,0,0,1,1,published_boundary,Chase,rate_row
+us-ks-city-chautauqua,city,0,0,0,0,0,0,0,0,published_boundary,Chautauqua,pub1700_row_no_rate_extracted
+us-ks-city-cheney,city,0,0,0,0,0,0,0,0,published_boundary,Cheney,pub1700_row_no_rate_extracted
+us-ks-city-cherokee,city,0,0,0,0,0,0,1,1,UNACCOUNTED,Cherokee,rate_row
+us-ks-city-cherokee-checr,city,0,0,0,0,0,0,1,1,UNACCOUNTED,Cherokee,rate_row
+us-ks-city-cherryvale,city,0,0,0,0,0,0,1,1,published_boundary,Cherryvale,rate_row
+us-ks-city-chetopa,city,0,0,0,0,0,0,1,1,published_boundary,Chetopa,rate_row
+us-ks-city-cimarron,city,0,0,0,0,0,0,1,1,published_boundary,Cimarron,rate_row
+us-ks-city-circleville,city,0,0,0,0,0,0,0,0,published_boundary,Circleville,pub1700_row_no_rate_extracted
+us-ks-city-claflin,city,0,0,0,0,0,0,1,1,published_boundary,Claflin,rate_row
+us-ks-city-clay-center,city,0,0,0,0,0,0,0,0,published_boundary,Clay Center,pub1700_row_no_rate_extracted
+us-ks-city-clayton,city,0,0,0,0,0,0,0,0,UNACCOUNTED,Clayton,UNACCOUNTED
+us-ks-city-clayton-clant,city,0,0,0,0,0,0,0,0,UNACCOUNTED,Clayton,UNACCOUNTED
+us-ks-city-clearwater,city,0,0,0,0,0,0,1,1,published_boundary,Clearwater,rate_row
+us-ks-city-clifton,city,0,0,0,0,0,0,1,1,UNACCOUNTED,Clifton,rate_row
+us-ks-city-clifton-cliws,city,0,0,0,0,0,0,1,1,UNACCOUNTED,Clifton,rate_row
+us-ks-city-climax,city,0,0,0,0,0,0,0,0,published_boundary,Climax,pub1700_row_no_rate_extracted
+us-ks-city-clyde,city,0,0,0,0,0,0,0,0,published_boundary,Clyde,pub1700_row_no_rate_extracted
+us-ks-city-coats,city,0,0,0,0,0,0,0,0,published_boundary,Coats,pub1700_row_no_rate_extracted
+us-ks-city-coffeyville,city,0,0,0,0,0,0,1,1,published_boundary,Coffeyville,rate_row
+us-ks-city-colby,city,0,0,0,0,0,0,1,1,published_boundary,Colby,rate_row
+us-ks-city-coldwater,city,0,0,0,0,0,0,1,1,published_boundary,Coldwater,rate_row
+us-ks-city-collyer,city,0,0,0,0,0,0,1,1,published_boundary,Collyer,rate_row
+us-ks-city-colony,city,0,0,0,0,0,0,1,1,published_boundary,Colony,rate_row
+us-ks-city-columbus,city,0,0,0,0,0,0,1,1,published_boundary,Columbus,rate_row
+us-ks-city-colwich,city,0,0,0,0,0,0,0,0,published_boundary,Colwich,pub1700_row_no_rate_extracted
+us-ks-city-concordia,city,0,0,0,0,0,0,1,1,published_boundary,Concordia,rate_row
+us-ks-city-conway-springs,city,0,0,0,0,0,0,1,1,published_boundary,Conway Springs,rate_row
+us-ks-city-coolidge,city,0,0,0,0,0,0,0,0,published_boundary,Coolidge,pub1700_row_no_rate_extracted
+us-ks-city-copeland,city,0,0,0,0,0,0,0,0,published_boundary,Copeland,pub1700_row_no_rate_extracted
+us-ks-city-corning,city,0,0,0,0,0,0,0,0,published_boundary,Corning,pub1700_row_no_rate_extracted
+us-ks-city-cottonwood-falls,city,0,0,0,0,0,0,1,1,published_boundary,Cottonwood Falls,rate_row
+us-ks-city-council-grove,city,0,0,0,0,0,0,1,1,published_boundary,Council Grove,rate_row
+us-ks-city-courtland,city,0,0,0,0,0,0,0,0,published_boundary,Courtland,pub1700_row_no_rate_extracted
+us-ks-city-coyville,city,0,0,0,0,0,0,0,0,published_boundary,Coyville,pub1700_row_no_rate_extracted
+us-ks-city-cuba,city,0,0,0,0,0,0,0,0,published_boundary,Cuba,pub1700_row_no_rate_extracted
+us-ks-city-cullison,city,0,0,0,0,0,0,0,0,published_boundary,Cullison,pub1700_row_no_rate_extracted
+us-ks-city-culver,city,0,0,0,0,0,0,0,0,published_boundary,Culver,pub1700_row_no_rate_extracted
+us-ks-city-cunningham,city,0,0,0,0,0,0,1,1,published_boundary,Cunningham,rate_row
+us-ks-city-damar,city,0,0,0,0,0,0,0,0,published_boundary,Damar,pub1700_row_no_rate_extracted
+us-ks-city-danville,city,0,0,0,0,0,0,1,1,published_boundary,Danville,rate_row
+us-ks-city-dearing,city,0,0,0,0,0,0,1,1,published_boundary,Dearing,rate_row
+us-ks-city-deerfield,city,0,0,0,0,0,0,1,1,published_boundary,Deerfield,rate_row
+us-ks-city-delia,city,0,0,0,0,0,0,0,0,published_boundary,Delia,pub1700_row_no_rate_extracted
+us-ks-city-delphos,city,0,0,0,0,0,0,1,1,published_boundary,Delphos,rate_row
+us-ks-city-denison,city,0,0,0,0,0,0,0,0,published_boundary,Denison,pub1700_row_no_rate_extracted
+us-ks-city-denton,city,0,0,0,0,0,0,0,0,published_boundary,Denton,pub1700_row_no_rate_extracted
+us-ks-city-derby,city,0,0,0,0,0,0,1,1,published_boundary,Derby,rate_row
+us-ks-city-de-soto,city,0,0,0,0,0,0,1,1,UNACCOUNTED,De Soto,rate_row
+us-ks-city-de-soto-deslv,city,0,0,0,0,0,0,1,1,UNACCOUNTED,De Soto,rate_row
+us-ks-city-dexter,city,0,0,0,0,0,0,0,0,published_boundary,Dexter,pub1700_row_no_rate_extracted
+us-ks-city-dighton,city,0,0,0,0,0,0,1,1,published_boundary,Dighton,rate_row
+us-ks-city-dodge-city,city,0,0,0,0,0,0,1,1,published_boundary,Dodge City,rate_row
+us-ks-city-dorrance,city,0,0,0,0,0,0,0,0,published_boundary,Dorrance,pub1700_row_no_rate_extracted
+us-ks-city-douglass,city,0,0,0,0,0,0,1,1,published_boundary,Douglass,rate_row
+us-ks-city-downs,city,0,0,0,0,0,0,1,1,published_boundary,Downs,rate_row
+us-ks-city-dresden,city,0,0,0,0,0,0,0,0,published_boundary,Dresden,pub1700_row_no_rate_extracted
+us-ks-city-dunlap,city,0,0,0,0,0,0,0,0,published_boundary,Dunlap,pub1700_row_no_rate_extracted
+us-ks-city-durham,city,0,0,0,0,0,0,0,0,published_boundary,Durham,pub1700_row_no_rate_extracted
+us-ks-city-dwight,city,0,0,0,0,0,0,0,0,published_boundary,Dwight,pub1700_row_no_rate_extracted
+us-ks-city-earlton,city,0,0,0,0,0,0,0,0,published_boundary,Earlton,pub1700_row_no_rate_extracted
+us-ks-city-eastborough,city,0,0,0,0,0,0,0,0,published_boundary,Eastborough,pub1700_row_no_rate_extracted
+us-ks-city-easton,city,0,0,0,0,0,0,1,1,published_boundary,Easton,rate_row
+us-ks-city-edgerton,city,0,0,0,0,0,0,1,1,published_boundary,Edgerton,rate_row
+us-ks-city-edmond,city,0,0,0,0,0,0,0,0,published_boundary,Edmond,pub1700_row_no_rate_extracted
+us-ks-city-edna,city,0,0,0,0,0,0,1,1,published_boundary,Edna,rate_row
+us-ks-city-edwardsville,city,0,0,0,0,0,0,1,1,published_boundary,Edwardsville,rate_row
+us-ks-city-effingham,city,0,0,0,0,0,0,1,1,published_boundary,Effingham,rate_row
+us-ks-city-elbing,city,0,0,0,0,0,0,0,0,published_boundary,Elbing,pub1700_row_no_rate_extracted
+us-ks-city-el-dorado,city,0,0,0,0,0,0,1,1,published_boundary,El Dorado,rate_row
+us-ks-city-elgin,city,0,0,0,0,0,0,0,0,published_boundary,Elgin,pub1700_row_no_rate_extracted
+us-ks-city-elk-city,city,0,0,0,0,0,0,0,0,published_boundary,Elk City,pub1700_row_no_rate_extracted
+us-ks-city-elk-falls,city,0,0,0,0,0,0,0,0,published_boundary,Elk Falls,pub1700_row_no_rate_extracted
+us-ks-city-elkhart,city,0,0,0,0,0,0,1,1,published_boundary,Elkhart,rate_row
+us-ks-city-ellinwood,city,0,0,0,0,0,0,1,1,published_boundary,Ellinwood,rate_row
+us-ks-city-ellis,city,0,0,0,0,0,0,1,1,published_boundary,Ellis,rate_row
+us-ks-city-ellsworth,city,0,0,0,0,0,0,1,1,published_boundary,Ellsworth,rate_row
+us-ks-city-elmdale,city,0,0,0,0,0,0,0,0,published_boundary,Elmdale,pub1700_row_no_rate_extracted
+us-ks-city-elsmore,city,0,0,0,0,0,0,0,0,published_boundary,Elsmore,pub1700_row_no_rate_extracted
+us-ks-city-elwood,city,0,0,0,0,0,0,1,1,published_boundary,Elwood,rate_row
+us-ks-city-emmett,city,0,0,0,0,0,0,0,0,published_boundary,Emmett,pub1700_row_no_rate_extracted
+us-ks-city-emporia,city,0,0,0,0,0,0,1,1,published_boundary,Emporia,rate_row
+us-ks-city-englewood,city,0,0,0,0,0,0,0,0,published_boundary,Englewood,pub1700_row_no_rate_extracted
+us-ks-city-ensign,city,0,0,0,0,0,0,0,0,published_boundary,Ensign,pub1700_row_no_rate_extracted
+us-ks-city-enterprise,city,0,0,0,0,0,0,0,0,published_boundary,Enterprise,pub1700_row_no_rate_extracted
+us-ks-city-erie,city,0,0,0,0,0,0,1,1,published_boundary,Erie,rate_row
+us-ks-city-esbon,city,0,0,0,0,0,0,0,0,published_boundary,Esbon,pub1700_row_no_rate_extracted
+us-ks-city-eskridge,city,0,0,0,0,0,0,1,1,published_boundary,Eskridge,rate_row
+us-ks-city-eudora,city,0,0,0,0,0,0,1,1,published_boundary,Eudora,rate_row
+us-ks-city-eureka,city,0,0,0,0,0,0,1,1,published_boundary,Eureka,rate_row
+us-ks-city-everest,city,0,0,0,0,0,0,0,0,published_boundary,Everest,pub1700_row_no_rate_extracted
+us-ks-city-fairview,city,0,0,0,0,0,0,1,1,published_boundary,Fairview,rate_row
+us-ks-city-fairway,city,0,0,0,0,0,0,1,1,published_boundary,Fairway,rate_row
+us-ks-city-fall-river,city,0,0,0,0,0,0,0,0,published_boundary,Fall River,pub1700_row_no_rate_extracted
+us-ks-city-florence,city,0,0,0,0,0,0,1,1,published_boundary,Florence,rate_row
+us-ks-city-fontana,city,0,0,0,0,0,0,1,1,published_boundary,Fontana,rate_row
+us-ks-city-ford,city,0,0,0,0,0,0,0,0,published_boundary,Ford,pub1700_row_no_rate_extracted
+us-ks-city-formoso,city,0,0,0,0,0,0,0,0,published_boundary,Formoso,pub1700_row_no_rate_extracted
+us-ks-city-fort-scott,city,0,0,0,0,0,0,1,1,published_boundary,Fort Scott,rate_row
+us-ks-city-fowler,city,0,0,0,0,0,0,1,1,published_boundary,Fowler,rate_row
+us-ks-city-frankfort,city,0,0,0,0,0,0,1,1,published_boundary,Frankfort,rate_row
+us-ks-city-frederick,city,0,0,0,0,0,0,0,0,published_boundary,Frederick,pub1700_row_no_rate_extracted
+us-ks-city-fredonia,city,0,0,0,0,0,0,1,1,published_boundary,Fredonia,rate_row
+us-ks-city-frontenac,city,0,0,0,0,0,0,1,1,published_boundary,Frontenac,rate_row
+us-ks-city-fulton,city,0,0,0,0,0,0,0,0,published_boundary,Fulton,pub1700_row_no_rate_extracted
+us-ks-city-galatia,city,0,0,0,0,0,0,0,0,published_boundary,Galatia,pub1700_row_no_rate_extracted
+us-ks-city-galena,city,0,0,0,0,0,0,1,1,published_boundary,Galena,rate_row
+us-ks-city-galesburg,city,0,0,0,0,0,0,0,0,published_boundary,Galesburg,pub1700_row_no_rate_extracted
+us-ks-city-galva,city,0,0,0,0,0,0,0,0,published_boundary,Galva,pub1700_row_no_rate_extracted
+us-ks-city-garden-city,city,0,0,0,0,0,0,1,1,published_boundary,Garden City,rate_row
+us-ks-city-garden-plain,city,0,0,0,0,0,0,1,1,published_boundary,Garden Plain,rate_row
+us-ks-city-gardner,city,0,0,0,0,0,0,1,1,published_boundary,Gardner,rate_row
+us-ks-city-garfield,city,0,0,0,0,0,0,0,0,published_boundary,Garfield,pub1700_row_no_rate_extracted
+us-ks-city-garnett,city,0,0,0,0,0,0,1,1,published_boundary,Garnett,rate_row
+us-ks-city-gas,city,0,0,0,0,0,0,1,1,published_boundary,Gas,rate_row
+us-ks-city-gaylord,city,0,0,0,0,0,0,0,0,published_boundary,Gaylord,pub1700_row_no_rate_extracted
+us-ks-city-gem,city,0,0,0,0,0,0,0,0,published_boundary,Gem,pub1700_row_no_rate_extracted
+us-ks-city-geneseo,city,0,0,0,0,0,0,1,1,published_boundary,Geneseo,rate_row
+us-ks-city-geuda-springs,city,0,0,0,0,0,0,0,0,UNACCOUNTED,Geuda Springs,UNACCOUNTED
+us-ks-city-geuda-springs-geusu,city,0,0,0,0,0,0,0,0,UNACCOUNTED,Geuda Springs,UNACCOUNTED
+us-ks-city-girard,city,0,0,0,0,0,0,1,1,published_boundary,Girard,rate_row
+us-ks-city-glade,city,0,0,0,0,0,0,1,1,published_boundary,Glade,rate_row
+us-ks-city-glasco,city,0,0,0,0,0,0,1,1,published_boundary,Glasco,rate_row
+us-ks-city-glen-elder,city,0,0,0,0,0,0,1,1,published_boundary,Glen Elder,rate_row
+us-ks-city-goddard,city,0,0,0,0,0,0,1,1,published_boundary,Goddard,rate_row
+us-ks-city-goessel,city,0,0,0,0,0,0,0,0,published_boundary,Goessel,pub1700_row_no_rate_extracted
+us-ks-city-goff,city,0,0,0,0,0,0,0,0,published_boundary,Goff,pub1700_row_no_rate_extracted
+us-ks-city-goodland,city,0,0,0,0,0,0,1,1,published_boundary,Goodland,rate_row
+us-ks-city-gorham,city,0,0,0,0,0,0,0,0,published_boundary,Gorham,pub1700_row_no_rate_extracted
+us-ks-city-gove,city,0,0,0,0,0,0,0,0,UNACCOUNTED,Gove,pub1700_row_no_rate_extracted
+us-ks-city-gove-city,city,0,0,0,0,0,0,0,0,published_boundary,Gove City,UNACCOUNTED
+us-ks-city-grainfield,city,0,0,0,0,0,0,0,0,published_boundary,Grainfield,pub1700_row_no_rate_extracted
+us-ks-city-grandview-plaza,city,0,0,0,0,0,0,1,1,published_boundary,Grandview Plaza,rate_row
+us-ks-city-great-bend,city,0,0,0,0,0,0,1,1,published_boundary,Great Bend,rate_row
+us-ks-city-great-bend-lodging-cid,city,0,0,0,0,0,0,1,1,UNACCOUNTED,Great Bend Lodging CID,rate_row
+us-ks-city-greeley,city,0,0,0,0,0,0,0,0,published_boundary,Greeley,pub1700_row_no_rate_extracted
+us-ks-city-greeley-county-unified-government,city,0,0,0,0,0,0,0,0,published_boundary,Greeley County unified government,UNACCOUNTED
+us-ks-city-green,city,0,0,0,0,0,0,0,0,published_boundary,Green,pub1700_row_no_rate_extracted
+us-ks-city-greenleaf,city,0,0,0,0,0,0,0,0,published_boundary,Greenleaf,pub1700_row_no_rate_extracted
+us-ks-city-greensburg,city,0,0,0,0,0,0,1,1,published_boundary,Greensburg,rate_row
+us-ks-city-grenola,city,0,0,0,0,0,0,0,0,published_boundary,Grenola,pub1700_row_no_rate_extracted
+us-ks-city-gridley,city,0,0,0,0,0,0,1,1,published_boundary,Gridley,rate_row
+us-ks-city-grinnell,city,0,0,0,0,0,0,1,1,published_boundary,Grinnell,rate_row
+us-ks-city-gypsum,city,0,0,0,0,0,0,0,0,published_boundary,Gypsum,pub1700_row_no_rate_extracted
+us-ks-city-haddam,city,0,0,0,0,0,0,0,0,published_boundary,Haddam,pub1700_row_no_rate_extracted
+us-ks-city-halstead,city,0,0,0,0,0,0,0,0,published_boundary,Halstead,pub1700_row_no_rate_extracted
+us-ks-city-hamilton,city,0,0,0,0,0,0,0,0,published_boundary,Hamilton,pub1700_row_no_rate_extracted
+us-ks-city-hamlin,city,0,0,0,0,0,0,0,0,published_boundary,Hamlin,pub1700_row_no_rate_extracted
+us-ks-city-hanover,city,0,0,0,0,0,0,0,0,published_boundary,Hanover,pub1700_row_no_rate_extracted
+us-ks-city-hanston,city,0,0,0,0,0,0,0,0,published_boundary,Hanston,pub1700_row_no_rate_extracted
+us-ks-city-hardtner,city,0,0,0,0,0,0,0,0,published_boundary,Hardtner,pub1700_row_no_rate_extracted
+us-ks-city-harper,city,0,0,0,0,0,0,1,1,published_boundary,Harper,rate_row
+us-ks-city-hartford,city,0,0,0,0,0,0,1,1,published_boundary,Hartford,rate_row
+us-ks-city-harveyville,city,0,0,0,0,0,0,0,0,published_boundary,Harveyville,pub1700_row_no_rate_extracted
+us-ks-city-havana,city,0,0,0,0,0,0,0,0,published_boundary,Havana,pub1700_row_no_rate_extracted
+us-ks-city-haven,city,0,0,0,0,0,0,0,0,published_boundary,Haven,pub1700_row_no_rate_extracted
+us-ks-city-havensville,city,0,0,0,0,0,0,0,0,published_boundary,Havensville,pub1700_row_no_rate_extracted
+us-ks-city-haviland,city,0,0,0,0,0,0,0,0,published_boundary,Haviland,pub1700_row_no_rate_extracted
+us-ks-city-hays,city,0,0,0,0,0,0,1,1,published_boundary,Hays,rate_row
+us-ks-city-haysville,city,0,0,0,0,0,0,0,0,published_boundary,Haysville,pub1700_row_no_rate_extracted
+us-ks-city-hazelton,city,0,0,0,0,0,0,0,0,published_boundary,Hazelton,pub1700_row_no_rate_extracted
+us-ks-city-hepler,city,0,0,0,0,0,0,0,0,published_boundary,Hepler,pub1700_row_no_rate_extracted
+us-ks-city-herington,city,0,0,0,0,0,0,1,1,UNACCOUNTED,Herington,rate_row
+us-ks-city-herington-hermr,city,0,0,0,0,0,0,1,1,UNACCOUNTED,Herington,rate_row
+us-ks-city-herndon,city,0,0,0,0,0,0,0,0,published_boundary,Herndon,pub1700_row_no_rate_extracted
+us-ks-city-hesston,city,0,0,0,0,0,0,0,0,published_boundary,Hesston,pub1700_row_no_rate_extracted
+us-ks-city-hiawatha,city,0,0,0,0,0,0,1,1,published_boundary,Hiawatha,rate_row
+us-ks-city-highland,city,0,0,0,0,0,0,1,1,published_boundary,Highland,rate_row
+us-ks-city-hill-city,city,0,0,0,0,0,0,1,1,published_boundary,Hill City,rate_row
+us-ks-city-hillsboro,city,0,0,0,0,0,0,1,1,published_boundary,Hillsboro,rate_row
+us-ks-city-hoisington,city,0,0,0,0,0,0,1,1,published_boundary,Hoisington,rate_row
+us-ks-city-holcomb,city,0,0,0,0,0,0,1,1,published_boundary,Holcomb,rate_row
+us-ks-city-hollenberg,city,0,0,0,0,0,0,0,0,published_boundary,Hollenberg,pub1700_row_no_rate_extracted
+us-ks-city-holton,city,0,0,0,0,0,0,1,1,published_boundary,Holton,rate_row
+us-ks-city-holyrood,city,0,0,0,0,0,0,0,0,published_boundary,Holyrood,pub1700_row_no_rate_extracted
+us-ks-city-hope,city,0,0,0,0,0,0,0,0,published_boundary,Hope,pub1700_row_no_rate_extracted
+us-ks-city-horace,city,0,0,0,0,0,0,0,0,published_boundary,Horace,pub1700_row_no_rate_extracted
+us-ks-city-horton,city,0,0,0,0,0,0,1,1,published_boundary,Horton,rate_row
+us-ks-city-howard,city,0,0,0,0,0,0,1,1,published_boundary,Howard,rate_row
+us-ks-city-hoxie,city,0,0,0,0,0,0,0,0,published_boundary,Hoxie,pub1700_row_no_rate_extracted
+us-ks-city-hoyt,city,0,0,0,0,0,0,0,0,published_boundary,Hoyt,pub1700_row_no_rate_extracted
+us-ks-city-hudson,city,0,0,0,0,0,0,0,0,published_boundary,Hudson,pub1700_row_no_rate_extracted
+us-ks-city-hugoton,city,0,0,0,0,0,0,1,1,published_boundary,Hugoton,rate_row
+us-ks-city-humboldt,city,0,0,0,0,0,0,1,1,published_boundary,Humboldt,rate_row
+us-ks-city-hunnewell,city,0,0,0,0,0,0,0,0,published_boundary,Hunnewell,pub1700_row_no_rate_extracted
+us-ks-city-hunter,city,0,0,0,0,0,0,0,0,published_boundary,Hunter,pub1700_row_no_rate_extracted
+us-ks-city-huron,city,0,0,0,0,0,0,0,0,published_boundary,Huron,pub1700_row_no_rate_extracted
+us-ks-city-hutchinson,city,0,0,0,0,0,0,1,1,published_boundary,Hutchinson,rate_row
+us-ks-city-independence,city,0,0,0,0,0,0,1,1,published_boundary,Independence,rate_row
+us-ks-city-ingalls,city,0,0,0,0,0,0,0,0,published_boundary,Ingalls,pub1700_row_no_rate_extracted
+us-ks-city-inman,city,0,0,0,0,0,0,0,0,published_boundary,Inman,pub1700_row_no_rate_extracted
+us-ks-city-iola,city,0,0,0,0,0,0,1,1,published_boundary,Iola,rate_row
+us-ks-city-isabel,city,0,0,0,0,0,0,0,0,published_boundary,Isabel,pub1700_row_no_rate_extracted
+us-ks-city-iuka,city,0,0,0,0,0,0,0,0,published_boundary,Iuka,pub1700_row_no_rate_extracted
+us-ks-city-jamestown,city,0,0,0,0,0,0,0,0,published_boundary,Jamestown,pub1700_row_no_rate_extracted
+us-ks-city-jennings,city,0,0,0,0,0,0,0,0,published_boundary,Jennings,pub1700_row_no_rate_extracted
+us-ks-city-jetmore,city,0,0,0,0,0,0,1,1,published_boundary,Jetmore,rate_row
+us-ks-city-jewell,city,0,0,0,0,0,0,0,0,published_boundary,Jewell,pub1700_row_no_rate_extracted
+us-ks-city-johnson-city,city,0,0,0,0,0,0,0,0,published_boundary,Johnson City,pub1700_row_no_rate_extracted
+us-ks-city-junction-city,city,0,0,0,0,0,0,1,1,published_boundary,Junction City,rate_row
+us-ks-city-kanopolis,city,0,0,0,0,0,0,1,1,published_boundary,Kanopolis,rate_row
+us-ks-city-kanorado,city,0,0,0,0,0,0,1,1,published_boundary,Kanorado,rate_row
+us-ks-city-kansas-city,city,0,0,0,0,0,0,1,1,published_boundary,Kansas City,rate_row
+us-ks-city-kechi,city,0,0,0,0,0,0,1,1,published_boundary,Kechi,rate_row
+us-ks-city-kensington,city,0,0,0,0,0,0,1,1,published_boundary,Kensington,rate_row
+us-ks-city-kincaid,city,0,0,0,0,0,0,1,1,published_boundary,Kincaid,rate_row
+us-ks-city-kingman,city,0,0,0,0,0,0,1,1,published_boundary,Kingman,rate_row
+us-ks-city-kinsley,city,0,0,0,0,0,0,1,1,published_boundary,Kinsley,rate_row
+us-ks-city-kiowa,city,0,0,0,0,0,0,1,1,published_boundary,Kiowa,rate_row
+us-ks-city-kirwin,city,0,0,0,0,0,0,0,0,published_boundary,Kirwin,pub1700_row_no_rate_extracted
+us-ks-city-kismet,city,0,0,0,0,0,0,0,0,published_boundary,Kismet,pub1700_row_no_rate_extracted
+us-ks-city-labette,city,0,0,0,0,0,0,0,0,published_boundary,Labette,pub1700_row_no_rate_extracted
+us-ks-city-la-crosse,city,0,0,0,0,0,0,1,1,published_boundary,La Crosse,rate_row
+us-ks-city-la-cygne,city,0,0,0,0,0,0,1,1,published_boundary,La Cygne,rate_row
+us-ks-city-la-harpe,city,0,0,0,0,0,0,1,1,published_boundary,La Harpe,rate_row
+us-ks-city-lake-quivira,city,0,0,0,0,0,0,0,0,UNACCOUNTED,Lake Quivira,UNACCOUNTED
+us-ks-city-lake-quivira-lakwy,city,0,0,0,0,0,0,0,0,UNACCOUNTED,Lake Quivira,UNACCOUNTED
+us-ks-city-lakin,city,0,0,0,0,0,0,1,1,published_boundary,Lakin,rate_row
+us-ks-city-lancaster,city,0,0,0,0,0,0,0,0,published_boundary,Lancaster,pub1700_row_no_rate_extracted
+us-ks-city-lane,city,0,0,0,0,0,0,1,1,published_boundary,Lane,rate_row
+us-ks-city-langdon,city,0,0,0,0,0,0,0,0,published_boundary,Langdon,pub1700_row_no_rate_extracted
+us-ks-city-lansing,city,0,0,0,0,0,0,1,1,published_boundary,Lansing,rate_row
+us-ks-city-larned,city,0,0,0,0,0,0,0,0,published_boundary,Larned,pub1700_row_no_rate_extracted
+us-ks-city-latham,city,0,0,0,0,0,0,1,1,published_boundary,Latham,rate_row
+us-ks-city-latimer,city,0,0,0,0,0,0,0,0,published_boundary,Latimer,pub1700_row_no_rate_extracted
+us-ks-city-lawrence,city,0,0,0,0,0,0,1,1,published_boundary,Lawrence,rate_row
+us-ks-city-leavenworth,city,0,0,0,0,0,0,1,1,published_boundary,Leavenworth,rate_row
+us-ks-city-leawood,city,0,0,0,0,0,0,1,1,published_boundary,Leawood,rate_row
+us-ks-city-lebanon,city,0,0,0,0,0,0,0,0,published_boundary,Lebanon,pub1700_row_no_rate_extracted
+us-ks-city-lebo,city,0,0,0,0,0,0,1,1,published_boundary,Lebo,rate_row
+us-ks-city-lecompton,city,0,0,0,0,0,0,1,1,published_boundary,Lecompton,rate_row
+us-ks-city-lehigh,city,0,0,0,0,0,0,0,0,published_boundary,Lehigh,pub1700_row_no_rate_extracted
+us-ks-city-lenexa,city,0,0,0,0,0,0,1,1,published_boundary,Lenexa,rate_row
+us-ks-city-lenora,city,0,0,0,0,0,0,0,0,published_boundary,Lenora,pub1700_row_no_rate_extracted
+us-ks-city-leon,city,0,0,0,0,0,0,1,1,published_boundary,Leon,rate_row
+us-ks-city-leona,city,0,0,0,0,0,0,0,0,published_boundary,Leona,pub1700_row_no_rate_extracted
+us-ks-city-leonardville,city,0,0,0,0,0,0,1,1,published_boundary,Leonardville,rate_row
+us-ks-city-leoti,city,0,0,0,0,0,0,0,0,published_boundary,Leoti,pub1700_row_no_rate_extracted
+us-ks-city-le-roy,city,0,0,0,0,0,0,1,1,UNACCOUNTED,Le Roy,rate_row
+us-ks-city-leroy,city,0,0,0,0,0,0,0,0,published_boundary,LeRoy,UNACCOUNTED
+us-ks-city-lewis,city,0,0,0,0,0,0,0,0,published_boundary,Lewis,pub1700_row_no_rate_extracted
+us-ks-city-liberal,city,0,0,0,0,0,0,1,1,published_boundary,Liberal,rate_row
+us-ks-city-liberty,city,0,0,0,0,0,0,0,0,published_boundary,Liberty,pub1700_row_no_rate_extracted
+us-ks-city-liebenthal,city,0,0,0,0,0,0,1,1,published_boundary,Liebenthal,rate_row
+us-ks-city-lincoln-center,city,0,0,0,0,0,0,1,1,published_boundary,Lincoln Center,rate_row
+us-ks-city-lincolnville,city,0,0,0,0,0,0,0,0,published_boundary,Lincolnville,pub1700_row_no_rate_extracted
+us-ks-city-lindsborg,city,0,0,0,0,0,0,1,1,published_boundary,Lindsborg,rate_row
+us-ks-city-linn,city,0,0,0,0,0,0,0,0,published_boundary,Linn,pub1700_row_no_rate_extracted
+us-ks-city-linn-valley,city,0,0,0,0,0,0,1,1,published_boundary,Linn Valley,rate_row
+us-ks-city-linwood,city,0,0,0,0,0,0,1,1,published_boundary,Linwood,rate_row
+us-ks-city-little-river,city,0,0,0,0,0,0,1,1,published_boundary,Little River,rate_row
+us-ks-city-logan,city,0,0,0,0,0,0,1,1,published_boundary,Logan,rate_row
+us-ks-city-lone-elm,city,0,0,0,0,0,0,0,0,published_boundary,Lone Elm,pub1700_row_no_rate_extracted
+us-ks-city-longford,city,0,0,0,0,0,0,1,1,published_boundary,Longford,rate_row
+us-ks-city-long-island,city,0,0,0,0,0,0,0,0,published_boundary,Long Island,pub1700_row_no_rate_extracted
+us-ks-city-longton,city,0,0,0,0,0,0,0,0,published_boundary,Longton,pub1700_row_no_rate_extracted
+us-ks-city-lorraine,city,0,0,0,0,0,0,0,0,published_boundary,Lorraine,pub1700_row_no_rate_extracted
+us-ks-city-lost-springs,city,0,0,0,0,0,0,0,0,published_boundary,Lost Springs,pub1700_row_no_rate_extracted
+us-ks-city-louisburg,city,0,0,0,0,0,0,1,1,published_boundary,Louisburg,rate_row
+us-ks-city-louisville,city,0,0,0,0,0,0,0,0,published_boundary,Louisville,pub1700_row_no_rate_extracted
+us-ks-city-lucas,city,0,0,0,0,0,0,1,1,published_boundary,Lucas,rate_row
+us-ks-city-luray,city,0,0,0,0,0,0,1,1,published_boundary,Luray,rate_row
+us-ks-city-lyndon,city,0,0,0,0,0,0,1,1,published_boundary,Lyndon,rate_row
+us-ks-city-lyons,city,0,0,0,0,0,0,1,1,published_boundary,Lyons,rate_row
+us-ks-city-macksville,city,0,0,0,0,0,0,0,0,published_boundary,Macksville,pub1700_row_no_rate_extracted
+us-ks-city-madison,city,0,0,0,0,0,0,0,0,published_boundary,Madison,pub1700_row_no_rate_extracted
+us-ks-city-mahaska,city,0,0,0,0,0,0,0,0,published_boundary,Mahaska,pub1700_row_no_rate_extracted
+us-ks-city-maize,city,0,0,0,0,0,0,1,1,published_boundary,Maize,rate_row
+us-ks-city-manchester,city,0,0,0,0,0,0,0,0,published_boundary,Manchester,pub1700_row_no_rate_extracted
+us-ks-city-manhattan,city,0,0,0,0,0,0,1,1,UNACCOUNTED,Manhattan,rate_row
+us-ks-city-manhattan-manrl,city,0,0,0,0,0,0,1,1,UNACCOUNTED,Manhattan,rate_row
+us-ks-city-mankato,city,0,0,0,0,0,0,1,1,published_boundary,Mankato,rate_row
+us-ks-city-manter,city,0,0,0,0,0,0,0,0,published_boundary,Manter,pub1700_row_no_rate_extracted
+us-ks-city-maple-hill,city,0,0,0,0,0,0,1,1,published_boundary,Maple Hill,rate_row
+us-ks-city-mapleton,city,0,0,0,0,0,0,1,1,published_boundary,Mapleton,rate_row
+us-ks-city-marion,city,0,0,0,0,0,0,1,1,published_boundary,Marion,rate_row
+us-ks-city-marquette,city,0,0,0,0,0,0,1,1,published_boundary,Marquette,rate_row
+us-ks-city-marysville,city,0,0,0,0,0,0,1,1,published_boundary,Marysville,rate_row
+us-ks-city-matfield-green,city,0,0,0,0,0,0,0,0,published_boundary,Matfield Green,pub1700_row_no_rate_extracted
+us-ks-city-mayetta,city,0,0,0,0,0,0,1,1,published_boundary,Mayetta,rate_row
+us-ks-city-mayfield,city,0,0,0,0,0,0,1,1,published_boundary,Mayfield,rate_row
+us-ks-city-mccracken,city,0,0,0,0,0,0,0,0,published_boundary,McCracken,pub1700_row_no_rate_extracted
+us-ks-city-mccune,city,0,0,0,0,0,0,1,1,published_boundary,McCune,rate_row
+us-ks-city-mcdonald,city,0,0,0,0,0,0,0,0,published_boundary,McDonald,pub1700_row_no_rate_extracted
+us-ks-city-mcfarland,city,0,0,0,0,0,0,0,0,published_boundary,McFarland,pub1700_row_no_rate_extracted
+us-ks-city-mclouth,city,0,0,0,0,0,0,1,1,published_boundary,McLouth,rate_row
+us-ks-city-mcpherson,city,0,0,0,0,0,0,0,0,published_boundary,McPherson,pub1700_row_no_rate_extracted
+us-ks-city-meade,city,0,0,0,0,0,0,1,1,published_boundary,Meade,rate_row
+us-ks-city-medicine-lodge,city,0,0,0,0,0,0,1,1,published_boundary,Medicine Lodge,rate_row
+us-ks-city-melvern,city,0,0,0,0,0,0,1,1,published_boundary,Melvern,rate_row
+us-ks-city-menlo,city,0,0,0,0,0,0,0,0,published_boundary,Menlo,pub1700_row_no_rate_extracted
+us-ks-city-meriden,city,0,0,0,0,0,0,0,0,published_boundary,Meriden,pub1700_row_no_rate_extracted
+us-ks-city-merriam,city,0,0,0,0,0,0,1,1,published_boundary,Merriam,rate_row
+us-ks-city-milan,city,0,0,0,0,0,0,0,0,published_boundary,Milan,pub1700_row_no_rate_extracted
+us-ks-city-milford,city,0,0,0,0,0,0,0,0,published_boundary,Milford,pub1700_row_no_rate_extracted
+us-ks-city-miltonvale,city,0,0,0,0,0,0,1,1,published_boundary,Miltonvale,rate_row
+us-ks-city-minneapolis,city,0,0,0,0,0,0,1,1,published_boundary,Minneapolis,rate_row
+us-ks-city-minneola,city,0,0,0,0,0,0,1,1,published_boundary,Minneola,rate_row
+us-ks-city-mission,city,0,0,0,0,0,0,1,1,published_boundary,Mission,rate_row
+us-ks-city-mission-hills,city,0,0,0,0,0,0,1,1,published_boundary,Mission Hills,rate_row
+us-ks-city-mission-woods,city,0,0,0,0,0,0,1,1,published_boundary,Mission Woods,rate_row
+us-ks-city-moline,city,0,0,0,0,0,0,0,0,published_boundary,Moline,pub1700_row_no_rate_extracted
+us-ks-city-montezuma,city,0,0,0,0,0,0,1,1,published_boundary,Montezuma,rate_row
+us-ks-city-moran,city,0,0,0,0,0,0,1,1,published_boundary,Moran,rate_row
+us-ks-city-morganville,city,0,0,0,0,0,0,0,0,published_boundary,Morganville,pub1700_row_no_rate_extracted
+us-ks-city-morland,city,0,0,0,0,0,0,1,1,published_boundary,Morland,rate_row
+us-ks-city-morrill,city,0,0,0,0,0,0,0,0,published_boundary,Morrill,pub1700_row_no_rate_extracted
+us-ks-city-morrowville,city,0,0,0,0,0,0,0,0,published_boundary,Morrowville,pub1700_row_no_rate_extracted
+us-ks-city-moscow,city,0,0,0,0,0,0,1,1,published_boundary,Moscow,rate_row
+us-ks-city-mound-city,city,0,0,0,0,0,0,0,0,published_boundary,Mound City,pub1700_row_no_rate_extracted
+us-ks-city-moundridge,city,0,0,0,0,0,0,1,1,published_boundary,Moundridge,rate_row
+us-ks-city-mound-valley,city,0,0,0,0,0,0,1,1,published_boundary,Mound Valley,rate_row
+us-ks-city-mount-hope,city,0,0,0,0,0,0,1,1,published_boundary,Mount Hope,rate_row
+us-ks-city-mulberry,city,0,0,0,0,0,0,0,0,published_boundary,Mulberry,pub1700_row_no_rate_extracted
+us-ks-city-mullinville,city,0,0,0,0,0,0,1,1,published_boundary,Mullinville,rate_row
+us-ks-city-mulvane,city,0,0,0,0,0,0,1,1,UNACCOUNTED,Mulvane,rate_row
+us-ks-city-mulvane-mulsu,city,0,0,0,0,0,0,1,1,UNACCOUNTED,Mulvane,rate_row
+us-ks-city-munden,city,0,0,0,0,0,0,0,0,published_boundary,Munden,pub1700_row_no_rate_extracted
+us-ks-city-muscotah,city,0,0,0,0,0,0,0,0,published_boundary,Muscotah,pub1700_row_no_rate_extracted
+us-ks-city-narka,city,0,0,0,0,0,0,0,0,published_boundary,Narka,pub1700_row_no_rate_extracted
+us-ks-city-nashville,city,0,0,0,0,0,0,0,0,published_boundary,Nashville,pub1700_row_no_rate_extracted
+us-ks-city-natoma,city,0,0,0,0,0,0,0,0,published_boundary,Natoma,pub1700_row_no_rate_extracted
+us-ks-city-neodesha,city,0,0,0,0,0,0,1,1,published_boundary,Neodesha,rate_row
+us-ks-city-neosho-falls,city,0,0,0,0,0,0,0,0,published_boundary,Neosho Falls,pub1700_row_no_rate_extracted
+us-ks-city-neosho-rapids,city,0,0,0,0,0,0,1,1,published_boundary,Neosho Rapids,rate_row
+us-ks-city-ness-city,city,0,0,0,0,0,0,1,1,published_boundary,Ness City,rate_row
+us-ks-city-netawaka,city,0,0,0,0,0,0,0,0,published_boundary,Netawaka,pub1700_row_no_rate_extracted
+us-ks-city-new-albany,city,0,0,0,0,0,0,0,0,published_boundary,New Albany,pub1700_row_no_rate_extracted
+us-ks-city-new-cambria,city,0,0,0,0,0,0,0,0,published_boundary,New Cambria,pub1700_row_no_rate_extracted
+us-ks-city-new-strawn,city,0,0,0,0,0,0,0,0,published_boundary,New Strawn,pub1700_row_no_rate_extracted
+us-ks-city-newton,city,0,0,0,0,0,0,0,0,published_boundary,Newton,pub1700_row_no_rate_extracted
+us-ks-city-nickerson,city,0,0,0,0,0,0,1,1,published_boundary,Nickerson,rate_row
+us-ks-city-niotaze,city,0,0,0,0,0,0,0,0,published_boundary,Niotaze,pub1700_row_no_rate_extracted
+us-ks-city-norcatur,city,0,0,0,0,0,0,0,0,published_boundary,Norcatur,pub1700_row_no_rate_extracted
+us-ks-city-north-newton,city,0,0,0,0,0,0,0,0,published_boundary,North Newton,pub1700_row_no_rate_extracted
+us-ks-city-norton,city,0,0,0,0,0,0,1,1,published_boundary,Norton,rate_row
+us-ks-city-nortonville,city,0,0,0,0,0,0,0,0,published_boundary,Nortonville,pub1700_row_no_rate_extracted
+us-ks-city-norwich,city,0,0,0,0,0,0,0,0,published_boundary,Norwich,pub1700_row_no_rate_extracted
+us-ks-city-oak-hill,city,0,0,0,0,0,0,1,1,published_boundary,Oak Hill,rate_row
+us-ks-city-oakley,city,0,0,0,0,0,0,1,1,UNACCOUNTED,Oakley,rate_row
+us-ks-city-oakley-oaklg,city,0,0,0,0,0,0,1,1,UNACCOUNTED,Oakley,rate_row
+us-ks-city-oakley-oakth,city,0,0,0,0,0,0,1,1,UNACCOUNTED,Oakley,rate_row
+us-ks-city-oberlin,city,0,0,0,0,0,0,1,1,published_boundary,Oberlin,rate_row
+us-ks-city-offerle,city,0,0,0,0,0,0,0,0,published_boundary,Offerle,pub1700_row_no_rate_extracted
+us-ks-city-ogden,city,0,0,0,0,0,0,1,1,published_boundary,Ogden,rate_row
+us-ks-city-oketo,city,0,0,0,0,0,0,0,0,published_boundary,Oketo,pub1700_row_no_rate_extracted
+us-ks-city-olathe,city,0,0,0,0,0,0,1,1,published_boundary,Olathe,rate_row
+us-ks-city-olivet,city,0,0,0,0,0,0,0,0,published_boundary,Olivet,pub1700_row_no_rate_extracted
+us-ks-city-olmitz,city,0,0,0,0,0,0,0,0,published_boundary,Olmitz,pub1700_row_no_rate_extracted
+us-ks-city-olpe,city,0,0,0,0,0,0,1,1,published_boundary,Olpe,rate_row
+us-ks-city-olsburg,city,0,0,0,0,0,0,1,1,published_boundary,Olsburg,rate_row
+us-ks-city-onaga,city,0,0,0,0,0,0,1,1,published_boundary,Onaga,rate_row
+us-ks-city-oneida,city,0,0,0,0,0,0,0,0,published_boundary,Oneida,pub1700_row_no_rate_extracted
+us-ks-city-osage-city,city,0,0,0,0,0,0,1,1,published_boundary,Osage City,rate_row
+us-ks-city-osawatomie,city,0,0,0,0,0,0,1,1,published_boundary,Osawatomie,rate_row
+us-ks-city-osborne,city,0,0,0,0,0,0,0,0,published_boundary,Osborne,pub1700_row_no_rate_extracted
+us-ks-city-oskaloosa,city,0,0,0,0,0,0,1,1,published_boundary,Oskaloosa,rate_row
+us-ks-city-oswego,city,0,0,0,0,0,0,1,1,UNACCOUNTED,Oswego,rate_row
+us-ks-city-oswego-oswck,city,0,0,0,0,0,0,0,0,UNACCOUNTED,Oswego,UNACCOUNTED
+us-ks-city-otis,city,0,0,0,0,0,0,0,0,published_boundary,Otis,pub1700_row_no_rate_extracted
+us-ks-city-ottawa,city,0,0,0,0,0,0,1,1,published_boundary,Ottawa,rate_row
+us-ks-city-overbrook,city,0,0,0,0,0,0,1,1,published_boundary,Overbrook,rate_row
+us-ks-city-overland-park,city,0,0,0,0,0,0,1,1,published_boundary,Overland Park,rate_row
+us-ks-city-oxford,city,0,0,0,0,0,0,1,1,published_boundary,Oxford,rate_row
+us-ks-city-ozawkie,city,0,0,0,0,0,0,1,1,published_boundary,Ozawkie,rate_row
+us-ks-city-palco,city,0,0,0,0,0,0,1,1,published_boundary,Palco,rate_row
+us-ks-city-palmer,city,0,0,0,0,0,0,0,0,published_boundary,Palmer,pub1700_row_no_rate_extracted
+us-ks-city-paola,city,0,0,0,0,0,0,1,1,published_boundary,Paola,rate_row
+us-ks-city-paradise,city,0,0,0,0,0,0,0,0,published_boundary,Paradise,pub1700_row_no_rate_extracted
+us-ks-city-park,city,0,0,0,0,0,0,0,0,published_boundary,Park,pub1700_row_no_rate_extracted
+us-ks-city-park-city,city,0,0,0,0,0,0,1,1,published_boundary,Park City,rate_row
+us-ks-city-parker,city,0,0,0,0,0,0,1,1,published_boundary,Parker,rate_row
+us-ks-city-parkerfield,city,0,0,0,0,0,0,0,0,published_boundary,Parkerfield,pub1700_row_no_rate_extracted
+us-ks-city-parkerville,city,0,0,0,0,0,0,0,0,published_boundary,Parkerville,pub1700_row_no_rate_extracted
+us-ks-city-parsons,city,0,0,0,0,0,0,1,1,published_boundary,Parsons,rate_row
+us-ks-city-partridge,city,0,0,0,0,0,0,0,0,published_boundary,Partridge,pub1700_row_no_rate_extracted
+us-ks-city-pawnee-rock,city,0,0,0,0,0,0,0,0,published_boundary,Pawnee Rock,pub1700_row_no_rate_extracted
+us-ks-city-paxico,city,0,0,0,0,0,0,1,1,published_boundary,Paxico,rate_row
+us-ks-city-peabody,city,0,0,0,0,0,0,1,1,published_boundary,Peabody,rate_row
+us-ks-city-penalosa,city,0,0,0,0,0,0,0,0,published_boundary,Penalosa,pub1700_row_no_rate_extracted
+us-ks-city-perry,city,0,0,0,0,0,0,1,1,published_boundary,Perry,rate_row
+us-ks-city-peru,city,0,0,0,0,0,0,0,0,published_boundary,Peru,pub1700_row_no_rate_extracted
+us-ks-city-phillipsburg,city,0,0,0,0,0,0,1,1,published_boundary,Phillipsburg,rate_row
+us-ks-city-pittsburg,city,0,0,0,0,0,0,1,1,published_boundary,Pittsburg,rate_row
+us-ks-city-plains,city,0,0,0,0,0,0,0,0,published_boundary,Plains,pub1700_row_no_rate_extracted
+us-ks-city-plainville,city,0,0,0,0,0,0,1,1,published_boundary,Plainville,rate_row
+us-ks-city-pleasanton,city,0,0,0,0,0,0,1,1,published_boundary,Pleasanton,rate_row
+us-ks-city-plevna,city,0,0,0,0,0,0,0,0,published_boundary,Plevna,pub1700_row_no_rate_extracted
+us-ks-city-pomona,city,0,0,0,0,0,0,1,1,published_boundary,Pomona,rate_row
+us-ks-city-portis,city,0,0,0,0,0,0,0,0,published_boundary,Portis,pub1700_row_no_rate_extracted
+us-ks-city-potwin,city,0,0,0,0,0,0,1,1,published_boundary,Potwin,rate_row
+us-ks-city-powhattan,city,0,0,0,0,0,0,0,0,published_boundary,Powhattan,pub1700_row_no_rate_extracted
+us-ks-city-prairie-view,city,0,0,0,0,0,0,0,0,published_boundary,Prairie View,pub1700_row_no_rate_extracted
+us-ks-city-prairie-village,city,0,0,0,0,0,0,1,1,published_boundary,Prairie Village,rate_row
+us-ks-city-pratt,city,0,0,0,0,0,0,1,1,published_boundary,Pratt,rate_row
+us-ks-city-prescott,city,0,0,0,0,0,0,0,0,published_boundary,Prescott,pub1700_row_no_rate_extracted
+us-ks-city-preston,city,0,0,0,0,0,0,0,0,published_boundary,Preston,pub1700_row_no_rate_extracted
+us-ks-city-pretty-prairie,city,0,0,0,0,0,0,1,1,published_boundary,Pretty Prairie,rate_row
+us-ks-city-princeton,city,0,0,0,0,0,0,1,1,published_boundary,Princeton,rate_row
+us-ks-city-protection,city,0,0,0,0,0,0,1,1,published_boundary,Protection,rate_row
+us-ks-city-quenemo,city,0,0,0,0,0,0,0,0,published_boundary,Quenemo,pub1700_row_no_rate_extracted
+us-ks-city-quinter,city,0,0,0,0,0,0,1,1,published_boundary,Quinter,rate_row
+us-ks-city-radium,city,0,0,0,0,0,0,0,0,published_boundary,Radium,pub1700_row_no_rate_extracted
+us-ks-city-ramona,city,0,0,0,0,0,0,0,0,published_boundary,Ramona,pub1700_row_no_rate_extracted
+us-ks-city-randall,city,0,0,0,0,0,0,0,0,published_boundary,Randall,pub1700_row_no_rate_extracted
+us-ks-city-randolph,city,0,0,0,0,0,0,1,1,published_boundary,Randolph,rate_row
+us-ks-city-ransom,city,0,0,0,0,0,0,1,1,published_boundary,Ransom,rate_row
+us-ks-city-rantoul,city,0,0,0,0,0,0,0,0,published_boundary,Rantoul,pub1700_row_no_rate_extracted
+us-ks-city-raymond,city,0,0,0,0,0,0,0,0,published_boundary,Raymond,pub1700_row_no_rate_extracted
+us-ks-city-reading,city,0,0,0,0,0,0,0,0,published_boundary,Reading,pub1700_row_no_rate_extracted
+us-ks-city-redfield,city,0,0,0,0,0,0,0,0,published_boundary,Redfield,pub1700_row_no_rate_extracted
+us-ks-city-republic,city,0,0,0,0,0,0,0,0,published_boundary,Republic,pub1700_row_no_rate_extracted
+us-ks-city-reserve,city,0,0,0,0,0,0,0,0,published_boundary,Reserve,pub1700_row_no_rate_extracted
+us-ks-city-rexford,city,0,0,0,0,0,0,0,0,published_boundary,Rexford,pub1700_row_no_rate_extracted
+us-ks-city-richfield,city,0,0,0,0,0,0,0,0,published_boundary,Richfield,pub1700_row_no_rate_extracted
+us-ks-city-richmond,city,0,0,0,0,0,0,1,1,published_boundary,Richmond,rate_row
+us-ks-city-riley,city,0,0,0,0,0,0,1,1,published_boundary,Riley,rate_row
+us-ks-city-robinson,city,0,0,0,0,0,0,0,0,published_boundary,Robinson,pub1700_row_no_rate_extracted
+us-ks-city-roeland-park,city,0,0,0,0,0,0,1,1,published_boundary,Roeland Park,rate_row
+us-ks-city-rolla,city,0,0,0,0,0,0,1,1,published_boundary,Rolla,rate_row
+us-ks-city-rose-hill,city,0,0,0,0,0,0,1,1,published_boundary,Rose Hill,rate_row
+us-ks-city-roseland,city,0,0,0,0,0,0,0,0,published_boundary,Roseland,pub1700_row_no_rate_extracted
+us-ks-city-rossville,city,0,0,0,0,0,0,1,1,published_boundary,Rossville,rate_row
+us-ks-city-rozel,city,0,0,0,0,0,0,0,0,published_boundary,Rozel,pub1700_row_no_rate_extracted
+us-ks-city-rush-center,city,0,0,0,0,0,0,0,0,published_boundary,Rush Center,pub1700_row_no_rate_extracted
+us-ks-city-russell,city,0,0,0,0,0,0,1,1,published_boundary,Russell,rate_row
+us-ks-city-russell-springs,city,0,0,0,0,0,0,0,0,published_boundary,Russell Springs,pub1700_row_no_rate_extracted
+us-ks-city-sabetha,city,0,0,0,0,0,0,1,1,UNACCOUNTED,Sabetha,rate_row
+us-ks-city-sabetha-sabnm,city,0,0,0,0,0,0,1,1,UNACCOUNTED,Sabetha,rate_row
+us-ks-city-salina,city,0,0,0,0,0,0,1,1,published_boundary,Salina,rate_row
+us-ks-city-satanta,city,0,0,0,0,0,0,1,1,published_boundary,Satanta,rate_row
+us-ks-city-savonburg,city,0,0,0,0,0,0,0,0,published_boundary,Savonburg,pub1700_row_no_rate_extracted
+us-ks-city-sawyer,city,0,0,0,0,0,0,0,0,published_boundary,Sawyer,pub1700_row_no_rate_extracted
+us-ks-city-scammon,city,0,0,0,0,0,0,1,1,published_boundary,Scammon,rate_row
+us-ks-city-scandia,city,0,0,0,0,0,0,0,0,published_boundary,Scandia,pub1700_row_no_rate_extracted
+us-ks-city-schoenchen,city,0,0,0,0,0,0,0,0,published_boundary,Schoenchen,pub1700_row_no_rate_extracted
+us-ks-city-scott-city,city,0,0,0,0,0,0,1,1,published_boundary,Scott City,rate_row
+us-ks-city-scottsville,city,0,0,0,0,0,0,0,0,published_boundary,Scottsville,pub1700_row_no_rate_extracted
+us-ks-city-scranton,city,0,0,0,0,0,0,1,1,published_boundary,Scranton,rate_row
+us-ks-city-sedan,city,0,0,0,0,0,0,1,1,published_boundary,Sedan,rate_row
+us-ks-city-sedgwick,city,0,0,0,0,0,0,1,1,UNACCOUNTED,Sedgwick,rate_row
+us-ks-city-sedgwick-sedsg,city,0,0,0,0,0,0,1,1,UNACCOUNTED,Sedgwick,rate_row
+us-ks-city-selden,city,0,0,0,0,0,0,0,0,published_boundary,Selden,pub1700_row_no_rate_extracted
+us-ks-city-seneca,city,0,0,0,0,0,0,1,1,published_boundary,Seneca,rate_row
+us-ks-city-severance,city,0,0,0,0,0,0,0,0,published_boundary,Severance,pub1700_row_no_rate_extracted
+us-ks-city-severy,city,0,0,0,0,0,0,1,1,published_boundary,Severy,rate_row
+us-ks-city-seward,city,0,0,0,0,0,0,0,0,published_boundary,Seward,pub1700_row_no_rate_extracted
+us-ks-city-sharon,city,0,0,0,0,0,0,0,0,published_boundary,Sharon,pub1700_row_no_rate_extracted
+us-ks-city-sharon-springs,city,0,0,0,0,0,0,0,0,published_boundary,Sharon Springs,pub1700_row_no_rate_extracted
+us-ks-city-shawnee,city,0,0,0,0,0,0,1,1,published_boundary,Shawnee,rate_row
+us-ks-city-silver-lake,city,0,0,0,0,0,0,1,1,published_boundary,Silver Lake,rate_row
+us-ks-city-simpson,city,0,0,0,0,0,0,0,0,UNACCOUNTED,Simpson,UNACCOUNTED
+us-ks-city-simpson-simmc,city,0,0,0,0,0,0,0,0,UNACCOUNTED,Simpson,UNACCOUNTED
+us-ks-city-smith-center,city,0,0,0,0,0,0,1,1,published_boundary,Smith Center,rate_row
+us-ks-city-smolan,city,0,0,0,0,0,0,0,0,published_boundary,Smolan,pub1700_row_no_rate_extracted
+us-ks-city-soldier,city,0,0,0,0,0,0,0,0,published_boundary,Soldier,pub1700_row_no_rate_extracted
+us-ks-city-solomon,city,0,0,0,0,0,0,1,1,UNACCOUNTED,Solomon,rate_row
+us-ks-city-solomon-solsa,city,0,0,0,0,0,0,1,1,UNACCOUNTED,Solomon,rate_row
+us-ks-city-south-haven,city,0,0,0,0,0,0,0,0,published_boundary,South Haven,pub1700_row_no_rate_extracted
+us-ks-city-south-hutchinson,city,0,0,0,0,0,0,1,1,published_boundary,South Hutchinson,rate_row
+us-ks-city-spearville,city,0,0,0,0,0,0,0,0,published_boundary,Spearville,pub1700_row_no_rate_extracted
+us-ks-city-speed,city,0,0,0,0,0,0,0,0,published_boundary,Speed,pub1700_row_no_rate_extracted
+us-ks-city-spivey,city,0,0,0,0,0,0,1,1,published_boundary,Spivey,rate_row
+us-ks-city-spring-hill,city,0,0,0,0,0,0,1,1,UNACCOUNTED,Spring Hill,rate_row
+us-ks-city-spring-hill-sprmi,city,0,0,0,0,0,0,1,1,UNACCOUNTED,Spring Hill,rate_row
+us-ks-city-stafford,city,0,0,0,0,0,0,1,1,published_boundary,Stafford,rate_row
+us-ks-city-stark,city,0,0,0,0,0,0,0,0,published_boundary,Stark,pub1700_row_no_rate_extracted
+us-ks-city-sterling,city,0,0,0,0,0,0,1,1,published_boundary,Sterling,rate_row
+us-ks-city-st-francis,city,0,0,0,0,0,0,1,1,UNACCOUNTED,St Francis,rate_row
+us-ks-city-st-francis-2062175,city,0,0,0,0,0,0,0,0,UNACCOUNTED,St. Francis,UNACCOUNTED
+us-ks-city-st-george,city,0,0,0,0,0,0,1,1,UNACCOUNTED,St George,rate_row
+us-ks-city-st-george-2062200,city,0,0,0,0,0,0,0,0,UNACCOUNTED,St. George,UNACCOUNTED
+us-ks-city-st-john,city,0,0,0,0,0,0,1,1,UNACCOUNTED,St John,rate_row
+us-ks-city-st-john-2062275,city,0,0,0,0,0,0,0,0,UNACCOUNTED,St. John,UNACCOUNTED
+us-ks-city-st-marys,city,0,0,0,0,0,0,1,1,UNACCOUNTED,St Marys,rate_row
+us-ks-city-st-marys-2062400,city,0,0,0,0,0,0,0,0,UNACCOUNTED,St. Marys,UNACCOUNTED
+us-ks-city-st-marys-samwb,city,0,0,0,0,0,0,1,1,UNACCOUNTED,St Marys,rate_row
+us-ks-city-stockton,city,0,0,0,0,0,0,1,1,published_boundary,Stockton,rate_row
+us-ks-city-st-paul,city,0,0,0,0,0,0,1,1,UNACCOUNTED,St Paul,rate_row
+us-ks-city-st-paul-2062500,city,0,0,0,0,0,0,0,0,UNACCOUNTED,St. Paul,UNACCOUNTED
+us-ks-city-strong-city,city,0,0,0,0,0,0,1,1,published_boundary,Strong City,rate_row
+us-ks-city-sublette,city,0,0,0,0,0,0,1,1,published_boundary,Sublette,rate_row
+us-ks-city-summerfield,city,0,0,0,0,0,0,0,0,published_boundary,Summerfield,pub1700_row_no_rate_extracted
+us-ks-city-sun-city,city,0,0,0,0,0,0,0,0,published_boundary,Sun City,pub1700_row_no_rate_extracted
+us-ks-city-susank,city,0,0,0,0,0,0,0,0,published_boundary,Susank,pub1700_row_no_rate_extracted
+us-ks-city-sylvan-grove,city,0,0,0,0,0,0,0,0,published_boundary,Sylvan Grove,pub1700_row_no_rate_extracted
+us-ks-city-sylvia,city,0,0,0,0,0,0,1,1,published_boundary,Sylvia,rate_row
+us-ks-city-syracuse,city,0,0,0,0,0,0,1,1,published_boundary,Syracuse,rate_row
+us-ks-city-tampa,city,0,0,0,0,0,0,0,0,published_boundary,Tampa,pub1700_row_no_rate_extracted
+us-ks-city-tescott,city,0,0,0,0,0,0,0,0,published_boundary,Tescott,pub1700_row_no_rate_extracted
+us-ks-city-thayer,city,0,0,0,0,0,0,1,1,published_boundary,Thayer,rate_row
+us-ks-city-the-highlands,city,0,0,0,0,0,0,0,0,published_boundary,The Highlands,pub1700_row_no_rate_extracted
+us-ks-city-timken,city,0,0,0,0,0,0,0,0,published_boundary,Timken,pub1700_row_no_rate_extracted
+us-ks-city-tipton,city,0,0,0,0,0,0,0,0,published_boundary,Tipton,pub1700_row_no_rate_extracted
+us-ks-city-tonganoxie,city,0,0,0,0,0,0,1,1,published_boundary,Tonganoxie,rate_row
+us-ks-city-topeka,city,0,0,0,0,0,0,0,0,published_boundary,Topeka,pub1700_row_no_rate_extracted
+us-ks-city-toronto,city,0,0,0,0,0,0,1,1,published_boundary,Toronto,rate_row
+us-ks-city-towanda,city,0,0,0,0,0,0,1,1,published_boundary,Towanda,rate_row
+us-ks-city-tribune,city,0,0,0,0,0,0,0,0,published_boundary,Tribune,pub1700_row_no_rate_extracted
+us-ks-city-troy,city,0,0,0,0,0,0,1,1,published_boundary,Troy,rate_row
+us-ks-city-turon,city,0,0,0,0,0,0,0,0,published_boundary,Turon,pub1700_row_no_rate_extracted
+us-ks-city-tyro,city,0,0,0,0,0,0,0,0,published_boundary,Tyro,pub1700_row_no_rate_extracted
+us-ks-city-udall,city,0,0,0,0,0,0,1,1,published_boundary,Udall,rate_row
+us-ks-city-ulysses,city,0,0,0,0,0,0,1,1,published_boundary,Ulysses,rate_row
+us-ks-city-uniontown,city,0,0,0,0,0,0,1,1,published_boundary,Uniontown,rate_row
+us-ks-city-utica,city,0,0,0,0,0,0,1,1,published_boundary,Utica,rate_row
+us-ks-city-valley-center,city,0,0,0,0,0,0,1,1,published_boundary,Valley Center,rate_row
+us-ks-city-valley-falls,city,0,0,0,0,0,0,1,1,published_boundary,Valley Falls,rate_row
+us-ks-city-vermillion,city,0,0,0,0,0,0,0,0,published_boundary,Vermillion,pub1700_row_no_rate_extracted
+us-ks-city-victoria,city,0,0,0,0,0,0,1,1,published_boundary,Victoria,rate_row
+us-ks-city-vining,city,0,0,0,0,0,0,0,0,UNACCOUNTED,Vining,UNACCOUNTED
+us-ks-city-vining-vinws,city,0,0,0,0,0,0,0,0,UNACCOUNTED,Vining,UNACCOUNTED
+us-ks-city-viola,city,0,0,0,0,0,0,0,0,published_boundary,Viola,pub1700_row_no_rate_extracted
+us-ks-city-virgil,city,0,0,0,0,0,0,0,0,published_boundary,Virgil,pub1700_row_no_rate_extracted
+us-ks-city-wakeeney,city,0,0,0,0,0,0,1,1,published_boundary,WaKeeney,rate_row
+us-ks-city-wakefield,city,0,0,0,0,0,0,1,1,published_boundary,Wakefield,rate_row
+us-ks-city-waldo,city,0,0,0,0,0,0,0,0,published_boundary,Waldo,pub1700_row_no_rate_extracted
+us-ks-city-waldron,city,0,0,0,0,0,0,0,0,published_boundary,Waldron,pub1700_row_no_rate_extracted
+us-ks-city-wallace,city,0,0,0,0,0,0,0,0,published_boundary,Wallace,pub1700_row_no_rate_extracted
+us-ks-city-walnut,city,0,0,0,0,0,0,0,0,published_boundary,Walnut,pub1700_row_no_rate_extracted
+us-ks-city-walton,city,0,0,0,0,0,0,0,0,published_boundary,Walton,pub1700_row_no_rate_extracted
+us-ks-city-wamego,city,0,0,0,0,0,0,1,1,published_boundary,Wamego,rate_row
+us-ks-city-washington,city,0,0,0,0,0,0,1,1,published_boundary,Washington,rate_row
+us-ks-city-waterville,city,0,0,0,0,0,0,1,1,published_boundary,Waterville,rate_row
+us-ks-city-wathena,city,0,0,0,0,0,0,1,1,published_boundary,Wathena,rate_row
+us-ks-city-waverly,city,0,0,0,0,0,0,1,1,published_boundary,Waverly,rate_row
+us-ks-city-webber,city,0,0,0,0,0,0,0,0,published_boundary,Webber,pub1700_row_no_rate_extracted
+us-ks-city-weir,city,0,0,0,0,0,0,1,1,published_boundary,Weir,rate_row
+us-ks-city-wellington,city,0,0,0,0,0,0,1,1,published_boundary,Wellington,rate_row
+us-ks-city-wellsville,city,0,0,0,0,0,0,1,1,published_boundary,Wellsville,rate_row
+us-ks-city-west-mineral,city,0,0,0,0,0,0,0,0,published_boundary,West Mineral,pub1700_row_no_rate_extracted
+us-ks-city-westmoreland,city,0,0,0,0,0,0,1,1,published_boundary,Westmoreland,rate_row
+us-ks-city-westphalia,city,0,0,0,0,0,0,0,0,published_boundary,Westphalia,pub1700_row_no_rate_extracted
+us-ks-city-westwood,city,0,0,0,0,0,0,1,1,published_boundary,Westwood,rate_row
+us-ks-city-westwood-hills,city,0,0,0,0,0,0,1,1,published_boundary,Westwood Hills,rate_row
+us-ks-city-wetmore,city,0,0,0,0,0,0,0,0,published_boundary,Wetmore,pub1700_row_no_rate_extracted
+us-ks-city-wheaton,city,0,0,0,0,0,0,0,0,published_boundary,Wheaton,pub1700_row_no_rate_extracted
+us-ks-city-white-city,city,0,0,0,0,0,0,0,0,published_boundary,White City,pub1700_row_no_rate_extracted
+us-ks-city-white-cloud,city,0,0,0,0,0,0,1,1,published_boundary,White Cloud,rate_row
+us-ks-city-whitewater,city,0,0,0,0,0,0,1,1,published_boundary,Whitewater,rate_row
+us-ks-city-whiting,city,0,0,0,0,0,0,0,0,published_boundary,Whiting,pub1700_row_no_rate_extracted
+us-ks-city-wichita,city,0,0,0,0,0,0,0,0,published_boundary,Wichita,pub1700_row_no_rate_extracted
+us-ks-city-willard,city,0,0,0,0,0,0,1,1,UNACCOUNTED,Willard,rate_row
+us-ks-city-willard-wilwb,city,0,0,0,0,0,0,1,1,UNACCOUNTED,Willard,rate_row
+us-ks-city-williamsburg,city,0,0,0,0,0,0,1,1,published_boundary,Williamsburg,rate_row
+us-ks-city-willis,city,0,0,0,0,0,0,0,0,published_boundary,Willis,pub1700_row_no_rate_extracted
+us-ks-city-willowbrook,city,0,0,0,0,0,0,0,0,published_boundary,Willowbrook,pub1700_row_no_rate_extracted
+us-ks-city-wilmore,city,0,0,0,0,0,0,1,1,published_boundary,Wilmore,rate_row
+us-ks-city-wilsey,city,0,0,0,0,0,0,0,0,published_boundary,Wilsey,pub1700_row_no_rate_extracted
+us-ks-city-wilson,city,0,0,0,0,0,0,1,1,published_boundary,Wilson,rate_row
+us-ks-city-winchester,city,0,0,0,0,0,0,1,1,published_boundary,Winchester,rate_row
+us-ks-city-windom,city,0,0,0,0,0,0,0,0,published_boundary,Windom,pub1700_row_no_rate_extracted
+us-ks-city-winfield,city,0,0,0,0,0,0,1,1,published_boundary,Winfield,rate_row
+us-ks-city-winona,city,0,0,0,0,0,0,0,0,published_boundary,Winona,pub1700_row_no_rate_extracted
+us-ks-city-woodbine,city,0,0,0,0,0,0,0,0,published_boundary,Woodbine,pub1700_row_no_rate_extracted
+us-ks-city-woodston,city,0,0,0,0,0,0,0,0,published_boundary,Woodston,pub1700_row_no_rate_extracted
+us-ks-city-yates-center,city,0,0,0,0,0,0,1,1,published_boundary,Yates Center,rate_row
+us-ks-city-zenda,city,0,0,0,0,0,0,0,0,published_boundary,Zenda,pub1700_row_no_rate_extracted
+us-ks-city-zurich,city,0,0,0,0,0,0,0,0,published_boundary,Zurich,pub1700_row_no_rate_extracted
+us-ks-spd-abic1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Abilene Property 6 CID,rate_row
+us-ks-spd-abic2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Abilene Roserock Holdings CID,rate_row
+us-ks-spd-abic3,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Abilene Holiday Inn Express CID,rate_row
+us-ks-spd-abic4,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Abilene Family Dollar CID,rate_row
+us-ks-spd-abic5,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Abilene Legacy Kansas CID,rate_row
+us-ks-spd-abic6,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Abilene Scooter's Coffee CID,rate_row
+us-ks-spd-andc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Andover Red Bud Trail CID,rate_row
+us-ks-spd-andc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Andover Heritage CID,rate_row
+us-ks-spd-arkc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Arkansas City Summit Plaza CID,rate_row
+us-ks-spd-atcae,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Atchison AE Museum/Farmers Market STAR Bond,pub1700_row_no_rate_extracted
+us-ks-spd-atcc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Atchison Taco Bell CID and STAR Bond,rate_row
+us-ks-spd-atcc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Atchison Fox Theatre CID,rate_row
+us-ks-spd-atcc3,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Atchison B&M Freight Depot CID,rate_row
+us-ks-spd-augc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Augusta Comfort Inn CID,rate_row
+us-ks-spd-augc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Augusta Sugar Shane's Café CID,rate_row
+us-ks-spd-augc3,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Augusta Holiday Bowl CID,rate_row
+us-ks-spd-basc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Basehor One58 Plaza CID,rate_row
+us-ks-spd-bastd,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Basehor Wolf Creek Junction TDD,rate_row
+us-ks-spd-bonc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Bonner Springs Center CID,rate_row
+us-ks-spd-chac1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Chanute Santa Fe Ave CID,rate_row
+us-ks-spd-chac2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Chanute Love's Travel Stop CID,rate_row
+us-ks-spd-chac3,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Chanute Square CID,rate_row
+us-ks-spd-cofc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Coffeyville Holiday Inn CID,rate_row
+us-ks-spd-cofc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Coffeyville Plaza CID,rate_row
+us-ks-spd-colc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Colby 24/7 Triplett CID,rate_row
+us-ks-spd-colc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Colby Arena CID,rate_row
+us-ks-spd-coyc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Coffey County Beto Junction CID,rate_row
+us-ks-spd-cunc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Cunningham CID,rate_row
+us-ks-spd-derf2,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Derby Field Station 2 STAR Bond,pub1700_row_no_rate_extracted
+us-ks-spd-derfs,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Derby Field Station STAR Bond,pub1700_row_no_rate_extracted
+us-ks-spd-doc10,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Dodge City Village Square Mall CID,rate_row
+us-ks-spd-doc11,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Dodge City Casa Mariachi CID,rate_row
+us-ks-spd-doc12,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Dodge City Tommy's Express Car Wash CID and Power Center STAR Bond,rate_row
+us-ks-spd-dodc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Dodge City IHOP CID,rate_row
+us-ks-spd-dodc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Dodge City McDonalds CID,rate_row
+us-ks-spd-dodc3,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Dodge City Leisure Development CID,rate_row
+us-ks-spd-dodc4,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Dodge City McDonalds 2 CID,rate_row
+us-ks-spd-dodc5,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Dodge City Sutherlands High Plains CID and STAR Bond,rate_row
+us-ks-spd-dodc7,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Dodge City Boot Hill Museum CID and Heritage Area STAR Bond,rate_row
+us-ks-spd-dodc8,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Dodge City Boot Hill Museum CID,rate_row
+us-ks-spd-dodc9,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Dodge City Capital Group Nevada CID,rate_row
+us-ks-spd-dodha,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Dodge City Heritage Area STAR Bond,pub1700_row_no_rate_extracted
+us-ks-spd-dodpc,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Dodge City Power Center STAR Bond,pub1700_row_no_rate_extracted
+us-ks-spd-edgc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Edgerton On-the-Go Travel Plaza CID,rate_row
+us-ks-spd-edgc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Edgerton – Crossing Woodstone CID,rate_row
+us-ks-spd-edwc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Edwardsville Village South 2 CID,rate_row
+us-ks-spd-edwc3,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Edwardsville Village South 3 CID,rate_row
+us-ks-spd-edwc4,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Edwardsville Village South 1 CID,rate_row
+us-ks-spd-eldc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,El Dorado Days Inn Hotel CID,rate_row
+us-ks-spd-eldc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,El Dorado CID,rate_row
+us-ks-spd-eldc4,special_district,0,0,0,0,0,0,1,1,confirmed_absent,El Dorado Red Coach Inn CID,rate_row
+us-ks-spd-eldc5,special_district,0,0,0,0,0,0,1,1,confirmed_absent,El Dorado Super 8 CID,rate_row
+us-ks-spd-eldc6,special_district,0,0,0,0,0,0,1,1,confirmed_absent,El Dorado Plaza CID,rate_row
+us-ks-spd-ellc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Ellis County BBJ CID,rate_row
+us-ks-spd-empc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Emporia Flint Hills Mall CID,rate_row
+us-ks-spd-empc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Emporia Pavilions CID,rate_row
+us-ks-spd-empc4,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Emporia Fairview Hotels CID,rate_row
+us-ks-spd-empc5,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Emporia West Plaza CID,rate_row
+us-ks-spd-faic1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Fairway 55th and Parkway CID,rate_row
+us-ks-spd-farc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Fairview West Old Highway 75 CID,rate_row
+us-ks-spd-forc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Fort Scott EMD CID,rate_row
+us-ks-spd-forc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Fort Scott Price Chopper CID,rate_row
+us-ks-spd-forc3,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Fort Scott Dollar Tree CID,rate_row
+us-ks-spd-froc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Frontenac Harbor Freight CID,rate_row
+us-ks-spd-gadc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Gardner Main Street Market Place CID,rate_row
+us-ks-spd-gadc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Gardner Plaza South CID,rate_row
+us-ks-spd-ganc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Garnett Guffey Properties CID,rate_row
+us-ks-spd-garc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Garden City Stone Development CID,rate_row
+us-ks-spd-garc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Garden City Fulton's Founders Brewery CID,rate_row
+us-ks-spd-garc3,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Garden City Schulman Crossing CID and Sports of the World STAR Bond,rate_row
+us-ks-spd-garc4,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Garden City Plaza CID,rate_row
+us-ks-spd-garc5,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Garden City Plaza II CID,rate_row
+us-ks-spd-garc6,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Garden City Campus and Kansas CID,rate_row
+us-ks-spd-garc7,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Garden City 4-A's Properties CID,rate_row
+us-ks-spd-gars1,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Garden City Sports of the World STAR Bond,pub1700_row_no_rate_extracted
+us-ks-spd-gars2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Garden City Sports of the World STAR Bond and Stone Development CID,rate_row
+us-ks-spd-godc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,"Goddard Olympic Park CID, TDD & STAR",rate_row
+us-ks-spd-godc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Goddard Tanganyika Wildlife Park CID & TDD,rate_row
+us-ks-spd-godop,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Goddard Olympic Park STAR Bond,pub1700_row_no_rate_extracted
+us-ks-spd-gooc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Goodland Holiday Inn Express CID,rate_row
+us-ks-spd-gooc3,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Goodland 24/7 Travel Store CID,rate_row
+us-ks-spd-grec1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Great Bend Sutherlands CID,rate_row
+us-ks-spd-grec2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Great Bend Golden Belt Cinema 6 CID,rate_row
+us-ks-spd-grec3,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Great Bend Holiday Inn Express CID,rate_row
+us-ks-spd-hac10,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Hays Cervs CID,rate_row
+us-ks-spd-harc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Harper County Downtown Anthony CID,rate_row
+us-ks-spd-harc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Harper County CID,rate_row
+us-ks-spd-harc3,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Harper Cobblestone Inn CID,rate_row
+us-ks-spd-harco,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Harper County,pub1700_row_no_rate_extracted
+us-ks-spd-hayc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Hays 48th & Roth Avenue CID,rate_row
+us-ks-spd-hayc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Hays Mall CID,rate_row
+us-ks-spd-hayc3,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Hays Extended Stay Hotel Partners 1 & 2 CID,rate_row
+us-ks-spd-hayc4,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Hays Extended Stay Hotel Partners 2 CID,rate_row
+us-ks-spd-hayc5,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Hays Investors CID,rate_row
+us-ks-spd-hayc6,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Hays Hilton Garden Inn CID,rate_row
+us-ks-spd-hayc7,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Hays Saffron West 43rd Street,rate_row
+us-ks-spd-hayc8,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Hays Travel Plaza CID,rate_row
+us-ks-spd-hayc9,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Hays Vernie's CID,rate_row
+us-ks-spd-haysg,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Haysville,pub1700_row_no_rate_extracted
+us-ks-spd-hiac1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Hiawatha Hotel CID,rate_row
+us-ks-spd-hoic1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Hoisington Cheyenne Bottoms Inn CID,rate_row
+us-ks-spd-hoic2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Hoisington Kindscher CID,rate_row
+us-ks-spd-hoic3,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Hoisington Subway CID,rate_row
+us-ks-spd-hugc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Hugoton Sunrise Hospitality CID,rate_row
+us-ks-spd-hutaa,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Hutchinson Ad Astra STAR,pub1700_row_no_rate_extracted
+us-ks-spd-hutc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Hutchinson Hobby Lobby/Bomgaars CID,rate_row
+us-ks-spd-hutc3,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Hutchinson Mall Outlot CID,rate_row
+us-ks-spd-hutc4,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Hutchinson Holiday Inn Express CID,rate_row
+us-ks-spd-hutc5,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Hutchinson Mall CID,rate_row
+us-ks-spd-hutc6,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Hutchinson Amber Hotel CID and Ad Astra STAR,rate_row
+us-ks-spd-hutc7,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Hutchinson Landmark CID and Ad Astra STAR,rate_row
+us-ks-spd-hutsf,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Hutchinson Kansas State Fairgrounds,pub1700_row_no_rate_extracted
+us-ks-spd-junc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Junction City Goody's Plaza CID,rate_row
+us-ks-spd-junc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Junction City Burke's CID,rate_row
+us-ks-spd-kaar1,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Kansas City Northwest Speedway STAR Bond 1,UNACCOUNTED
+us-ks-spd-kaar2,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Kansas City Northwest Speedway STAR Bond 2,UNACCOUNTED
+us-ks-spd-kan11,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Kansas City Rainbow Village Hotel CID,rate_row
+us-ks-spd-kan14,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Kansas City Legends Hotel CID and Homefield Star,rate_row
+us-ks-spd-kan15,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Kansas City Kaw River Bridge CID,rate_row
+us-ks-spd-kan17,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Kansas City Homefield STAR & 98th & State Ave CID,rate_row
+us-ks-spd-kan18,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Kansas City Northwest Speedway STAR Bond 2 & American Royal CID,rate_row
+us-ks-spd-kan19,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Kansas City Buc-ee's CID,rate_row
+us-ks-spd-kanc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Kansas City Sporting CID,rate_row
+us-ks-spd-kanc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Kansas City Shawnee Plaza CID,rate_row
+us-ks-spd-kanc3,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Kansas City 39th & Rainbow #1 CID,rate_row
+us-ks-spd-kanc4,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Kansas City Wyandotte Plaza CID,rate_row
+us-ks-spd-kanc6,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Kansas City Downtown Hotel CID,rate_row
+us-ks-spd-kanc8,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Kansas City 39th & Rainbow #2 CID,rate_row
+us-ks-spd-kanc9,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Kansas City Northwood Shopping Center CID,rate_row
+us-ks-spd-kanct,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Kansas City Legends Garage and Lawn CID and Village West TDD,rate_row
+us-ks-spd-kanhc,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Kansas City Homefield STAR Bond & Homefield CID,rate_row
+us-ks-spd-kanhf,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Kansas City Homefield STAR BOND,pub1700_row_no_rate_extracted
+us-ks-spd-kanmn,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Kansas City Homefield - Menards STAR Bond,pub1700_row_no_rate_extracted
+us-ks-spd-kansc,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Kansas City US Soccer STAR Bond & Homefield CID,rate_row
+us-ks-spd-kanso,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Kansas City US Soccer STAR Bond,pub1700_row_no_rate_extracted
+us-ks-spd-kant5,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Kansas City Plaza at Speedway #1 TDD,rate_row
+us-ks-spd-kant6,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Kansas City Plaza at Speedway #2 TDD,rate_row
+us-ks-spd-kant7,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Kansas City Plaza at Speedway #3 TDD,rate_row
+us-ks-spd-kantd,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Kansas City Village West-West End TDD,rate_row
+us-ks-spd-kanwc,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Kansas City Schlitterbahn STAR Bond & Homefield CID,rate_row
+us-ks-spd-kanwp,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Kansas City Schlitterbahn STAR Bond,pub1700_row_no_rate_extracted
+us-ks-spd-kcimf,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Edgerton – Kansas City Intermodal Facility,pub1700_row_no_rate_extracted
+us-ks-spd-keaco,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Kearny County,pub1700_row_no_rate_extracted
+us-ks-spd-lanc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Lansing Speedway CID,rate_row
+us-ks-spd-lawc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Lawrence The Crossing CID and KU Gateway STAR,rate_row
+us-ks-spd-lawc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Lawrence KU Gateway CID and STAR,rate_row
+us-ks-spd-lawc3,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Lawrence KU Gateway CID,rate_row
+us-ks-spd-lawt2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Lawrence Oread TDD,rate_row
+us-ks-spd-lawt3,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Lawrence 9th & New Hampshire TDD,rate_row
+us-ks-spd-lawtd,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Lawrence Free State TDD,rate_row
+us-ks-spd-leac1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Leawood Camelot Court CID,rate_row
+us-ks-spd-leac2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Leawood Ranch Mart North CID,rate_row
+us-ks-spd-leatd,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Leawood Park Place TDD,rate_row
+us-ks-spd-lec10,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Lenexa City Center Area E CID,rate_row
+us-ks-spd-lec11,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Lenexa Point Shopping Center CID,rate_row
+us-ks-spd-lec12,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Lenexa Sonoma Plaza CID,rate_row
+us-ks-spd-lec13,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Lenexa Ten Ridge CID,rate_row
+us-ks-spd-lec14,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Lenexa Jayhawk Ridge CID,rate_row
+us-ks-spd-lec15,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Lenexa Living Spaces CID,rate_row
+us-ks-spd-lec16,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Lenexa Retreat on the Prairie CID,rate_row
+us-ks-spd-lec17,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Lenexa Central Green CID,rate_row
+us-ks-spd-lec18,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Lenexa Renner 87 CID,rate_row
+us-ks-spd-lec19,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Lenexa Restaurant Row CID,rate_row
+us-ks-spd-lec20,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Lenexa Midas Dual Hotel CID,rate_row
+us-ks-spd-lenc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Lenexa Orchard Corners CID,rate_row
+us-ks-spd-lenc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Lenexa Prairie Creek CID,rate_row
+us-ks-spd-lenc3,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Lenexa Quivira 95 CID,rate_row
+us-ks-spd-lenc4,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Lenexa Greystone South Plaza CID,rate_row
+us-ks-spd-lenc5,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Lenexa City Center East Village I CID,rate_row
+us-ks-spd-lenc6,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Lenexa City Center East Village 2 CID,rate_row
+us-ks-spd-lenc7,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Lenexa Midas Springhill Suites CID,rate_row
+us-ks-spd-lenc8,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Lenexa Candlewood Suites CID,rate_row
+us-ks-spd-lenc9,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Lenexa Holiday Inn CID,rate_row
+us-ks-spd-levc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Leavenworth Zeck Ford CID,rate_row
+us-ks-spd-levc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Leavenworth Downtown Hotel CID,rate_row
+us-ks-spd-levc3,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Leavenworth First City Hotel CID,rate_row
+us-ks-spd-levc4,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Leavenworth Luxury & Imports CID,rate_row
+us-ks-spd-levc5,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Leavenworth Price Chopper CID,rate_row
+us-ks-spd-levc6,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Leavenworth Fort Gate CID,rate_row
+us-ks-spd-libc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Liberal CID,rate_row
+us-ks-spd-libc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Liberal IHOP CID,rate_row
+us-ks-spd-libc3,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Liberal North Liberal One CID,rate_row
+us-ks-spd-libc4,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Liberal Southgate Mall CID,rate_row
+us-ks-spd-libc5,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Liberal Plaza CID,rate_row
+us-ks-spd-libc6,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Liberal Venture Kansas CID,rate_row
+us-ks-spd-manal,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Manhattan Art and Light Star Bond,pub1700_row_no_rate_extracted
+us-ks-spd-manc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Manhattan Town Center CID,rate_row
+us-ks-spd-mansn,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Manhattan Flint Hills Discovery Center STAR Bond– North,pub1700_row_no_rate_extracted
+us-ks-spd-manss,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Manhattan Flint Hills Discovery Center STAR Bond– South,pub1700_row_no_rate_extracted
+us-ks-spd-mant2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Manhattan Marketplace TDD and Flint Hills North Star Bond,rate_row
+us-ks-spd-mant5,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Manhattan Flint Hills South TDD and Flint Hills South Star Bond,rate_row
+us-ks-spd-mant6,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Manhattan McD's Addition TDD,rate_row
+us-ks-spd-mant7,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Manhattan Blueville Addition TDD,rate_row
+us-ks-spd-mant8,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Manhattan Scenic Crossing Addition TDD,rate_row
+us-ks-spd-mant9,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Manhattan Blueville Unit 2 TDD,rate_row
+us-ks-spd-mcpc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,McPherson Plaza East Place CID,rate_row
+us-ks-spd-mcpc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,McPherson North Champlin Street CID,rate_row
+us-ks-spd-mcpc3,special_district,0,0,0,0,0,0,1,1,confirmed_absent,McPherson Candlewood Suites CID,rate_row
+us-ks-spd-medc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Medicine Lodge Streetscape CID,rate_row
+us-ks-spd-merc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Merriam North CID,rate_row
+us-ks-spd-merc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Merriam Town Center CID,rate_row
+us-ks-spd-misc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Mission Crossing CID,rate_row
+us-ks-spd-misc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Mission Commons Community CID,rate_row
+us-ks-spd-misc4,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Mission Mart CID,rate_row
+us-ks-spd-newc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Newton Holiday Inn Express CID,rate_row
+us-ks-spd-oakc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Oakley Mittens CID,rate_row
+us-ks-spd-olac2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Olathe Heart of America CID,rate_row
+us-ks-spd-olac3,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Olathe Conference Center Hotel CID,rate_row
+us-ks-spd-olac4,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Olathe WIN CID,rate_row
+us-ks-spd-olac5,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Olathe Santa Fe Square CID,rate_row
+us-ks-spd-olac6,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Olathe Station CID,rate_row
+us-ks-spd-olac7,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Olathe Ridgeview Marketplace CID,rate_row
+us-ks-spd-olac8,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Olathe West Market CID,rate_row
+us-ks-spd-olac9,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Olathe Indian Creek Crossing CID,rate_row
+us-ks-spd-olat3,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Olathe Entertainment District Phase 3 TDD,rate_row
+us-ks-spd-olat4,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Olathe Gateway No. 1a TDD,rate_row
+us-ks-spd-olat5,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Olathe Gateway No. 1b TDD,rate_row
+us-ks-spd-olat6,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Olathe Ridgeview Falls TDD,rate_row
+us-ks-spd-olatd,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Olathe Pointe TDD,rate_row
+us-ks-spd-olc10,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Olathe Pizza 51 South CID,rate_row
+us-ks-spd-olc11,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Olathe Third Street Social CID,rate_row
+us-ks-spd-olc12,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Olathe Station North CID,rate_row
+us-ks-spd-olc13,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Olathe 114 - 126 N Cherry Street CID,rate_row
+us-ks-spd-olc14,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Olathe 200 W Santa Fe CID,rate_row
+us-ks-spd-ottc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Ottawa Center CID,rate_row
+us-ks-spd-ottc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Ottawa 21st and Princeton CID,rate_row
+us-ks-spd-ottc3,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Ottawa Holiday Inn Express 1 CID,rate_row
+us-ks-spd-ottc4,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Ottawa Holiday Inn Express 2 CID,rate_row
+us-ks-spd-ovc10,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Overland Park Nall Hills CID,rate_row
+us-ks-spd-ovc11,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Overland Park Regency Park CID,rate_row
+us-ks-spd-ovc12,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Overland Park The Vue CID,rate_row
+us-ks-spd-ovc13,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Overland Park Promontory CID,rate_row
+us-ks-spd-ovc14,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Overland Park Jack Stack CID,rate_row
+us-ks-spd-ovc15,special_district,0,0,0,0,0,0,1,1,confirmed_absent,"Overland Park Bluhawk CID, TDD and Star Bond",rate_row
+us-ks-spd-ovc16,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Overland Park Edison CID,rate_row
+us-ks-spd-ovc17,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Overland Park Metcalf Crossing CID,rate_row
+us-ks-spd-ovc19,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Overland Park Galleria 115 CID,rate_row
+us-ks-spd-ovc20,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Overland Park Brookridge 1 CID,pub1700_row_no_rate_extracted
+us-ks-spd-ovc21,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Overland Park Metcalf 108 CID,rate_row
+us-ks-spd-ovc22,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Overland Park Brookridge 2 CID,pub1700_row_no_rate_extracted
+us-ks-spd-ovc23,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Overland Park Stanley Square CID,rate_row
+us-ks-spd-ovebh,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Overland Park Bluhawk Star Bond,pub1700_row_no_rate_extracted
+us-ks-spd-ovec1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Overland Park Quivira 95 Shops CID,rate_row
+us-ks-spd-ovec2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Overland Park 91st Street & Metcalf CID,rate_row
+us-ks-spd-ovec3,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Overland Park West Park CID,rate_row
+us-ks-spd-ovec4,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Overland Park Prairiefire Phase I CID,rate_row
+us-ks-spd-ovec5,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Overland Park Prairiefire STAR Bond and Phase I CID,rate_row
+us-ks-spd-ovec6,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Overland Park Prairiefire STAR Bond and Phase II CID,rate_row
+us-ks-spd-ovec7,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Overland Park Hawthorne Plaza CID,rate_row
+us-ks-spd-ovec8,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Overland Park Corbin Park CID,rate_row
+us-ks-spd-ovec9,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Overland Park Ranch Mart South CID,rate_row
+us-ks-spd-ovet4,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Overland Park Highlands Village TDD,rate_row
+us-ks-spd-ovet5,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Overland Park Bluhawk TDD and Star Bond,rate_row
+us-ks-spd-ovet6,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Overland Park Mission Farms West TDD,rate_row
+us-ks-spd-ovet7,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Overland Park City Place TDD,rate_row
+us-ks-spd-ovetd,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Overland Park Deer Creek TDD,rate_row
+us-ks-spd-pakc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Park City I-135 Arena CID,rate_row
+us-ks-spd-paoc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Paola Crossing No. 1 CID,rate_row
+us-ks-spd-parc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Parsons Hospitality CID,rate_row
+us-ks-spd-parc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Parsons The Katy Golf Club Project CID,rate_row
+us-ks-spd-pitc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Pittsburg Northgate Plaza CID,rate_row
+us-ks-spd-pitc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Pittsburg Town Center CID & TDD,rate_row
+us-ks-spd-pittd,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Pittsburg TDD,rate_row
+us-ks-spd-potc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Pottawatomie County Auto Plaza CID,rate_row
+us-ks-spd-prac1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,"Prairie Village ""The Village"" CID",rate_row
+us-ks-spd-prac2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Prairie Village Corinth Square CID,rate_row
+us-ks-spd-roec2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Roeland Park The Rocks CID,rate_row
+us-ks-spd-roet2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Roeland Park Shopping Center #2 TDD,rate_row
+us-ks-spd-roetd,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Roeland Park Shopping Center #1 TDD,rate_row
+us-ks-spd-rusc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Russell 24/7 Travel Store CID,rate_row
+us-ks-spd-salc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Salina S&B South Ninth CID,rate_row
+us-ks-spd-salc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Salina Downtown STAR Bond and Downtown CID,rate_row
+us-ks-spd-salc3,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Salina Downtown Hotel CID,rate_row
+us-ks-spd-salc4,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Salina Alley CID,rate_row
+us-ks-spd-salc5,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Salina North 9th Street HPSA CID,rate_row
+us-ks-spd-saldt,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Salina Downtown STAR Bond,pub1700_row_no_rate_extracted
+us-ks-spd-shac3,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Shawnee Westbrooke Village CID,rate_row
+us-ks-spd-shatd,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Shawnee Plaza TDD,rate_row
+us-ks-spd-sncc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Shawnee County Stormont Vail Events Center CID,rate_row
+us-ks-spd-souc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,South Hutchinson Love's Travel CID,rate_row
+us-ks-spd-toc10,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Topeka California Crossing CID,rate_row
+us-ks-spd-toc11,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Topeka Hotel Topeka CID,rate_row
+us-ks-spd-topc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Topeka Holliday Square CID,rate_row
+us-ks-spd-topc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Topeka Crosswinds Common CID,rate_row
+us-ks-spd-topc3,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Topeka Cyrus Hotel CID,rate_row
+us-ks-spd-topc4,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Topeka SE 29th Street CID,rate_row
+us-ks-spd-topc5,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Topeka Wheatfield Village CID,rate_row
+us-ks-spd-topc6,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Topeka Sherwood Crossing/Villa West CID,rate_row
+us-ks-spd-topc7,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Topeka Wanamaker Hills CID,rate_row
+us-ks-spd-topc8,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Topeka Downtown Ramada Inn CID,rate_row
+us-ks-spd-topc9,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Topeka South Topeka CID,rate_row
+us-ks-spd-tophp,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Topeka Heartland Park Redevelopment District STAR Bond,pub1700_row_no_rate_extracted
+us-ks-spd-topsn,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Topeka,pub1700_row_no_rate_extracted
+us-ks-spd-wabc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Wabaunsee County Maple Hill Travel Store CID,rate_row
+us-ks-spd-wakc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,WaKeeney Travel Plaza CID,rate_row
+us-ks-spd-welc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Wellsville Poplar Street CID,rate_row
+us-ks-spd-wesc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Westwood Woodside CID,rate_row
+us-ks-spd-wesc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Westwood South Woodside CID,rate_row
+us-ks-spd-wic10,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Wichita Spaghetti Works CID,rate_row
+us-ks-spd-wic11,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Wichita River District Stadium STAR and Multi-Sport Stadium CID,rate_row
+us-ks-spd-wic12,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Wichita River Walk STAR and Multi-Sport Stadium CID,rate_row
+us-ks-spd-wic13,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Wichita Multi-Sport Stadium CID,rate_row
+us-ks-spd-wic15,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Wichita River District Stadium STAR Bond and Wichita Delano Catalyst CID,rate_row
+us-ks-spd-wic16,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Wichita Douglas & Emporia CID,rate_row
+us-ks-spd-wic17,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Wichita Douglas Market Development CID,rate_row
+us-ks-spd-wic18,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Wichita Saddle Creek Crossing CID,rate_row
+us-ks-spd-wic19,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Wichita 333 English CID,rate_row
+us-ks-spd-wic20,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Wichita SoCe Corner CID,rate_row
+us-ks-spd-wic21,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Wichita Orpheum Theatre CID,rate_row
+us-ks-spd-wicc1,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Wichita WaterWalk Hotel CID,rate_row
+us-ks-spd-wicc2,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Wichita Broadview Hotel CID,rate_row
+us-ks-spd-wicc3,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Wichita Central & Oliver CID,rate_row
+us-ks-spd-wicc4,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Wichita Greenwich & K-96 CID,rate_row
+us-ks-spd-wicc5,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Wichita Douglas & Broadway CID,rate_row
+us-ks-spd-wicc7,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Wichita Kellogg and West CID,rate_row
+us-ks-spd-wicc8,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Wichita Downtown Hilton CID,rate_row
+us-ks-spd-wicc9,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Wichita Chicken N Pickle CID,rate_row
+us-ks-spd-wicgr,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Wichita K-96 Greenwich STAR Bond District,pub1700_row_no_rate_extracted
+us-ks-spd-wicrd,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Wichita River District Stadium STAR Bond,pub1700_row_no_rate_extracted
+us-ks-spd-wicrw,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Wichita River Walk STAR Bond Project,pub1700_row_no_rate_extracted
+us-ks-spd-wract,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Kansas City Legends CID & TDD,rate_row
+us-ks-spd-wratd,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Kansas City Legends TDD,rate_row
+us-ks-spd-wyart,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Kansas City Race Track STAR Bond,pub1700_row_no_rate_extracted
+us-ks-spd-wyrtc,special_district,0,0,0,0,0,0,1,1,confirmed_absent,Kansas City Legends Garage and Lawn CID and Race Track STAR Bond,rate_row
+us-ks-spd-wyspe,special_district,0,0,0,0,0,0,0,0,confirmed_absent,Kansas City Speedway STAR Bond,pub1700_row_no_rate_extracted
