@@ -147,3 +147,7 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# Muse benchmark loop run output (regenerable; scored results are filed deliberately)
+benchmarks/runs/
+benchmarks/results.local.json
