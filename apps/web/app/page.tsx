@@ -126,7 +126,7 @@ export default function Home() {
             )}
             {lookup && !lookup.error && lookup.applicable.length === 0 && (
               <p className="note">{lookup.reason === "no_published_geo"
-                ? "No published boundaries yet — Texas geo is verified and awaiting the human publish gate; this lights up on approval."
+                ? "No published boundary covers this point yet — coverage exists only where a government-published boundary passed the human publish gate."
                 : "Outside published boundary coverage for this point."}</p>
             )}
           </div>
