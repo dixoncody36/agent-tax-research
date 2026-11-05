@@ -58,4 +58,22 @@ export const DESCRIPTORS: Descriptor[] = [
     url: "https://www.irs.gov/credits-and-deductions",
     notes: "Individual credits/deductions hub — exemptions_exclusions evidence base (families exist; per-credit parameters need topic pages).",
   },
+  {
+    jurisdictionSlug: "us", taxTypeSlug: "us-federal-income-corporate", publisher: IRS,
+    name: "Instructions for Form 1120 — IRS",
+    url: "https://www.irs.gov/instructions/i1120",
+    notes: "Corporate tax-computation evidence (flat-rate Schedule J) for rates_brackets; the corporations hub's 21% hit was page chrome and was correctly rejected in round 2.",
+  },
+  {
+    jurisdictionSlug: "us", taxTypeSlug: "us-federal-excise", publisher: IRS,
+    name: "Instructions for Form 720 — IRS",
+    url: "https://www.irs.gov/instructions/i720",
+    notes: "Quarterly excise schedules with per-unit rates (fuels, coal, communications...) — per_unit_rates evidence; dated What's-New lines are the only history this snapshot can carry.",
+  },
+  {
+    jurisdictionSlug: "us", taxTypeSlug: "us-federal-excise", publisher: IRS,
+    name: "About Form 720 — IRS",
+    url: "https://www.irs.gov/forms-pubs/about-form-720",
+    notes: "Form 720 landing: who must file, current revision pointer to the instructions above.",
+  },
 ];
