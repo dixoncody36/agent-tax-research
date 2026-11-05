@@ -6,7 +6,7 @@ import {
 } from "@agent-tax-research/database";
 import { cleanCityName } from "./city-slug.js";
 import {
-  bboxOf, canonicalJson, geometryCentroid, geometryHash, isGeometry, type Geometry,
+  bboxOf, canonicalJson, geometryHash, interiorPoint, isGeometry, type Geometry,
 } from "./geo-math.js";
 
 // Government GIS boundary ingest (#37, M8 units 1-3). Authority: US Census
@@ -199,7 +199,7 @@ export async function runGeoIngest(args: string[]): Promise<Record<string, unkno
     if (knownHashes.has(hash)) { reused += 1; continue; }
     knownHashes.add(hash);
     const bb = bboxOf(geom);
-    const c = geometryCentroid(geom);
+    const c = interiorPoint(geom); // #68: pin must sit inside the polygon
     items.push({
       slug: jur.slug,
       payload: {

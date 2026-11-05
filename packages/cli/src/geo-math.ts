@@ -68,6 +68,39 @@ export function geometryCentroid(g: Geometry): { lat: number; lng: number } {
   return { lat: round6(sy / totalArea), lng: round6(sx / totalArea) };
 }
 
+/**
+ * A point guaranteed on the surface (#68): the true centroid when it falls
+ * inside, else the midpoint of the widest inside segment across 19
+ * scanlines. Ingest payloads use this for centroid_lat/lng (globe pins) —
+ * an area centroid of a non-convex city can sit outside its own polygon
+ * (Herington, Mulvane KS), which would pin the marker in another place.
+ */
+export function interiorPoint(g: Geometry): { lat: number; lng: number } {
+  const c = geometryCentroid(g);
+  if (pointInGeometry(g, c.lat, c.lng) !== "outside") return c;
+  const b = bboxOf(g);
+  let best: { lat: number; lng: number; width: number } | null = null;
+  for (let i = 1; i < 20; i++) {
+    const lat = b.minLat + ((b.maxLat - b.minLat) * i) / 20;
+    const xs: number[] = [];
+    for (const poly of polygonsOf(g)) {
+      for (const ring of poly) {
+        for (let k = 0; k < ring.length - 1; k++) {
+          const [x1, y1] = ring[k]!;
+          const [x2, y2] = ring[k + 1]!;
+          if ((y1 > lat) !== (y2 > lat)) xs.push(x1 + ((lat - y1) / (y2 - y1)) * (x2 - x1));
+        }
+      }
+    }
+    xs.sort((a, z) => a - z);
+    for (let k = 0; k + 1 < xs.length; k += 2) {
+      const width = xs[k + 1]! - xs[k]!;
+      if (!best || width > best.width) best = { lat, lng: (xs[k]! + xs[k + 1]!) / 2, width };
+    }
+  }
+  return best ? { lat: round6(best.lat), lng: round6(best.lng) } : c;
+}
+
 export function inBBox(b: BBox, lat: number, lng: number): boolean {
   return lat >= b.minLat && lat <= b.maxLat && lng >= b.minLng && lng <= b.maxLng;
 }
