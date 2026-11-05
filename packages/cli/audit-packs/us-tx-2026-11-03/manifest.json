@@ -1,0 +1,68 @@
+{
+  "pack": "audit-pack-v1",
+  "jurisdiction": "us-tx",
+  "generatedAt": "2026-11-03T07:29:10.799Z",
+  "calcVersion": "audit-pack 1.0.0",
+  "gitSha": "9aee920290d430caef41d7984e87ed3f2b18d216",
+  "generator": "packages/cli/src/audit-pack.ts",
+  "inputsHash": "9c6b90039c259a618b79df91e118998adc1f7e3c569eb73be44891cc8e9d9cab",
+  "inputsNote": "SHA-256 of verified-rates.csv (canonical input rows for this pack)",
+  "counts": {
+    "ratesTotal": 1860,
+    "ratesVerified": 1855,
+    "tieOutRows": 1173,
+    "tieOutNegativeVariances": 0,
+    "geoPublished": 0,
+    "geoVerifiedUnpublished": 1481,
+    "geoUnaccounted": 1510
+  },
+  "files": [
+    {
+      "name": "verified-rates.csv",
+      "sha256": "9c6b90039c259a618b79df91e118998adc1f7e3c569eb73be44891cc8e9d9cab",
+      "bytes": 740050
+    },
+    {
+      "name": "all-rates-incl-unverified.csv",
+      "sha256": "39eca2741524e5b6944cd909fa06628e03772bac009e6b9d702fc47f224b1879",
+      "bytes": 741749
+    },
+    {
+      "name": "tie-out-sales-stack.csv",
+      "sha256": "93e7d7c0d7c76c9d4743987aaa839a78d4e220af1cccde0cafa1d187f406c26f",
+      "bytes": 147387
+    },
+    {
+      "name": "geo-boundaries-published.csv",
+      "sha256": "736c2b6652e77c4d1d0e05553598a44b6f90067f57f1934870869ee464dfa576",
+      "bytes": 50
+    },
+    {
+      "name": "geo-boundaries-verified-unpublished.csv",
+      "sha256": "180b63d5b45ce7298d6978f4b7fecd79bda8e9a090ff6fb2a71da8d672f3aae9",
+      "bytes": 398813
+    },
+    {
+      "name": "geo-tie-out.csv",
+      "sha256": "eed342fb6c351df0ec00c05542b3a684c564841cd6b069c8c5345d8dc2ad4407",
+      "bytes": 163
+    },
+    {
+      "name": "geo-fixtures.csv",
+      "sha256": "379f0f6a3f05a3007c5d093a77e7cc01c313cf40accf0f66474ccb1d07db54a6",
+      "bytes": 671
+    },
+    {
+      "name": "calculation-register.csv",
+      "sha256": "ab5c0db4887d4b3c8a77148a92d2d3f46180c919dbb3efc9c044fcf9b66a94a7",
+      "bytes": 2383
+    }
+  ],
+  "retention": "default 7 years per anvil 027 — CONFIRM with engagement; local filesystem for now, Azure Blob WORM is the ship target (gap)",
+  "knownGaps": [
+    "combined totals sourced from extraction records, not first-class published total rows",
+    "no Entra signer identity locally — approver names are CLI-recorded strings",
+    "CSV pack; live-formula .xlsx workpaper + PDF summary pending shared generator (027 s6)"
+  ],
+  "note": "DRAFT — generated for review. Re-perform: open CSVs in Excel; verify snapshot_sha256 against source_snapshots.content_hash; recompute stacks in tie-out file (integer micro-units, tolerance 0)."
+}
