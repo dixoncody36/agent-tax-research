@@ -58,7 +58,43 @@ export async function GET(req: Request) {
     .map((c) => ({ slug: c.slug as string, name: c.name as string, level: c.level as string, geometryHash: c.geometry_hash as string }))
     .sort((a, b) => ((RANK[a.level] ?? 9) - (RANK[b.level] ?? 9)) || a.name.localeCompare(b.name));
 
-  const slugs = applicable.map((a) => a.slug);
+  // #60: ancestors imposing this tax with no boundary of their own (ca
+  // over a province, us over a state) are applicable-by-descent — inside
+  // a descendant proves inside the ancestor. Cites the deciding
+  // descendant's geometry; same-level unresolved stay PARTIAL below.
+  const testedSlugs = applicable.map((a) => a.slug);
+  const descent = testedSlugs.length
+    ? await client`
+        WITH RECURSIVE anc AS (
+          SELECT j.id, j.slug, j.name, j.level, j.parent_id, j.slug AS from_slug
+          FROM jurisdictions j WHERE j.slug = ANY(${testedSlugs})
+          UNION ALL
+          SELECT p.id, p.slug, p.name, p.level, p.parent_id, a.from_slug
+          FROM jurisdictions p JOIN anc a ON a.parent_id = p.id
+        )
+        SELECT DISTINCT ON (a.slug) a.slug, a.name, a.level::text AS level, a.from_slug
+        FROM anc a
+        JOIN tax_rates r ON r.jurisdiction_id = a.id
+        JOIN tax_types t ON t.id = r.tax_type_id
+        WHERE t.slug = ${taxType}
+          AND r.effective_from <= CURRENT_DATE
+          AND (r.effective_to IS NULL OR r.effective_to >= CURRENT_DATE)
+          AND NOT (a.slug = ANY(${testedSlugs}))
+          AND NOT EXISTS (
+            SELECT 1 FROM jurisdiction_geo g WHERE g.jurisdiction_id = a.id
+              AND g.boundary_geojson IS NOT NULL AND g.verification_status = 'verified')`
+    : [];
+  const hashBySlug = new Map(applicable.map((a) => [a.slug, a.geometryHash]));
+  const applicableAll = [
+    ...applicable,
+    ...descent.map((d) => ({
+      slug: d.slug as string, name: d.name as string, level: d.level as string,
+      geometryHash: hashBySlug.get(d.from_slug as string) ?? "",
+      viaDescentFrom: d.from_slug as string,
+    })),
+  ].sort((a, b) => ((RANK[a.level] ?? 9) - (RANK[b.level] ?? 9)) || a.name.localeCompare(b.name));
+
+  const slugs = applicableAll.map((a) => a.slug);
   const rates = slugs.length
     ? await client`
         SELECT j.slug, j.name, r.rate_value, r.rate_unit, r.applies_to
@@ -93,8 +129,8 @@ export async function GET(req: Request) {
 
   return Response.json({
     point: { lat, lng }, taxType,
-    applicable, components, combinedPercent,
-    complete: applicable.length > 0 && unresolved.length === 0,
+    applicable: applicableAll, components, combinedPercent,
+    complete: applicableAll.length > 0 && unresolved.length === 0,
     unresolvedCount: unresolved.length,
     reason: applicable.length ? null : (candidates.length ? "outside_coverage" : "no_published_geo"),
   });

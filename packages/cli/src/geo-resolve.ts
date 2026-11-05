@@ -12,7 +12,7 @@ import { inBBox, isGeometry, pointInGeometry, type BBox } from "./geo-math.js";
 // with undecided potential components is reported partial, never complete.
 
 export const GEO_PIP_VERSION = "GEO-PIP@1.0.0";
-export const RATE_STACK_VERSION = "RATE-STACK@1.0.0";
+export const RATE_STACK_VERSION = "RATE-STACK@1.1.0"; // 1.1: by-descent ancestors (#60)
 
 export const LEVEL_RANK: Record<string, number> = {
   country: 0, region: 1, state: 2, province: 2, county: 3, city: 4, special_district: 5, other: 6,
@@ -31,7 +31,47 @@ export type GeoCandidate = {
 export type Resolved = {
   slug: string; name: string; level: string;
   onBoundary: boolean; geometryHash: string | null;
+  // #60: present when this jurisdiction has no boundary of its own and is
+  // applicable only because the point resolved inside a descendant.
+  viaDescent?: { fromSlug: string; geometryHash: string | null };
 };
+
+export type ParentInfo = { slug: string; name: string; level: string; parentSlug: string | null };
+
+// By-descent ancestors (#60): ancestors of boundary-tested jurisdictions
+// that impose the tax (wantedSlugs) but have no boundary to test. Being
+// inside a descendant proves being inside the ancestor, so their
+// components stack (citing the deciding descendant's geometry) instead of
+// staying unresolved. Ancestors WITH a boundary are never added here —
+// they were tested on their own geometry and the point was outside.
+export function applicableByDescent(
+  applicable: Resolved[],
+  parents: Map<string, ParentInfo>,
+  wantedSlugs: Set<string>,
+  boundarySlugs: Set<string>,
+): Resolved[] {
+  const have = new Set(applicable.map((a) => a.slug));
+  const out: Resolved[] = [];
+  for (const desc of applicable) {
+    let cur = parents.get(desc.slug);
+    const seen = new Set<string>();
+    while (cur?.parentSlug && !seen.has(cur.parentSlug)) {
+      seen.add(cur.parentSlug);
+      const anc = parents.get(cur.parentSlug);
+      if (!anc) break;
+      if (wantedSlugs.has(anc.slug) && !boundarySlugs.has(anc.slug) && !have.has(anc.slug)) {
+        have.add(anc.slug);
+        out.push({
+          slug: anc.slug, name: anc.name, level: anc.level,
+          onBoundary: false, geometryHash: null,
+          viaDescent: { fromSlug: desc.slug, geometryHash: desc.geometryHash },
+        });
+      }
+      cur = anc;
+    }
+  }
+  return [...applicable, ...out].sort(byLevelRank);
+}
 
 export function byLevelRank(a: Resolved, b: Resolved): number {
   const d = (LEVEL_RANK[a.level] ?? 9) - (LEVEL_RANK[b.level] ?? 9);
@@ -139,7 +179,7 @@ export async function runRateAtPoint(args: string[]): Promise<Record<string, unk
 
   const resolved = await runGeoResolve(args);
   const applicable = (resolved.applicable as Resolved[]) ?? [];
-  const applicableSlugs = new Set(applicable.map((a) => a.slug));
+  const boundaryTested = applicable;
 
   const rows = await db.select({
     slug: jurisdictions.slug, rateValue: taxRates.rateValue,
@@ -153,9 +193,26 @@ export async function runRateAtPoint(args: string[]): Promise<Record<string, unk
       isNotNull(taxRates.rateValue),
     ));
 
+  // #60: ancestors of boundary-tested jurisdictions that impose this tax
+  // but have no boundary (e.g. ca over a province, us over a state) count
+  // as applicable-by-descent; everything else unresolved stays PARTIAL.
+  const jurRows = await db.select({
+    slug: jurisdictions.slug, name: jurisdictions.name, level: jurisdictions.level, parentId: jurisdictions.parentId, id: jurisdictions.id,
+  }).from(jurisdictions);
+  const slugById = new Map(jurRows.map((j) => [j.id, j.slug]));
+  const parents = new Map(jurRows.map((j) => [j.slug, {
+    slug: j.slug, name: j.name, level: j.level,
+    parentSlug: j.parentId ? (slugById.get(j.parentId) ?? null) : null,
+  }]));
+  const boundarySlugSet = new Set((await loadCandidates(p.date)).filter((c) => isGeometry(c.boundary)).map((c) => c.slug));
+  const fullApplicable = applicableByDescent(
+    boundaryTested, parents, new Set(rows.map((r) => r.slug)), boundarySlugSet,
+  );
+  const applicableSlugs = new Set(fullApplicable.map((a) => a.slug));
+
   const components: RateComponent[] = [];
   const unresolvedComponents: string[] = [];
-  const boundarySlugs = new Set((await loadCandidates(p.date)).filter((c) => isGeometry(c.boundary)).map((c) => c.slug));
+  const boundarySlugs = boundarySlugSet;
   for (const r of rows) {
     const comp = { slug: r.slug, rateValue: Number(r.rateValue), rateUnit: r.rateUnit, appliesTo: r.appliesTo };
     if (applicableSlugs.has(r.slug)) components.push(comp);
@@ -166,11 +223,11 @@ export async function runRateAtPoint(args: string[]): Promise<Record<string, unk
   return {
     point: { lat: p.lat, lng: p.lng }, asOf: p.date, taxType: typeSlug,
     calcVersions: [GEO_PIP_VERSION, RATE_STACK_VERSION],
-    applicable, components, combinedPercent, nonPercent,
+    applicable: fullApplicable, components, combinedPercent, nonPercent,
     complete: unresolvedUnique.length === 0,
     unresolvedComponents: unresolvedUnique,
     instruction: unresolvedUnique.length
       ? "PARTIAL sum: listed jurisdictions impose this tax but have no published boundary to test — do not present combinedPercent as complete."
-      : "Complete: every imposing jurisdiction was boundary-tested.",
+      : "Complete: every imposing jurisdiction was boundary-tested or proven by descent from a boundary-tested descendant.",
   };
 }
