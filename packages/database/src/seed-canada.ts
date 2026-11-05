@@ -80,6 +80,42 @@ const TAX_TYPES = [
   },
 ] as const;
 
+// Provincial/territorial income tax register (#59). Administration reality:
+// personal income tax is CRA-administered (T1) everywhere except Quebec
+// (Revenu Quebec); corporate income tax is CRA-administered (T2) except
+// Alberta (Tax and Revenue Administration, AT1) and Quebec (Revenu
+// Quebec). Register only — no rates or rules seeded; determinations ride
+// the four-role proposal pipeline when scheduled.
+const TRA = "Alberta Tax and Revenue Administration (TRA)";
+const RQ = "Revenu Quebec";
+const INCOME_URLS = {
+  craPersonal: "https://www.canada.ca/en/revenue-agency/services/tax/individuals/topics/about-your-tax-return/tax-return/completing-a-tax-return/personal-income-tax-rates.html",
+  craCorporate: "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/corporations/corporation-income-tax.html",
+  rqPersonal: "https://www.revenuquebec.ca/en/citizens/income-tax-return/",
+  rqCorporate: "https://www.revenuquebec.ca/en/businesses/income-tax/corporation-income-tax/",
+  traCorporate: "https://www.alberta.ca/corporate-income-tax",
+} as const;
+
+const PROVINCIAL_INCOME_TYPES = PROVINCES.flatMap((p) => {
+  const personalAgency = p.slug === "ca-qc" ? RQ : CRA;
+  const corporateAgency = p.slug === "ca-qc" ? RQ : p.slug === "ca-ab" ? TRA : CRA;
+  const regionKind = ["ca-yt", "ca-nt", "ca-nu"].includes(p.slug) ? "Territorial" : "Provincial";
+  return [
+    {
+      jurisdictionSlug: p.slug, slug: `${p.slug}-income-personal`,
+      name: `Personal Income Tax (${p.name})`, category: "income" as const, agency: personalAgency,
+      url: p.slug === "ca-qc" ? INCOME_URLS.rqPersonal : INCOME_URLS.craPersonal,
+      description: `${regionKind} personal income tax for ${p.name}, administered by ${personalAgency}${personalAgency === CRA ? " (T1 provincial schedules)" : " (Quebec administers its own personal income tax)"}. Register only (#59) — no facts seeded.`,
+    },
+    {
+      jurisdictionSlug: p.slug, slug: `${p.slug}-income-corporate`,
+      name: `Corporate Income Tax (${p.name})`, category: "income" as const, agency: corporateAgency,
+      url: p.slug === "ca-qc" ? INCOME_URLS.rqCorporate : p.slug === "ca-ab" ? INCOME_URLS.traCorporate : INCOME_URLS.craCorporate,
+      description: `${regionKind} corporate income tax for ${p.name}, administered by ${corporateAgency}${corporateAgency === CRA ? " (T2 provincial schedules)" : corporateAgency === TRA ? " (AT1 return)" : " (Quebec administers its own corporate income tax)"}. Register only (#59) — no facts seeded.`,
+    },
+  ];
+});
+
 async function main() {
   const [ca] = await db.select().from(jurisdictions).where(eq(jurisdictions.slug, "ca")).limit(1);
   if (!ca) throw new Error("ca jurisdiction missing; run db:seed/register-world first");
@@ -103,7 +139,7 @@ async function main() {
     idBySlug.set(p.slug, row.id);
   }
 
-  for (const t of TAX_TYPES) {
+  for (const t of [...TAX_TYPES, ...PROVINCIAL_INCOME_TYPES]) {
     const jurisdictionId = idBySlug.get(t.jurisdictionSlug)!;
     await db.insert(taxTypes).values({
       jurisdictionId, slug: t.slug, name: t.name, category: t.category,
@@ -115,7 +151,7 @@ async function main() {
   }
 
   console.log(JSON.stringify({
-    seeded: { jurisdictions: PROVINCES.length, taxTypes: TAX_TYPES.length, parent: "ca", demoHeld: false },
+    seeded: { jurisdictions: PROVINCES.length, taxTypes: TAX_TYPES.length + PROVINCIAL_INCOME_TYPES.length, provincialIncomeTypes: PROVINCIAL_INCOME_TYPES.length, parent: "ca", demoHeld: false },
     note: "Structure only — facts arrive via the proposal pipeline (fetch/decision/reviewer).",
   }, null, 2));
   await client.end();
