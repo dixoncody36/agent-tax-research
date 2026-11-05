@@ -18,7 +18,7 @@ const runIdx = process.argv.indexOf("--run-id");
 const runId = runIdx >= 0 ? process.argv[runIdx + 1] : undefined;
 if (!runId) throw new Error("usage: decide-texas-coverage.ts --run-id <uuid>");
 
-const KEYS = ["levy_exists", "state_rate", "local_rates_and_cap"];
+const KEYS = ["levy_exists", "state_rate", "local_rates_and_cap", "rate_history"];
 const [tx] = await db.select().from(jurisdictions).where(eq(jurisdictions.slug, "us-tx")).limit(1);
 if (!tx) throw new Error("us-tx missing");
 
@@ -35,6 +35,32 @@ for (const row of unknowns) {
     .where(and(eq(taxRates.jurisdictionId, tx.id), eq(taxRates.taxTypeId, tt.id), eq(taxRates.verificationStatus, "verified"),
       sql`${taxRates.effectiveFrom} <= current_date`, or(isNull(taxRates.effectiveTo), sql`${taxRates.effectiveTo} >= current_date`)))
     .orderBy(desc(taxRates.createdAt));
+
+  // Rate history: only where published rows carry real history — at
+  // least two distinct effective periods, or a genuinely pre-extraction
+  // effective date. A single row stamped with its extraction week is
+  // not a history and stays unknown (named in skipped).
+  if (row.questionKey === "rate_history") {
+    const history = await db.select().from(taxRates)
+      .where(and(eq(taxRates.jurisdictionId, tx.id), eq(taxRates.taxTypeId, tt.id), eq(taxRates.verificationStatus, "verified")))
+      .orderBy(taxRates.effectiveFrom);
+    const periods = new Set(history.map((h) => h.effectiveFrom));
+    const earliest = history[0]?.effectiveFrom ?? "";
+    if (history.length > 0 && (periods.size >= 2 || earliest <= "2024-01-01")) {
+      const listing = history.map((h) => `${h.effectiveFrom}..${h.effectiveTo ?? "open"}: ${h.rateValue} ${h.rateUnit}`).join("; ");
+      await db.update(coverageAnswers).set({
+        status: "found",
+        answer: `Published rate history for the ${tt.name} in this database: ${listing}. Earliest published period starts ${earliest}; statutory history before the earliest published row is not yet extracted (named gap). Authority: ${history[0]!.citation ?? "(citations on rate rows)"}`,
+        evidence: { decidedBy: "decide-texas-coverage rate_history", rateIds: history.map((h) => h.id), periods: periods.size, earliest },
+        answeredByRunId: runId, updatedAt: new Date(),
+      }).where(eq(coverageAnswers.id, row.id));
+      console.log(`FOUND ${tt.slug}/rate_history (${periods.size} period(s) from ${earliest})`);
+      decided += 1;
+    } else {
+      skipped.push(`${tt.slug}/rate_history: single extraction-dated row is not a history`);
+    }
+    continue;
+  }
 
   let answer: string | null = null;
   let evidence: Record<string, unknown> = { decidedBy: "decide-texas-coverage (published-data determinations)" };
