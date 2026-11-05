@@ -18,7 +18,31 @@ const runIdx = process.argv.indexOf("--run-id");
 const runId = runIdx >= 0 ? process.argv[runIdx + 1] : undefined;
 if (!runId) throw new Error("usage: decide-texas-coverage.ts --run-id <uuid>");
 
-const KEYS = ["levy_exists", "state_rate", "local_rates_and_cap", "rate_history"];
+const KEYS = ["levy_exists", "state_rate", "local_rates_and_cap", "rate_history", "rates_by_class", "local_rates"];
+
+// Snapshot-supported determinations (primary Comptroller pages Fetched for
+// this pass). Every needle must appear in the latest snapshot's
+// HTML-stripped, entity-decoded text or the row stays unknown.
+const TX_SNAPSHOT_RULES: Record<string, { url: string; needles: string[]; answer: string }> = {
+  "us-tx-insurance/rates_by_class": {
+    url: "https://comptroller.texas.gov/taxes/insurance/licensed.php",
+    needles: ["Property and casualty insurers: 1.6 percent", "1.75 percent", "Title insurers: 1.35 percent", "Reciprocal or interinsurance exchanges: 1.7 percent"],
+    answer: "Texas premium tax rates by line (Comptroller, licensed insurers): property & casualty 1.6%; life, accident & health incl. HMOs 1.75% (half rate .875% on the first $450,000 of life/HMO premiums); title 1.35%; reciprocal/interinsurance exchanges 1.7%. Surplus lines carry 4.85% of taxable premiums (separate Comptroller page, snapshotted this pass). Tex. Ins. Code Title 3 premium taxes.",
+  },
+  "us-tx-hotel-occupancy/local_rates": {
+    url: "https://comptroller.texas.gov/taxes/hotel/",
+    needles: ["state hotel occupancy tax rate is 6 percent", "authorized to impose an additional local hotel tax", "Chapter 351", "Chapter 352"],
+    answer: "Local hotel occupancy taxes are authorized on top of the 6% state tax: cities and certain counties and special purpose districts may impose an additional local hotel tax collected by the local taxing authority (Tex. Tax Code ch. 351 municipal, ch. 352 county, and Local Gov't Code ch. 334 venue districts). Per-city/county rates are not yet extracted as published rate rows — municipal research gap, named.",
+  },
+};
+
+function stripAndHash(html: string): string {
+  return html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, " ").replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, " ")
+    .replace(/<[^>]+>/g, " ").replace(/&(nbsp|#160);/gi, " ").replace(/&amp;/gi, "&")
+    .replace(/&#39;|&apos;|&rsquo;|&lsquo;/gi, "'").replace(/&quot;|&ldquo;|&rdquo;/gi, '"')
+    .replace(/&sect;/gi, "§").replace(/&#(\d+);/g, (_m, n: string) => String.fromCharCode(Number(n)))
+    .replace(/\s+/g, " ");
+}
 const [tx] = await db.select().from(jurisdictions).where(eq(jurisdictions.slug, "us-tx")).limit(1);
 if (!tx) throw new Error("us-tx missing");
 
@@ -35,6 +59,36 @@ for (const row of unknowns) {
     .where(and(eq(taxRates.jurisdictionId, tx.id), eq(taxRates.taxTypeId, tt.id), eq(taxRates.verificationStatus, "verified"),
       sql`${taxRates.effectiveFrom} <= current_date`, or(isNull(taxRates.effectiveTo), sql`${taxRates.effectiveTo} >= current_date`)))
     .orderBy(desc(taxRates.createdAt));
+
+  // Snapshot-supported rules (rates_by_class / local_rates).
+  const snapRule = TX_SNAPSHOT_RULES[`${tt.slug}/${row.questionKey}`];
+  if (snapRule) {
+    const [src] = await db.select().from(sources).where(eq(sources.url, snapRule.url));
+    const snaps = src ? await db.select().from(sourceSnapshots).where(eq(sourceSnapshots.sourceId, src.id)) : [];
+    const snap = snaps.sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)))[0];
+    const text = snap ? stripAndHash(snap.retrievedText ?? "") : "";
+    const missing = snapRule.needles.filter((n) => !text.toLowerCase().includes(n.toLowerCase()));
+    if (!snap || missing.length > 0) {
+      skipped.push(`${tt.slug}/${row.questionKey}: snapshot missing needles [${missing.join("; ")}]`);
+      continue;
+    }
+    const excerptOf = (needle: string) => {
+      const i = text.toLowerCase().indexOf(needle.toLowerCase());
+      return text.slice(Math.max(0, i - 100), i + needle.length + 160).trim();
+    };
+    await db.update(coverageAnswers).set({
+      status: "found", answer: snapRule.answer,
+      evidence: { decidedBy: "decide-texas-coverage snapshot", sourceUrl: snapRule.url, snapshotId: snap.id, contentHash: snap.contentHash, excerpts: snapRule.needles.map(excerptOf) },
+      answeredByRunId: runId, updatedAt: new Date(),
+    }).where(eq(coverageAnswers.id, row.id));
+    console.log(`FOUND ${tt.slug}/${row.questionKey}`);
+    decided += 1;
+    continue;
+  }
+  if (row.questionKey === "rates_by_class" || row.questionKey === "local_rates") {
+    skipped.push(`${tt.slug}/${row.questionKey}: no snapshot rule`);
+    continue;
+  }
 
   // Rate history: only where published rows carry real history — at
   // least two distinct effective periods, or a genuinely pre-extraction
