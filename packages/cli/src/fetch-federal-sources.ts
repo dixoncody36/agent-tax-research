@@ -46,4 +46,16 @@ export const DESCRIPTORS: Descriptor[] = [
     url: "https://www.irs.gov/businesses",
     notes: "Peer-existence evidence base: the federal business-tax index Decision searches for each peer category (sales_tax, property, occupancy, franchise_margin, gross_receipts, severance, fee). Absence findings must record the searches run against this index, never assert from silence alone.",
   },
+  {
+    jurisdictionSlug: "us", taxTypeSlug: "us-federal-excise", publisher: IRS,
+    name: "Penalties — IRS",
+    url: "https://www.irs.gov/payments/penalties",
+    notes: "Penalty regime hub (failure-to-file/pay, accuracy, interest) — current penalties evidence; penalty HISTORY needs dated sources, still a named gap.",
+  },
+  {
+    jurisdictionSlug: "us", taxTypeSlug: "us-federal-income-individual", publisher: IRS,
+    name: "Credits and Deductions — IRS",
+    url: "https://www.irs.gov/credits-and-deductions",
+    notes: "Individual credits/deductions hub — exemptions_exclusions evidence base (families exist; per-credit parameters need topic pages).",
+  },
 ];
