@@ -1,0 +1,22 @@
+{
+  "profile": "federal-only",
+  "description": "US federal level only (issue #16 conformity pack): footprint is the us jurisdiction itself at depth 0 — no states or locals. Covers the federal coverage-question pack (excise, corporate income, individual income + peer-existence) against IRS primary sources.",
+  "footprint": ["us"],
+  "industries": [],
+  "categories": [
+    "income",
+    "excise",
+    "payroll",
+    "fee",
+    "other"
+  ],
+  "depth": 0,
+  "history": "earliest_published",
+  "cadences": {
+    "default": "weekly",
+    "byCategory": {},
+    "byJurisdiction": {
+      "us": "weekly"
+    }
+  }
+}
