@@ -82,6 +82,31 @@ const RULES: Rule[] = [
     sourceUrlIncludes: "instructions/i720", needles: ["per gallon", "per ton"],
     answer: "Federal excise taxes are largely per-unit: Form 720 instructions schedule rates per gallon (e.g. kerosene $.244/gal, LUST $.001/gal) and per ton (e.g. underground-mined coal, lower of $1.10/ton or 4.4% of sales price) by IRS number (see excerpts). The full per-schedule table lives in the cited instructions.",
   },
+  {
+    taxTypeSlug: "us-federal-income-individual", questionKey: "withholding_estimates",
+    sourceUrlIncludes: "small-businesses-self-employed/estimated-taxes", needles: ["Who must pay estimated tax", "$1,000 or more"],
+    answer: "Individuals not fully covered by wage withholding pay quarterly estimated tax: individuals (including sole proprietors/partners/S-corp shareholders) generally must make estimated payments when expecting to owe $1,000 or more at filing (see excerpt).",
+  },
+  {
+    taxTypeSlug: "us-federal-income-corporate", questionKey: "withholding_estimates",
+    sourceUrlIncludes: "small-businesses-self-employed/estimated-taxes", needles: ["Who must pay estimated tax", "Corporations"],
+    answer: "Corporations pay federal income tax through quarterly estimated-tax installments under the same IRS estimated-tax regime (see excerpt naming individuals and corporations); installment computation detail lives in Form 1120-W, not snapshotted in this pass.",
+  },
+  {
+    taxTypeSlug: "us-federal-income-individual", questionKey: "residency_nonresident",
+    sourceUrlIncludes: "substantial-presence-test", needles: ["183 days", "31 days"],
+    answer: "Individual tax residency turns on the substantial presence test: physical presence of at least 31 days in the current year and 183 weighted days over the 3-year lookback (see excerpt); green-card test and closer-connection exceptions are referenced from the same IRS residency topics, not itemized here.",
+  },
+  {
+    taxTypeSlug: "us-federal-income-corporate", questionKey: "deductions_credits_exemptions",
+    sourceUrlIncludes: "guide-to-business-expense-resources", needles: ["ordinary and necessary"],
+    answer: "Businesses deduct ordinary and necessary expenses of carrying on a trade or business (see excerpt); the IRS guide routes to Publication 535 topics per expense family — per-expense rules are not itemized in this pass.",
+  },
+  {
+    taxTypeSlug: "us-federal-income-corporate", questionKey: "residency_nonresident",
+    sourceUrlIncludes: "instructions/i1120", needles: ["domestic corporation"],
+    answer: "Corporate residency follows place of incorporation: Form 1120 is the return for domestic corporations (see excerpt); foreign-corporation (1120-F) treatment is referenced from the same instruction set, not itemized here.",
+  },
 ];
 
 const strip = (html: string) => html
@@ -109,7 +134,7 @@ for (const rule of RULES) {
   if (!row) { skipped.push(`${key}: no coverage row`); continue; }
   if (row.status !== "unknown") { skipped.push(`${key}: already ${row.status}`); continue; }
   const [src] = await db.select().from(sources)
-    .where(and(eq(sources.jurisdictionId, us.id), eq(sources.taxTypeId, tt.id)))
+    .where(eq(sources.jurisdictionId, us.id))
     .then((all) => all.filter((s) => s.url.includes(rule.sourceUrlIncludes)).slice(0, 1));
   if (!src) { skipped.push(`${key}: source not found`); continue; }
   const [snap] = await db.select().from(sourceSnapshots)

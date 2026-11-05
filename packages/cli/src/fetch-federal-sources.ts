@@ -76,4 +76,34 @@ export const DESCRIPTORS: Descriptor[] = [
     url: "https://www.irs.gov/forms-pubs/about-form-720",
     notes: "Form 720 landing: who must file, current revision pointer to the instructions above.",
   },
+  {
+    jurisdictionSlug: "us", taxTypeSlug: "us-federal-income-individual", publisher: IRS,
+    name: "Estimated Taxes — IRS",
+    url: "https://www.irs.gov/businesses/small-businesses-self-employed/estimated-taxes",
+    notes: "Estimated-tax payment regime (who must pay, installments, penalties pointer) — withholding_estimates evidence for individuals and corporations alike (page covers both; filed under individual, cited by corporate determination with the scope note).",
+  },
+  {
+    jurisdictionSlug: "us", taxTypeSlug: "us-federal-income-individual", publisher: IRS,
+    name: "Tax Withholding (employees) — IRS",
+    url: "https://www.irs.gov/individuals/employees/tax-withholding",
+    notes: "Wage withholding mechanics (Form W-4) — individual withholding_estimates companion evidence.",
+  },
+  {
+    jurisdictionSlug: "us", taxTypeSlug: "us-federal-income-corporate", publisher: IRS,
+    name: "Guide to Business Expense Resources — IRS",
+    url: "https://www.irs.gov/forms-pubs/guide-to-business-expense-resources",
+    notes: "Final URL of deducting-business-expenses (redirects here) — corporate deductions_credits_exemptions evidence base.",
+  },
+  {
+    jurisdictionSlug: "us", taxTypeSlug: "us-federal-income-individual", publisher: IRS,
+    name: "Substantial Presence Test — IRS",
+    url: "https://www.irs.gov/individuals/international-taxpayers/substantial-presence-test",
+    notes: "Individual residency determination (183-day weighted formula) — residency_nonresident evidence.",
+  },
+  {
+    jurisdictionSlug: "us", taxTypeSlug: "us-federal-income-individual", publisher: IRS,
+    name: "Online Payment Agreement Application — IRS",
+    url: "https://www.irs.gov/payments/online-payment-agreement-application",
+    notes: "Peer fee evidence: IRS charges user fees (e.g. installment-agreement setup fees) — fee levy existence at the federal level.",
+  },
 ];

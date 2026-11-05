@@ -108,5 +108,41 @@ for (const a of ABSENT) {
   }
 }
 
-console.log(JSON.stringify({ decided, controls: controlCounts, left, stillUnknown: ["peer_existence.fee"] }, null, 2));
+// Fee found case (round 4): the IRS charges user fees (e.g. installment-
+// agreement setup fees) — evidenced on the payment-plan application
+// snapshot. Decided only when both needles appear in that snapshot.
+{
+  const [row] = await db.select().from(coverageAnswers)
+    .where(and(eq(coverageAnswers.jurisdictionId, us.id), isNull(coverageAnswers.taxTypeId), eq(coverageAnswers.questionKey, "peer_existence.fee")))
+    .limit(1);
+  const [feeSnap] = await db.select({ hash: sourceSnapshots.contentHash, text: sourceSnapshots.retrievedText, url: sources.url })
+    .from(sourceSnapshots).innerJoin(sources, eq(sources.id, sourceSnapshots.sourceId))
+    .where(eq(sources.jurisdictionId, us.id))
+    .then((all) => all.filter((s) => s.url === "https://www.irs.gov/payments/online-payment-agreement-application").slice(-1));
+  const feeText = feeSnap ? strip(feeSnap.text ?? "") : "";
+  const feeFound = feeText.includes("user fee") && feeText.includes("setup fee");
+  if (row && row.status === "unknown" && feeFound && feeSnap) {
+    await db.update(coverageAnswers).set({
+      status: "found",
+      answer: "The federal level charges user fees for IRS services — e.g. setup fees for payment plans (installment agreements) per the IRS payment-plan application page (see evidence snapshot). This is a service-fee regime, not a tax category.",
+      evidence: {
+        kind: "fee_existence_snapshot",
+        snapshotHashes: [feeSnap.hash], sourceUrl: feeSnap.url,
+        needles: ["user fee", "setup fee"],
+        excerpts: ["user fee", "setup fee"].map((n) => {
+          const i = feeText.indexOf(n);
+          return i >= 0 ? feeText.slice(Math.max(0, i - 60), i + 220) : "";
+        }),
+        decidedBy: "decide-federal-peer fee found case",
+      },
+      answeredByRunId: runId, updatedAt: new Date(),
+    }).where(eq(coverageAnswers.id, row.id));
+    console.log("FOUND peer_existence.fee (IRS user fees)");
+    decided += 1;
+  } else if (row?.status === "unknown") {
+    left.push(`peer_existence.fee: not decidable (feeFound=${feeFound})`);
+  }
+}
+
+console.log(JSON.stringify({ decided, controls: controlCounts, left, stillUnknown: [] }, null, 2));
 await client.end();
