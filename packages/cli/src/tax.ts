@@ -481,7 +481,7 @@ async function envelopeFor(run: typeof agentRuns.$inferSelect) {
       instructions: [
         "Check first: pnpm tax ledger check for this jurisdiction; reuse validated determinations.",
         "Primary government sources only; vendor content is noted-only.",
-        "End with handoff notes via tax work submit.",
+        "End with handoff notes via tax work submit (record --model, --tokens-in/--tokens-out or --tokens-unknown, and --prompt-file).",
       ],
     },
   };
@@ -511,18 +511,40 @@ async function workClaim(id: string) {
 
 async function workSubmit(args: string[]) {
   const id = argVal(args, "--id"); const st = argVal(args, "--status");
-  if (!id || (st !== "completed" && st !== "failed")) { out({ error: "usage: tax work submit --id <uuid> --status completed|failed [--notes <text>] [--tokens-in N] [--tokens-out N] [--cost-usd X] [--model <id>]" }); process.exitCode = 2; return; }
+  if (!id || (st !== "completed" && st !== "failed")) { out({ error: "usage: tax work submit --id <uuid> --status completed|failed [--notes <text>] [--tokens-in N] [--tokens-out N] [--tokens-unknown] [--cost-usd X] [--model <id>] [--prompt-file <path> | --prompt <text>]" }); process.exitCode = 2; return; }
   const [run] = await db.select().from(agentRuns).where(eq(agentRuns.id, id)).limit(1);
   if (!run) { out({ error: "assignment_not_found", id }); process.exitCode = 2; return; }
   const num = (v?: string) => (v === undefined ? null : Number(v));
+  // #58 / AGENTS.md rule 10: tokens recorded or explicitly unknown — a
+  // silent null is indistinguishable from "never recorded".
+  const tokensUnknown = args.includes("--tokens-unknown");
+  if (argVal(args, "--tokens-in") === undefined && argVal(args, "--tokens-out") === undefined && !tokensUnknown) {
+    out({ error: "tokens_required", instruction: "Pass --tokens-in/--tokens-out, or --tokens-unknown when the harness cannot report counts. Historical runs stay 'not recorded'; never fabricate." });
+    process.exitCode = 2; return;
+  }
+  // Prompt persistence (#58): sha256 always; path for files; inline text
+  // only when small. Hash parity with muse-api/muse-loop datavalues.
+  const promptFile = argVal(args, "--prompt-file");
+  const promptText = promptFile ? readFileSync(resolve(process.env.INIT_CWD ?? process.cwd(), promptFile), "utf8") : argVal(args, "--prompt");
+  const priorDatavalues = (run.datavalues !== null && typeof run.datavalues === "object" && !Array.isArray(run.datavalues))
+    ? (run.datavalues as Record<string, unknown>) : {};
+  const datavalues: Record<string, unknown> = { ...priorDatavalues };
+  if (tokensUnknown) datavalues.tokensUnknown = true;
+  let promptSha256: string | null = null;
+  if (promptText !== undefined) {
+    promptSha256 = createHash("sha256").update(promptText, "utf8").digest("hex");
+    datavalues.promptSha256 = promptSha256;
+    if (promptFile) datavalues.promptPath = promptFile;
+    else if (promptText.length <= 8000) datavalues.prompt = promptText;
+  }
   await db.update(agentRuns).set({
     status: st, finishedAt: new Date(), updatedAt: new Date(),
     handoffNotes: argVal(args, "--notes") ?? run.handoffNotes,
     tokensIn: num(argVal(args, "--tokens-in")), tokensOut: num(argVal(args, "--tokens-out")),
-    costUsd: argVal(args, "--cost-usd") ?? null, model: argVal(args, "--model") ?? run.model,
+    costUsd: argVal(args, "--cost-usd") ?? null, model: argVal(args, "--model") ?? run.model, datavalues,
   }).where(eq(agentRuns.id, id));
   out({
-    result: { v: 1, assignmentId: id, status: st, attempt: run.attempt,
+    result: { v: 1, assignmentId: id, status: st, attempt: run.attempt, promptSha256, tokensUnknown,
       notifyOrchestrator: st === "failed" && run.attempt >= MAX_ATTEMPTS,
       instruction: st === "failed" ? (run.attempt >= MAX_ATTEMPTS ? "Attempt cap reached: assignment failed permanently; orchestrator notified via status." : "Retryable: tax work retry --id <uuid> creates the next attempt.") : "Recorded. Handoff notes saved for future agents." },
   });
@@ -1133,7 +1155,7 @@ async function main() {
         "tax work enqueue --scope <uuid> --role <role> --jurisdiction <slug> [--tax-type <slug>] [--unit <unit>]",
         "tax work next --role <role> [--scope <uuid>]",
         "tax work claim --id <uuid>",
-        "tax work submit --id <uuid> --status completed|failed [--notes <text>] [--tokens-in N] [--tokens-out N] [--cost-usd X]",
+        "tax work submit --id <uuid> --status completed|failed [--notes <text>] [--tokens-in N] [--tokens-out N] [--tokens-unknown] [--cost-usd X] [--model <id>] [--prompt-file <path> | --prompt <text>]",
         "tax work retry --id <uuid>",
         "tax review list",
         "tax geo ingest --jurisdiction <slug> | --level state|county|place [--fips 48|20]",

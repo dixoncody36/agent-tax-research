@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { readFileSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { client } from "@agent-tax-research/database";
@@ -104,7 +105,7 @@ async function complete(role: string, model: string, prompt: string, maxTokens: 
     INSERT INTO agent_runs (role, model, unit, status, started_at, finished_at, tokens_in, tokens_out, cost_usd, attempt, datavalues)
     VALUES (${role}, ${body.model ?? model}, ${"muse-api"}, ${"completed"}, ${startedAt}, ${new Date()},
       ${tokensIn}, ${tokensOut}, ${cost}, 1,
-      ${JSON.stringify({ provider: "meta", harness: "muse-api", base: BASE })}::jsonb)
+      ${JSON.stringify({ provider: "meta", harness: "muse-api", base: BASE, promptSha256: createHash("sha256").update(prompt, "utf8").digest("hex") })}::jsonb)
     RETURNING id`;
   out({
     runId: run?.id, role, model: body.model ?? model,
