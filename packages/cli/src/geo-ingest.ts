@@ -115,6 +115,7 @@ export async function runGeoIngest(args: string[]): Promise<Record<string, unkno
   let level: Level;
   let where = `STATE='${fips}'`;
   let onlySlug: string | undefined;
+  let placeVariants: Set<string> | null = null; // single-slug name fallbacks (#68)
   if (jurSlug) {
     const [jur] = await db.select().from(jurisdictions).where(eq(jurisdictions.slug, jurSlug)).limit(1);
     if (!jur) return { error: "unknown_jurisdiction", jurisdiction: jurSlug };
@@ -122,7 +123,15 @@ export async function runGeoIngest(args: string[]): Promise<Record<string, unkno
     onlySlug = jurSlug;
     level = jur.level === "state" ? "state" : jur.level === "county" ? "county" : jur.level === "city" ? "place" : "state";
     if (level === "county") where = `STATE='${fips}' AND BASENAME='${cleanCityName(jur.name).replace(/\s+County$/, "").replace(/'/g, "''")}'`;
-    if (level === "place") where = `STATE='${fips}' AND BASENAME='${cleanCityName(jur.name).replace(/'/g, "''")}'`;
+    if (level === "place") {
+      // Census BASENAME spellings differ from register names for a few
+      // places (Gove -> "Gove City", Le Roy -> "LeRoy", #68). Single-slug
+      // ingest may try those variants; bulk matching stays strict.
+      const base = cleanCityName(jur.name);
+      const variants = [...new Set([base, `${base} City`, base.replace(/\s+/g, "")])];
+      placeVariants = new Set(variants.map(normName));
+      where = `STATE='${fips}' AND BASENAME IN (${variants.map((v) => `'${v.replace(/'/g, "''")}'`).join(",")})`;
+    }
   } else if (levelArg && ["state", "county", "place"].includes(levelArg)) {
     level = levelArg;
   } else {
@@ -188,9 +197,9 @@ export async function runGeoIngest(args: string[]): Promise<Record<string, unkno
     if (level === "state") jur = bySlug.get(profile.root);
     else {
       const pool = level === "county" ? countyByName.get(normName(baseName)) : cityByName.get(normName(baseName));
-      if (!pool?.length) { unmatched.push({ name: baseName, reason: "no_registered_jurisdiction" }); continue; }
-      if (pool.length > 1 && !onlySlug) { unmatched.push({ name: baseName, reason: "ambiguous_name_match" }); continue; }
-      jur = onlySlug ? pool.find((j) => j.slug === onlySlug) ?? pool[0] : pool[0];
+      if (!pool?.length && !(onlySlug && placeVariants?.has(normName(baseName)))) { unmatched.push({ name: baseName, reason: "no_registered_jurisdiction" }); continue; }
+      if ((pool?.length ?? 0) > 1 && !onlySlug) { unmatched.push({ name: baseName, reason: "ambiguous_name_match" }); continue; }
+      jur = onlySlug ? (pool?.find((j) => j.slug === onlySlug) ?? pool?.[0] ?? bySlug.get(onlySlug)) : pool?.[0];
     }
     if (!jur) { unmatched.push({ name: baseName, reason: "unmatched" }); continue; }
     if (onlySlug && jur.slug !== onlySlug) continue;
