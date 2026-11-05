@@ -57,6 +57,21 @@ const RULES: Rule[] = [
     sourceUrlIncludes: "excise-tax", needles: ["Form 720"],
     answer: "Federal excise taxes are reported on Form 720 (Quarterly Federal Excise Tax Return) per the IRS excise hub (see excerpt); per-schedule cadence detail beyond the excerpt is not determined in this pass.",
   },
+  {
+    taxTypeSlug: "us-federal-excise", questionKey: "penalties",
+    sourceUrlIncludes: "payments/penalties", needles: ["Failure to File", "accuracy-related"],
+    answer: "Federal excise filings sit under the general IRS penalty regime (failure-to-file/pay and accuracy-related penalties, plus interest) per the IRS penalties hub (see excerpts). Excise-specific penalty schedules are not itemized in this pass.",
+  },
+  {
+    taxTypeSlug: "us-federal-income-individual", questionKey: "filing",
+    sourceUrlIncludes: "filing/individuals", needles: ["e-file"],
+    answer: "Individuals file federal income tax returns with the IRS, including electronic filing (e-file) channels per the IRS filing hub (see excerpt); due-date/extension specifics beyond the excerpt are not determined in this pass.",
+  },
+  {
+    taxTypeSlug: "us-federal-income-individual", questionKey: "deductions_credits_exemptions",
+    sourceUrlIncludes: "credits-and-deductions", needles: ["standard deduction"],
+    answer: "Individual federal income tax provides deductions (including the standard deduction) and credits that reduce taxable income/tax per the IRS credits-and-deductions hub (see excerpt); per-credit parameters are not itemized in this pass.",
+  },
 ];
 
 const strip = (html: string) => html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
