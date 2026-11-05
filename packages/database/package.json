@@ -15,6 +15,7 @@
     "db:seed:canada": "tsx src/seed-canada.ts",
     "db:seed:kansas": "tsx src/seed-kansas.ts",
     "db:studio": "drizzle-kit studio",
+    "test": "tsx --test src/*.test.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
