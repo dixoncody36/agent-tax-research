@@ -2,7 +2,8 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import type { Geometry, Position } from "./geo-math.js";
 import {
-  resolveFromCandidates, stackComponents, type GeoCandidate,
+  applicableByDescent, resolveFromCandidates, stackComponents,
+  type GeoCandidate, type ParentInfo, type Resolved,
 } from "./geo-resolve.js";
 
 // Fixture cascade (#38 acceptance): nested squares stand in for Texas
@@ -50,6 +51,44 @@ describe("resolveFromCandidates (GEO-PIP fixtures)", () => {
     const a = resolveFromCandidates(CANDIDATES, 20, 20);
     const b = resolveFromCandidates(CANDIDATES, 20, 20);
     assert.deepEqual(a, b);
+  });
+});
+
+describe("applicableByDescent (#60 fixtures)", () => {
+  const parents = new Map<string, ParentInfo>([
+    ["ca", { slug: "ca", name: "Canada", level: "country", parentSlug: null }],
+    ["ca-on", { slug: "ca-on", name: "Ontario", level: "province", parentSlug: "ca" }],
+    ["us", { slug: "us", name: "United States", level: "country", parentSlug: null }],
+    ["us-tx", { slug: "us-tx", name: "Texas", level: "state", parentSlug: "us" }],
+    ["us-tx-austin", { slug: "us-tx-austin", name: "Austin", level: "city", parentSlug: "us-tx" }],
+  ]);
+  const ontario: Resolved = { slug: "ca-on", name: "Ontario", level: "province", onBoundary: false, geometryHash: "hash-ca-on" };
+  it("Toronto: federal ca stacks by descent from the province, citing its hash", () => {
+    const full = applicableByDescent([ontario], parents, new Set(["ca", "ca-on"]), new Set(["ca-on"]));
+    assert.deepEqual(full.map((a) => a.slug), ["ca", "ca-on"]);
+    assert.equal(full[0]!.viaDescent?.fromSlug, "ca-on");
+    assert.equal(full[0]!.viaDescent?.geometryHash, "hash-ca-on");
+    assert.equal(full[0]!.geometryHash, null);
+  });
+  it("an ancestor that does not impose the tax is not added", () => {
+    const full = applicableByDescent([ontario], parents, new Set(["ca-on"]), new Set(["ca-on"]));
+    assert.deepEqual(full.map((a) => a.slug), ["ca-on"]);
+  });
+  it("an ancestor WITH a boundary is never added by descent (it was tested, point outside)", () => {
+    const full = applicableByDescent([ontario], parents, new Set(["ca", "ca-on"]), new Set(["ca", "ca-on"]));
+    assert.deepEqual(full.map((a) => a.slug), ["ca-on"]);
+  });
+  it("Austin regression: non-ancestor transit/SPD slugs stay out; US federal stacks by descent", () => {
+    const austin: Resolved[] = [
+      { slug: "us-tx", name: "Texas", level: "state", onBoundary: false, geometryHash: "hash-tx" },
+      { slug: "us-tx-austin", name: "Austin", level: "city", onBoundary: false, geometryHash: "hash-atx" },
+    ];
+    const full = applicableByDescent(austin, parents, new Set(["us", "us-tx", "us-tx-austin", "us-tx-mta-3227999"]), new Set(["us-tx", "us-tx-austin"]));
+    assert.deepEqual(full.map((a) => a.slug), ["us", "us-tx", "us-tx-austin"]);
+    assert.equal(full[0]!.viaDescent?.fromSlug, "us-tx");
+  });
+  it("no boundary-tested descendant -> nothing by descent", () => {
+    assert.deepEqual(applicableByDescent([], parents, new Set(["ca"]), new Set()), []);
   });
 });
 

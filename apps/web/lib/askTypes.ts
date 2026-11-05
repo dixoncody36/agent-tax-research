@@ -16,6 +16,7 @@ export type AskResult = {
 export const EXAMPLES = [
   "What is the sales tax rate in Austin?",
   "What is the Texas state sales tax rate?",
+  "What is the HST rate in Ontario?",
   "Does Austin have a hotel occupancy tax?",
   "Does Texas have a franchise tax?",
   "Which jurisdictions levy a hotel occupancy tax?",

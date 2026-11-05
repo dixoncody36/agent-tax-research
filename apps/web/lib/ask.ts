@@ -29,6 +29,18 @@ const SYNONYMS: { re: RegExp; category: string; name?: RegExp }[] = [
   { re: /\bvat\b|\bgst\b|\bvalue added\b|\bgoods and services tax\b/, category: "vat_gst" },
   { re: /\bfees?\b/, category: "fee" },
 ];
+// Acronym aliases -> exact tax-type slugs (#61). Checked before token and
+// category matching: bare acronyms (HST, QST, PST, RST) carry no name
+// tokens for the specific matcher and "hst" does not hit the gst synonym.
+// When a place resolved, alias hits narrow to types administered inside
+// its ancestor chain (PST in BC -> ca-bc-pst, not all three provinces).
+const ALIASES: { re: RegExp; slugs: string[] }[] = [
+  { re: /\bhst\b|\bharmonized\b/, slugs: ["ca-gst-hst"] },
+  { re: /\bqst\b|\bquebec sales tax\b/, slugs: ["ca-qst"] },
+  { re: /\brst\b|\bretail sales tax\b/, slugs: ["ca-mb-rst"] },
+  { re: /\bpst\b|\bprovincial sales tax\b/, slugs: ["ca-bc-pst", "ca-sk-pst", "ca-mb-rst"] },
+  { re: /\bgst\b|\bgoods and services tax\b/, slugs: ["ca-gst-hst"] },
+];
 const STOP = new Set(["tax", "taxes", "and", "the", "of", "for", "a", "an", "to", "in", "on"]);
 
 type J = { id: string; slug: string; name: string; level: string; parent_id: string | null };
@@ -66,7 +78,22 @@ function resolvePlace(qn: string, js: J[]): { best: J | null; also: J[]; matched
   return { best: uniq[0]!.j, also: uniq.slice(1, 6).map((h) => h.j), matched: uniq[0]!.alias };
 }
 
-function resolveTax(qn: string, tts: TT[]): { types: TT[]; scope: "specific" | "category" | "none" } {
+function ancestorIds(place: J | null, js: J[]): Set<string> {
+  const byId = new Map(js.map((j) => [j.id, j]));
+  const out = new Set<string>();
+  let cur: J | null | undefined = place;
+  while (cur) { out.add(cur.id); cur = cur.parent_id ? byId.get(cur.parent_id) : null; }
+  return out;
+}
+
+function resolveTax(qn: string, tts: TT[], chain: Set<string>): { types: TT[]; scope: "specific" | "category" | "none" } {
+  for (const a of ALIASES) {
+    if (!a.re.test(qn)) continue;
+    const aliased = tts.filter((t) => a.slugs.includes(t.slug));
+    if (!aliased.length) continue;
+    const inChain = chain.size ? aliased.filter((t) => chain.has(t.jurisdiction_id)) : aliased;
+    return { types: inChain.length ? inChain : aliased, scope: "specific" };
+  }
   const words = new Set(qn.split(" ").map((w) => w.replace(/s$/, "")));
   let top = 0;
   let specific: TT[] = [];
@@ -120,7 +147,7 @@ export async function ask(question: string, origin: string): Promise<AskResult> 
   const coords = cm ? { lat: Number(cm[1]), lng: Number(cm[2]) } : null;
   const place = coords ? { best: null as J | null, also: [] as J[], matched: "" } : resolvePlace(qn, js);
   const rest = place.matched ? ` ${qn} `.replace(` ${place.matched} `, " ").trim() : qn;
-  const tax = resolveTax(rest, tts);
+  const tax = resolveTax(rest, tts, ancestorIds(place.best, js));
   const intent = detectIntent(qn, !!place.best, tax.types.length > 0, !!coords);
   if (place.also.length) notes.push(`“${place.best!.name}” is ambiguous — also matches ${place.also.map((a) => `${a.name} (${a.level.replace(/_/g, " ")})`).join(", ")}. Using the highest-level match; name the state to disambiguate.`);
   if (tax.scope === "category" && tax.types.length > 1) notes.push(`“${tax.types.map((t) => t.name).slice(0, 3).join("”, “")}${tax.types.length > 3 ? "…" : ""}” all fit; answering across ${tax.types.length} tax types.`);
@@ -285,6 +312,9 @@ export async function ask(question: string, origin: string): Promise<AskResult> 
       if (comps.length > 1) rows.push({ label: `Combined (${comps.length} components)`, value: `${sum.toLocaleString(undefined, { maximumFractionDigits: 6 })}%` });
       combined = combined === undefined ? sum : undefined;
     }
+  }
+  if (tax.types.some((t) => t.slug === "ca-qst")) {
+    flags.push({ level: "info", text: "QST is levied on the GST-excluded base. Federal GST (5%) applies in parallel on its own base — the two are not one stacked combined rate, so any combined figure here sums QST components only." });
   }
   if (overlap.length) {
     flags.push({ level: "partial", text: `PARTIAL: ${overlap.length} overlapping special-district component(s) (${overlap.slice(0, 3).map((o) => o.name).join(", ")}${overlap.length > 3 ? "…" : ""}) also levy this tax but cannot be placed by name. Ask with coordinates (e.g. “Rate at 30.2672, -97.7431”) for the boundary-tested stack.` });
