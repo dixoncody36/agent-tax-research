@@ -64,6 +64,13 @@
       "when": 1793803227462,
       "tag": "0008_mushy_martin_li",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1793806966244,
+      "tag": "0009_hard_killmonger",
+      "breakpoints": true
     }
   ]
 }
