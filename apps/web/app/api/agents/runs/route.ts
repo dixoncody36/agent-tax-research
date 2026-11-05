@@ -5,7 +5,8 @@ export const dynamic = "force-dynamic";
 // Agent run list (C1). Read-only. Filters: role, jurisdiction (slug),
 // status. Newest first, ordered on timestamp values in SQL. Fields that
 // were never recorded stay null — the UI renders them as "not recorded".
-// Prompts are not persisted anywhere today and are deliberately absent.
+// Prompt hashes/paths ride in datavalues when recorded (#58); runs that
+// predate recording expose nulls and render as "not recorded".
 const ROLES = ["orchestrator", "fetch", "decision", "reviewer"];
 
 export async function GET(req: Request) {
@@ -19,6 +20,9 @@ export async function GET(req: Request) {
     SELECT r.id, r.role::text AS role, r.model, r.unit, r.status, r.attempt,
       r.tokens_in, r.tokens_out, r.cost_usd::text AS cost_usd,
       r.started_at::text AS started_at, r.finished_at::text AS finished_at, r.created_at::text AS created_at,
+      r.datavalues->>'promptSha256' AS prompt_sha256, r.datavalues->>'promptPath' AS prompt_path,
+      r.datavalues->>'provider' AS provider, r.datavalues->>'harness' AS harness,
+      (r.datavalues->>'tokensUnknown')::boolean AS tokens_unknown,
       j.slug AS jurisdiction_slug, j.name AS jurisdiction_name, tt.slug AS tax_type
     FROM agent_runs r
     LEFT JOIN jurisdictions j ON j.id = r.jurisdiction_id

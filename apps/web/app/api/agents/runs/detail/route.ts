@@ -7,7 +7,8 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 // One run's recorded analysis trail (C1): handoff notes, the proposal(s) it
 // extracted or verified, the ledger determinations and coverage answers it
 // touched, and the evidence sources those reference. Only what was recorded
-// is returned — no prompt text exists in the database.
+// is returned — prompt hash/path (and small inline text) ride in
+// datavalues when recorded at submit time (#58).
 export async function GET(req: Request) {
   const id = new URL(req.url).searchParams.get("id") ?? "";
   if (!UUID.test(id)) return Response.json({ error: "id must be a uuid" }, { status: 400 });
