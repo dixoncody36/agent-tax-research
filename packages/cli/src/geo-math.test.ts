@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import {
-  bboxOf, geometryCentroid, geometryHash, pointInGeometry, ringCentroid,
+  bboxOf, geometryCentroid, geometryHash, interiorPoint, pointInGeometry, ringCentroid,
   type Geometry, type Position,
 } from "./geo-math.js";
 
@@ -43,6 +43,24 @@ describe("bboxOf / centroids", () => {
     const c = geometryCentroid(multi);
     // areas 4 and 1, centers lng 1 and 10.5 -> (4 + 10.5) / 5 = 2.9
     assert.equal(c.lng, 2.9);
+  });
+});
+
+describe("interiorPoint (#68)", () => {
+  // C-shaped polygon: block [0..10]x[0..10] minus notch [4..10]x[4..6]
+  // opening east — the area centroid lands in the notch (outside).
+  const cShape: Geometry = {
+    type: "Polygon",
+    coordinates: [[[0, 0], [10, 0], [10, 4], [4, 4], [4, 6], [10, 6], [10, 10], [0, 10], [0, 0]] as Position[]],
+  };
+  it("true centroid of a C-shape falls outside; interiorPoint stays inside", () => {
+    const c = geometryCentroid(cShape);
+    assert.equal(pointInGeometry(cShape, c.lat, c.lng), "outside");
+    const p = interiorPoint(cShape);
+    assert.notEqual(pointInGeometry(cShape, p.lat, p.lng), "outside");
+  });
+  it("convex shapes keep the true centroid", () => {
+    assert.deepEqual(interiorPoint(square), geometryCentroid(square));
   });
 });
 

@@ -5,7 +5,7 @@ import {
   proposals, researchLedger, sources, sourceSnapshots,
 } from "@agent-tax-research/database";
 import {
-  bboxOf, canonicalJson, geometryCentroid, geometryHash, isGeometry,
+  bboxOf, canonicalJson, geometryHash, interiorPoint, isGeometry,
   round6, type Geometry, type Position,
 } from "./geo-math.js";
 
@@ -174,7 +174,7 @@ for (const [pruid, slug] of Object.entries(PRUID_TO_SLUG)) {
   if (knownHashes.has(hash)) { reused += 1; console.log(`REUSED ${slug} hash=${hash.slice(0, 12)}`); continue; }
   knownHashes.add(hash);
   const bb = bboxOf(simp);
-  const c = geometryCentroid(simp);
+  const c = interiorPoint(simp); // #68: pin must sit inside the polygon
   const rawPoints = countPoints(raw);
   const simpPoints = countPoints(simp);
   prepared.push({
