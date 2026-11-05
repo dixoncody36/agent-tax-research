@@ -29,3 +29,20 @@ roles:
 # roles:
 #   fetch:    { provider: foundry, deployment: gpt-5-mini }
 #   decision: { provider: foundry, deployment: gpt-5 }
+
+# Meta Model API (Muse) — hackathon provider, OpenAI-compatible.
+# `provider: meta` calls https://api.meta.ai/v1/chat/completions with
+# $MODEL_API_KEY (.env.local). Runner: pnpm muse:api (ping|complete|budget).
+# Every Muse-API call records an agent_run (tokens + cost when the rate
+# card envs are set) and counts against MUSE_BUDGET_USD. A Muse-API run
+# is a distinct run identity for the publish gates, like any harness run.
+# Suggested hackathon mix (operator's $150 Muse credit):
+# roles:
+#   fetch:    { provider: meta, model: muse-spark-1.3 }   # evidence triage/extraction drafts
+#   reviewer: { provider: meta, model: muse-spark-1.3 }   # independent second pair of eyes
+# orchestrator/decision stay on the harness (Muse) by default.
+providers:
+  meta:
+    base: ${META_MODEL_API_BASE:-https://api.meta.ai/v1}
+    apiKeyEnv: MODEL_API_KEY
+    models: [muse-spark-1.3, muse-spark-1.2, muse-spark-1.1]

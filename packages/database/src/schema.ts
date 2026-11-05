@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { count, eq, sql } from "drizzle-orm";
 import {
   type AnyPgColumn,
   boolean,
@@ -8,6 +8,7 @@ import {
   jsonb,
   numeric,
   pgEnum,
+  pgSchema,
   pgTable,
   text,
   timestamp,
@@ -188,6 +189,11 @@ export const sources = pgTable(
     lastChangedAt: timestamp("last_changed_at", { withTimezone: true }),
     contentHash: text("content_hash"),
     notes: text("notes"),
+    /** government | vendor | other */
+    publisherType: text("publisher_type").notNull().default("government"),
+    /** eligible | noted_only | prohibited | gov_login_gated */
+    eligibility: text("eligibility").notNull().default("eligible"),
+    exclusionReason: text("exclusion_reason"),
     datavalues: datavalues(),
     ...timestamps,
   },
@@ -626,6 +632,427 @@ export const sourceSnapshots = pgTable(
   ],
 );
 
+// ---------------------------------------------------------------------------
+// Proposals & publish gate (issue #4). Nothing reaches published tables
+// except through proposals. DB triggers (in the migration) enforce:
+// an item cannot be verdict=pass against a non-eligible source, and
+// extractor / verifier / approver must be three distinct identities.
+// ---------------------------------------------------------------------------
+export const proposals = pgTable(
+  "proposals",
+  {
+    id: id(),
+    scopeRunId: uuid("scope_run_id").references(() => scopeRuns.id),
+    jurisdictionId: uuid("jurisdiction_id").notNull().references(() => jurisdictions.id),
+    taxTypeId: uuid("tax_type_id").references(() => taxTypes.id),
+    /** proposed | verified | approved | rejected | published */
+    status: text("status").notNull().default("proposed"),
+    extractorRunId: uuid("extractor_run_id").references(() => agentRuns.id),
+    verifierRunId: uuid("verifier_run_id").references(() => agentRuns.id),
+    approvedBy: text("approved_by"),
+    datavalues: datavalues(),
+    ...timestamps,
+  },
+  (t) => [index("proposals_status_idx").on(t.status, t.jurisdictionId)],
+);
+
+export const proposalItems = pgTable(
+  "proposal_items",
+  {
+    id: id(),
+    proposalId: uuid("proposal_id").notNull().references(() => proposals.id),
+    /** tax_rates | tax_rules | tax_licenses | tax_compliance | coverage_answers | jurisdiction_geo | product_tax_treatments */
+    targetTable: text("target_table").notNull(),
+    payload: jsonb("payload").$type<Record<string, unknown>>().notNull().default(sql`'{}'::jsonb`),
+    citation: text("citation"),
+    sourceId: uuid("source_id").references(() => sources.id),
+    snapshotId: uuid("snapshot_id").references(() => sourceSnapshots.id),
+    /** pending | pass | fail */
+    verdict: text("verdict").notNull().default("pending"),
+    datavalues: datavalues(),
+    ...timestamps,
+  },
+  (t) => [index("proposal_items_proposal_idx").on(t.proposalId, t.verdict)],
+);
+
+export const runEvents = pgTable(
+  "run_events",
+  {
+    id: id(),
+    agentRunId: uuid("agent_run_id").notNull().references(() => agentRuns.id),
+    eventType: text("event_type").notNull(),
+    detail: jsonb("detail").$type<Record<string, unknown>>().notNull().default(sql`'{}'::jsonb`),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [index("run_events_run_idx").on(t.agentRunId, t.createdAt)],
+);
+
+export const exceptions = pgTable(
+  "exceptions",
+  {
+    id: id(),
+    scopeRunId: uuid("scope_run_id").references(() => scopeRuns.id),
+    agentRunId: uuid("agent_run_id").references(() => agentRuns.id),
+    jurisdictionId: uuid("jurisdiction_id").references(() => jurisdictions.id),
+    sourceId: uuid("source_id").references(() => sources.id),
+    /** transient | blocked | unreadable | language | conflict | structure_unknown | primary_not_found | attempt_cap | needs_human */
+    exceptionType: text("exception_type").notNull(),
+    severity: text("severity").notNull().default("medium"),
+    /** open | resolved */
+    status: text("status").notNull().default("open"),
+    detail: text("detail"),
+    resolution: text("resolution"),
+    datavalues: datavalues(),
+    ...timestamps,
+  },
+  (t) => [index("exceptions_open_idx").on(t.status, t.jurisdictionId)],
+);
+
+export const taxTypeRelationships = pgTable(
+  "tax_type_relationships",
+  {
+    id: id(),
+    fromTaxTypeId: uuid("from_tax_type_id").notNull().references(() => taxTypes.id),
+    toTaxTypeId: uuid("to_tax_type_id").notNull().references(() => taxTypes.id),
+    /** conforms_to | piggybacks_on | deductible_against | credit_for */
+    relationshipType: text("relationship_type").notNull(),
+    sourceId: uuid("source_id").references(() => sources.id),
+    ...effectiveDates,
+    ...provenance,
+    datavalues: datavalues(),
+    ...timestamps,
+  },
+  (t) => [index("tax_type_relationships_from_idx").on(t.fromTaxTypeId, t.relationshipType)],
+);
+
+// ---------------------------------------------------------------------------
+// Product classification (M7, decree p7): a global coded taxonomy of goods
+// and services the tax law distinguishes, per-jurisdiction treatments
+// (category x jurisdiction x tax type), and operator products classified
+// from recorded facts — never from a marketing label. Treatments are
+// facts like any other: effective-dated, cited, publish-gated.
+// ---------------------------------------------------------------------------
+export const productCategories = pgTable(
+  "product_categories",
+  {
+    id: id(),
+    parentId: uuid("parent_id").references(
+      (): AnyPgColumn => productCategories.id,
+    ),
+    /** Stable slug, e.g. `software-saas`. */
+    slug: text("slug").notNull(),
+    /** Short classification code, e.g. `SW-SAAS`. */
+    code: text("code").notNull(),
+    name: text("name").notNull(),
+    /** Definition written the way statutes draw the line. */
+    definition: text("definition"),
+    /**
+     * Classification question pack + deterministic fact match:
+     * { questions: [{fact, question}], match: {factKey: expectedValue} }.
+     * Re-classifying recorded facts must reproduce the bucket (027).
+     */
+    classificationFacts: jsonb("classification_facts")
+      .$type<Record<string, unknown>>()
+      .notNull()
+      .default(sql`'{}'::jsonb`),
+    datavalues: datavalues(),
+    ...timestamps,
+  },
+  (t) => [uniqueIndex("product_categories_slug_idx").on(t.slug), index("product_categories_parent_idx").on(t.parentId)],
+);
+
+export const productTaxTreatments = pgTable(
+  "product_tax_treatments",
+  {
+    id: id(),
+    categoryId: uuid("category_id").notNull().references(() => productCategories.id),
+    jurisdictionId: uuid("jurisdiction_id").notNull().references(() => jurisdictions.id),
+    taxTypeId: uuid("tax_type_id").notNull().references(() => taxTypes.id),
+    sourceId: uuid("source_id").references(() => sources.id),
+    /** taxable | exempt | reduced_rate | special_rule | confirmed_absent */
+    treatment: text("treatment").notNull(),
+    /** Fraction of the charge that is taxable, when the law splits it (e.g. TX data processing 0.8). */
+    taxableFraction: numeric("taxable_fraction", { precision: 5, scale: 4 }),
+    summary: text("summary"),
+    sourcingRule: text("sourcing_rule"),
+    ...effectiveDates,
+    ...provenance,
+    datavalues: datavalues(),
+    ...timestamps,
+  },
+  (t) => [index("product_treatments_lookup_idx").on(t.categoryId, t.jurisdictionId, t.taxTypeId)],
+);
+
+export const operatorProducts = pgTable(
+  "operator_products",
+  {
+    id: id(),
+    /** Context profile this product was declared under (contexts/*.json slug). */
+    profileSlug: text("profile_slug").notNull(),
+    name: text("name").notNull(),
+    /** Recorded product facts the classification was decided from. */
+    facts: jsonb("facts").$type<Record<string, unknown>>().notNull().default(sql`'{}'::jsonb`),
+    categoryId: uuid("category_id").references(() => productCategories.id),
+    /** unclassified | classified | needs_review | approved */
+    classificationStatus: text("classification_status").notNull().default("unclassified"),
+    classifiedByRunId: uuid("classified_by_run_id"),
+    datavalues: datavalues(),
+    ...timestamps,
+  },
+  (t) => [index("operator_products_profile_idx").on(t.profileSlug, t.classificationStatus)],
+);
+
+// Reporting views (015): consumer lookups + globe/tie-out surfaces.
+// ---------------------------------------------------------------------------
+// Jurisdiction geo (M8, #36) — effective-dated centroids and boundaries so
+// a lat/long resolves to its applicable jurisdictions. Geo facts are
+// facts: source-backed, proposal-gated, superseded never edited. A wrong
+// boundary misstates the rate, so rows carry the GEO-PIP register stamps
+// (geometry hash + simplification + vintage via citation). Coordinates are
+// numeric(9,6) WGS84, never float; `datavalues` never sources a published
+// coordinate. ponytail: GeoJSON in jsonb + bbox columns, point-in-polygon
+// in the CLI — PostGIS geometry + GiST is the upgrade when polygon count
+// or query volume hurts. Overlapping districts each carry their own row;
+// containment is decided per point at resolve time (#38), never by tree.
+// ---------------------------------------------------------------------------
+export const jurisdictionGeo = pgTable(
+  "jurisdiction_geo",
+  {
+    id: id(),
+    jurisdictionId: uuid("jurisdiction_id")
+      .notNull()
+      .references(() => jurisdictions.id),
+    sourceId: uuid("source_id").references(() => sources.id),
+    /** centroid | boundary (boundary rows also carry centroid + bbox). */
+    geoKind: text("geo_kind").notNull().default("boundary"),
+    centroidLat: numeric("centroid_lat", { precision: 9, scale: 6 }),
+    centroidLng: numeric("centroid_lng", { precision: 9, scale: 6 }),
+    minLat: numeric("min_lat", { precision: 9, scale: 6 }),
+    maxLat: numeric("max_lat", { precision: 9, scale: 6 }),
+    minLng: numeric("min_lng", { precision: 9, scale: 6 }),
+    maxLng: numeric("max_lng", { precision: 9, scale: 6 }),
+    /** WGS84 GeoJSON Polygon/MultiPolygon; null for centroid-only rows. */
+    boundaryGeojson: jsonb("boundary_geojson").$type<Record<string, unknown>>(),
+    /** sha256 of the canonical GeoJSON — re-performance identity (027). */
+    geometryHash: text("geometry_hash"),
+    /** Simplification applied, e.g. "douglas-peucker 0.0001deg", or "none". */
+    simplification: text("simplification"),
+    /** published | approximate (legal line follows parcels/streets). */
+    precision: text("precision").notNull().default("published"),
+    ...effectiveDates,
+    ...provenance,
+    datavalues: datavalues(),
+    ...timestamps,
+  },
+  (t) => [
+    index("jurisdiction_geo_jurisdiction_idx").on(t.jurisdictionId, t.effectiveFrom),
+    index("jurisdiction_geo_bbox_idx").on(t.minLat, t.maxLat, t.minLng, t.maxLng),
+  ],
+);
+
+export const reporting = pgSchema("reporting");
+
+export const reportingCurrentRates = reporting.view("current_rates").as((qb) =>
+  qb
+    .select({
+      taxTypeId: taxRates.taxTypeId,
+      jurisdictionId: taxRates.jurisdictionId,
+      rateValue: taxRates.rateValue,
+      rateUnit: taxRates.rateUnit,
+      appliesTo: taxRates.appliesTo,
+      effectiveFrom: taxRates.effectiveFrom,
+      effectiveTo: taxRates.effectiveTo,
+      verificationStatus: taxRates.verificationStatus,
+    })
+    .from(taxRates)
+    .where(sql`${taxRates.effectiveFrom} <= current_date and (${taxRates.effectiveTo} is null or ${taxRates.effectiveTo} >= current_date)`),
+);
+
+export const reportingCurrentGeo = reporting.view("current_geo").as((qb) =>
+  qb
+    .select({
+      jurisdictionId: jurisdictionGeo.jurisdictionId,
+      geoKind: jurisdictionGeo.geoKind,
+      centroidLat: jurisdictionGeo.centroidLat,
+      centroidLng: jurisdictionGeo.centroidLng,
+      minLat: jurisdictionGeo.minLat,
+      maxLat: jurisdictionGeo.maxLat,
+      minLng: jurisdictionGeo.minLng,
+      maxLng: jurisdictionGeo.maxLng,
+      geometryHash: jurisdictionGeo.geometryHash,
+      precision: jurisdictionGeo.precision,
+      effectiveFrom: jurisdictionGeo.effectiveFrom,
+      effectiveTo: jurisdictionGeo.effectiveTo,
+      verificationStatus: jurisdictionGeo.verificationStatus,
+    })
+    .from(jurisdictionGeo)
+    .where(sql`${jurisdictionGeo.effectiveFrom} <= current_date and (${jurisdictionGeo.effectiveTo} is null or ${jurisdictionGeo.effectiveTo} >= current_date)`),
+);
+
+// Geo coverage tie-out (027 #10): every registered Texas jurisdiction is
+// accounted for exactly once — published boundary, centroid-only, or a
+// confirmed_absent coverage answer. `unaccounted` is the variance column
+// (tolerance 0); the audit pack writes an exception when it is non-zero
+// for a level that has completed population.
+export const reportingGeoTieOut = reporting.view("geo_tie_out", {
+  level: text("level"),
+  registered: integer("registered"),
+  withBoundary: integer("with_boundary"),
+  centroidOnly: integer("centroid_only"),
+  confirmedAbsent: integer("confirmed_absent"),
+  unaccounted: integer("unaccounted"),
+}).as(sql`
+  WITH reg AS (
+    SELECT level::text AS level, count(*)::int AS n FROM jurisdictions
+    WHERE (slug = 'us-tx' OR slug LIKE 'us-tx-%') AND level IN ('state','county','city','special_district')
+    GROUP BY level
+  ),
+  geo AS (
+    SELECT j.level::text AS level,
+      count(DISTINCT j.id) FILTER (WHERE g.boundary_geojson IS NOT NULL)::int AS with_boundary,
+      count(DISTINCT j.id) FILTER (WHERE g.boundary_geojson IS NULL AND g.geo_kind = 'centroid')::int AS centroid_only
+    FROM jurisdiction_geo g JOIN jurisdictions j ON j.id = g.jurisdiction_id
+    WHERE (j.slug = 'us-tx' OR j.slug LIKE 'us-tx-%')
+      AND g.effective_from <= current_date AND (g.effective_to IS NULL OR g.effective_to >= current_date)
+    GROUP BY j.level
+  ),
+  absent AS (
+    SELECT j.level::text AS level, count(DISTINCT j.id)::int AS n
+    FROM coverage_answers a JOIN jurisdictions j ON j.id = a.jurisdiction_id
+    WHERE a.question_key = 'has_published_boundary' AND a.status = 'confirmed_absent'
+      AND (j.slug = 'us-tx' OR j.slug LIKE 'us-tx-%')
+    GROUP BY j.level
+  )
+  SELECT r.level, r.n AS registered,
+    coalesce(g.with_boundary, 0) AS with_boundary,
+    coalesce(g.centroid_only, 0) AS centroid_only,
+    coalesce(a.n, 0) AS confirmed_absent,
+    (r.n - coalesce(g.with_boundary, 0) - coalesce(g.centroid_only, 0) - coalesce(a.n, 0))::int AS unaccounted
+  FROM reg r LEFT JOIN geo g ON g.level = r.level LEFT JOIN absent a ON a.level = r.level
+`);
+
+// Canada twin of geo_tie_out (#51): same accounting over the ca subtree
+// (country + provinces/territories). Separate view so the Texas tie-out
+// the M8 demo claims rest on is never perturbed.
+export const reportingGeoTieOutCa = reporting.view("geo_tie_out_ca", {
+  level: text("level"),
+  registered: integer("registered"),
+  withBoundary: integer("with_boundary"),
+  centroidOnly: integer("centroid_only"),
+  confirmedAbsent: integer("confirmed_absent"),
+  unaccounted: integer("unaccounted"),
+}).as(sql`
+  WITH reg AS (
+    SELECT level::text AS level, count(*)::int AS n FROM jurisdictions
+    WHERE (slug = 'ca' OR slug LIKE 'ca-%') AND level IN ('country','state')
+    GROUP BY level
+  ),
+  geo AS (
+    SELECT j.level::text AS level,
+      count(DISTINCT j.id) FILTER (WHERE g.boundary_geojson IS NOT NULL)::int AS with_boundary,
+      count(DISTINCT j.id) FILTER (WHERE g.boundary_geojson IS NULL AND g.geo_kind = 'centroid')::int AS centroid_only
+    FROM jurisdiction_geo g JOIN jurisdictions j ON j.id = g.jurisdiction_id
+    WHERE (j.slug = 'ca' OR j.slug LIKE 'ca-%')
+      AND g.effective_from <= current_date AND (g.effective_to IS NULL OR g.effective_to >= current_date)
+    GROUP BY j.level
+  ),
+  absent AS (
+    SELECT j.level::text AS level, count(DISTINCT j.id)::int AS n
+    FROM coverage_answers a JOIN jurisdictions j ON j.id = a.jurisdiction_id
+    WHERE a.question_key = 'has_published_boundary' AND a.status = 'confirmed_absent'
+      AND (j.slug = 'ca' OR j.slug LIKE 'ca-%')
+    GROUP BY j.level
+  )
+  SELECT r.level, r.n AS registered,
+    coalesce(g.with_boundary, 0) AS with_boundary,
+    coalesce(g.centroid_only, 0) AS centroid_only,
+    coalesce(a.n, 0) AS confirmed_absent,
+    (r.n - coalesce(g.with_boundary, 0) - coalesce(g.centroid_only, 0) - coalesce(a.n, 0))::int AS unaccounted
+  FROM reg r LEFT JOIN geo g ON g.level = r.level LEFT JOIN absent a ON a.level = r.level
+`);
+
+
+// Kansas twin of geo_tie_out (#57): same accounting over the us-ks subtree.
+export const reportingGeoTieOutKs = reporting.view("geo_tie_out_ks", {
+  level: text("level"),
+  registered: integer("registered"),
+  withBoundary: integer("with_boundary"),
+  centroidOnly: integer("centroid_only"),
+  confirmedAbsent: integer("confirmed_absent"),
+  unaccounted: integer("unaccounted"),
+}).as(sql`
+  WITH reg AS (
+    SELECT level::text AS level, count(*)::int AS n FROM jurisdictions
+    WHERE (slug = 'us-ks' OR slug LIKE 'us-ks-%') AND level IN ('state','county','city','special_district')
+    GROUP BY level
+  ),
+  geo AS (
+    SELECT j.level::text AS level,
+      count(DISTINCT j.id) FILTER (WHERE g.boundary_geojson IS NOT NULL)::int AS with_boundary,
+      count(DISTINCT j.id) FILTER (WHERE g.boundary_geojson IS NULL AND g.geo_kind = 'centroid')::int AS centroid_only
+    FROM jurisdiction_geo g JOIN jurisdictions j ON j.id = g.jurisdiction_id
+    WHERE (j.slug = 'us-ks' OR j.slug LIKE 'us-ks-%')
+      AND g.effective_from <= current_date AND (g.effective_to IS NULL OR g.effective_to >= current_date)
+    GROUP BY j.level
+  ),
+  absent AS (
+    SELECT j.level::text AS level, count(DISTINCT j.id)::int AS n
+    FROM coverage_answers a JOIN jurisdictions j ON j.id = a.jurisdiction_id
+    WHERE a.question_key = 'has_published_boundary' AND a.status = 'confirmed_absent'
+      AND (j.slug = 'us-ks' OR j.slug LIKE 'us-ks-%')
+    GROUP BY j.level
+  )
+  SELECT r.level, r.n AS registered,
+    coalesce(g.with_boundary, 0) AS with_boundary,
+    coalesce(g.centroid_only, 0) AS centroid_only,
+    coalesce(a.n, 0) AS confirmed_absent,
+    (r.n - coalesce(g.with_boundary, 0) - coalesce(g.centroid_only, 0) - coalesce(a.n, 0))::int AS unaccounted
+  FROM reg r LEFT JOIN geo g ON g.level = r.level LEFT JOIN absent a ON a.level = r.level
+`);
+
+export const reportingCoverage = reporting.view("coverage_by_jurisdiction").as((qb) =>
+  qb
+    .select({
+      jurisdictionId: coverageAnswers.jurisdictionId,
+      status: coverageAnswers.status,
+      answers: count().as("answers"),
+    })
+    .from(coverageAnswers)
+    .groupBy(coverageAnswers.jurisdictionId, coverageAnswers.status),
+);
+
+export const reportingProductTreatments = reporting.view("product_treatments_current").as((qb) =>
+  qb
+    .select({
+      categoryId: productTaxTreatments.categoryId,
+      jurisdictionId: productTaxTreatments.jurisdictionId,
+      taxTypeId: productTaxTreatments.taxTypeId,
+      treatment: productTaxTreatments.treatment,
+      taxableFraction: productTaxTreatments.taxableFraction,
+      summary: productTaxTreatments.summary,
+      sourcingRule: productTaxTreatments.sourcingRule,
+      effectiveFrom: productTaxTreatments.effectiveFrom,
+      effectiveTo: productTaxTreatments.effectiveTo,
+      verificationStatus: productTaxTreatments.verificationStatus,
+    })
+    .from(productTaxTreatments)
+    .where(sql`${productTaxTreatments.effectiveFrom} <= current_date and (${productTaxTreatments.effectiveTo} is null or ${productTaxTreatments.effectiveTo} >= current_date)`),
+);
+
+export const reportingOpenExceptions = reporting.view("open_exceptions").as((qb) =>
+  qb
+    .select({
+      id: exceptions.id,
+      jurisdictionId: exceptions.jurisdictionId,
+      exceptionType: exceptions.exceptionType,
+      severity: exceptions.severity,
+      detail: exceptions.detail,
+      createdAt: exceptions.createdAt,
+    })
+    .from(exceptions)
+    .where(eq(exceptions.status, "open")),
+);
+
 export type Jurisdiction = typeof jurisdictions.$inferSelect;
 export type TaxType = typeof taxTypes.$inferSelect;
 export type Source = typeof sources.$inferSelect;
@@ -641,6 +1068,15 @@ export type CoverageQuestion = typeof coverageQuestions.$inferSelect;
 export type CoverageAnswer = typeof coverageAnswers.$inferSelect;
 export type JurisdictionContext = typeof jurisdictionContext.$inferSelect;
 export type SourceSnapshot = typeof sourceSnapshots.$inferSelect;
+export type Proposal = typeof proposals.$inferSelect;
+export type ProposalItem = typeof proposalItems.$inferSelect;
+export type RunEvent = typeof runEvents.$inferSelect;
+export type ExceptionRow = typeof exceptions.$inferSelect;
+export type TaxTypeRelationship = typeof taxTypeRelationships.$inferSelect;
+export type ProductCategory = typeof productCategories.$inferSelect;
+export type ProductTaxTreatment = typeof productTaxTreatments.$inferSelect;
+export type OperatorProduct = typeof operatorProducts.$inferSelect;
+export type JurisdictionGeo = typeof jurisdictionGeo.$inferSelect;
 
 
 

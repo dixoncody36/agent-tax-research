@@ -97,6 +97,16 @@ Research inputs still live in [`contacts/`](contacts/): one file per contact, on
 2. Bring the database up (commands above) and explore Texas in Drizzle Studio.
 3. To add a research contact, copy `contacts/_template-contact.md`; after each interview, copy `contacts/_template-interview.md` into `contacts/interviews/` the same day.
 
+### Run it with your agent harness
+
+Clone-and-go on any harness — Muse, Muse, Codex, Grok, OpenCode, Herdr lanes, or headless Foundry (see [`docs/harnesses.md`](docs/harnesses.md)):
+
+```powershell
+docker compose up -d; pnpm install; pnpm db:migrate; pnpm db:seed
+pnpm tax scope start --profile contexts/texas-only.json   # or your own context profile
+# then tell your harness: read AGENTS.md, take your role in agents/, and work the queue
+```
+
 ## Open questions
 
 Tracked here until they become issues or decisions:

@@ -14,6 +14,15 @@
     "db:seed": "pnpm --filter @agent-tax-research/database db:seed",
     "db:studio": "pnpm --filter @agent-tax-research/database db:studio",
     "tax": "pnpm --filter @agent-tax-research/cli exec tsx src/tax.ts",
-    "typecheck": "pnpm --filter @agent-tax-research/database typecheck"
+    "audit:pack": "pnpm --filter @agent-tax-research/cli exec tsx src/audit-pack.ts",
+    "guide": "pnpm --filter @agent-tax-research/cli exec tsx src/guide.ts",
+    "analytics:export": "pnpm --filter @agent-tax-research/cli exec tsx src/analytics-export.ts",
+    "muse:api": "pnpm --filter @agent-tax-research/cli exec tsx src/muse-api.ts",
+    "muse:loop": "pnpm --filter @agent-tax-research/cli exec tsx src/muse-loop.ts",
+    "products": "pnpm --filter @agent-tax-research/cli exec tsx src/products.ts",
+    "web:build": "pnpm --filter @agent-tax-research/web run build",
+    "web:start": "pnpm --filter @agent-tax-research/web run start",
+    "web:dev": "pnpm --filter @agent-tax-research/web run dev",
+    "typecheck": "pnpm --filter @agent-tax-research/database typecheck && pnpm --filter @agent-tax-research/cli run typecheck && pnpm --filter @agent-tax-research/web run typecheck"
   }
 }

@@ -112,10 +112,12 @@ async function main() {
         monitorCadence: "weekly",
         checkMethod: "content_hash",
         status: "active",
+        publisherType: "government",
+        eligibility: "eligible",
       })
       .onConflictDoUpdate({
         target: sources.url,
-        set: { taxTypeId: type.id, updatedAt: new Date() },
+        set: { taxTypeId: type.id, publisherType: "government", eligibility: "eligible", updatedAt: new Date() },
       })
       .returning();
     if (!source) throw new Error(`source upsert failed: ${t.path}`);
