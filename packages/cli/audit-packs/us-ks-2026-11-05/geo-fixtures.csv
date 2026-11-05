@@ -1,0 +1,4 @@
+fixture,lat,lng,expected_cascade,check,expected_combined
+downtown-wichita,37.6889,-97.3361,us-ks > us-ks-sedgwick-county > us-ks-city-wichita,geo-kansas-fixtures.ts; sales stack: kansas-pub1700-tie-out.csv row WICSG,7.5 exactly (state 6.5 + Sedgwick county 1.0 + city 0; Pub 1700 row WICSG)
+topeka,39.0473,-95.6752,us-ks > us-ks-shawnee-county > us-ks-city-topeka,geo-kansas-fixtures.ts,per Pub 1700 Topeka row in kansas-pub1700-tie-out.csv
+outside-kansas,30.2672,-97.7431,(empty),geo-kansas-fixtures.ts (Austin TX point),n/a
