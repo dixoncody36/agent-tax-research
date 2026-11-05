@@ -1,0 +1,90 @@
+{
+  "pack": "audit-pack-v1",
+  "jurisdiction": "us-ks",
+  "generatedAt": "2026-11-05T03:26:16.622Z",
+  "calcVersion": "audit-pack 1.0.0",
+  "gitSha": "3ec3bc23e469f4a000fcd34d00cfa4816b95e2ef",
+  "generator": "packages/cli/src/audit-pack.ts",
+  "inputsHash": "24dc1be784d90417b654f336b9d95fe540eafbc7d71fec7fe4b56c0570b9888d",
+  "inputsNote": "SHA-256 of verified-rates.csv (canonical input rows for this pack)",
+  "counts": {
+    "ratesTotal": 721,
+    "ratesVerified": 721,
+    "tieOutRows": 335,
+    "tieOutNegativeVariances": 0,
+    "geoPublished": 708,
+    "geoVerifiedUnpublished": 0,
+    "geoUnaccounted": 54,
+    "canadaBandRows": 0,
+    "canadaBandVariances": 0,
+    "canadaCoverageRows": 0,
+    "canadaUnaccountedJurisdictions": 0,
+    "kansasPubRows": 2135,
+    "kansasPubVariances": 0,
+    "kansasFixtureWichitaExact": true,
+    "kansasCoverageRows": 1087,
+    "kansasUnaccountedJurisdictions": 59
+  },
+  "files": [
+    {
+      "name": "verified-rates.csv",
+      "sha256": "24dc1be784d90417b654f336b9d95fe540eafbc7d71fec7fe4b56c0570b9888d",
+      "bytes": 366241
+    },
+    {
+      "name": "all-rates-incl-unverified.csv",
+      "sha256": "24dc1be784d90417b654f336b9d95fe540eafbc7d71fec7fe4b56c0570b9888d",
+      "bytes": 366241
+    },
+    {
+      "name": "tie-out-sales-stack.csv",
+      "sha256": "5e2bdef7a001d1955de9c0e13ce883b4e7cfda19e9b18560c58cb47a26cd5a70",
+      "bytes": 45958
+    },
+    {
+      "name": "geo-boundaries-published.csv",
+      "sha256": "87d13b1e69bc9b4f7df1d6c8ae2e02f69cf6b280d72e24cfd3fb6bd3fa0e847d",
+      "bytes": 331639
+    },
+    {
+      "name": "geo-boundaries-verified-unpublished.csv",
+      "sha256": "fcf33dfbe13c2354bf0e1b063f9fb422747a46cee00b7420bceff2b81457b345",
+      "bytes": 5
+    },
+    {
+      "name": "geo-tie-out.csv",
+      "sha256": "07ec9cec9afe7e00e03389b741a85652dc4d8e14fb0ede7d6bcf40512de265a6",
+      "bytes": 162
+    },
+    {
+      "name": "geo-fixtures.csv",
+      "sha256": "c8a1b4993aa13a2781201212f8e9a2b550798f92fca6963217cd8b49aa07954f",
+      "bytes": 526
+    },
+    {
+      "name": "kansas-pub1700-tie-out.csv",
+      "sha256": "3ce6a87483dc4e2dbb3ac3dc9cebcb4614e9d7ad4ab0759e678130df7ac1588d",
+      "bytes": 200155
+    },
+    {
+      "name": "kansas-coverage.csv",
+      "sha256": "fc31cf40131dc73be4d0bdeb618be145ea1087c41111b987915c7d57198021ea",
+      "bytes": 101946
+    },
+    {
+      "name": "calculation-register.csv",
+      "sha256": "18b9a75bf48b9da96fdd9b15dd62e2844dbddccc672133f095b08b49a167954f",
+      "bytes": 3422
+    }
+  ],
+  "retention": "default 7 years per anvil 027 — CONFIRM with engagement; local filesystem for now, Azure Blob WORM is the ship target (gap)",
+  "knownGaps": [
+    "combined totals sourced from extraction records, not first-class published total rows",
+    "no Entra signer identity locally — approver names are CLI-recorded strings",
+    "CSV pack; live-formula .xlsx workpaper + PDF summary pending shared generator (027 s6)",
+    "Kansas: 54 registered cities have neither a published boundary nor a confirmed_absent finding — named individually in kansas-coverage.csv (geo_accounting=UNACCOUNTED) and counted in geo-tie-out.csv; resolution is geo remainder work, not pack scope (#57 names them, does not hide them)",
+    "Kansas: some county/city components live only as Pub 1700 extraction rows (published_items_for_slug) without a 1:1 verified tax_rates row — coverage counts both so the gap is visible per slug",
+    "Kansas: food-rate totals (state food 0%) are evidenced but not tie-out-stacked in v1; non-food stack is the audited figure"
+  ],
+  "note": "DRAFT — generated for review. Re-perform: open CSVs in Excel; verify snapshot_sha256 against source_snapshots.content_hash; recompute stacks in tie-out file (integer micro-units, tolerance 0)."
+}

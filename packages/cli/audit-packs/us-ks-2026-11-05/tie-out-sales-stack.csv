@@ -1,0 +1,336 @@
+city,name,state_component,city_component,recomputed_state_plus_city,published_combined_total,residual,proposal_status,assessment
+us-ks-city-abilene,Abilene,6.500000,1.100000,7.600000,9.350000,1.750000,published,residual = county/SPD/transit components on official row
+us-ks-city-alma,Alma,6.500000,1.000000,7.500000,9.000000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-almena,Almena,6.500000,0.500000,7.000000,8.750000,1.750000,published,residual = county/SPD/transit components on official row
+us-ks-city-altoona,Altoona,6.500000,2.000000,8.500000,9.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-americus,Americus,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-anthony,Anthony,6.500000,0.500000,7.000000,7.000000,0.000000,published,T ties exactly
+us-ks-city-argonia,Argonia,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-arlington,Arlington,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-arma,Arma,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-atchison,Atchison,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-attica,Attica,6.500000,2.000000,8.500000,8.500000,0.000000,published,T ties exactly
+us-ks-city-augusta,Augusta,6.500000,2.000000,8.500000,8.500000,0.000000,published,T ties exactly
+us-ks-city-baldwin-city,Baldwin City,6.500000,1.500000,8.000000,9.250000,1.250000,published,residual = county/SPD/transit components on official row
+us-ks-city-basehor,Basehor,6.500000,1.500000,8.000000,9.000000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-belle-plaine,Belle Plaine,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-belleville,Belleville,6.500000,0.500000,7.000000,9.000000,2.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-bennington,Bennington,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-benton,Benton,6.500000,2.000000,8.500000,8.500000,0.000000,published,T ties exactly
+us-ks-city-beverly,Beverly,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-blue-rapids,Blue Rapids,6.500000,2.000000,8.500000,9.000000,0.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-bonner-springs-bonlv,Bonner Springs,6.500000,1.750000,8.250000,9.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-bonner-springs-bonwy,Bonner Springs,6.500000,1.750000,8.250000,9.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-bronson,Bronson,6.500000,1.000000,7.500000,9.150000,1.650000,published,residual = county/SPD/transit components on official row
+us-ks-city-bucklin,Bucklin,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-buhler,Buhler,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-burden,Burden,6.500000,1.000000,7.500000,7.500000,0.000000,published,T ties exactly
+us-ks-city-burlingame,Burlingame,6.500000,1.500000,8.000000,9.000000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-burrton,Burrton,6.500000,1.000000,7.500000,9.500000,2.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-caldwell,Caldwell,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-canton,Canton,6.500000,1.000000,7.500000,9.500000,2.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-carbondale,Carbondale,6.500000,2.000000,8.500000,9.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-cawker-city,Cawker City,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-cedar-vale,Cedar Vale,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-chanute,Chanute,6.500000,1.250000,7.750000,9.500000,1.750000,published,residual = county/SPD/transit components on official row
+us-ks-city-chase,Chase,6.500000,0.500000,7.000000,8.000000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-cherokee,Cherokee,6.500000,1.500000,8.000000,9.500000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-cherokee-checr,Cherokee,6.500000,1.500000,8.000000,9.000000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-cherryvale,Cherryvale,6.500000,3.000000,9.500000,9.500000,0.000000,published,T ties exactly
+us-ks-city-chetopa,Chetopa,6.500000,1.500000,8.000000,9.250000,1.250000,published,residual = county/SPD/transit components on official row
+us-ks-city-cimarron,Cimarron,6.500000,1.250000,7.750000,8.750000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-clearwater,Clearwater,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-clifton,Clifton,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-clifton-cliws,Clifton,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-coffeyville,Coffeyville,6.500000,3.000000,9.500000,9.500000,0.000000,published,T ties exactly
+us-ks-city-collyer,Collyer,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-colony,Colony,6.500000,0.500000,7.000000,8.000000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-columbus,Columbus,6.500000,1.000000,7.500000,9.000000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-concordia,Concordia,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-conway-springs,Conway Springs,6.500000,3.000000,9.500000,10.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-council-grove,Council Grove,6.500000,1.700000,8.200000,9.200000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-cunningham,Cunningham,6.500000,1.000000,7.500000,9.000000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-danville,Danville,6.500000,1.000000,7.500000,7.500000,0.000000,published,T ties exactly
+us-ks-city-dearing,Dearing,6.500000,2.000000,8.500000,8.500000,0.000000,published,T ties exactly
+us-ks-city-deerfield,Deerfield,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-derby,Derby,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-de-soto,De Soto,6.500000,1.750000,8.250000,9.725000,1.475000,published,residual = county/SPD/transit components on official row
+us-ks-city-dighton,Dighton,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-dodge-city,Dodge City,6.500000,1.500000,8.000000,9.000000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-douglass,Douglass,6.500000,2.000000,8.500000,8.500000,0.000000,published,T ties exactly
+us-ks-city-downs,Downs,6.500000,0.500000,7.000000,8.500000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-edgerton,Edgerton,6.500000,2.000000,8.500000,9.975000,1.475000,published,residual = county/SPD/transit components on official row
+us-ks-city-edna,Edna,6.500000,2.000000,8.500000,9.750000,1.250000,published,residual = county/SPD/transit components on official row
+us-ks-city-edwardsville,Edwardsville,6.500000,2.500000,9.000000,10.000000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-effingham,Effingham,6.500000,2.000000,8.500000,9.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-el-dorado,El Dorado,6.500000,1.000000,7.500000,7.500000,0.000000,published,T ties exactly
+us-ks-city-elkhart,Elkhart,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-ellis,Ellis,6.500000,2.000000,8.500000,9.000000,0.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-elwood,Elwood,6.500000,1.000000,7.500000,9.500000,2.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-emporia,Emporia,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-erie,Erie,6.500000,1.500000,8.000000,9.750000,1.750000,published,residual = county/SPD/transit components on official row
+us-ks-city-eskridge,Eskridge,6.500000,1.000000,7.500000,9.000000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-eudora,Eudora,6.500000,1.750000,8.250000,9.500000,1.250000,published,residual = county/SPD/transit components on official row
+us-ks-city-eureka,Eureka,6.500000,2.000000,8.500000,9.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-fairview,Fairview,6.500000,0.500000,7.000000,8.000000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-florence,Florence,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-fontana,Fontana,6.500000,0.500000,7.000000,8.500000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-fowler,Fowler,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-frankfort,Frankfort,6.500000,1.500000,8.000000,8.500000,0.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-fredonia,Fredonia,6.500000,2.500000,9.000000,10.000000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-frontenac,Frontenac,6.500000,2.000000,8.500000,9.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-galena,Galena,6.500000,1.000000,7.500000,9.000000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-garden-plain,Garden Plain,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-gardner,Gardner,6.500000,1.500000,8.000000,9.475000,1.475000,published,residual = county/SPD/transit components on official row
+us-ks-city-garnett,Garnett,6.500000,1.500000,8.000000,9.000000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-gas,Gas,6.500000,1.000000,7.500000,8.750000,1.250000,published,residual = county/SPD/transit components on official row
+us-ks-city-girard,Girard,6.500000,1.500000,8.000000,9.000000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-glade,Glade,6.500000,2.000000,8.500000,9.000000,0.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-glasco,Glasco,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-glen-elder,Glen Elder,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-goddard,Goddard,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-grandview-plaza,Grandview Plaza,6.500000,2.000000,8.500000,9.750000,1.250000,published,residual = county/SPD/transit components on official row
+us-ks-city-great-bend,Great Bend,6.500000,1.200000,7.700000,8.700000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-great-bend-lodging-cid,Great Bend Lodging CID,6.500000,1.200000,7.700000,10.700000,3.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-greensburg,Greensburg,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-gridley,Gridley,6.500000,2.000000,8.500000,8.500000,0.000000,published,T ties exactly
+us-ks-city-harper,Harper,6.500000,2.000000,8.500000,8.500000,0.000000,published,T ties exactly
+us-ks-city-hartford,Hartford,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-hays,Hays,6.500000,2.250000,8.750000,9.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-herington,Herington,6.500000,2.000000,8.500000,10.250000,1.750000,published,residual = county/SPD/transit components on official row
+us-ks-city-herington-hermr,Herington,6.500000,2.000000,8.500000,9.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-highland,Highland,6.500000,1.000000,7.500000,9.500000,2.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-hill-city,Hill City,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-hoisington,Hoisington,6.500000,0.750000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-holcomb,Holcomb,6.500000,0.500000,7.000000,8.800000,1.800000,published,residual = county/SPD/transit components on official row
+us-ks-city-horton,Horton,6.500000,2.000000,8.500000,9.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-howard,Howard,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-hugoton,Hugoton,6.500000,1.500000,8.000000,9.000000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-humboldt,Humboldt,6.500000,1.750000,8.250000,9.500000,1.250000,published,residual = county/SPD/transit components on official row
+us-ks-city-independence,Independence,6.500000,3.000000,9.500000,9.500000,0.000000,published,T ties exactly
+us-ks-city-iola,Iola,6.500000,1.000000,7.500000,8.750000,1.250000,published,residual = county/SPD/transit components on official row
+us-ks-city-jetmore,Jetmore,6.500000,3.000000,9.500000,10.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-junction-city,Junction City,6.500000,2.000000,8.500000,9.750000,1.250000,published,residual = county/SPD/transit components on official row
+us-ks-city-kanorado,Kanorado,6.500000,2.000000,8.500000,10.750000,2.250000,published,residual = county/SPD/transit components on official row
+us-ks-city-kansas-city,Kansas City,6.500000,1.625000,8.125000,9.125000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-kechi,Kechi,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-kensington,Kensington,6.500000,0.750000,7.250000,9.250000,2.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-kingman,Kingman,6.500000,1.000000,7.500000,9.000000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-kiowa,Kiowa,6.500000,0.750000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-la-crosse,La Crosse,6.500000,3.000000,9.500000,9.500000,0.000000,published,T ties exactly
+us-ks-city-la-cygne,La Cygne,6.500000,2.000000,8.500000,9.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-la-harpe,La Harpe,6.500000,1.500000,8.000000,9.250000,1.250000,published,residual = county/SPD/transit components on official row
+us-ks-city-lane,Lane,6.500000,1.000000,7.500000,9.000000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-lansing,Lansing,6.500000,1.900000,8.400000,9.400000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-latham,Latham,6.500000,0.500000,7.000000,7.000000,0.000000,published,T ties exactly
+us-ks-city-lawrence,Lawrence,6.500000,1.600000,8.100000,9.350000,1.250000,published,residual = county/SPD/transit components on official row
+us-ks-city-le-roy,Le Roy,6.500000,1.000000,7.500000,7.500000,0.000000,published,T ties exactly
+us-ks-city-leawood,Leawood,6.500000,1.125000,7.625000,9.100000,1.475000,published,residual = county/SPD/transit components on official row
+us-ks-city-lebo,Lebo,6.500000,2.000000,8.500000,8.500000,0.000000,published,T ties exactly
+us-ks-city-lecompton,Lecompton,6.500000,1.750000,8.250000,9.500000,1.250000,published,residual = county/SPD/transit components on official row
+us-ks-city-lenexa,Lenexa,6.500000,1.375000,7.875000,9.350000,1.475000,published,residual = county/SPD/transit components on official row
+us-ks-city-leon,Leon,6.500000,1.000000,7.500000,7.500000,0.000000,published,T ties exactly
+us-ks-city-leonardville,Leonardville,6.500000,1.000000,7.500000,8.200000,0.700000,published,residual = county/SPD/transit components on official row
+us-ks-city-liebenthal,Liebenthal,6.500000,1.500000,8.000000,8.000000,0.000000,published,T ties exactly
+us-ks-city-lincoln-center,Lincoln Center,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-linn-valley,Linn Valley,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-linwood,Linwood,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-little-river,Little River,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-longford,Longford,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-louisburg,Louisburg,6.500000,1.500000,8.000000,9.500000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-lucas,Lucas,6.500000,1.000000,7.500000,9.500000,2.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-luray,Luray,6.500000,2.000000,8.500000,10.500000,2.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-lyndon,Lyndon,6.500000,1.500000,8.000000,9.000000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-lyons,Lyons,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-manhattan,Manhattan,6.500000,1.950000,8.450000,9.450000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-manhattan-manrl,Manhattan,6.500000,1.950000,8.450000,9.150000,0.700000,published,residual = county/SPD/transit components on official row
+us-ks-city-mankato,Mankato,6.500000,0.750000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-maple-hill,Maple Hill,6.500000,0.750000,7.250000,8.750000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-mapleton,Mapleton,6.500000,1.000000,7.500000,9.150000,1.650000,published,residual = county/SPD/transit components on official row
+us-ks-city-marion,Marion,6.500000,0.750000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-marysville,Marysville,6.500000,1.600000,8.100000,8.600000,0.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-mayetta,Mayetta,6.500000,1.500000,8.000000,9.650000,1.650000,published,residual = county/SPD/transit components on official row
+us-ks-city-mayfield,Mayfield,6.500000,0.500000,7.000000,8.000000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-mccune,McCune,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-mclouth,McLouth,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-meade,Meade,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-melvern,Melvern,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-merriam,Merriam,6.500000,1.500000,8.000000,9.475000,1.475000,published,residual = county/SPD/transit components on official row
+us-ks-city-miltonvale,Miltonvale,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-minneapolis,Minneapolis,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-minneola,Minneola,6.500000,1.000000,7.500000,7.500000,0.000000,published,T ties exactly
+us-ks-city-mission-hills,Mission Hills,6.500000,1.250000,7.750000,9.225000,1.475000,published,residual = county/SPD/transit components on official row
+us-ks-city-mission-woods,Mission Woods,6.500000,1.000000,7.500000,8.975000,1.475000,published,residual = county/SPD/transit components on official row
+us-ks-city-moran,Moran,6.500000,0.500000,7.000000,8.250000,1.250000,published,residual = county/SPD/transit components on official row
+us-ks-city-morland,Morland,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-moscow,Moscow,6.500000,2.000000,8.500000,9.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-mound-valley,Mound Valley,6.500000,0.500000,7.000000,8.250000,1.250000,published,residual = county/SPD/transit components on official row
+us-ks-city-moundridge,Moundridge,6.500000,1.000000,7.500000,9.500000,2.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-mullinville,Mullinville,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-mulvane,Mulvane,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-neodesha,Neodesha,6.500000,3.000000,9.500000,10.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-neosho-rapids,Neosho Rapids,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-ness-city,Ness City,6.500000,2.000000,8.500000,8.500000,0.000000,published,T ties exactly
+us-ks-city-nickerson,Nickerson,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-norton,Norton,6.500000,1.250000,7.750000,9.500000,1.750000,published,residual = county/SPD/transit components on official row
+us-ks-city-oak-hill,Oak Hill,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-oakley-oaklg,Oakley,6.500000,1.500000,8.000000,10.000000,2.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-oakley-oakth,Oakley,6.500000,1.500000,8.000000,9.750000,1.750000,published,residual = county/SPD/transit components on official row
+us-ks-city-oberlin,Oberlin,6.500000,1.500000,8.000000,9.000000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-ogden,Ogden,6.500000,1.000000,7.500000,8.200000,0.700000,published,residual = county/SPD/transit components on official row
+us-ks-city-olpe,Olpe,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-olsburg,Olsburg,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-onaga,Onaga,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-osage-city,Osage City,6.500000,1.500000,8.000000,9.000000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-osawatomie,Osawatomie,6.500000,1.750000,8.250000,9.750000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-oskaloosa,Oskaloosa,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-oswego,Oswego,6.500000,1.500000,8.000000,9.250000,1.250000,published,residual = county/SPD/transit components on official row
+us-ks-city-overbrook,Overbrook,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-overland-park,Overland Park,6.500000,1.375000,7.875000,9.350000,1.475000,published,residual = county/SPD/transit components on official row
+us-ks-city-oxford,Oxford,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-ozawkie,Ozawkie,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-palco,Palco,6.500000,1.000000,7.500000,8.000000,0.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-paola,Paola,6.500000,1.250000,7.750000,9.250000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-parker,Parker,6.500000,2.000000,8.500000,9.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-parsons,Parsons,6.500000,1.500000,8.000000,9.250000,1.250000,published,residual = county/SPD/transit components on official row
+us-ks-city-peabody,Peabody,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-perry,Perry,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-pittsburg,Pittsburg,6.500000,1.500000,8.000000,9.000000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-plainville,Plainville,6.500000,2.000000,8.500000,9.000000,0.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-pomona,Pomona,6.500000,2.000000,8.500000,10.000000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-potwin,Potwin,6.500000,1.000000,7.500000,7.500000,0.000000,published,T ties exactly
+us-ks-city-prairie-village,Prairie Village,6.500000,1.000000,7.500000,8.975000,1.475000,published,residual = county/SPD/transit components on official row
+us-ks-city-pratt,Pratt,6.500000,0.750000,7.250000,9.000000,1.750000,published,residual = county/SPD/transit components on official row
+us-ks-city-pretty-prairie,Pretty Prairie,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-protection,Protection,6.500000,1.500000,8.000000,8.000000,0.000000,published,T ties exactly
+us-ks-city-quinter,Quinter,6.500000,1.000000,7.500000,9.500000,2.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-randolph,Randolph,6.500000,1.000000,7.500000,8.200000,0.700000,published,residual = county/SPD/transit components on official row
+us-ks-city-ransom,Ransom,6.500000,0.500000,7.000000,7.000000,0.000000,published,T ties exactly
+us-ks-city-riley,Riley,6.500000,1.000000,7.500000,8.200000,0.700000,published,residual = county/SPD/transit components on official row
+us-ks-city-roeland-park,Roeland Park,6.500000,1.500000,8.000000,9.475000,1.475000,published,residual = county/SPD/transit components on official row
+us-ks-city-rolla,Rolla,6.500000,2.000000,8.500000,9.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-rose-hill,Rose Hill,6.500000,1.000000,7.500000,7.500000,0.000000,published,T ties exactly
+us-ks-city-russell,Russell,6.500000,0.750000,7.250000,9.250000,2.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-sabetha,Sabetha,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-sabetha-sabnm,Sabetha,6.500000,1.000000,7.500000,9.000000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-salina,Salina,6.500000,1.250000,7.750000,9.250000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-satanta,Satanta,6.500000,1.000000,7.500000,8.000000,0.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-scammon,Scammon,6.500000,1.000000,7.500000,9.000000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-scott-city,Scott City,6.500000,0.500000,7.000000,9.000000,2.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-scranton,Scranton,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-sedgwick,Sedgwick,6.500000,0.500000,7.000000,9.000000,2.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-sedgwick-sedsg,Sedgwick,6.500000,0.500000,7.000000,8.000000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-severy,Severy,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-shawnee,Shawnee,6.500000,1.625000,8.125000,9.600000,1.475000,published,residual = county/SPD/transit components on official row
+us-ks-city-silver-lake,Silver Lake,6.500000,1.000000,7.500000,8.850000,1.350000,published,residual = county/SPD/transit components on official row
+us-ks-city-smith-center,Smith Center,6.500000,1.000000,7.500000,9.500000,2.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-solomon,Solomon,6.500000,1.000000,7.500000,9.250000,1.750000,published,residual = county/SPD/transit components on official row
+us-ks-city-south-hutchinson,South Hutchinson,6.500000,0.750000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-spivey,Spivey,6.500000,1.000000,7.500000,9.000000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-spring-hill,Spring Hill,6.500000,1.500000,8.000000,9.475000,1.475000,published,residual = county/SPD/transit components on official row
+us-ks-city-spring-hill-sprmi,Spring Hill,6.500000,1.500000,8.000000,9.500000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-st-francis,St Francis,6.500000,1.000000,7.500000,9.500000,2.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-st-george,St George,6.500000,1.500000,8.000000,9.000000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-st-marys,St Marys,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-st-marys-samwb,St Marys,6.500000,1.000000,7.500000,9.000000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-st-paul,St Paul,6.500000,1.000000,7.500000,9.250000,1.750000,published,residual = county/SPD/transit components on official row
+us-ks-city-sterling,Sterling,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-stockton,Stockton,6.500000,2.500000,9.000000,9.500000,0.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-strong-city,Strong City,6.500000,2.000000,8.500000,9.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-sublette,Sublette,6.500000,1.250000,7.750000,8.250000,0.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-sylvia,Sylvia,6.500000,0.500000,7.000000,8.000000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-syracuse,Syracuse,6.500000,1.000000,7.500000,9.000000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-tonganoxie,Tonganoxie,6.500000,1.750000,8.250000,9.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-toronto,Toronto,6.500000,0.500000,7.000000,8.000000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-troy,Troy,6.500000,1.000000,7.500000,9.500000,2.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-udall,Udall,6.500000,1.000000,7.500000,7.500000,0.000000,published,T ties exactly
+us-ks-city-ulysses,Ulysses,6.500000,2.000000,8.500000,8.500000,0.000000,published,T ties exactly
+us-ks-city-uniontown,Uniontown,6.500000,1.000000,7.500000,9.150000,1.650000,published,residual = county/SPD/transit components on official row
+us-ks-city-utica,Utica,6.500000,1.000000,7.500000,7.500000,0.000000,published,T ties exactly
+us-ks-city-valley-center,Valley Center,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-valley-falls,Valley Falls,6.500000,2.000000,8.500000,9.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-wakeeney,WaKeeney,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-wakefield,Wakefield,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-wamego,Wamego,6.500000,1.750000,8.250000,9.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-waterville,Waterville,6.500000,1.500000,8.000000,8.500000,0.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-wathena,Wathena,6.500000,1.000000,7.500000,9.500000,2.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-waverly,Waverly,6.500000,1.000000,7.500000,7.500000,0.000000,published,T ties exactly
+us-ks-city-weir,Weir,6.500000,1.000000,7.500000,9.000000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-wellsville,Wellsville,6.500000,1.500000,8.000000,9.500000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-westmoreland,Westmoreland,6.500000,2.500000,9.000000,10.000000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-westwood,Westwood,6.500000,1.500000,8.000000,9.475000,1.475000,published,residual = county/SPD/transit components on official row
+us-ks-city-westwood-hills,Westwood Hills,6.500000,1.000000,7.500000,8.975000,1.475000,published,residual = county/SPD/transit components on official row
+us-ks-city-white-cloud,White Cloud,6.500000,1.000000,7.500000,9.500000,2.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-willard,Willard,6.500000,0.750000,7.250000,8.600000,1.350000,published,residual = county/SPD/transit components on official row
+us-ks-city-willard-wilwb,Willard,6.500000,0.750000,7.250000,8.750000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-wilmore,Wilmore,6.500000,1.000000,7.500000,7.500000,0.000000,published,T ties exactly
+us-ks-city-wilson,Wilson,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-winchester,Winchester,6.500000,0.500000,7.000000,8.000000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-yates-center,Yates Center,6.500000,2.000000,8.500000,9.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-alden,Alden,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-altamont,Altamont,6.500000,1.500000,8.000000,9.250000,1.250000,published,residual = county/SPD/transit components on official row
+us-ks-city-andover,Andover,6.500000,2.000000,8.500000,8.500000,0.000000,published,T ties exactly
+us-ks-city-arkansas-city,Arkansas City,6.500000,2.000000,8.500000,8.500000,0.000000,published,T ties exactly
+us-ks-city-auburn,Auburn,6.500000,1.500000,8.000000,9.350000,1.350000,published,residual = county/SPD/transit components on official row
+us-ks-city-baxter-springs,Baxter Springs,6.500000,2.000000,8.500000,10.000000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-beloit,Beloit,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-bonner-springs,Bonner Springs,6.500000,1.750000,8.250000,9.725000,1.475000,published,residual = county/SPD/transit components on official row
+us-ks-city-burlington,Burlington,6.500000,2.000000,8.500000,8.500000,0.000000,published,T ties exactly
+us-ks-city-chapman,Chapman,6.500000,1.000000,7.500000,9.250000,1.750000,published,residual = county/SPD/transit components on official row
+us-ks-city-claflin,Claflin,6.500000,0.750000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-colby,Colby,6.500000,0.750000,7.250000,9.000000,1.750000,published,residual = county/SPD/transit components on official row
+us-ks-city-coldwater,Coldwater,6.500000,2.000000,8.500000,8.500000,0.000000,published,T ties exactly
+us-ks-city-cottonwood-falls,Cottonwood Falls,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-delphos,Delphos,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-de-soto-deslv,De Soto,6.500000,1.750000,8.250000,9.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-easton,Easton,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-ellinwood,Ellinwood,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-ellsworth,Ellsworth,6.500000,1.250000,7.750000,8.750000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-fairway,Fairway,6.500000,2.000000,8.500000,9.975000,1.475000,published,residual = county/SPD/transit components on official row
+us-ks-city-fort-scott,Fort Scott,6.500000,1.500000,8.000000,9.650000,1.650000,published,residual = county/SPD/transit components on official row
+us-ks-city-garden-city,Garden City,6.500000,1.150000,7.650000,9.450000,1.800000,published,residual = county/SPD/transit components on official row
+us-ks-city-geneseo,Geneseo,6.500000,2.000000,8.500000,9.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-goodland,Goodland,6.500000,0.250000,6.750000,9.000000,2.250000,published,residual = county/SPD/transit components on official row
+us-ks-city-grinnell,Grinnell,6.500000,0.250000,6.750000,8.750000,2.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-hiawatha,Hiawatha,6.500000,1.500000,8.000000,9.000000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-hillsboro,Hillsboro,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-holton,Holton,6.500000,0.750000,7.250000,8.900000,1.650000,published,residual = county/SPD/transit components on official row
+us-ks-city-hutchinson,Hutchinson,6.500000,1.500000,8.000000,9.000000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-kanopolis,Kanopolis,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-kincaid,Kincaid,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-kinsley,Kinsley,6.500000,1.000000,7.500000,8.875000,1.375000,published,residual = county/SPD/transit components on official row
+us-ks-city-lakin,Lakin,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-leavenworth,Leavenworth,6.500000,2.000000,8.500000,9.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-liberal,Liberal,6.500000,1.500000,8.000000,9.250000,1.250000,published,residual = county/SPD/transit components on official row
+us-ks-city-lindsborg,Lindsborg,6.500000,1.500000,8.000000,10.000000,2.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-logan,Logan,6.500000,1.000000,7.500000,8.000000,0.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-maize,Maize,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-marquette,Marquette,6.500000,1.000000,7.500000,9.500000,2.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-medicine-lodge,Medicine Lodge,6.500000,0.750000,7.250000,8.250000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-mission,Mission,6.500000,1.750000,8.250000,9.725000,1.475000,published,residual = county/SPD/transit components on official row
+us-ks-city-montezuma,Montezuma,6.500000,2.000000,8.500000,9.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-mount-hope,Mount Hope,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-mulvane-mulsu,Mulvane,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-oakley,Oakley,6.500000,1.500000,8.000000,10.000000,2.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-olathe,Olathe,6.500000,1.500000,8.000000,9.475000,1.475000,published,residual = county/SPD/transit components on official row
+us-ks-city-ottawa,Ottawa,6.500000,1.500000,8.000000,9.500000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-park-city,Park City,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-paxico,Paxico,6.500000,1.000000,7.500000,9.000000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-phillipsburg,Phillipsburg,6.500000,2.000000,8.500000,9.000000,0.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-pleasanton,Pleasanton,6.500000,2.000000,8.500000,9.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-princeton,Princeton,6.500000,2.000000,8.500000,10.000000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-richmond,Richmond,6.500000,0.250000,6.750000,8.250000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-rossville,Rossville,6.500000,1.000000,7.500000,8.850000,1.350000,published,residual = county/SPD/transit components on official row
+us-ks-city-sedan,Sedan,6.500000,1.500000,8.000000,9.000000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-seneca,Seneca,6.500000,1.000000,7.500000,9.000000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-solomon-solsa,Solomon,6.500000,1.000000,7.500000,9.000000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-st-john,St John,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-stafford,Stafford,6.500000,2.000000,8.500000,9.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-thayer,Thayer,6.500000,1.250000,7.750000,9.500000,1.750000,published,residual = county/SPD/transit components on official row
+us-ks-city-towanda,Towanda,6.500000,2.000000,8.500000,8.500000,0.000000,published,T ties exactly
+us-ks-city-victoria,Victoria,6.500000,1.000000,7.500000,8.000000,0.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-washington,Washington,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-wellington,Wellington,6.500000,1.000000,7.500000,8.500000,1.000000,published,residual = county/SPD/transit components on official row
+us-ks-city-whitewater,Whitewater,6.500000,1.000000,7.500000,7.500000,0.000000,published,T ties exactly
+us-ks-city-williamsburg,Williamsburg,6.500000,1.000000,7.500000,9.000000,1.500000,published,residual = county/SPD/transit components on official row
+us-ks-city-winfield,Winfield,6.500000,2.000000,8.500000,8.500000,0.000000,published,T ties exactly
