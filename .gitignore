@@ -151,3 +151,6 @@ vite.config.ts.timestamp-*
 # Muse benchmark loop run output (regenerable; scored results are filed deliberately)
 benchmarks/runs/
 benchmarks/results.local.json
+
+# Windows cache process resolving %SystemDrive% literally under repo cwd
+/%SystemDrive%/
