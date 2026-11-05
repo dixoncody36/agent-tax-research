@@ -70,5 +70,43 @@ for (const a of ABSENT) {
   console.log(`CONFIRMED_ABSENT ${a.key} searches=${JSON.stringify(searches)}`);
   decided += 1;
 }
-console.log(JSON.stringify({ decided, controls: controlCounts, left, stillUnknown: ["peer_existence.fee", "peer_existence.severance"] }, null, 2));
+// Severance special case (round 3): absence alone was not decidable in
+// round 1 because a federal coal levy exists — classifying it needs the
+// Form 720 instructions, which place per-ton coal under Manufacturers
+// Taxes (excise), not a severance-type levy. Decided only when both the
+// index search (severance: 0) and the 720 classification evidence hold.
+{
+  const [row] = await db.select().from(coverageAnswers)
+    .where(and(eq(coverageAnswers.jurisdictionId, us.id), isNull(coverageAnswers.taxTypeId), eq(coverageAnswers.questionKey, "peer_existence.severance")))
+    .limit(1);
+  const [i720] = await db.select({ hash: sourceSnapshots.contentHash, text: sourceSnapshots.retrievedText, url: sources.url })
+    .from(sourceSnapshots).innerJoin(sources, eq(sources.id, sourceSnapshots.sourceId))
+    .where(eq(sources.jurisdictionId, us.id))
+    .then((all) => all.filter((s) => s.url === "https://www.irs.gov/instructions/i720").slice(-1));
+  const i720Text = i720 ? strip(i720.text ?? "") : "";
+  const sevHits = count(corpus, "severance");
+  const coalClassified = i720Text.includes("manufacturers taxes") && i720Text.includes("per ton") && i720Text.includes("coal");
+  if (row && row.status === "unknown" && sevHits === 0 && coalClassified && i720) {
+    await db.update(coverageAnswers).set({
+      status: "confirmed_absent",
+      answer: "The federal level imposes no severance-type tax: the IRS business-taxes index contains no severance levy (recorded search), and the closest federal resource levy — the per-ton tax on mined coal — is classified and collected as a Manufacturers excise tax on Form 720 (IRS Nos. 36-39), i.e. inside the excise category, not as a severance tax.",
+      evidence: {
+        kind: "negative_search_plus_classification",
+        indexUrl: "https://www.irs.gov/businesses",
+        snapshotHashes: indexSnaps.map((s) => s.hash),
+        controls: controlCounts,
+        searches: [{ term: "severance", hits: sevHits }],
+        classificationSnapshot: { url: i720.url, hash: i720.hash, needles: ["manufacturers taxes", "per ton", "coal"] },
+        decidedBy: "decide-federal-peer severance special case",
+      },
+      answeredByRunId: runId, updatedAt: new Date(),
+    }).where(eq(coverageAnswers.id, row.id));
+    console.log(`CONFIRMED_ABSENT peer_existence.severance (coal classified as manufacturers excise in Form 720)`);
+    decided += 1;
+  } else {
+    left.push(`peer_existence.severance: not decidable (sevHits=${sevHits}, coalClassified=${coalClassified}, row=${row?.status ?? "none"})`);
+  }
+}
+
+console.log(JSON.stringify({ decided, controls: controlCounts, left, stillUnknown: ["peer_existence.fee"] }, null, 2));
 await client.end();

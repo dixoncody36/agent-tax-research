@@ -72,9 +72,22 @@ const RULES: Rule[] = [
     sourceUrlIncludes: "credits-and-deductions", needles: ["standard deduction"],
     answer: "Individual federal income tax provides deductions (including the standard deduction) and credits that reduce taxable income/tax per the IRS credits-and-deductions hub (see excerpt); per-credit parameters are not itemized in this pass.",
   },
+  {
+    taxTypeSlug: "us-federal-income-corporate", questionKey: "rates_brackets",
+    sourceUrlIncludes: "instructions/i1120", needles: ["Multiply taxable income", "21%"],
+    answer: "Federal corporate income tax is a flat 21% rate: Form 1120 Schedule J (Tax Computation) instructs multiplying taxable income by 21% (0.21) — no graduated brackets at the general corporate rate (see excerpt). Special-rate filers (1120-L etc.) are not itemized in this pass.",
+  },
+  {
+    taxTypeSlug: "us-federal-excise", questionKey: "per_unit_rates",
+    sourceUrlIncludes: "instructions/i720", needles: ["per gallon", "per ton"],
+    answer: "Federal excise taxes are largely per-unit: Form 720 instructions schedule rates per gallon (e.g. kerosene $.244/gal, LUST $.001/gal) and per ton (e.g. underground-mined coal, lower of $1.10/ton or 4.4% of sales price) by IRS number (see excerpts). The full per-schedule table lives in the cited instructions.",
+  },
 ];
 
-const strip = (html: string) => html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
+const strip = (html: string) => html
+  .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, " ")
+  .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, " ")
+  .replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
 function excerptAround(text: string, needle: string, span = 220): string | null {
   const i = text.toLowerCase().indexOf(needle.toLowerCase());
   if (i < 0) return null;
