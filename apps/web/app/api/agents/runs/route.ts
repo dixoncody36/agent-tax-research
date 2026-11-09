@@ -26,9 +26,7 @@ export async function GET(req: Request) {
       r.datavalues->>'spec' AS spec, r.datavalues->>'error' AS error,
       (SELECT e.exception_type FROM exceptions e WHERE e.agent_run_id = r.id ORDER BY e.created_at DESC LIMIT 1) AS exception_type,
       (SELECT e.detail FROM exceptions e WHERE e.agent_run_id = r.id ORDER BY e.created_at DESC LIMIT 1) AS exception_detail,
-      EXISTS (SELECT 1 FROM agent_runs n WHERE n.scope_run_id IS NOT DISTINCT FROM r.scope_run_id AND n.role = r.role
-        AND n.unit IS NOT DISTINCT FROM r.unit AND n.jurisdiction_id IS NOT DISTINCT FROM r.jurisdiction_id
-        AND n.tax_type_id IS NOT DISTINCT FROM r.tax_type_id AND n.attempt = r.attempt + 1) AS retried,
+      EXISTS (SELECT 1 FROM agent_runs n WHERE n.datavalues->>'retryOf' = r.id::text) AS retried,
       j.slug AS jurisdiction_slug, j.name AS jurisdiction_name, tt.slug AS tax_type
     FROM agent_runs r
     LEFT JOIN jurisdictions j ON j.id = r.jurisdiction_id

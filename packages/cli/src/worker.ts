@@ -3,7 +3,7 @@ import { and, eq } from "drizzle-orm";
 import { agentRuns, client, db, exceptions, runEvents } from "@agent-tax-research/database";
 import { capDecision } from "./muse-loop-lib.js";
 import {
-  PROVIDERS, PROVIDER_IDS, ConfigError, budgetUsd, callModel, defaultMaxTokens, formatSpec, loadDotEnv,
+  PROVIDERS, PROVIDER_IDS, ConfigError, MissingKeyError, budgetUsd, callModel, defaultMaxTokens, formatSpec, loadDotEnv,
   parseModelSpec, rateCard, type CallOptions, type CallResult, type ModelSpec, type ProviderId,
 } from "./providers.js";
 import {
@@ -75,7 +75,7 @@ async function recordedSpend(p: ProviderId): Promise<number | null> {
   return row?.spent !== null && row?.spent !== undefined ? Number(row.spent) : null;
 }
 
-export type RunRequest = { role?: Role; scopeId?: string; id?: string; model?: string };
+export type RunRequest = { role?: Role; scopeId?: string; id?: string; model?: string; stopOnUncosted?: boolean };
 export type RunResponse =
   | { error: string; message?: string; id?: string }
   | { assignment: null; instruction: string }
@@ -108,7 +108,7 @@ export async function runAssignment(req: RunRequest): Promise<RunResponse> {
     throw e;
   }
 
-  const claimed = await claimAssignment(run.id);
+  const claimed = await claimAssignment(run.id, formatSpec(spec));
   if (!claimed) return { error: "not_claimable", message: "claimed by another worker or over the attempt cap", id: run.id };
   const event = (type: string, detail: Record<string, unknown>) => recordEvent(claimed.id, type, detail);
 
@@ -120,6 +120,9 @@ export async function runAssignment(req: RunRequest): Promise<RunResponse> {
       { budgetUsd: budgetUsd(spec.provider), budgetLabel, capUsd: null, capTokens: null },
     );
     if (gate.stop) throw new HandlerError("needs_human", `spend gate: ${gate.reason}`);
+    if (req.stopOnUncosted && usage.uncosted > 0) {
+      throw new HandlerError("needs_human", "an earlier call returned no cost under a dollar cap; stopping before another paid call");
+    }
     const promptSha256 = createHash("sha256").update(prompt, "utf8").digest("hex");
     usage.promptSha256s.push(promptSha256);
     let r: CallResult;
@@ -161,6 +164,12 @@ export async function runAssignment(req: RunRequest): Promise<RunResponse> {
     if (!handler) throw new HandlerError("structure_unknown", `no headless handler for ${claimed.role}/${claimed.unit ?? "(no unit)"}`);
     outcome = await handler({ run: claimed, envelope, spec, call, event });
   } catch (e) {
+    if (e instanceof MissingKeyError) {
+      // No request was sent: hand the assignment back without spending one of its attempts.
+      await db.update(agentRuns).set({ status: "queued", startedAt: null, updatedAt: new Date() }).where(eq(agentRuns.id, claimed.id));
+      await event("requeued", { reason: e.message }).catch(() => {});
+      return { error: "config", message: e.message, id: claimed.id };
+    }
     const exceptionType = e instanceof HandlerError ? e.exceptionType : e instanceof ConfigError ? "needs_human" : "transient";
     const detail = `${claimed.role}/${claimed.unit ?? ""} on ${formatSpec(spec)}: ${e instanceof Error ? e.message : String(e)}`.slice(0, 1000);
     const result = await finishAssignment(claimed, {

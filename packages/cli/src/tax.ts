@@ -31,7 +31,7 @@ import {
 } from "@agent-tax-research/database";
 import { runGeoIngest } from "./geo-ingest.js";
 import { runGeoResolve, runRateAtPoint } from "./geo-resolve.js";
-import { MAX_ATTEMPTS, claimAssignment, envelopeFor, loadRoleModels, resolveContextPacks, retryModel } from "./work-queue.js";
+import { MAX_ATTEMPTS, claimAssignment, envelopeFor, loadRoleModels, queueRetry, resolveContextPacks } from "./work-queue.js";
 import { runAssignment } from "./worker.js";
 import { runLoop } from "./worker-loop.js";
 import { doFetch } from "./source-fetch.js";
@@ -556,8 +556,9 @@ async function workRetry(id: string) {
   if (!run) { out({ error: "assignment_not_found", id }); process.exitCode = 2; return; }
   if (run.status !== "failed") { out({ error: "not_failed", status: run.status }); process.exitCode = 2; return; }
   if (run.attempt >= MAX_ATTEMPTS) { out({ error: "attempt_cap_exceeded", attempt: run.attempt, maxAttempts: MAX_ATTEMPTS, notifyOrchestrator: true }); process.exitCode = 2; return; }
-  const [row] = await db.insert(agentRuns).values({ scopeRunId: run.scopeRunId, role: run.role, model: retryModel(run), jurisdictionId: run.jurisdictionId, taxTypeId: run.taxTypeId, unit: run.unit, status: "queued", attempt: run.attempt + 1 }).returning({ id: agentRuns.id });
-  out({ assignmentId: row?.id ?? null, retryOf: id, attempt: run.attempt + 1, status: "queued" });
+  const r = await queueRetry(id);
+  if (!r.ok) { out({ error: r.error, ...(r.existingId ? { existingRetry: r.existingId } : {}) }); process.exitCode = 2; return; }
+  out({ assignmentId: r.id, retryOf: id, attempt: r.attempt, status: "queued" });
 }
 
 async function contextPackList(slug: string) {

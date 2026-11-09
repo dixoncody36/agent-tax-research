@@ -1,4 +1,4 @@
-import { and, desc, eq, inArray, isNull, or, sql } from "drizzle-orm";
+import { and, desc, eq, inArray, isNull, ne, or, sql } from "drizzle-orm";
 import {
   coverageAnswers, coverageQuestions, db, proposalItems, proposals, researchLedger, sourceSnapshots, sources,
 } from "@agent-tax-research/database";
@@ -79,26 +79,37 @@ export async function decideCoverage(ctx: HandlerContext) {
     run.taxTypeId ? eq(researchLedger.taxTypeId, run.taxTypeId) : undefined,
   ));
   // Idempotency: a question already in an open proposal is not asked again (a killed run resumes cleanly).
+  // A reviewer-failed item does not block: the question may be reconsidered on better evidence.
   const pending = await db.select({ questionKey: sql<string>`${proposalItems.payload}->>'questionKey'` }).from(proposalItems)
     .innerJoin(proposals, eq(proposals.id, proposalItems.proposalId))
     .where(and(
       eq(proposals.jurisdictionId, jurisdictionId), inArray(proposals.status, OPEN_PROPOSAL_STATUSES), eq(proposalItems.targetTable, "coverage_answers"),
-      run.taxTypeId ? eq(proposals.taxTypeId, run.taxTypeId) : isNull(proposals.taxTypeId),
+      ne(proposalItems.verdict, "fail"), run.taxTypeId ? eq(proposals.taxTypeId, run.taxTypeId) : isNull(proposals.taxTypeId),
     ));
-  const skip = new Set([...validated.map((v) => v.questionKey), ...pending.map((p) => p.questionKey)]);
+  const validatedKeys = new Set(validated.map((v) => v.questionKey));
+  const skip = new Set([...validatedKeys, ...pending.map((p) => p.questionKey)]);
+  // Validated in the ledger yet still unknown in coverage: a publish gap a human must close, not a question to re-ask.
+  const publishGap = open.filter((o) => validatedKeys.has(o.questionKey)).map((o) => o.questionKey);
   const todo = open.filter((o) => !skip.has(o.questionKey));
   if (todo.length === 0) {
-    return { notes: `All ${open.length} unknown questions are already validated against current sources or awaiting review; nothing re-asked.`, datavalues: { decided: 0, skipped: open.length } };
+    return {
+      notes: [
+        `All ${open.length} unknown questions are already validated against current sources or awaiting review; nothing re-asked.`,
+        publishGap.length ? `Publish gap: ${publishGap.join(", ")} validated in the ledger but coverage still unknown; needs a coverage proposal or human action.` : "",
+      ].filter(Boolean).join(" "),
+      datavalues: { decided: 0, skipped: open.length, publishGap },
+    };
   }
 
-  const evidence: Evidence[] = [];
+  const all: Omit<Evidence, "label">[] = [];
   for (const s of srcRows) {
-    if (evidence.length >= MAX_SNAPSHOTS) break;
     const [snap] = await db.select().from(sourceSnapshots).where(eq(sourceSnapshots.sourceId, s.id)).orderBy(desc(sourceSnapshots.createdAt)).limit(1);
-    if (snap?.retrievedText) {
-      evidence.push({ label: `S${evidence.length + 1}`, snapshotId: snap.id, contentHash: snap.contentHash, sourceId: s.id, sourceName: s.name, url: s.url, text: snap.retrievedText });
-    }
+    if (snap?.retrievedText) all.push({ snapshotId: snap.id, contentHash: snap.contentHash, sourceId: s.id, sourceName: s.name, url: s.url, text: snap.retrievedText });
   }
+  // Every snapshot is read, in groups that fit the prompt window; questions answered by an earlier group are not re-asked.
+  const groups: Evidence[][] = [];
+  for (let i = 0; i < all.length; i += MAX_SNAPSHOTS) groups.push(all.slice(i, i + MAX_SNAPSHOTS).map((e, k) => ({ ...e, label: `S${k + 1}` })));
+  const evidence = groups.flat();
   if (evidence.length === 0) {
     throw new HandlerError("primary_not_found", `no snapshots for ${envelope.jurisdiction}${envelope.taxType ? `/${envelope.taxType}` : ""}; run a fetch assignment first`);
   }
@@ -112,12 +123,16 @@ export async function decideCoverage(ctx: HandlerContext) {
 
   const found: Determination[] = [];
   let downgraded = 0;
-  for (let i = 0; i < questions.length; i += BATCH) {
-    const batch = questions.slice(i, i + BATCH);
-    const r = await ctx.call(buildDecisionPrompt(envelope.jurisdiction ?? "?", envelope.taxType, batch, evidence, envelope.contextPacks));
-    const g = gateAnswers(extractJsonObject(r.content), batch, evidence);
-    found.push(...g.found);
-    downgraded += g.downgraded;
+  for (const group of groups) {
+    const answered = new Set(found.map((f) => f.questionKey));
+    const remaining = questions.filter((q) => !answered.has(q.questionKey));
+    for (let i = 0; i < remaining.length; i += BATCH) {
+      const batch = remaining.slice(i, i + BATCH);
+      const r = await ctx.call(buildDecisionPrompt(envelope.jurisdiction ?? "?", envelope.taxType, batch, group, envelope.contextPacks));
+      const g = gateAnswers(extractJsonObject(r.content), batch, group);
+      found.push(...g.found);
+      downgraded += g.downgraded;
+    }
   }
 
   let proposalId: string | null = null;
@@ -147,8 +162,9 @@ export async function decideCoverage(ctx: HandlerContext) {
     found.length ? `Filed proposal ${proposalId} with ${found.length} found answers, each backed by a verbatim excerpt; awaiting an independent Reviewer run, then a human.` : "No question could be answered from the snapshots.",
     downgraded ? `${downgraded} model answers were downgraded to unknown (excerpt not verbatim in the cited snapshot): treat this model's citations with care.` : "",
     `${questions.length - found.length} questions remain unknown and need deeper primary sources.`,
+    publishGap.length ? `Publish gap: ${publishGap.join(", ")} validated in the ledger but coverage still unknown; needs a coverage proposal or human action.` : "",
   ].filter(Boolean).join(" ");
-  return { notes, datavalues: { decided: found.length, downgraded, proposalId, snapshots: evidence.map((e) => e.contentHash) } };
+  return { notes, datavalues: { decided: found.length, downgraded, proposalId, publishGap, snapshots: evidence.map((e) => e.contentHash) } };
 }
 
 registerHandler("decision", "*", decideCoverage);

@@ -44,6 +44,7 @@ export async function doFetch(source: Source, runId?: string, opts: { skipUnchan
   await db.insert(sourceChecks).values({ sourceId: source.id, checkedBy: runId ?? "fetch-cli", httpStatus, contentHash: ok ? hash : null, changed, notes: fetchError ?? (!ok ? `HTTP ${httpStatus}` : firstSeen ? "first snapshot" : changed ? "content changed" : "unchanged") });
   return {
     sourceId: source.id, url: source.url, snapshotId, reusedSnapshot: reused, contentHash: ok ? hash : null,
-    previousHash: source.contentHash, httpStatus, changed, firstSeen, bytes: body.length, wallMs: Date.now() - started, error: fetchError,
+    previousHash: source.contentHash, httpStatus, changed, firstSeen, bytes: body.length, wallMs: Date.now() - started,
+    error: fetchError ?? (ok ? null : `HTTP ${httpStatus}`),
   };
 }

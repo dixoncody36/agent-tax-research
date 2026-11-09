@@ -47,7 +47,7 @@ function benchmarkSuite() {
       });
       return {
         file: r.file, generatedAt: new Date(r.mtime).toISOString(), harness: body.harness ?? null,
-        roleModels: body.roleModels ?? {}, suiteAverage: body.suiteAverage ?? null, results: rows,
+        roleModels: body.roleModels ?? {}, suiteAverage: body.suiteAverage ?? null, incomplete: body.incomplete === true, results: rows,
       };
     });
   return {

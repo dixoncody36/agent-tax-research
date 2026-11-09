@@ -111,4 +111,12 @@ describe("decideCoverage (real DB, fake model)", () => {
     assert.equal(items.filter((i) => (i.payload as { questionKey: string }).questionKey === "state_rate").length, 1);
     assert.equal(calls(), 1); // only the still-open peer question was asked again
   });
+
+  it("a reviewer-failed item no longer blocks the question from being re-asked", async () => {
+    const props = await db.select({ id: proposals.id }).from(proposals).where(eq(proposals.jurisdictionId, jurisdictionId));
+    await db.update(proposalItems).set({ verdict: "fail" }).where(inArray(proposalItems.proposalId, props.map((p) => p.id)));
+    const { ctx } = await ctxWith(REPLY);
+    const out = await decideCoverage(ctx);
+    assert.equal(out.datavalues.decided, 1);
+  });
 });

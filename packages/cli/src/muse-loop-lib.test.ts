@@ -126,4 +126,10 @@ describe("prompts and determinations", () => {
     assert.equal(d.attempts, 2);
     assert.equal(d.wallSeconds, 1.23);
   });
+  it("a failed determination has no answer and no citation, so it scores zero", () => {
+    const d = toDetermination(task, { rateValue: 6.25 }, { tokensIn: 10, tokensOut: 5, wallSeconds: 1, attempts: 3 }, "no reviewer pass after 3 attempts");
+    assert.deepEqual(d.answer, {});
+    assert.deepEqual(d.citations, []);
+    assert.equal(d.failed, "no reviewer pass after 3 attempts");
+  });
 });

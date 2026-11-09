@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import Anthropic from "@anthropic-ai/sdk";
+import { envFileKeys } from "@agent-tax-research/database";
 
 // Model API providers for headless agent runs: Meta Model API (Muse),
 // the Claude API, and OpenRouter. One call shape (`callModel`) and one
@@ -44,7 +45,8 @@ export const PROVIDERS: Record<ProviderId, ProviderInfo> = {
   },
 };
 
-// Loads .env.local then .env from INIT_CWD/cwd without overriding real env.
+// Loads .env.local over .env from INIT_CWD/cwd without overriding real env.
+// envFileKeys = keys the database package already filled from a .env file.
 export function loadDotEnv(): void {
   const roots = [process.env.INIT_CWD, process.cwd()].filter(Boolean) as string[];
   for (const root of roots) {
@@ -52,7 +54,7 @@ export function loadDotEnv(): void {
       const p = resolve(root, name);
       return existsSync(p) ? parseEnvText(readFileSync(p, "utf8")) : {};
     };
-    mergeEnv(process.env, read(".env"), read(".env.local"));
+    mergeEnv(process.env, read(".env"), read(".env.local"), envFileKeys);
   }
 }
 
@@ -65,15 +67,15 @@ export function parseEnvText(text: string): Record<string, string> {
   return vars;
 }
 
-// The database package loads .env before this runs, so a value equal to the
-// .env entry came from that file, not the real environment: .env.local may
-// replace it. Real environment variables (any other value) always win.
-export function mergeEnv(env: NodeJS.ProcessEnv, base: Record<string, string>, local: Record<string, string>): void {
+// Precedence: real environment > .env.local > .env. Provenance is tracked in
+// fromFile (keys a loader set from a file), never inferred from equal values,
+// so a shell value that happens to match .env still wins.
+export function mergeEnv(env: NodeJS.ProcessEnv, base: Record<string, string>, local: Record<string, string>, fromFile: Set<string>): void {
   for (const [k, v] of Object.entries(local)) {
-    if (env[k] === undefined || env[k] === base[k]) env[k] = v;
+    if (env[k] === undefined || fromFile.has(k)) { env[k] = v; fromFile.add(k); }
   }
   for (const [k, v] of Object.entries(base)) {
-    if (env[k] === undefined) env[k] = v;
+    if (env[k] === undefined) { env[k] = v; fromFile.add(k); }
   }
 }
 
@@ -91,11 +93,11 @@ export function parseModelSpec(spec: string, defaultProvider: ProviderId = "meta
     const prefix = trimmed.slice(0, i) as ProviderId;
     if (PROVIDER_IDS.includes(prefix)) {
       const model = trimmed.slice(i + 1).trim();
-      if (!model) throw new Error(`model spec "${spec}" names provider ${prefix} but no model`);
+      if (!model) throw new ConfigError(`model spec "${spec}" names provider ${prefix} but no model`);
       return { provider: prefix, model };
     }
   }
-  if (!trimmed) throw new Error("empty model spec");
+  if (!trimmed) throw new ConfigError("empty model spec");
   return { provider: defaultProvider, model: trimmed };
 }
 

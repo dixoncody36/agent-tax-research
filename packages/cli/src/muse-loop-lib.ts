@@ -200,7 +200,8 @@ export function toDetermination(
     taskId: task.id,
     answer: failed ? {} : answer,
     ...(failed ? { failed } : {}),
-    citations: [{ url: task.sourceHint, publisherType: "government" }],
+    // A failed task cites nothing, so the scorer awards it no citation credit.
+    citations: failed ? [] : [{ url: task.sourceHint, publisherType: "government" }],
     attempts: usage.attempts,
     tokensIn: usage.tokensIn,
     tokensOut: usage.tokensOut,
