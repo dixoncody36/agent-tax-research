@@ -3,6 +3,7 @@ import { after, describe, it } from "node:test";
 import { eq, inArray } from "drizzle-orm";
 import { agentRuns, client, db, exceptions, runEvents } from "@agent-tax-research/database";
 import { ConfigError } from "./providers.js";
+import { retryModel } from "./work-queue.js";
 import { registerHandler, resolveRunModel, runAssignment } from "./worker.js";
 
 // The worker decides which paid API a run hits and how a failure is
@@ -85,6 +86,18 @@ describe("runAssignment (real DB)", () => {
     assert.equal(r.error, "config");
     const [row] = await db.select().from(agentRuns).where(eq(agentRuns.id, run.id));
     assert.equal(row!.status, "queued");
+  });
+
+  it("a retry keeps the full provider:model, so the next attempt runs without --model", async () => {
+    const run = await queued("test-no-handler");
+    await runAssignment({ id: run.id, model: "meta:muse-spark-1.3" });
+    const [failed] = await db.select().from(agentRuns).where(eq(agentRuns.id, run.id));
+    assert.equal(failed!.model, "muse-spark-1.3"); // the served model, for analytics
+    assert.equal(retryModel(failed!), "meta:muse-spark-1.3");
+    const [next] = await db.insert(agentRuns).values({ role: "fetch", unit: "test-no-handler", status: "queued", attempt: 2, model: retryModel(failed!) }).returning();
+    created.push(next!.id);
+    const r = await runAssignment({ id: next!.id });
+    assert.ok("result" in r, "attempt 2 must claim and run, not stop on a provider-less model");
   });
 
   it("a non-queued assignment is not claimable twice", async () => {

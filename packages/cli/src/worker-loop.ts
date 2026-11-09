@@ -1,6 +1,6 @@
 import { and, eq, inArray, isNull, lt, sql } from "drizzle-orm";
 import { agentRuns, db, exceptions, jurisdictions, runEvents, scopeRuns } from "@agent-tax-research/database";
-import { MAX_ATTEMPTS, type AgentRun } from "./work-queue.js";
+import { MAX_ATTEMPTS, retryModel, type AgentRun } from "./work-queue.js";
 import { runAssignment, type Role } from "./worker.js";
 
 // Loop mode for the headless worker (agents/orchestrator.md duties 3 and 7):
@@ -51,7 +51,7 @@ async function enqueue(scopeId: string, from: AgentRun, role: Role, unit: string
   if (open && attempt === 1) return null;
   const [row] = await db.insert(agentRuns).values({
     scopeRunId: scopeId, role, unit, status: "queued", attempt,
-    jurisdictionId: from.jurisdictionId, taxTypeId: from.taxTypeId, model: attempt > 1 ? from.model : null,
+    jurisdictionId: from.jurisdictionId, taxTypeId: from.taxTypeId, model: attempt > 1 ? retryModel(from) : null,
   }).returning({ id: agentRuns.id });
   return row?.id ?? null;
 }

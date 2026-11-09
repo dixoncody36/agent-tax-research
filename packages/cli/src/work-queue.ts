@@ -82,6 +82,13 @@ export async function claimAssignment(id: string): Promise<AgentRun | null> {
   return run ?? null;
 }
 
+// A finished run's `model` column holds the model that served it (for
+// analytics); the next attempt needs the full provider:model the worker ran.
+export function retryModel(run: AgentRun): string | null {
+  const dv = (run.datavalues ?? {}) as Record<string, unknown>;
+  return typeof dv.spec === "string" ? dv.spec : run.model;
+}
+
 export type FinishFields = {
   status: "completed" | "failed";
   handoffNotes: string;
