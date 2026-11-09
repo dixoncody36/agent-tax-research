@@ -17,7 +17,11 @@
     "name": "Texas",
     "sourceIndex": "https://comptroller.texas.gov/taxes/a-to-z.php",
     "seededTaxTypes": 27,
-    "deepSeeded": ["us-tx-sales-use", "us-tx-franchise", "us-tx-hotel-occupancy"]
+    "deepSeeded": [
+      "us-tx-sales-use",
+      "us-tx-franchise",
+      "us-tx-hotel-occupancy"
+    ]
   },
   "entryPoints": {
     "readme": "README.md",
@@ -28,10 +32,21 @@
   },
   "phase2Decree": "specs/phase-2-agentic-population.html",
   "loopState": {
-    "currentBranch": "main (36d4436, in sync with origin/main; all milestone + issue branches verified incorporated 2026-11-05)",
-    "milestonesComplete": ["M1 (6/6)", "M2 (3/3)", "M3 (5/5)", "M5 (3/3)", "M7 (3/3 built, reconciled 2026-11-03)"],
-    "inProgress": "Human gates only: #68 publish 24 verified Kansas geo proposals + 29-duplicate-slug dedupe decision; #24 demo rehearsal eyeball. Coverage: us found=16/33, us-tx found=44/211 - remaining unknowns need new primary-source research, not code. Muse benchmark burn (pnpm muse:loop) built, $0 spent, awaiting MODEL_API_KEY + rate-card envs in .env.local.",
-    "note": "Per loop cadence, milestone PRs to main happen only after ALL milestones are implemented. Submission due 2026-11-04: human approval queue is the critical path (pnpm tax proposal list)."
+    "currentBranch": "main (6ec580c, M11 merged via PR #96; in sync with origin/main 2026-11-09)",
+    "milestonesComplete": [
+      "M1 (6/6)",
+      "M2 (3/3)",
+      "M3 (5/5)",
+      "M5 (3/3)",
+      "M6 (6/6)",
+      "M7 (3/3)",
+      "M8 (6/6)",
+      "M9 (6/6)",
+      "M10 (6/6)",
+      "M11 (9/9)"
+    ],
+    "inProgress": "M4 open (4/6): #16 and #17 (Texas state completion and cascade) blocked on the research database, which is not on this machine (fresh clone; local Docker DB holds only migrated seed data). #68 (Kansas boundaries publish + 29-duplicate merge, approved by Cody) also blocked on the database. needs-human: #97 operator auth for web action routes; #98 PDF text-extraction dependency.",
+    "note": "Approved by Cody, pending the database: publish all reviewer-verified determinations under \"Cody Dixon\"; split the #16/#17 research tail into follow-up issues, then close. No CI or deploy workflows exist, so cycles end without a watchman pass."
   },
-  "lastSession": "2026-11-05 (Muse): verified all Claude/UI-redesign work incorporated - feat/ui-redesign is an ancestor of main (PR #64), its worktree clean; all 16 squash-merged issue branches patch-equivalent in main (git cherry 0 unapplied); 0 open PRs. Same day: federal round 4 (PR #80), Texas rate-history (PR #81: sales-use 6.25% from 1990 + terp 2015 found; 17 single-row types honestly unknown), Texas insurance/hotel (PR #82: 5 Comptroller insurance subpages snapshotted; insurance rates_by_class + hotel local_rates found; reviewer 2/2 hash+excerpt re-performance). Gates CLI 63/63, DB 5/5, root typecheck green. Next: human decisions on #68/#24; add MODEL_API_KEY to .env.local to start the Muse benchmark pilot (pnpm muse:loop --cap-usd 10)."
+  "lastSession": "2026-11-09: Ascension rebrand replaced the A&M graphics (PR #86, issue #84; tokens and fonts from factory packages/ui). Provider layer wired for meta (Muse), anthropic, and openrouter with provider:model specs, per-provider budgets, and rate cards (issue #85; pnpm model:api, pnpm model:loop). M11 headless worker merged (PR #96, issues #87-#95): pnpm tax work run [--loop] runs Fetch, Decision, and Reviewer on chosen models with a verbatim-excerpt gate, distinct run identities, caps, restart recovery, and a live Agents page with retry. CLI tests pass except the RATE-STACK Austin case, which needs the research DB. Closed milestones M1-M3 and M5-M11. Next: restore the research database (unblocks #68, #16, #17); add a provider key to .env.local and run pnpm model:api ping --provider anthropic; decide #97 and #98; decide on CodeRabbit CLI credits (quota exhausted during M11)."
 }
