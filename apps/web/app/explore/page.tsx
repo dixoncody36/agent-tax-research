@@ -16,7 +16,7 @@ type Detail = {
   licenses: (Prov & { tax_type: string; name: string; license_type: string; required_for: string | null; issuing_agency: string | null; application_url: string | null; form_number: string | null; fee_amount: string | null; fee_currency: string | null; renewal_period: string | null })[];
   compliance: (Prov & { tax_type: string; obligation_type: string; form_number: string | null; form_name: string | null; form_url: string | null; filing_frequency: string | null; due_date_rule: string | null; filing_methods: string | null; payment_methods: string | null; collect_remit_summary: string | null })[];
   geo: (Prov & { geo_kind: string; has_boundary: boolean; geometry_hash: string | null; simplification: string | null; precision: string; centroid_lat: string | null; centroid_lng: string | null })[];
-  coverage: { question_key: string; status: string; answer: string | null }[];
+  coverage: { question_key: string; status: string; answer: string | null; tax_type: string | null; excerpt: string | null; snapshot_hash: string | null }[];
   sources: { name: string; url: string; source_type: string; publisher: string | null; is_authoritative: boolean; eligibility: string; status: string; snapshot_at: string | null; snapshot_hash: string | null; last_checked_at: string | null }[];
   ledger: { question_key: string; tax_type: string | null; determination: string | null; status: string; snapshot_hash: string | null; invalidated_reason: string | null; validated_at: string | null }[];
   agentRuns: { id: string; role: string; model: string | null; unit: string | null; status: string; attempt: number; started_at: string | null; finished_at: string | null; created_at: string }[];
@@ -289,6 +289,29 @@ export default function Explore() {
                 )
               )}
 
+              {tab === "ledger" && detail.coverage.some((c) => c.status !== "unknown") && (
+                <>
+                  <h2 className="sub">Answered coverage questions</h2>
+                  <table>
+                    <thead><tr><th>Question</th><th>Status</th><th>Answer and evidence</th></tr></thead>
+                    <tbody>
+                      {detail.coverage.filter((c) => c.status !== "unknown").map((c, i) => (
+                        <tr key={i}>
+                          <td><code>{c.question_key}</code>{c.tax_type && <><br /><span className="note">{c.tax_type}</span></>}</td>
+                          <td><span className={`pill ${c.status === "found" ? "approved" : "verified"}`}>{c.status.replace(/_/g, " ")}</span></td>
+                          <td>{c.answer ?? <span className="note">no answer text</span>}
+                            {c.excerpt && <blockquote className="excerpt">“{c.excerpt}”</blockquote>}
+                            {c.snapshot_hash && <span className="note">snapshot <code title={c.snapshot_hash}>{c.snapshot_hash.slice(0, 12)}…</code></span>}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  {detail.coverage.some((c) => c.status === "unknown") && (
+                    <p className="note">{detail.coverage.filter((c) => c.status === "unknown").length.toLocaleString()} questions still unknown.</p>
+                  )}
+                  <h2 className="sub">Research ledger</h2>
+                </>
+              )}
               {tab === "ledger" && (
                 detail.ledger.length === 0 ? <Empty why="No research determinations recorded yet — this jurisdiction has not been researched by an agent." /> : (
                   <table>

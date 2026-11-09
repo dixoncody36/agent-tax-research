@@ -59,8 +59,13 @@ export async function GET(req: Request) {
       FROM jurisdiction_geo g LEFT JOIN sources s ON s.id = g.source_id
       WHERE g.jurisdiction_id = ${jid} ORDER BY g.effective_from DESC`,
     client`
-      SELECT question_key, status, answer FROM coverage_answers
-      WHERE jurisdiction_id = ${jid} AND question_key IN ('has_published_boundary', 'levy_exists') ORDER BY question_key`,
+      SELECT a.question_key, a.status, a.answer, t.name AS tax_type,
+        a.evidence->>'excerpt' AS excerpt, a.evidence->>'snapshotHash' AS snapshot_hash
+      FROM coverage_answers a LEFT JOIN tax_types t ON t.id = a.tax_type_id
+      WHERE a.jurisdiction_id = ${jid}
+      ORDER BY t.name NULLS FIRST,
+        (SELECT min(q.sort_order) FROM coverage_questions q WHERE q.question_key = a.question_key) NULLS LAST,
+        a.question_key`,
     client`
       SELECT s.name, s.url, s.source_type, s.publisher, s.is_authoritative, s.eligibility, s.status,
         (SELECT max(created_at)::text FROM source_snapshots n WHERE n.source_id = s.id) AS snapshot_at,

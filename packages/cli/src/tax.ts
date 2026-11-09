@@ -34,6 +34,7 @@ import { runGeoResolve, runRateAtPoint } from "./geo-resolve.js";
 import { MAX_ATTEMPTS, claimAssignment, envelopeFor, loadRoleModels, resolveContextPacks } from "./work-queue.js";
 import { runAssignment } from "./worker.js";
 import { doFetch } from "./source-fetch.js";
+import { coveragePayloadError, publishCoverageItem, publishableItems } from "./coverage-publish.js";
 import "./handlers.js";
 
 /**
@@ -754,7 +755,7 @@ async function proposalAddItem(args: string[]) {
   const payloadRaw = payloadFile ? readFileSync(payloadFile, "utf8") : argVal(args, "--payload");
   const citation = argVal(args, "--citation");
   const sourceId = argVal(args, "--source-id"); const snapshotId = argVal(args, "--snapshot-id");
-  if (!proposalId || !targetTable || !payloadRaw) { out({ error: "usage: tax proposal add-item --proposal <uuid> --target tax_rates|tax_rules|tax_licenses|tax_compliance --payload <json> [--citation <text>] [--source-id <uuid>] [--snapshot-id <uuid>]" }); process.exitCode = 2; return; }
+  if (!proposalId || !targetTable || !payloadRaw) { out({ error: "usage: tax proposal add-item --proposal <uuid> --target tax_rates|tax_rules|tax_licenses|tax_compliance|coverage_answers --payload <json> [--citation <text>] [--source-id <uuid>] [--snapshot-id <uuid>]" }); process.exitCode = 2; return; }
   let payload: Record<string, unknown>;
   try { payload = JSON.parse(payloadRaw) as Record<string, unknown>; } catch { out({ error: "payload_not_json" }); process.exitCode = 2; return; }
   const [row] = await db.insert(proposalItems).values({ proposalId, targetTable, payload, citation: citation ?? null, sourceId: sourceId ?? null, snapshotId: snapshotId ?? null, verdict: "pending" }).returning({ id: proposalItems.id });
@@ -818,11 +819,20 @@ async function proposalPublish(id: string) {
   const [prop] = await db.select().from(proposals).where(eq(proposals.id, id)).limit(1);
   if (!prop) { out({ error: "proposal_not_found", id }); process.exitCode = 2; return; }
   if (prop.status !== "approved") { out({ error: "not_approved", status: prop.status, instruction: "Publish requires reviewer pass + human approval." }); process.exitCode = 2; return; }
-  const items = await db.select().from(proposalItems).where(eq(proposalItems.proposalId, id));
+  const { publish: items, skipped } = publishableItems(await db.select().from(proposalItems).where(eq(proposalItems.proposalId, id)));
+  // ponytail: other targets still validate mid-loop (publish is not one
+  // transaction); coverage items are checked up front so they add no
+  // partial-publish path. Wrap the loop in db.transaction when one appears.
+  const badCoverage = items.find((i) => i.targetTable === "coverage_answers" && coveragePayloadError(i.payload));
+  if (badCoverage) { out({ error: coveragePayloadError(badCoverage.payload), proposalItemId: badCoverage.id, instruction: "Nothing was published." }); process.exitCode = 2; return; }
   const published: string[] = [];
   for (const item of items) {
     const p = item.payload as Record<string, unknown>;
-    if (item.targetTable === "tax_rates") {
+    if (item.targetTable === "coverage_answers") {
+      const r = await publishCoverageItem(prop, item);
+      if (!r.ok) { out({ error: r.error, proposalItemId: item.id }); process.exitCode = 2; return; }
+      published.push(`coverage_answers:${r.id}`);
+    } else if (item.targetTable === "tax_rates") {
       if (!prop.taxTypeId) { out({ error: "publish_needs_tax_type", proposalId: id }); process.exitCode = 2; return; }
       let rateJurisdictionId = prop.jurisdictionId;
       if (typeof p.jurisdictionSlug === "string") {
@@ -911,11 +921,11 @@ async function proposalPublish(id: string) {
       }).returning({ id: jurisdictionGeoTable.id });
       if (row) published.push(`jurisdiction_geo:${row.id}`);
     } else {
-      out({ error: "unsupported_target_v1", targetTable: item.targetTable, instruction: "Publish applies tax_rates, tax_rules and product_tax_treatments; other targets fail closed." }); process.exitCode = 2; return;
+      out({ error: "unsupported_target_v1", targetTable: item.targetTable, instruction: "Publish applies tax_rates, tax_rules, tax_compliance, product_tax_treatments, jurisdiction_geo and coverage_answers; other targets fail closed." }); process.exitCode = 2; return;
     }
   }
   await db.update(proposals).set({ status: "published", updatedAt: new Date() }).where(eq(proposals.id, id));
-  out({ proposalId: id, status: "published", published });
+  out({ proposalId: id, status: "published", published, skipped: skipped.map((i) => ({ proposalItemId: i.id, targetTable: i.targetTable, verdict: i.verdict })) });
 }
 
 async function proposalList(status: string) {
