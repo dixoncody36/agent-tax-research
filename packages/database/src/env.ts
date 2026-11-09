@@ -6,7 +6,7 @@ import { dirname, resolve } from "node:path";
 // DATABASE_URL in .env was silently ignored and commands hit the live DB.
 // Resolution order: real environment variable (never overridden) > .env
 // found by walking up from the start dir > caller-side fallback.
-// ponytail: naive KEY=VALUE parse (quotes stripped), same as the muse-api
+// ponytail: naive KEY=VALUE parse (quotes stripped), same as the providers.ts
 // loader — promote both to one shared env module if a third consumer needs
 // full dotenv semantics. No new dependency for this.
 

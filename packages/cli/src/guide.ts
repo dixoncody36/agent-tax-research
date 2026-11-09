@@ -106,7 +106,7 @@ for (const t of types) {
 lines.push("## Appendix — withheld unverified work", "",
   appendix.length ? appendix.join("\n") : "None — everything extracted for this jurisdiction has completed review.",
   "", `Total withheld items: ${appendixCount}. These complete only after independent agent review + final human approval.`,
-  "", "---", "DRAFT — A&M Tax. Generated in-process from the agent-tax-research database; verify against primary sources before relying on any figure.");
+  "", "---", "DRAFT — Ascension. Generated in-process from the agent-tax-research database; verify against primary sources before relying on any figure.");
 
 mkdirSync(outFile.split("/").slice(0, -1).join("/") || ".", { recursive: true });
 writeFileSync(outFile, lines.join("\n") + "\n", "utf8");
