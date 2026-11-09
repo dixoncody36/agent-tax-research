@@ -1,4 +1,4 @@
-// Pure logic for the Muse-API benchmark loop (muse-loop.ts). No I/O here:
+// Pure logic for the model-API benchmark loop (model-loop.ts). No I/O here:
 // evidence cleanup, prompt construction, model-JSON extraction, spend caps,
 // and determination assembly — all unit-tested in muse-loop-lib.test.ts.
 
@@ -144,22 +144,27 @@ export function sanitizeReview(raw: Record<string, unknown> | null): Review {
 }
 
 // Spend gate, checked BEFORE every API call. Dollar caps only bite when a
-// rate card produced costed figures (matches muse-api.ts spentUsd);
-// token caps always bite. priorSpentUsd is recorded spend before this loop.
+// rate card (or provider-reported cost) produced costed figures; token caps
+// always bite. Budgets are per provider: priorSpentUsd is that provider's
+// recorded spend before this loop and providerLoopSpentUsd its spend inside
+// the loop (falls back to loopSpentUsd for single-provider callers). The
+// loop dollar cap (--cap-usd) counts every provider together.
 export type CapState = {
   priorSpentUsd: number | null;
+  providerLoopSpentUsd?: number | null;
   loopSpentUsd: number | null; // null until any costed call in this loop
   loopTokens: number;
 };
-export type CapConfig = { budgetUsd: number; capUsd: number | null; capTokens: number | null };
+export type CapConfig = { budgetUsd: number | null; budgetLabel?: string; capUsd: number | null; capTokens: number | null };
 
 export function capDecision(state: CapState, cfg: CapConfig): { stop: boolean; reason: string | null } {
+  const providerLoop = state.providerLoopSpentUsd !== undefined ? state.providerLoopSpentUsd : state.loopSpentUsd;
   const totalUsd =
-    state.priorSpentUsd === null && state.loopSpentUsd === null
+    state.priorSpentUsd === null && providerLoop === null
       ? null
-      : (state.priorSpentUsd ?? 0) + (state.loopSpentUsd ?? 0);
-  if (totalUsd !== null && totalUsd >= cfg.budgetUsd) {
-    return { stop: true, reason: `MUSE_BUDGET_USD reached ($${totalUsd.toFixed(4)} >= $${cfg.budgetUsd})` };
+      : (state.priorSpentUsd ?? 0) + (providerLoop ?? 0);
+  if (cfg.budgetUsd !== null && totalUsd !== null && totalUsd >= cfg.budgetUsd) {
+    return { stop: true, reason: `${cfg.budgetLabel ?? "MUSE_BUDGET_USD"} reached ($${totalUsd.toFixed(4)} >= $${cfg.budgetUsd})` };
   }
   if (cfg.capUsd !== null && state.loopSpentUsd !== null && state.loopSpentUsd >= cfg.capUsd) {
     return { stop: true, reason: `loop cap reached ($${state.loopSpentUsd.toFixed(4)} >= --cap-usd $${cfg.capUsd})` };
