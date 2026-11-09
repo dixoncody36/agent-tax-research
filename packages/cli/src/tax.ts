@@ -33,6 +33,8 @@ import { runGeoIngest } from "./geo-ingest.js";
 import { runGeoResolve, runRateAtPoint } from "./geo-resolve.js";
 import { MAX_ATTEMPTS, claimAssignment, envelopeFor, loadRoleModels, resolveContextPacks } from "./work-queue.js";
 import { runAssignment } from "./worker.js";
+import { doFetch } from "./source-fetch.js";
+import "./handlers.js";
 
 /**
  * tax CLI — the harness-neutral work contract (foundation cut).
@@ -698,27 +700,6 @@ async function sourceClassify(args: string[]) {
   const [row] = await db.insert(sources).values({ name: argVal(args, "--name") ?? url, url, publisherType, eligibility, exclusionReason: argVal(args, "--reason") ?? null, jurisdictionId, sourceType: argVal(args, "--type") ?? "agency_guidance", isAuthoritative: publisherType === "government" && eligibility === "eligible" })
     .onConflictDoUpdate({ target: sources.url, set: { publisherType, eligibility, updatedAt: new Date() } }).returning({ id: sources.id });
   out({ sourceId: row?.id ?? null, url, publisherType, eligibility, fetchable: eligibility === "eligible" });
-}
-
-async function doFetch(source: typeof sources.$inferSelect, runId?: string) {
-  const started = Date.now();
-  let httpStatus: number | null = null; let body = ""; let fetchError: string | null = null;
-  try {
-    const res = await fetch(source.url, { headers: { "user-agent": "agent-tax-research/0.1 (primary-source research; respectful rate)" }, redirect: "follow" });
-    httpStatus = res.status; body = await res.text();
-  } catch (e: unknown) { fetchError = e instanceof Error ? e.message : String(e); }
-  const hash = createHash("sha256").update(body).digest("hex");
-  const changed = source.contentHash !== null && source.contentHash !== hash;
-  const firstSeen = source.contentHash === null;
-  let snapshotId: string | null = null;
-  if (!fetchError && httpStatus !== null && httpStatus < 400) {
-    const text = body.replace(/<script[\s\S]*?<\/script>/gi, " ").replace(/<style[\s\S]*?<\/style>/gi, " ").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 200000);
-    const [snap] = await db.insert(sourceSnapshots).values({ sourceId: source.id, contentHash: hash, retrievedText: text, fetchedByRunId: runId ?? null }).returning({ id: sourceSnapshots.id });
-    snapshotId = snap?.id ?? null;
-    await db.update(sources).set({ contentHash: hash, lastCheckedAt: new Date(), ...(changed ? { lastChangedAt: new Date() } : {}), updatedAt: new Date() }).where(eq(sources.id, source.id));
-  }
-  await db.insert(sourceChecks).values({ sourceId: source.id, checkedBy: runId ?? "fetch-cli", httpStatus, contentHash: fetchError ? null : hash, changed, notes: fetchError ?? (firstSeen ? "first snapshot" : changed ? "content changed" : "unchanged") });
-  return { sourceId: source.id, url: source.url, snapshotId, contentHash: fetchError ? null : hash, httpStatus, changed, firstSeen, bytes: body.length, wallMs: Date.now() - started, error: fetchError };
 }
 
 async function fetchSource(args: string[]) {
