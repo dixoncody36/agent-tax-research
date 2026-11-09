@@ -4,7 +4,11 @@ import { approveDisabled, approveHint } from "./approveGate";
 
 type Item = {
   target_table: string; citation: string; verdict: string; source_url: string | null;
-  payload: { rateValue?: number; rateUnit?: string; jurisdictionSlug?: string; appliesTo?: string; summary?: string; ruleType?: string; centroidLat?: number; centroidLng?: number; geometryHash?: string; precision?: string };
+  payload: {
+    rateValue?: number; rateUnit?: string; jurisdictionSlug?: string; appliesTo?: string; summary?: string; ruleType?: string;
+    centroidLat?: number; centroidLng?: number; geometryHash?: string; precision?: string;
+    questionKey?: string; status?: string; answer?: string; excerpt?: string; snapshotHash?: string;
+  };
 };
 type Proposal = {
   id: string; status: string; created_at: string; jurisdiction: string | null; tax_type: string | null;
@@ -70,7 +74,13 @@ export default function Review() {
                 <td>
                   {p.items.slice(0, 12).map((it, i) => (
                     <div key={i} className="fact">
-                      {it.target_table === "tax_rates"
+                      {it.target_table === "coverage_answers"
+                        ? <>
+                            <code>{it.payload.questionKey}</code> — <strong>{it.payload.status?.replace("_", " ")}</strong>: {it.payload.answer}
+                            {it.payload.excerpt && <blockquote className="excerpt">“{it.payload.excerpt}”</blockquote>}
+                            {it.payload.snapshotHash && <span className="note">snapshot {it.payload.snapshotHash.slice(0, 12)}…</span>}
+                          </>
+                        : it.target_table === "tax_rates"
                         ? <>{it.payload.rateValue}{it.payload.rateUnit === "percent" ? "%" : ` ${it.payload.rateUnit ?? ""}`} — {it.payload.appliesTo}</>
                         : it.target_table === "jurisdiction_geo" ? <>Boundary for <strong>{it.payload.jurisdictionSlug}</strong> — centroid {it.payload.centroidLat}, {it.payload.centroidLng} · precision {it.payload.precision ?? "published"} · geometry {String(it.payload.geometryHash ?? "").slice(0, 12)}…</> : <>{it.payload.summary ?? it.payload.ruleType ?? "rule"}</>}
                       <br /><span className="note">{it.citation} · verdict {it.verdict}

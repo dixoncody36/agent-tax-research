@@ -31,6 +31,12 @@ import {
 } from "@agent-tax-research/database";
 import { runGeoIngest } from "./geo-ingest.js";
 import { runGeoResolve, runRateAtPoint } from "./geo-resolve.js";
+import { MAX_ATTEMPTS, claimAssignment, envelopeFor, loadRoleModels, queueRetry, resolveContextPacks } from "./work-queue.js";
+import { runAssignment } from "./worker.js";
+import { runLoop } from "./worker-loop.js";
+import { doFetch } from "./source-fetch.js";
+import { coveragePayloadError, publishCoverageItem, publishableItems } from "./coverage-publish.js";
+import "./handlers.js";
 
 /**
  * tax CLI — the harness-neutral work contract (foundation cut).
@@ -366,7 +372,6 @@ async function contextCompile(profileArg: string, save: boolean) {
 // ---------------------------------------------------------------------------
 const ROLES = ["orchestrator", "fetch", "decision", "reviewer"] as const;
 type Role = (typeof ROLES)[number];
-const MAX_ATTEMPTS = 3;
 
 function argVal(args: string[], name: string): string | undefined {
   const i = args.indexOf(name);
@@ -450,43 +455,6 @@ async function workEnqueue(args: string[]) {
   out({ assignmentId: row?.id ?? null, scopeRunId: scopeId, role, unit, jurisdiction: jurSlug, taxType: taxTypeSlug ?? null, status: "queued", attempt: 1 });
 }
 
-async function resolveContextPacks(jurisdictionId: string | null) {
-  if (!jurisdictionId) return [];
-  const all = await db.select().from(jurisdictions);
-  const byId = new Map(all.map((j) => [j.id, j]));
-  const chain: typeof all = [];
-  let cur = byId.get(jurisdictionId);
-  const seen = new Set<string>();
-  while (cur && !seen.has(cur.id)) { seen.add(cur.id); chain.push(cur); cur = cur.parentId ? byId.get(cur.parentId) : undefined; }
-  const packs: unknown[] = [];
-  for (const j of chain) {
-    const rows = await db.select().from(jurisdictionContext)
-      .where(sql`${jurisdictionContext.jurisdictionId} = ${j.id} and ${jurisdictionContext.status} = 'active'`)
-      .orderBy(desc(jurisdictionContext.version)).limit(1);
-    const p = rows[0];
-    if (p) packs.push({ jurisdiction: j.slug, version: p.version, guidance: p.guidance, memory: p.memory, author: p.author });
-  }
-  return packs;
-}
-
-async function envelopeFor(run: typeof agentRuns.$inferSelect) {
-  const jur = run.jurisdictionId ? (await db.select().from(jurisdictions).where(eq(jurisdictions.id, run.jurisdictionId)).limit(1))[0] : undefined;
-  const tt = run.taxTypeId ? (await db.select().from(taxTypes).where(eq(taxTypes.id, run.taxTypeId)).limit(1))[0] : undefined;
-  return {
-    assignment: {
-      v: 1, assignmentId: run.id, scopeRunId: run.scopeRunId, role: run.role, unit: run.unit,
-      jurisdiction: jur?.slug ?? null, taxType: tt?.slug ?? null, attempt: run.attempt, maxAttempts: MAX_ATTEMPTS,
-      model: run.model ?? loadRoleModels()[run.role]?.model ?? loadRoleModels()[run.role]?.deployment ?? null,
-      contextPacks: await resolveContextPacks(run.jurisdictionId), // pre-run hook: local expert guidance, most specific first
-      instructions: [
-        "Check first: pnpm tax ledger check for this jurisdiction; reuse validated determinations.",
-        "Primary government sources only; vendor content is noted-only.",
-        "End with handoff notes via tax work submit (record --model, --tokens-in/--tokens-out or --tokens-unknown, and --prompt-file).",
-      ],
-    },
-  };
-}
-
 async function workNext(args: string[]) {
   const role = argVal(args, "--role") as Role | undefined;
   const scopeId = argVal(args, "--scope");
@@ -505,8 +473,41 @@ async function workClaim(id: string) {
   if (!run) { out({ error: "assignment_not_found", id }); process.exitCode = 2; return; }
   if (run.status !== "queued") { out({ error: "not_claimable", status: run.status }); process.exitCode = 2; return; }
   if (run.attempt > MAX_ATTEMPTS) { out({ error: "attempt_cap_exceeded", attempt: run.attempt, maxAttempts: MAX_ATTEMPTS }); process.exitCode = 2; return; }
-  await db.update(agentRuns).set({ status: "running", startedAt: new Date(), updatedAt: new Date() }).where(eq(agentRuns.id, id));
+  if (!(await claimAssignment(id))) { out({ error: "not_claimable", status: "claimed concurrently" }); process.exitCode = 2; return; }
   out({ assignmentId: id, status: "running", attempt: run.attempt });
+}
+
+async function workRun(args: string[]) {
+  if (args.includes("--loop")) {
+    const scopeId = argVal(args, "--scope");
+    const num = (name: string) => {
+      const raw = argVal(args, name);
+      if (raw === undefined) return null;
+      const n = Number(raw);
+      return Number.isFinite(n) && n > 0 ? n : NaN;
+    };
+    const capUsd = num("--cap-usd"); const capTokens = num("--cap-tokens");
+    const maxRuns = num("--max-runs") ?? 50; const staleMinutes = num("--stale-minutes") ?? 30;
+    if (!scopeId || [capUsd, capTokens, maxRuns, staleMinutes].some((n) => Number.isNaN(n))) {
+      out({ error: "usage: tax work run --loop --scope <uuid> (--cap-usd N | --cap-tokens N) [--fetch-model|--decision-model|--reviewer-model provider:model] [--model provider:model] [--max-runs 50] [--stale-minutes 30]" }); process.exitCode = 2; return;
+    }
+    const r = await runLoop({
+      scopeId, capUsd, capTokens, maxRuns: maxRuns!, staleMinutes: staleMinutes!, fallbackModel: argVal(args, "--model"),
+      models: { fetch: argVal(args, "--fetch-model"), decision: argVal(args, "--decision-model"), reviewer: argVal(args, "--reviewer-model") },
+    });
+    out(r);
+    if ("error" in r) process.exitCode = 2;
+    return;
+  }
+  const role = argVal(args, "--role");
+  const id = argVal(args, "--id");
+  if (!id && (!role || !(ROLES as readonly string[]).includes(role))) {
+    out({ error: "usage: tax work run --role <role> [--scope <uuid>] [--model provider:model] | --id <uuid> [--model provider:model]" }); process.exitCode = 2; return;
+  }
+  const r = await runAssignment({ role: role as Role | undefined, scopeId: argVal(args, "--scope"), id, model: argVal(args, "--model") });
+  out(r);
+  if ("error" in r) process.exitCode = 2;
+  else if ("result" in r && r.result.status === "failed") process.exitCode = 1;
 }
 
 async function workSubmit(args: string[]) {
@@ -555,8 +556,9 @@ async function workRetry(id: string) {
   if (!run) { out({ error: "assignment_not_found", id }); process.exitCode = 2; return; }
   if (run.status !== "failed") { out({ error: "not_failed", status: run.status }); process.exitCode = 2; return; }
   if (run.attempt >= MAX_ATTEMPTS) { out({ error: "attempt_cap_exceeded", attempt: run.attempt, maxAttempts: MAX_ATTEMPTS, notifyOrchestrator: true }); process.exitCode = 2; return; }
-  const [row] = await db.insert(agentRuns).values({ scopeRunId: run.scopeRunId, role: run.role, model: run.model, jurisdictionId: run.jurisdictionId, taxTypeId: run.taxTypeId, unit: run.unit, status: "queued", attempt: run.attempt + 1 }).returning({ id: agentRuns.id });
-  out({ assignmentId: row?.id ?? null, retryOf: id, attempt: run.attempt + 1, status: "queued" });
+  const r = await queueRetry(id);
+  if (!r.ok) { out({ error: r.error, ...(r.existingId ? { existingRetry: r.existingId } : {}) }); process.exitCode = 2; return; }
+  out({ assignmentId: r.id, retryOf: id, attempt: r.attempt, status: "queued" });
 }
 
 async function contextPackList(slug: string) {
@@ -674,27 +676,6 @@ async function reviewList() {
 
 // ponytail: minimal YAML reader for our own config files (flat role blocks
 // only). Swap for a real YAML parser if configs gain nesting beyond this.
-function loadRoleModels(): Record<string, { provider: string; model: string | null; deployment: string | null }> {
-  const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
-  const path = resolve(repoRoot, "config/models.yaml");
-  const result: Record<string, { provider: string; model: string | null; deployment: string | null }> = {};
-  if (!existsSync(path)) return result;
-  let current: string | null = null;
-  for (const line of readFileSync(path, "utf8").split(/\r?\n/)) {
-    const role = line.match(/^ {2}(orchestrator|fetch|decision|reviewer|embedder):\s*$/);
-    if (role) { current = role[1]!; result[current] = { provider: "harness", model: null, deployment: null }; continue; }
-    if (!current) continue;
-    const kv = line.match(/^ {4}(provider|model|deployment):\s*(.+?)\s*(?:#.*)?$/);
-    if (kv) {
-      const val = kv[2]!.replace(/\$\{([A-Z0-9_]+):-([^}]*)\}/g, (_m, name: string, dflt: string) => process.env[name] ?? dflt);
-      if (kv[1] === "provider") result[current]!.provider = val;
-      if (kv[1] === "model") result[current]!.model = val;
-      if (kv[1] === "deployment") result[current]!.deployment = val || null;
-    }
-  }
-  return result;
-}
-
 async function configShow() {
   const roles = loadRoleModels();
   out({
@@ -743,27 +724,6 @@ async function sourceClassify(args: string[]) {
   const [row] = await db.insert(sources).values({ name: argVal(args, "--name") ?? url, url, publisherType, eligibility, exclusionReason: argVal(args, "--reason") ?? null, jurisdictionId, sourceType: argVal(args, "--type") ?? "agency_guidance", isAuthoritative: publisherType === "government" && eligibility === "eligible" })
     .onConflictDoUpdate({ target: sources.url, set: { publisherType, eligibility, updatedAt: new Date() } }).returning({ id: sources.id });
   out({ sourceId: row?.id ?? null, url, publisherType, eligibility, fetchable: eligibility === "eligible" });
-}
-
-async function doFetch(source: typeof sources.$inferSelect, runId?: string) {
-  const started = Date.now();
-  let httpStatus: number | null = null; let body = ""; let fetchError: string | null = null;
-  try {
-    const res = await fetch(source.url, { headers: { "user-agent": "agent-tax-research/0.1 (primary-source research; respectful rate)" }, redirect: "follow" });
-    httpStatus = res.status; body = await res.text();
-  } catch (e: unknown) { fetchError = e instanceof Error ? e.message : String(e); }
-  const hash = createHash("sha256").update(body).digest("hex");
-  const changed = source.contentHash !== null && source.contentHash !== hash;
-  const firstSeen = source.contentHash === null;
-  let snapshotId: string | null = null;
-  if (!fetchError && httpStatus !== null && httpStatus < 400) {
-    const text = body.replace(/<script[\s\S]*?<\/script>/gi, " ").replace(/<style[\s\S]*?<\/style>/gi, " ").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 200000);
-    const [snap] = await db.insert(sourceSnapshots).values({ sourceId: source.id, contentHash: hash, retrievedText: text, fetchedByRunId: runId ?? null }).returning({ id: sourceSnapshots.id });
-    snapshotId = snap?.id ?? null;
-    await db.update(sources).set({ contentHash: hash, lastCheckedAt: new Date(), ...(changed ? { lastChangedAt: new Date() } : {}), updatedAt: new Date() }).where(eq(sources.id, source.id));
-  }
-  await db.insert(sourceChecks).values({ sourceId: source.id, checkedBy: runId ?? "fetch-cli", httpStatus, contentHash: fetchError ? null : hash, changed, notes: fetchError ?? (firstSeen ? "first snapshot" : changed ? "content changed" : "unchanged") });
-  return { sourceId: source.id, url: source.url, snapshotId, contentHash: fetchError ? null : hash, httpStatus, changed, firstSeen, bytes: body.length, wallMs: Date.now() - started, error: fetchError };
 }
 
 async function fetchSource(args: string[]) {
@@ -818,7 +778,7 @@ async function proposalAddItem(args: string[]) {
   const payloadRaw = payloadFile ? readFileSync(payloadFile, "utf8") : argVal(args, "--payload");
   const citation = argVal(args, "--citation");
   const sourceId = argVal(args, "--source-id"); const snapshotId = argVal(args, "--snapshot-id");
-  if (!proposalId || !targetTable || !payloadRaw) { out({ error: "usage: tax proposal add-item --proposal <uuid> --target tax_rates|tax_rules|tax_licenses|tax_compliance --payload <json> [--citation <text>] [--source-id <uuid>] [--snapshot-id <uuid>]" }); process.exitCode = 2; return; }
+  if (!proposalId || !targetTable || !payloadRaw) { out({ error: "usage: tax proposal add-item --proposal <uuid> --target tax_rates|tax_rules|tax_licenses|tax_compliance|coverage_answers --payload <json> [--citation <text>] [--source-id <uuid>] [--snapshot-id <uuid>]" }); process.exitCode = 2; return; }
   let payload: Record<string, unknown>;
   try { payload = JSON.parse(payloadRaw) as Record<string, unknown>; } catch { out({ error: "payload_not_json" }); process.exitCode = 2; return; }
   const [row] = await db.insert(proposalItems).values({ proposalId, targetTable, payload, citation: citation ?? null, sourceId: sourceId ?? null, snapshotId: snapshotId ?? null, verdict: "pending" }).returning({ id: proposalItems.id });
@@ -882,11 +842,20 @@ async function proposalPublish(id: string) {
   const [prop] = await db.select().from(proposals).where(eq(proposals.id, id)).limit(1);
   if (!prop) { out({ error: "proposal_not_found", id }); process.exitCode = 2; return; }
   if (prop.status !== "approved") { out({ error: "not_approved", status: prop.status, instruction: "Publish requires reviewer pass + human approval." }); process.exitCode = 2; return; }
-  const items = await db.select().from(proposalItems).where(eq(proposalItems.proposalId, id));
+  const { publish: items, skipped } = publishableItems(await db.select().from(proposalItems).where(eq(proposalItems.proposalId, id)));
+  // ponytail: other targets still validate mid-loop (publish is not one
+  // transaction); coverage items are checked up front so they add no
+  // partial-publish path. Wrap the loop in db.transaction when one appears.
+  const badCoverage = items.find((i) => i.targetTable === "coverage_answers" && coveragePayloadError(i.payload));
+  if (badCoverage) { out({ error: coveragePayloadError(badCoverage.payload), proposalItemId: badCoverage.id, instruction: "Nothing was published." }); process.exitCode = 2; return; }
   const published: string[] = [];
   for (const item of items) {
     const p = item.payload as Record<string, unknown>;
-    if (item.targetTable === "tax_rates") {
+    if (item.targetTable === "coverage_answers") {
+      const r = await publishCoverageItem(prop, item);
+      if (!r.ok) { out({ error: r.error, proposalItemId: item.id }); process.exitCode = 2; return; }
+      published.push(`coverage_answers:${r.id}`);
+    } else if (item.targetTable === "tax_rates") {
       if (!prop.taxTypeId) { out({ error: "publish_needs_tax_type", proposalId: id }); process.exitCode = 2; return; }
       let rateJurisdictionId = prop.jurisdictionId;
       if (typeof p.jurisdictionSlug === "string") {
@@ -975,11 +944,11 @@ async function proposalPublish(id: string) {
       }).returning({ id: jurisdictionGeoTable.id });
       if (row) published.push(`jurisdiction_geo:${row.id}`);
     } else {
-      out({ error: "unsupported_target_v1", targetTable: item.targetTable, instruction: "Publish applies tax_rates, tax_rules and product_tax_treatments; other targets fail closed." }); process.exitCode = 2; return;
+      out({ error: "unsupported_target_v1", targetTable: item.targetTable, instruction: "Publish applies tax_rates, tax_rules, tax_compliance, product_tax_treatments, jurisdiction_geo and coverage_answers; other targets fail closed." }); process.exitCode = 2; return;
     }
   }
   await db.update(proposals).set({ status: "published", updatedAt: new Date() }).where(eq(proposals.id, id));
-  out({ proposalId: id, status: "published", published });
+  out({ proposalId: id, status: "published", published, skipped: skipped.map((i) => ({ proposalItemId: i.id, targetTable: i.targetTable, verdict: i.verdict })) });
 }
 
 async function proposalList(status: string) {
@@ -1086,6 +1055,8 @@ async function main() {
     const id = argVal(args, "--id");
     if (!id) { out({ error: "usage: tax work retry --id <uuid>" }); process.exitCode = 2; return; }
     await workRetry(id);
+  } else if (cmd === "work" && args[1] === "run") {
+    await workRun(args);
   } else if (cmd === "context-pack" && args[1] === "list") {
     const slug = argVal(args, "--jurisdiction");
     if (!slug) { out({ error: "usage: tax context-pack list --jurisdiction <slug>" }); process.exitCode = 2; return; }
@@ -1157,6 +1128,8 @@ async function main() {
         "tax work claim --id <uuid>",
         "tax work submit --id <uuid> --status completed|failed [--notes <text>] [--tokens-in N] [--tokens-out N] [--tokens-unknown] [--cost-usd X] [--model <id>] [--prompt-file <path> | --prompt <text>]",
         "tax work retry --id <uuid>",
+        "tax work run --role <role> [--scope <uuid>] [--model provider:model] | --id <uuid>",
+        "tax work run --loop --scope <uuid> (--cap-usd N | --cap-tokens N) [--fetch-model|--decision-model|--reviewer-model provider:model] [--max-runs 50]",
         "tax review list",
         "tax geo ingest --jurisdiction <slug> | --level state|county|place [--fips 48|20]",
         "tax geo resolve --lat <n> --lng <n> [--date <yyyy-mm-dd>]",

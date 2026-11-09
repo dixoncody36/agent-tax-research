@@ -8,7 +8,7 @@ type Row = {
   runs_with_wall: number; median_wall_s: number | null; proposals_extracted: number; proposals_verified: number;
 };
 type BResult = {
-  file: string; generatedAt: string; harness: string | null; roleModels: Record<string, string>; suiteAverage: number | null;
+  file: string; generatedAt: string; harness: string | null; roleModels: Record<string, string>; suiteAverage: number | null; incomplete?: boolean;
   results: { taskId: string; pass: boolean; total: number | null; attempts: number | null; reason: string | null }[];
 };
 type Data = {
@@ -100,7 +100,7 @@ export default function Benchmarks() {
                   ))}
                   <tr>
                     <td><strong>Suite average</strong></td>
-                    {real.map((r) => <td key={r.file}>{r.suiteAverage === null ? NR : `${r.suiteAverage}/100`}<br /><span className="note">{Object.entries(r.roleModels).map(([k, v]) => `${k}: ${v}`).join(" · ")}</span></td>)}
+                    {real.map((r) => <td key={r.file}>{r.suiteAverage === null ? NR : `${r.suiteAverage}/100`}{r.incomplete && <> <span className="pill bad" title="A spend cap stopped this arm early; not comparable to a full run">incomplete</span></>}<br /><span className="note">{Object.entries(r.roleModels).map(([k, v]) => `${k}: ${v}`).join(" · ")}</span></td>)}
                   </tr>
                 </tbody>
               </table>

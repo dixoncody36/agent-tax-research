@@ -17,6 +17,8 @@ The single harness-neutral interface. Every command prints JSON. No agent writes
 | `pnpm tax work claim --id <uuid>` | queued → running (attempt cap enforced) |
 | `pnpm tax work submit --id <uuid> --status completed\|failed [--notes ...] [--tokens-in N] [--tokens-out N] [--cost-usd X]` | Record result + metrics + handoff notes |
 | `pnpm tax work retry --id <uuid>` | Failed run → next attempt (max 3 total; then `attempt_cap_exceeded`, orchestrator notified via status) |
+| `pnpm tax work run --role <role> [--scope <uuid>] [--model provider:model]` or `--id <uuid>` | Headless worker: claim the next queued assignment (or one by id), run its role handler on a model API, record usage + handoff notes + `run_events`; failures raise typed exceptions |
+| `pnpm tax work run --loop --scope <uuid> (--cap-usd N \| --cap-tokens N) [--fetch-model …] [--decision-model …] [--reviewer-model …]` | Drain a scope: Fetch → Decision → Reviewer chained, caps checked per assignment, restart-safe; ends with an orchestrator run |
 | `pnpm tax review list` | Determinations awaiting review (proposal queue arrives with the proposals schema) |
 
 ## Assignment envelope (v1)
@@ -38,3 +40,19 @@ The single harness-neutral interface. Every command prints JSON. No agent writes
 ```
 
 Errors: `{ "error": "<code>", ... }` with process exit code 2. Codes include `outside_context_fence`, `unknown_jurisdiction`, `attempt_cap_exceeded`, `scope_not_found`, `assignment_not_found`.
+
+## Headless worker (model APIs)
+
+`tax work run` executes assignments without a harness session, on any
+`provider:model` from `docs/model-apis.md`. The model is chosen as `--model`,
+then the assignment's own model, then the `config/models.yaml` role slot;
+`harness` slots refuse rather than guess. Handlers by role:
+
+| Role | Does | Never does |
+|---|---|---|
+| fetch | Snapshots registered eligible sources; `noted_only`/`prohibited` are never requested; a changed hash invalidates validated ledger rows (`source_changed`); unit `extract` adds verbatim-backed candidate values | Discover sources by search, judge truth |
+| decision | Answers `unknown` coverage questions from stored snapshots; a `found` needs an excerpt verbatim in the cited snapshot; files one proposal + pending ledger rows | Answer `confirmed_absent`, re-ask validated or in-review questions |
+| reviewer | Re-reads each cited snapshot; code checks (pinned hash, verbatim excerpt, eligible source) fail an item regardless of the model; sets verdicts, proposal → `verified` or `rejected` | Review its own run's proposal, approve, publish |
+
+Nothing a worker writes is published: verified proposals wait in `/review`
+for a human, and `tax proposal publish` applies only `pass` items.
