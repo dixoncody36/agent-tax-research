@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@agent-tax-research/database": "workspace:*",
+    "@anthropic-ai/sdk": "^1.6.0",
     "drizzle-orm": "^0.45.0"
   },
   "devDependencies": {

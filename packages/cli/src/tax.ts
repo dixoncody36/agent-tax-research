@@ -523,7 +523,7 @@ async function workSubmit(args: string[]) {
     process.exitCode = 2; return;
   }
   // Prompt persistence (#58): sha256 always; path for files; inline text
-  // only when small. Hash parity with muse-api/muse-loop datavalues.
+  // only when small. Hash parity with model-api/model-loop datavalues.
   const promptFile = argVal(args, "--prompt-file");
   const promptText = promptFile ? readFileSync(resolve(process.env.INIT_CWD ?? process.cwd(), promptFile), "utf8") : argVal(args, "--prompt");
   const priorDatavalues = (run.datavalues !== null && typeof run.datavalues === "object" && !Array.isArray(run.datavalues))

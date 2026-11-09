@@ -92,6 +92,18 @@ describe("capDecision", () => {
     assert.equal(capDecision(untracked, cfg).stop, false);
     assert.equal(capDecision(untracked, { budgetUsd: 150, capUsd: null, capTokens: 999 }).stop, true);
   });
+  it("budgets per provider: another provider's loop spend does not count", () => {
+    const cfgA = { budgetUsd: 150, budgetLabel: "ANTHROPIC_BUDGET_USD", capUsd: null, capTokens: null };
+    const state = { priorSpentUsd: 149, providerLoopSpentUsd: 0, loopSpentUsd: 5, loopTokens: 0 };
+    assert.equal(capDecision(state, cfgA).stop, false);
+    const over = capDecision({ ...state, providerLoopSpentUsd: 1 }, cfgA);
+    assert.equal(over.stop, true);
+    assert.match(over.reason ?? "", /ANTHROPIC_BUDGET_USD/);
+  });
+  it("no provider budget leaves only the loop caps", () => {
+    const state = { priorSpentUsd: 9999, providerLoopSpentUsd: 9999, loopSpentUsd: 1, loopTokens: 0 };
+    assert.equal(capDecision(state, { budgetUsd: null, capUsd: 10, capTokens: null }).stop, false);
+  });
 });
 
 describe("prompts and determinations", () => {
