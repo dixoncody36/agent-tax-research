@@ -21,6 +21,10 @@ export function findEnvFile(startDir: string): string | null {
   }
 }
 
+// Keys this loader set from a file (not the real environment), so a later
+// .env.local loader may replace them while real env vars keep precedence.
+export const envFileKeys = new Set<string>();
+
 // Loads the nearest .env at or above startDir. An explicit startDir is
 // authoritative (searched alone); with none, INIT_CWD then cwd are tried.
 // Returns the file loaded, or null when none exists. Never throws on a
@@ -36,6 +40,7 @@ export function loadRepoEnv(startDir?: string): string | null {
       const m = /^([A-Z0-9_]+)=(.*)$/.exec(line.trim());
       if (m && process.env[m[1]!] === undefined) {
         process.env[m[1]!] = m[2]!.replace(/^"|"$/g, "");
+        envFileKeys.add(m[1]!);
       }
     }
     return file;

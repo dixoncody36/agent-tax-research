@@ -53,6 +53,9 @@ describe("loopStop / nextStep (pure)", () => {
     assert.equal(nextStep("decision", { decided: 0 }), null);
     assert.equal(nextStep("reviewer", {}), null);
   });
+  it("a decision retry that decided nothing still chains a reviewer for proposed work", () => {
+    assert.deepEqual(nextStep("decision", { decided: 0 }, true), { role: "reviewer", unit: "verify" });
+  });
 });
 
 describe("runLoop (real DB, fake handlers)", () => {
@@ -84,6 +87,26 @@ describe("runLoop (real DB, fake handlers)", () => {
     const retries = await db.select().from(agentRuns).where(and(eq(agentRuns.scopeRunId, scopeId), eq(agentRuns.role, "fetch"), eq(agentRuns.attempt, 2)));
     assert.equal(retries.length, 1);
     assert.equal(retries[0]!.status, "completed");
+  });
+
+  it("a category-restricted scope fails null-tax work before any handler runs", async () => {
+    const [j] = await db.select().from(jurisdictions).where(eq(jurisdictions.id, jurisdictionId));
+    const [restricted] = await db.insert(scopeRuns).values({ profileName: "test-cat", scopeJson: { jurisdictions: [j!.slug], categories: ["sales_tax"] } }).returning();
+    const [queuedRun] = await db.insert(agentRuns).values({ scopeRunId: restricted!.id, role: "fetch", unit: "discover", status: "queued", jurisdictionId }).returning();
+    try {
+      const r = await runLoop({ ...base, scopeId: restricted!.id });
+      assert.ok(!("error" in r));
+      const [after] = await db.select().from(agentRuns).where(eq(agentRuns.id, queuedRun!.id));
+      assert.equal(after!.status, "failed");
+      assert.match(after!.handoffNotes ?? "", /outside_context_fence/);
+      assert.equal(r.runs, 0);
+    } finally {
+      const ids = (await db.select({ id: agentRuns.id }).from(agentRuns).where(eq(agentRuns.scopeRunId, restricted!.id))).map((x) => x.id);
+      await db.delete(runEvents).where(inArray(runEvents.agentRunId, ids));
+      await db.delete(exceptions).where(inArray(exceptions.agentRunId, ids));
+      await db.delete(agentRuns).where(inArray(agentRuns.id, ids));
+      await db.delete(scopeRuns).where(eq(scopeRuns.id, restricted!.id));
+    }
   });
 
   it("stops at the run boundary when the run cap is reached", async () => {

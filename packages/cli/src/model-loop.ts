@@ -112,7 +112,13 @@ const loopSpentByProvider: Partial<Record<ProviderId, number>> = {};
 const state = { loopSpentUsd: null as number | null, loopTokens: 0, uncostedCalls: 0 };
 let stopReason: string | null = null;
 
-class CapStop extends Error {}
+// Carries the tokens of a call that completed but triggered the stop, so the
+// partial determination still reports its real usage.
+class CapStop extends Error {
+  constructor(message: string, readonly tokensIn = 0, readonly tokensOut = 0) {
+    super(message);
+  }
+}
 
 // Fetch role: deterministic HTTP over the task's public government primary.
 // Cached per URL within this process (rounds/models share one snapshot).
@@ -157,6 +163,10 @@ async function complete(role: "decision" | "reviewer", spec: ModelSpec, task: Be
         INSERT INTO agent_runs (role, model, unit, status, started_at, finished_at, attempt, datavalues)
         VALUES (${role}, ${spec.model}, ${`model-loop:${task.id}`}, ${"failed"}, ${startedAt.toISOString()}::timestamptz, ${new Date().toISOString()}::timestamptz, ${attempt},
           ${JSON.stringify({ ...dv, usageUnknown: true, error: String(e).slice(0, 300) })}::jsonb)`;
+      if (capUsd !== null) {
+        stopReason = `${formatSpec(spec)} call failed after it may have been sent (${String(e).slice(0, 120)}); spend under --cap-usd is no longer bounded`;
+        throw new CapStop(stopReason);
+      }
     }
     throw e;
   }
@@ -175,7 +185,7 @@ async function complete(role: "decision" | "reviewer", spec: ModelSpec, task: Be
   if (capUsd !== null && r.costUsd === null) {
     // A dollar cap can't be enforced past a call whose charge is unknown.
     stopReason = `${formatSpec(spec)} returned no cost under --cap-usd; spend is no longer bounded`;
-    throw new CapStop(stopReason);
+    throw new CapStop(stopReason, r.tokensIn, r.tokensOut);
   }
   return { content: r.content, tokensIn: r.tokensIn, tokensOut: r.tokensOut };
 }
@@ -203,6 +213,7 @@ async function runTask(task: BenchTask, decisionSpec: ModelSpec, reviewSpec: Mod
     return { det: toDetermination(task, {}, usage(), `no reviewer pass after ${attempts} attempts`), capStop: false };
   } catch (e) {
     const capStop = e instanceof CapStop;
+    if (capStop) { tokensIn += e.tokensIn; tokensOut += e.tokensOut; }
     if (!capStop) console.error(`task ${task.id} failed: ${String(e).slice(0, 300)}`);
     return { det: toDetermination(task, {}, usage(), capStop ? `stopped: ${stopReason}` : String(e).slice(0, 200)), capStop };
   }
@@ -250,6 +261,11 @@ outer: for (let round = 1; round <= rounds; round++) {
     const resultsFile = resolve(outDir, `results-r${round}-${armLabel(arm)}.json`);
     const scorerOut = execFileSync("node", ["benchmarks/run.mjs", detFile, "--suite", resolve(ROOT, suiteRel), "--out", resultsFile], { cwd: ROOT, encoding: "utf8" });
     const scored = JSON.parse(readFileSync(resultsFile, "utf8")) as { suiteAverage: number };
+    if (stopped) {
+      // The scorer does not know the arm stopped early; mark the results file
+      // so no comparison treats it as a full run.
+      writeFileSync(resultsFile, JSON.stringify({ ...scored, incomplete: true, stopReason, tasksRun: determinations.length }, null, 2) + "\n", "utf8");
+    }
     summaries.push({
       round, decision: formatSpec(arm), reviewer: formatSpec(reviewSpec), suiteAverage: scored.suiteAverage,
       tasksRun: determinations.length, tasksFailed: determinations.filter((d) => d.failed).length,

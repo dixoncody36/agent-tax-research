@@ -25,7 +25,7 @@ export function loadRoleModels(): Record<string, RoleSlot> {
     if (!current) continue;
     const kv = line.match(/^ {4}(provider|model|deployment):\s*(.+?)\s*(?:#.*)?$/);
     if (kv) {
-      const val = kv[2]!.replace(/\$\{([A-Z0-9_]+):-([^}]*)\}/g, (_m, name: string, dflt: string) => process.env[name] ?? dflt);
+      const val = kv[2]!.replace(/^(["'])(.*)\1$/, "$2").replace(/\$\{([A-Z0-9_]+):-([^}]*)\}/g, (_m, name: string, dflt: string) => process.env[name] ?? dflt);
       if (kv[1] === "provider") result[current]!.provider = val;
       if (kv[1] === "model") result[current]!.model = val;
       if (kv[1] === "deployment") result[current]!.deployment = val || null;
@@ -74,9 +74,14 @@ export type Envelope = Awaited<ReturnType<typeof envelopeFor>>["assignment"];
 
 // queued -> running in one statement, so two workers can never both claim
 // the same assignment. Null when it is missing, not queued, or over the cap.
-export async function claimAssignment(id: string): Promise<AgentRun | null> {
+// `spec` (provider:model) is stored with the claim so an interrupted run can
+// be retried on the same model without the original --model flag.
+export async function claimAssignment(id: string, spec?: string): Promise<AgentRun | null> {
   const [run] = await db.update(agentRuns)
-    .set({ status: "running", startedAt: new Date(), updatedAt: new Date() })
+    .set({
+      status: "running", startedAt: new Date(), updatedAt: new Date(),
+      ...(spec ? { datavalues: sql`coalesce(${agentRuns.datavalues}, '{}'::jsonb) || ${JSON.stringify({ spec })}::jsonb` } : {}),
+    })
     .where(and(eq(agentRuns.id, id), eq(agentRuns.status, "queued"), lte(agentRuns.attempt, MAX_ATTEMPTS)))
     .returning();
   return run ?? null;
@@ -87,6 +92,30 @@ export async function claimAssignment(id: string): Promise<AgentRun | null> {
 export function retryModel(run: AgentRun): string | null {
   const dv = (run.datavalues ?? {}) as Record<string, unknown>;
   return typeof dv.spec === "string" ? dv.spec : run.model;
+}
+
+export type RetryResult =
+  | { ok: true; id: string; attempt: number }
+  | { ok: false; error: "not_failed" | "attempt_cap_exceeded" | "already_retried"; existingId?: string };
+
+// The one way a failed run gets its next attempt (CLI retry, web Retry, loop
+// recovery). Lineage is datavalues.retryOf; a per-run advisory lock makes
+// check-then-insert atomic, so concurrent requests queue exactly one retry.
+export async function queueRetry(failedId: string): Promise<RetryResult> {
+  return db.transaction(async (tx) => {
+    await tx.execute(sql`select pg_advisory_xact_lock(hashtext(${`retry:${failedId}`}))`);
+    const [run] = await tx.select().from(agentRuns).where(eq(agentRuns.id, failedId)).limit(1);
+    if (!run || run.status !== "failed") return { ok: false, error: "not_failed" } as const;
+    if (run.attempt >= MAX_ATTEMPTS) return { ok: false, error: "attempt_cap_exceeded" } as const;
+    const [existing] = await tx.select({ id: agentRuns.id }).from(agentRuns)
+      .where(sql`${agentRuns.datavalues}->>'retryOf' = ${failedId}`).limit(1);
+    if (existing) return { ok: false, error: "already_retried", existingId: existing.id } as const;
+    const [row] = await tx.insert(agentRuns).values({
+      scopeRunId: run.scopeRunId, role: run.role, model: retryModel(run), jurisdictionId: run.jurisdictionId,
+      taxTypeId: run.taxTypeId, unit: run.unit, status: "queued", attempt: run.attempt + 1, datavalues: { retryOf: failedId },
+    }).returning({ id: agentRuns.id });
+    return { ok: true, id: row!.id, attempt: run.attempt + 1 } as const;
+  });
 }
 
 export type FinishFields = {

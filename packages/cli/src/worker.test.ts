@@ -3,7 +3,7 @@ import { after, describe, it } from "node:test";
 import { eq, inArray } from "drizzle-orm";
 import { agentRuns, client, db, exceptions, runEvents } from "@agent-tax-research/database";
 import { ConfigError } from "./providers.js";
-import { retryModel } from "./work-queue.js";
+import { queueRetry, retryModel } from "./work-queue.js";
 import { registerHandler, resolveRunModel, runAssignment } from "./worker.js";
 
 // The worker decides which paid API a run hits and how a failure is
@@ -98,6 +98,39 @@ describe("runAssignment (real DB)", () => {
     created.push(next!.id);
     const r = await runAssignment({ id: next!.id });
     assert.ok("result" in r, "attempt 2 must claim and run, not stop on a provider-less model");
+  });
+
+  it("queueRetry queues exactly one retry per failed run, even when asked concurrently", async () => {
+    const run = await queued("test-no-handler");
+    await runAssignment({ id: run.id, model: "meta:muse-spark-1.3" });
+    const [a, b] = await Promise.all([queueRetry(run.id), queueRetry(run.id)]);
+    const oks = [a, b].filter((r) => r.ok);
+    assert.equal(oks.length, 1);
+    const other = [a, b].find((r) => !r.ok);
+    assert.ok(other && !other.ok && other.error === "already_retried");
+    if (oks[0]?.ok) created.push(oks[0].id);
+  });
+
+  it("a missing provider key hands the assignment back without spending an attempt", async () => {
+    const saved = process.env.ANTHROPIC_API_KEY;
+    delete process.env.ANTHROPIC_API_KEY;
+    try {
+      registerHandler("fetch", "test-call", async (ctx) => { await ctx.call("hello"); return { notes: "unreachable" }; });
+      const run = await queued("test-call");
+      const r = await runAssignment({ id: run.id, model: "anthropic:claude-haiku-5-5" });
+      assert.ok("error" in r && r.error === "config");
+      const [row] = await db.select().from(agentRuns).where(eq(agentRuns.id, run.id));
+      assert.equal(row!.status, "queued");
+      assert.equal(row!.attempt, 1);
+    } finally {
+      if (saved !== undefined) process.env.ANTHROPIC_API_KEY = saved;
+    }
+  });
+
+  it("an empty model after the provider prefix is a config error, not a crash", async () => {
+    const run = await queued("test-config");
+    const r = await runAssignment({ id: run.id, model: "anthropic:" });
+    assert.ok("error" in r && r.error === "config");
   });
 
   it("a non-queued assignment is not claimable twice", async () => {

@@ -4,7 +4,7 @@ import type { AddressInfo } from "node:net";
 import { after, before, describe, it } from "node:test";
 import { eq, inArray } from "drizzle-orm";
 import {
-  agentRuns, client, db, exceptions, jurisdictions, runEvents, sourceChecks, sourceSnapshots, sources, researchLedger,
+  agentRuns, client, coverageAnswers, db, exceptions, jurisdictions, runEvents, sourceChecks, sourceSnapshots, sources, researchLedger,
 } from "@agent-tax-research/database";
 import { failureType, keepVerbatimCandidates, planFetch } from "./fetch-handler.js";
 import { runAssignment } from "./worker.js";
@@ -46,6 +46,7 @@ after(async () => {
   await db.delete(runEvents).where(inArray(runEvents.agentRunId, runIds));
   await db.delete(exceptions).where(eq(exceptions.jurisdictionId, jurisdictionId));
   await db.delete(researchLedger).where(eq(researchLedger.jurisdictionId, jurisdictionId));
+  await db.delete(coverageAnswers).where(eq(coverageAnswers.jurisdictionId, jurisdictionId));
   await db.delete(sourceChecks).where(inArray(sourceChecks.sourceId, sourceIds));
   await db.delete(sourceSnapshots).where(inArray(sourceSnapshots.sourceId, sourceIds));
   await db.delete(agentRuns).where(inArray(agentRuns.id, runIds));
@@ -112,12 +113,19 @@ describe("fetch handler (real DB, local server)", () => {
     const [row] = await db.insert(researchLedger).values({
       jurisdictionId, questionKey: "state_rate", determination: "6.25%", status: "validated", snapshotHash: src!.contentHash,
     }).returning();
+    const [cov] = await db.insert(coverageAnswers).values({
+      jurisdictionId, questionKey: "state_rate", status: "found", answer: "6.25%", evidence: { snapshotHash: src!.contentHash, excerpt: "rate is 6.25 percent" },
+    }).returning();
     pageText = "Effective next quarter the state sales and use tax rate is 6.50 percent.";
     const r = await fetchRun();
     assert.ok("result" in r && r.result.status === "completed");
     const [after] = await db.select().from(researchLedger).where(eq(researchLedger.id, row!.id));
     assert.equal(after!.status, "invalidated");
     assert.equal(after!.invalidatedReason, "source_changed");
+    const [reopened] = await db.select().from(coverageAnswers).where(eq(coverageAnswers.id, cov!.id));
+    assert.equal(reopened!.status, "unknown");
+    const history = (reopened!.datavalues as { history: { status: string; answer: string }[] }).history;
+    assert.deepEqual(history.map((h) => [h.status, h.answer]), [["found", "6.25%"]]);
     const snaps = await db.select().from(sourceSnapshots).where(eq(sourceSnapshots.sourceId, sourceIds[0]!));
     assert.equal(snaps.length, 2);
   });

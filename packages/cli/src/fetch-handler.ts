@@ -1,5 +1,5 @@
-import { and, eq, isNull, or } from "drizzle-orm";
-import { db, exceptions, researchLedger, sourceSnapshots, sources } from "@agent-tax-research/database";
+import { and, eq, inArray, isNull, ne, or, sql } from "drizzle-orm";
+import { coverageAnswers, db, exceptions, proposalItems, proposals, researchLedger, sourceSnapshots, sources } from "@agent-tax-research/database";
 import { snapshotWindow, verbatimIn } from "./evidence.js";
 import { extractJsonObject } from "./muse-loop-lib.js";
 import { doFetch, type FetchBundle, type Source } from "./source-fetch.js";
@@ -56,6 +56,39 @@ export function keepVerbatimCandidates(raw: Record<string, unknown> | null, text
   return { kept, dropped };
 }
 
+// Coverage answers determined against text that no longer exists go back to
+// unknown so Decision re-asks them; the prior answer moves to history
+// (superseded, never edited away — AGENTS.md rule 6).
+async function reopenCoverage(jurisdictionId: string, oldHash: string, url: string): Promise<number> {
+  const rows = await db.select().from(coverageAnswers).where(and(
+    eq(coverageAnswers.jurisdictionId, jurisdictionId), ne(coverageAnswers.status, "unknown"),
+    sql`${coverageAnswers.evidence}->>'snapshotHash' = ${oldHash}`,
+  ));
+  for (const row of rows) {
+    const dv = (row.datavalues ?? {}) as Record<string, unknown>;
+    const history = Array.isArray(dv.history) ? dv.history : [];
+    await db.update(coverageAnswers).set({
+      status: "unknown", answer: null, evidence: { reopened: "source_changed", previousSnapshotHash: oldHash, sourceUrl: url },
+      datavalues: { ...dv, history: [...history, { status: row.status, answer: row.answer, evidence: row.evidence, answeredByRunId: row.answeredByRunId, supersededAt: new Date().toISOString(), reason: "source_changed" }] },
+      updatedAt: new Date(),
+    }).where(eq(coverageAnswers.id, row.id));
+  }
+  return rows.length;
+}
+
+// Unpublished proposal items citing the old text can no longer publish, and
+// no longer block Decision from re-asking (it skips only non-failed items).
+async function markStaleItems(jurisdictionId: string, oldHash: string): Promise<number> {
+  const open = await db.select({ id: proposals.id }).from(proposals)
+    .where(and(eq(proposals.jurisdictionId, jurisdictionId), inArray(proposals.status, ["proposed", "verified", "approved"])));
+  if (open.length === 0) return 0;
+  const rows = await db.update(proposalItems)
+    .set({ verdict: "fail", updatedAt: new Date(), datavalues: sql`coalesce(${proposalItems.datavalues}, '{}'::jsonb) || '{"stale":"source_changed"}'::jsonb` })
+    .where(and(inArray(proposalItems.proposalId, open.map((p) => p.id)), ne(proposalItems.verdict, "fail"), sql`${proposalItems.payload}->>'snapshotHash' = ${oldHash}`))
+    .returning({ id: proposalItems.id });
+  return rows.length;
+}
+
 async function fetchRole(ctx: HandlerContext) {
   const { run, envelope } = ctx;
   if (!run.jurisdictionId) throw new HandlerError("structure_unknown", "fetch assignment has no jurisdiction");
@@ -75,6 +108,8 @@ async function fetchRole(ctx: HandlerContext) {
   const snapshots: Record<string, unknown>[] = [];
   const failures: Record<string, unknown>[] = [];
   let invalidated = 0;
+  let reopened = 0;
+  let staleItems = 0;
   for (const source of plan.fetch) {
     const b = await doFetch(source, run.id, { skipUnchanged: true });
     if (b.error || b.httpStatus === null || b.httpStatus >= 400) {
@@ -90,6 +125,8 @@ async function fetchRole(ctx: HandlerContext) {
         .where(and(eq(researchLedger.jurisdictionId, run.jurisdictionId), eq(researchLedger.status, "validated"), eq(researchLedger.snapshotHash, b.previousHash)))
         .returning({ id: researchLedger.id });
       invalidated += rows.length;
+      reopened += await reopenCoverage(run.jurisdictionId, b.previousHash, b.url);
+      staleItems += await markStaleItems(run.jurisdictionId, b.previousHash);
     }
     await ctx.event("source_fetched", { url: b.url, snapshotId: b.snapshotId, changed: b.changed, reused: b.reusedSnapshot, httpStatus: b.httpStatus });
     snapshots.push({ sourceId: b.sourceId, url: b.url, snapshotId: b.snapshotId, contentHash: b.contentHash, changed: b.changed, firstSeen: b.firstSeen, reused: b.reusedSnapshot });
@@ -125,10 +162,12 @@ async function fetchRole(ctx: HandlerContext) {
     plan.gated.length ? `Login-gated, needs a human (${plan.gated.length}).` : "",
     failures.length ? `Failed (${failures.length}, exceptions raised): ${failures.map((f) => `${f.url} [${f.exceptionType}]`).join(", ")}.` : "",
     invalidated ? `Source changed: ${invalidated} validated ledger rows invalidated (source_changed) for targeted rework.` : "",
+    reopened ? `Source changed: ${reopened} coverage answers citing the old text reopened as unknown (prior answer kept in history).` : "",
+    staleItems ? `${staleItems} open proposal items citing the old text marked stale (fail) so they cannot publish.` : "",
     run.unit === "extract" ? `Extracted ${candidates.length} verbatim-backed candidates (${droppedCandidates} dropped: excerpt not in snapshot).` : "",
     extractionFailures.length ? `Extraction failed on ${extractionFailures.length} snapshots (snapshots kept): ${String(extractionFailures[0]?.error)}.` : "",
   ].filter(Boolean).join(" ");
-  return { notes, datavalues: { evidenceBundle: { snapshots, skipped: plan.skipped, failures, candidates, extractionFailures, ledgerInvalidated: invalidated } } };
+  return { notes, datavalues: { evidenceBundle: { snapshots, skipped: plan.skipped, failures, candidates, extractionFailures, ledgerInvalidated: invalidated, coverageReopened: reopened, staleItems } } };
 }
 
 registerHandler("fetch", "*", fetchRole);

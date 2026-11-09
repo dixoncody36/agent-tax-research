@@ -86,18 +86,23 @@ describe("env precedence", () => {
   it(".env.local replaces values that came from .env", () => {
     const base = { ANTHROPIC_API_KEY: "", ANTHROPIC_BUDGET_USD: "" };
     const env: NodeJS.ProcessEnv = { ...base };
-    mergeEnv(env, base, { ANTHROPIC_API_KEY: "sk-local", ANTHROPIC_BUDGET_USD: "10" });
+    mergeEnv(env, base, { ANTHROPIC_API_KEY: "sk-local", ANTHROPIC_BUDGET_USD: "10" }, new Set(Object.keys(base)));
     assert.equal(env.ANTHROPIC_API_KEY, "sk-local");
     assert.equal(env.ANTHROPIC_BUDGET_USD, "10");
   });
   it("real environment variables win over both files", () => {
     const env: NodeJS.ProcessEnv = { ANTHROPIC_API_KEY: "sk-real" };
-    mergeEnv(env, { ANTHROPIC_API_KEY: "" }, { ANTHROPIC_API_KEY: "sk-local" });
+    mergeEnv(env, { ANTHROPIC_API_KEY: "" }, { ANTHROPIC_API_KEY: "sk-local" }, new Set());
     assert.equal(env.ANTHROPIC_API_KEY, "sk-real");
+  });
+  it("a shell value equal to the .env value still wins (provenance, not equality)", () => {
+    const env: NodeJS.ProcessEnv = { ANTHROPIC_BUDGET_USD: "0" };
+    mergeEnv(env, { ANTHROPIC_BUDGET_USD: "0" }, { ANTHROPIC_BUDGET_USD: "50" }, new Set());
+    assert.equal(env.ANTHROPIC_BUDGET_USD, "0");
   });
   it(".env fills what nothing else set; parse strips quotes", () => {
     const env: NodeJS.ProcessEnv = {};
-    mergeEnv(env, parseEnvText('DB_PORT=5433\nNAME="quoted"\n# comment'), {});
+    mergeEnv(env, parseEnvText('DB_PORT=5433\nNAME="quoted"\n# comment'), {}, new Set());
     assert.deepEqual(env, { DB_PORT: "5433", NAME: "quoted" });
   });
 });

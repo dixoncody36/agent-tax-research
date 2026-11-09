@@ -289,10 +289,10 @@ export default function Explore() {
                 )
               )}
 
-              {tab === "ledger" && detail.coverage.some((c) => c.status !== "unknown") && (
+              {tab === "ledger" && detail.coverage.length > 0 && (
                 <>
-                  <h2 className="sub">Answered coverage questions</h2>
-                  <table>
+                  <h2 className="sub">Coverage questions</h2>
+                  {detail.coverage.some((c) => c.status !== "unknown") && <table>
                     <thead><tr><th>Question</th><th>Status</th><th>Answer and evidence</th></tr></thead>
                     <tbody>
                       {detail.coverage.filter((c) => c.status !== "unknown").map((c, i) => (
@@ -305,7 +305,7 @@ export default function Explore() {
                         </tr>
                       ))}
                     </tbody>
-                  </table>
+                  </table>}
                   {detail.coverage.some((c) => c.status === "unknown") && (
                     <p className="note">{detail.coverage.filter((c) => c.status === "unknown").length.toLocaleString()} questions still unknown.</p>
                   )}
@@ -313,7 +313,7 @@ export default function Explore() {
                 </>
               )}
               {tab === "ledger" && (
-                detail.ledger.length === 0 ? <Empty why="No research determinations recorded yet — this jurisdiction has not been researched by an agent." /> : (
+                detail.ledger.length === 0 ? <Empty why="No research-ledger determinations recorded for this jurisdiction yet." /> : (
                   <table>
                     <thead><tr><th>Question</th><th>Determination</th><th>Status</th><th>Snapshot</th></tr></thead>
                     <tbody>
