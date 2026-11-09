@@ -24,13 +24,23 @@ Put the keys in `.env.local` at the repo root. It is gitignored via `.env.*`.
 Set only the providers you use.
 
 ```
-MODEL_API_KEY=LLM|your_id|your_secret        # https://dev.meta.ai
-ANTHROPIC_API_KEY=sk-ant-...                 # https://platform.claude.com
-OPENROUTER_API_KEY=sk-or-...                 # https://openrouter.ai/keys
-OPENROUTER_DEFAULT_MODEL=openai/gpt-5        # optional; used when no model is named
-ANTHROPIC_BUDGET_USD=50                      # optional per-provider spend ceilings
+# https://dev.meta.ai
+MODEL_API_KEY=LLM|your_id|your_secret
+# https://platform.claude.com
+ANTHROPIC_API_KEY=sk-ant-...
+# https://openrouter.ai/keys
+OPENROUTER_API_KEY=sk-or-...
+# Optional: used when a run names openrouter but no model
+OPENROUTER_DEFAULT_MODEL=openai/gpt-5
+# Optional per-provider spend ceilings (USD; 0 blocks paid calls)
+ANTHROPIC_BUDGET_USD=50
 OPENROUTER_BUDGET_USD=25
 ```
+
+The loader reads whole values, so comments go on their own lines, never
+after a value. `.env.local` overrides `.env`, and real environment
+variables override both. A malformed budget or rate is an error before any
+call, never silently ignored.
 
 `pnpm model:api models` shows which keys are configured, each provider's
 default model and rate card, and its budget.
@@ -77,7 +87,17 @@ pnpm model:loop --cap-tokens 500000 --models muse-spark-1.3      # no Muse rate 
 Every call writes an `agent_runs` row with `role`, the model that served it,
 tokens, `cost_usd`, and `datavalues.provider`, so `pnpm tax analytics` and
 `pnpm model:api budget` show spend next to harness runs. Each provider's
-budget is checked before every call, counting only that provider's spend.
+budget is checked before every call against that provider's recorded spend,
+re-read each time so other runners' spend counts too. A call that fails
+after it was sent is recorded as `failed` with `usageUnknown`, and the
+budget report counts those as `uncostedRuns`, so reported spend is a lower
+bound whenever that count is above zero. Under `--cap-usd`, a response
+without a cost stops the loop.
+
+In the loop, a task scores only with a reviewer `pass`. A task that uses up
+its attempts is recorded as `failed` with an empty answer. When a cap stops
+the loop, the arm it was on is still written and scored, marked
+`incomplete`.
 
 A model-API run is a distinct run identity for the publish gates, like any
 harness run. These runners write runs and benchmark results only: they
@@ -90,9 +110,10 @@ last.
   `logit_bias`, so the runner sends only `model`, `messages`, and
   `max_tokens`.
 - **Claude API** calls use the official `@anthropic-ai/sdk`. Current Claude
-  models always think, so `max_tokens` is raised to at least 16,000 so the
-  thinking can't consume the whole answer; you are billed for tokens
-  generated, not for the ceiling. Opus 5.5, Opus 5, Sonnet 5.5 and Fable 5.1
+  models always think, so `max_tokens` defaults to 16,000 for Claude, and a
+  lower explicit `--max-tokens` is rejected, because thinking could use up
+  the whole answer. You are billed for tokens generated, not for the
+  ceiling. Opus 5.5, Opus 5, Sonnet 5.5 and Fable 5.1
   send server-side refusal fallbacks (`fallbacks: "default"`), and the run
   records the model that actually served the turn. A refusal returns no
   content and is recorded with `stopReason: "refusal"`.

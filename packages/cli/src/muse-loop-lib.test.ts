@@ -100,6 +100,11 @@ describe("capDecision", () => {
     assert.equal(over.stop, true);
     assert.match(over.reason ?? "", /ANTHROPIC_BUDGET_USD/);
   });
+  it("a zero budget blocks even with no costed history", () => {
+    const d = capDecision({ priorSpentUsd: null, loopSpentUsd: null, loopTokens: 0 }, { budgetUsd: 0, budgetLabel: "OPENROUTER_BUDGET_USD", capUsd: null, capTokens: null });
+    assert.equal(d.stop, true);
+    assert.match(d.reason ?? "", /OPENROUTER_BUDGET_USD is \$0/);
+  });
   it("no provider budget leaves only the loop caps", () => {
     const state = { priorSpentUsd: 9999, providerLoopSpentUsd: 9999, loopSpentUsd: 1, loopTokens: 0 };
     assert.equal(capDecision(state, { budgetUsd: null, capUsd: 10, capTokens: null }).stop, false);
@@ -120,5 +125,11 @@ describe("prompts and determinations", () => {
     assert.equal(d.citations[0]!.publisherType, "government");
     assert.equal(d.attempts, 2);
     assert.equal(d.wallSeconds, 1.23);
+  });
+  it("a failed determination has no answer and no citation, so it scores zero", () => {
+    const d = toDetermination(task, { rateValue: 6.25 }, { tokensIn: 10, tokensOut: 5, wallSeconds: 1, attempts: 3 }, "no reviewer pass after 3 attempts");
+    assert.deepEqual(d.answer, {});
+    assert.deepEqual(d.citations, []);
+    assert.equal(d.failed, "no reviewer pass after 3 attempts");
   });
 });
