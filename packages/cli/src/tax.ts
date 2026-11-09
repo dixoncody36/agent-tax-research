@@ -33,6 +33,7 @@ import { runGeoIngest } from "./geo-ingest.js";
 import { runGeoResolve, runRateAtPoint } from "./geo-resolve.js";
 import { MAX_ATTEMPTS, claimAssignment, envelopeFor, loadRoleModels, resolveContextPacks } from "./work-queue.js";
 import { runAssignment } from "./worker.js";
+import { runLoop } from "./worker-loop.js";
 import { doFetch } from "./source-fetch.js";
 import { coveragePayloadError, publishCoverageItem, publishableItems } from "./coverage-publish.js";
 import "./handlers.js";
@@ -477,6 +478,27 @@ async function workClaim(id: string) {
 }
 
 async function workRun(args: string[]) {
+  if (args.includes("--loop")) {
+    const scopeId = argVal(args, "--scope");
+    const num = (name: string) => {
+      const raw = argVal(args, name);
+      if (raw === undefined) return null;
+      const n = Number(raw);
+      return Number.isFinite(n) && n > 0 ? n : NaN;
+    };
+    const capUsd = num("--cap-usd"); const capTokens = num("--cap-tokens");
+    const maxRuns = num("--max-runs") ?? 50; const staleMinutes = num("--stale-minutes") ?? 30;
+    if (!scopeId || [capUsd, capTokens, maxRuns, staleMinutes].some((n) => Number.isNaN(n))) {
+      out({ error: "usage: tax work run --loop --scope <uuid> (--cap-usd N | --cap-tokens N) [--fetch-model|--decision-model|--reviewer-model provider:model] [--model provider:model] [--max-runs 50] [--stale-minutes 30]" }); process.exitCode = 2; return;
+    }
+    const r = await runLoop({
+      scopeId, capUsd, capTokens, maxRuns: maxRuns!, staleMinutes: staleMinutes!, fallbackModel: argVal(args, "--model"),
+      models: { fetch: argVal(args, "--fetch-model"), decision: argVal(args, "--decision-model"), reviewer: argVal(args, "--reviewer-model") },
+    });
+    out(r);
+    if ("error" in r) process.exitCode = 2;
+    return;
+  }
   const role = argVal(args, "--role");
   const id = argVal(args, "--id");
   if (!id && (!role || !(ROLES as readonly string[]).includes(role))) {
@@ -1106,6 +1128,7 @@ async function main() {
         "tax work submit --id <uuid> --status completed|failed [--notes <text>] [--tokens-in N] [--tokens-out N] [--tokens-unknown] [--cost-usd X] [--model <id>] [--prompt-file <path> | --prompt <text>]",
         "tax work retry --id <uuid>",
         "tax work run --role <role> [--scope <uuid>] [--model provider:model] | --id <uuid>",
+        "tax work run --loop --scope <uuid> (--cap-usd N | --cap-tokens N) [--fetch-model|--decision-model|--reviewer-model provider:model] [--max-runs 50]",
         "tax review list",
         "tax geo ingest --jurisdiction <slug> | --level state|county|place [--fips 48|20]",
         "tax geo resolve --lat <n> --lng <n> [--date <yyyy-mm-dd>]",
