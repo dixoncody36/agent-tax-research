@@ -31,6 +31,8 @@ import {
 } from "@agent-tax-research/database";
 import { runGeoIngest } from "./geo-ingest.js";
 import { runGeoResolve, runRateAtPoint } from "./geo-resolve.js";
+import { MAX_ATTEMPTS, claimAssignment, envelopeFor, loadRoleModels, resolveContextPacks } from "./work-queue.js";
+import { runAssignment } from "./worker.js";
 
 /**
  * tax CLI — the harness-neutral work contract (foundation cut).
@@ -366,7 +368,6 @@ async function contextCompile(profileArg: string, save: boolean) {
 // ---------------------------------------------------------------------------
 const ROLES = ["orchestrator", "fetch", "decision", "reviewer"] as const;
 type Role = (typeof ROLES)[number];
-const MAX_ATTEMPTS = 3;
 
 function argVal(args: string[], name: string): string | undefined {
   const i = args.indexOf(name);
@@ -450,43 +451,6 @@ async function workEnqueue(args: string[]) {
   out({ assignmentId: row?.id ?? null, scopeRunId: scopeId, role, unit, jurisdiction: jurSlug, taxType: taxTypeSlug ?? null, status: "queued", attempt: 1 });
 }
 
-async function resolveContextPacks(jurisdictionId: string | null) {
-  if (!jurisdictionId) return [];
-  const all = await db.select().from(jurisdictions);
-  const byId = new Map(all.map((j) => [j.id, j]));
-  const chain: typeof all = [];
-  let cur = byId.get(jurisdictionId);
-  const seen = new Set<string>();
-  while (cur && !seen.has(cur.id)) { seen.add(cur.id); chain.push(cur); cur = cur.parentId ? byId.get(cur.parentId) : undefined; }
-  const packs: unknown[] = [];
-  for (const j of chain) {
-    const rows = await db.select().from(jurisdictionContext)
-      .where(sql`${jurisdictionContext.jurisdictionId} = ${j.id} and ${jurisdictionContext.status} = 'active'`)
-      .orderBy(desc(jurisdictionContext.version)).limit(1);
-    const p = rows[0];
-    if (p) packs.push({ jurisdiction: j.slug, version: p.version, guidance: p.guidance, memory: p.memory, author: p.author });
-  }
-  return packs;
-}
-
-async function envelopeFor(run: typeof agentRuns.$inferSelect) {
-  const jur = run.jurisdictionId ? (await db.select().from(jurisdictions).where(eq(jurisdictions.id, run.jurisdictionId)).limit(1))[0] : undefined;
-  const tt = run.taxTypeId ? (await db.select().from(taxTypes).where(eq(taxTypes.id, run.taxTypeId)).limit(1))[0] : undefined;
-  return {
-    assignment: {
-      v: 1, assignmentId: run.id, scopeRunId: run.scopeRunId, role: run.role, unit: run.unit,
-      jurisdiction: jur?.slug ?? null, taxType: tt?.slug ?? null, attempt: run.attempt, maxAttempts: MAX_ATTEMPTS,
-      model: run.model ?? loadRoleModels()[run.role]?.model ?? loadRoleModels()[run.role]?.deployment ?? null,
-      contextPacks: await resolveContextPacks(run.jurisdictionId), // pre-run hook: local expert guidance, most specific first
-      instructions: [
-        "Check first: pnpm tax ledger check for this jurisdiction; reuse validated determinations.",
-        "Primary government sources only; vendor content is noted-only.",
-        "End with handoff notes via tax work submit (record --model, --tokens-in/--tokens-out or --tokens-unknown, and --prompt-file).",
-      ],
-    },
-  };
-}
-
 async function workNext(args: string[]) {
   const role = argVal(args, "--role") as Role | undefined;
   const scopeId = argVal(args, "--scope");
@@ -505,8 +469,20 @@ async function workClaim(id: string) {
   if (!run) { out({ error: "assignment_not_found", id }); process.exitCode = 2; return; }
   if (run.status !== "queued") { out({ error: "not_claimable", status: run.status }); process.exitCode = 2; return; }
   if (run.attempt > MAX_ATTEMPTS) { out({ error: "attempt_cap_exceeded", attempt: run.attempt, maxAttempts: MAX_ATTEMPTS }); process.exitCode = 2; return; }
-  await db.update(agentRuns).set({ status: "running", startedAt: new Date(), updatedAt: new Date() }).where(eq(agentRuns.id, id));
+  if (!(await claimAssignment(id))) { out({ error: "not_claimable", status: "claimed concurrently" }); process.exitCode = 2; return; }
   out({ assignmentId: id, status: "running", attempt: run.attempt });
+}
+
+async function workRun(args: string[]) {
+  const role = argVal(args, "--role");
+  const id = argVal(args, "--id");
+  if (!id && (!role || !(ROLES as readonly string[]).includes(role))) {
+    out({ error: "usage: tax work run --role <role> [--scope <uuid>] [--model provider:model] | --id <uuid> [--model provider:model]" }); process.exitCode = 2; return;
+  }
+  const r = await runAssignment({ role: role as Role | undefined, scopeId: argVal(args, "--scope"), id, model: argVal(args, "--model") });
+  out(r);
+  if ("error" in r) process.exitCode = 2;
+  else if ("result" in r && r.result.status === "failed") process.exitCode = 1;
 }
 
 async function workSubmit(args: string[]) {
@@ -674,27 +650,6 @@ async function reviewList() {
 
 // ponytail: minimal YAML reader for our own config files (flat role blocks
 // only). Swap for a real YAML parser if configs gain nesting beyond this.
-function loadRoleModels(): Record<string, { provider: string; model: string | null; deployment: string | null }> {
-  const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
-  const path = resolve(repoRoot, "config/models.yaml");
-  const result: Record<string, { provider: string; model: string | null; deployment: string | null }> = {};
-  if (!existsSync(path)) return result;
-  let current: string | null = null;
-  for (const line of readFileSync(path, "utf8").split(/\r?\n/)) {
-    const role = line.match(/^ {2}(orchestrator|fetch|decision|reviewer|embedder):\s*$/);
-    if (role) { current = role[1]!; result[current] = { provider: "harness", model: null, deployment: null }; continue; }
-    if (!current) continue;
-    const kv = line.match(/^ {4}(provider|model|deployment):\s*(.+?)\s*(?:#.*)?$/);
-    if (kv) {
-      const val = kv[2]!.replace(/\$\{([A-Z0-9_]+):-([^}]*)\}/g, (_m, name: string, dflt: string) => process.env[name] ?? dflt);
-      if (kv[1] === "provider") result[current]!.provider = val;
-      if (kv[1] === "model") result[current]!.model = val;
-      if (kv[1] === "deployment") result[current]!.deployment = val || null;
-    }
-  }
-  return result;
-}
-
 async function configShow() {
   const roles = loadRoleModels();
   out({
@@ -1086,6 +1041,8 @@ async function main() {
     const id = argVal(args, "--id");
     if (!id) { out({ error: "usage: tax work retry --id <uuid>" }); process.exitCode = 2; return; }
     await workRetry(id);
+  } else if (cmd === "work" && args[1] === "run") {
+    await workRun(args);
   } else if (cmd === "context-pack" && args[1] === "list") {
     const slug = argVal(args, "--jurisdiction");
     if (!slug) { out({ error: "usage: tax context-pack list --jurisdiction <slug>" }); process.exitCode = 2; return; }
@@ -1157,6 +1114,7 @@ async function main() {
         "tax work claim --id <uuid>",
         "tax work submit --id <uuid> --status completed|failed [--notes <text>] [--tokens-in N] [--tokens-out N] [--tokens-unknown] [--cost-usd X] [--model <id>] [--prompt-file <path> | --prompt <text>]",
         "tax work retry --id <uuid>",
+        "tax work run --role <role> [--scope <uuid>] [--model provider:model] | --id <uuid>",
         "tax review list",
         "tax geo ingest --jurisdiction <slug> | --level state|county|place [--fips 48|20]",
         "tax geo resolve --lat <n> --lng <n> [--date <yyyy-mm-dd>]",
