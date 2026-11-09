@@ -1,20 +1,26 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
+import localFont from "next/font/local";
 import "./globals.css";
 
-export const metadata = { title: "A&M Tax — Agent Tax Research" };
+// Ascension design system fonts, vendored from factory packages/ui/src/fonts (OFL).
+const sans = localFont({ src: "./fonts/inter-latin.woff2", variable: "--font-sans", weight: "100 900", display: "swap" });
+const heading = localFont({ src: "./fonts/roboto-slab-latin.woff2", variable: "--font-heading", weight: "100 900", display: "swap" });
+const mono = localFont({ src: "./fonts/geist-mono-latin.woff2", variable: "--font-mono", weight: "100 900", display: "swap" });
+
+export const metadata = { title: "Ascension — Agent Tax Research" };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${sans.variable} ${heading.variable} ${mono.variable}`}>
       <body>
         <header className="topbar">
-          {/* Approved A&M Tax white logo (decision 028): unaltered, ~2.71:1 */}
+          {/* Ascension wordmark (factory packages/ui logos/wordmark-red-dark.svg), 4.5:1 */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="logo" src="/amtax-white.png" alt="Alvarez & Marsal Tax" width={92} height={34} />
+          <img className="logo" src="/ascension-wordmark.svg" alt="Ascension" width={153} height={34} />
           <div className="product">
             <span className="product-name">Agent Tax Research</span>
-            <span className="tagline">Leadership.Action.Results.</span>
+            <span className="tagline">Agent-first tax research, human-approved</span>
           </div>
           <nav>
             <Link href="/">Globe</Link>
