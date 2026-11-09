@@ -48,16 +48,36 @@ export const PROVIDERS: Record<ProviderId, ProviderInfo> = {
 export function loadDotEnv(): void {
   const roots = [process.env.INIT_CWD, process.cwd()].filter(Boolean) as string[];
   for (const root of roots) {
-    for (const name of [".env.local", ".env"]) {
+    const read = (name: string) => {
       const p = resolve(root, name);
-      if (!existsSync(p)) continue;
-      for (const line of readFileSync(p, "utf8").split(/\r?\n/)) {
-        const m = /^([A-Z0-9_]+)=(.*)$/.exec(line.trim());
-        if (m && process.env[m[1]!] === undefined) process.env[m[1]!] = m[2]!.replace(/^"|"$/g, "");
-      }
-    }
+      return existsSync(p) ? parseEnvText(readFileSync(p, "utf8")) : {};
+    };
+    mergeEnv(process.env, read(".env"), read(".env.local"));
   }
 }
+
+export function parseEnvText(text: string): Record<string, string> {
+  const vars: Record<string, string> = {};
+  for (const line of text.split(/\r?\n/)) {
+    const m = /^([A-Z0-9_]+)=(.*)$/.exec(line.trim());
+    if (m) vars[m[1]!] = m[2]!.replace(/^"|"$/g, "");
+  }
+  return vars;
+}
+
+// The database package loads .env before this runs, so a value equal to the
+// .env entry came from that file, not the real environment: .env.local may
+// replace it. Real environment variables (any other value) always win.
+export function mergeEnv(env: NodeJS.ProcessEnv, base: Record<string, string>, local: Record<string, string>): void {
+  for (const [k, v] of Object.entries(local)) {
+    if (env[k] === undefined || env[k] === base[k]) env[k] = v;
+  }
+  for (const [k, v] of Object.entries(base)) {
+    if (env[k] === undefined) env[k] = v;
+  }
+}
+
+export class ConfigError extends Error {}
 
 export type ModelSpec = { provider: ProviderId; model: string };
 
@@ -88,11 +108,33 @@ export function defaultModelFor(provider: ProviderId, env: NodeJS.ProcessEnv = p
   return PROVIDERS[provider].defaultModel;
 }
 
-export function budgetUsd(provider: ProviderId, env: NodeJS.ProcessEnv = process.env): number | null {
-  const raw = env[PROVIDERS[provider].budgetEnv];
-  if (raw === undefined || raw === "") return provider === "meta" ? 150 : null;
+function nonNegativeNumber(name: string, raw: string): number {
   const n = Number(raw);
-  return Number.isFinite(n) ? n : null;
+  if (!Number.isFinite(n) || n < 0) throw new ConfigError(`${name}=${raw} is not a non-negative number; fix it in .env.local.`);
+  return n;
+}
+
+export function budgetUsd(provider: ProviderId, env: NodeJS.ProcessEnv = process.env): number | null {
+  const name = PROVIDERS[provider].budgetEnv;
+  const raw = env[name]?.trim();
+  if (raw === undefined || raw === "") return provider === "meta" ? 150 : null;
+  return nonNegativeNumber(name, raw);
+}
+
+// Claude models always think; below this ceiling a reply can be spent on
+// thinking alone, so smaller explicit limits are rejected, not raised.
+export const ANTHROPIC_MIN_MAX_TOKENS = 16_000;
+
+export function defaultMaxTokens(provider: ProviderId): number {
+  return provider === "anthropic" ? ANTHROPIC_MIN_MAX_TOKENS : 800;
+}
+
+export function validateMaxTokens(spec: ModelSpec, maxTokens: number): number {
+  if (!Number.isInteger(maxTokens) || maxTokens <= 0) throw new ConfigError(`--max-tokens must be a positive integer (got ${maxTokens}).`);
+  if (spec.provider === "anthropic" && maxTokens < ANTHROPIC_MIN_MAX_TOKENS) {
+    throw new ConfigError(`--max-tokens ${maxTokens} is below ${ANTHROPIC_MIN_MAX_TOKENS} for ${formatSpec(spec)}: Claude models always think and can return no answer under that ceiling.`);
+  }
+  return maxTokens;
 }
 
 // USD per 1M tokens. Anthropic first-party list prices (claude-api skill,
@@ -116,9 +158,11 @@ const ANTHROPIC_RATES: Record<string, { in: number; out: number }> = {
 export function rateCard(spec: ModelSpec, env: NodeJS.ProcessEnv = process.env): { in: number; out: number } | null {
   if (spec.provider === "anthropic") return ANTHROPIC_RATES[spec.model] ?? null;
   if (spec.provider === "meta") {
-    const i = env.MUSE_INPUT_USD_PER_MTOK;
-    const o = env.MUSE_OUTPUT_USD_PER_MTOK;
-    return i && o ? { in: Number(i), out: Number(o) } : null;
+    const i = env.MUSE_INPUT_USD_PER_MTOK?.trim();
+    const o = env.MUSE_OUTPUT_USD_PER_MTOK?.trim();
+    if (!i && !o) return null;
+    if (!i || !o) throw new ConfigError("Set both MUSE_INPUT_USD_PER_MTOK and MUSE_OUTPUT_USD_PER_MTOK, or neither.");
+    return { in: nonNegativeNumber("MUSE_INPUT_USD_PER_MTOK", i), out: nonNegativeNumber("MUSE_OUTPUT_USD_PER_MTOK", o) };
   }
   return null;
 }
@@ -147,7 +191,7 @@ export type CallResult = {
   stopReason: string | null;
 };
 
-export class MissingKeyError extends Error {}
+export class MissingKeyError extends ConfigError {}
 
 function requireKey(provider: ProviderId): string {
   const info = PROVIDERS[provider];
@@ -201,12 +245,9 @@ let anthropicClient: Anthropic | null = null;
 
 async function callAnthropic(spec: ModelSpec, prompt: string, opts: CallOptions): Promise<CallResult> {
   anthropicClient ??= new Anthropic({ apiKey: requireKey("anthropic") });
-  // Current Claude models always think; a small max_tokens can be spent
-  // entirely on thinking and return no answer, so the floor is 16k
-  // (billing is for tokens generated, not the ceiling).
   const params: Anthropic.Beta.MessageCreateParamsNonStreaming = {
     model: spec.model,
-    max_tokens: Math.max(opts.maxTokens, 16_000),
+    max_tokens: validateMaxTokens(spec, opts.maxTokens),
     messages: [{ role: "user", content: prompt }],
     output_config: { effort: opts.effort ?? "high" },
   };

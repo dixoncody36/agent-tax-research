@@ -163,6 +163,9 @@ export function capDecision(state: CapState, cfg: CapConfig): { stop: boolean; r
     state.priorSpentUsd === null && providerLoop === null
       ? null
       : (state.priorSpentUsd ?? 0) + (providerLoop ?? 0);
+  if (cfg.budgetUsd !== null && cfg.budgetUsd <= 0) {
+    return { stop: true, reason: `${cfg.budgetLabel ?? "MUSE_BUDGET_USD"} is $0: no paid calls allowed` };
+  }
   if (cfg.budgetUsd !== null && totalUsd !== null && totalUsd >= cfg.budgetUsd) {
     return { stop: true, reason: `${cfg.budgetLabel ?? "MUSE_BUDGET_USD"} reached ($${totalUsd.toFixed(4)} >= $${cfg.budgetUsd})` };
   }
@@ -183,16 +186,20 @@ export type Determination = {
   tokensIn: number;
   tokensOut: number;
   wallSeconds: number;
+  /** Set when the task produced no reviewer-passed answer; answer is then empty (scores zero). */
+  failed?: string;
 };
 
 export function toDetermination(
   task: BenchTask,
   answer: Answer,
   usage: { tokensIn: number; tokensOut: number; wallSeconds: number; attempts: number },
+  failed?: string,
 ): Determination {
   return {
     taskId: task.id,
-    answer,
+    answer: failed ? {} : answer,
+    ...(failed ? { failed } : {}),
     citations: [{ url: task.sourceHint, publisherType: "government" }],
     attempts: usage.attempts,
     tokensIn: usage.tokensIn,
