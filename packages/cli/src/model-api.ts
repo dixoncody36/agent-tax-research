@@ -169,7 +169,7 @@ if (cmd === "budget") {
   modelsReport();
 } else if (cmd === "ping") {
   const spec = resolveSpec();
-  await complete("fetch", spec, "Reply with exactly: pong", spec.provider === "anthropic" ? defaultMaxTokens("anthropic") : 16);
+  await complete("fetch", spec, "Reply with exactly: pong", defaultMaxTokens(spec.provider));
 } else if (cmd === "complete") {
   const promptFile = flag("prompt-file");
   const prompt = promptFile
