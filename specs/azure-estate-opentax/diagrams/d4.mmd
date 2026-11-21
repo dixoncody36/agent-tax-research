@@ -1,0 +1,14 @@
+sequenceDiagram
+  autonumber
+  participant Op as Operator or agent
+  participant J as opentax-worker
+  participant PG as opentax-pg
+  participant M as Model provider
+  participant UI as /agents and /review
+  Op->>J: az containerapp job start --args "work run --loop ..."
+  J->>PG: claim next assignment (fetch, decision, reviewer)
+  J->>M: role call (meta, anthropic, openrouter, foundry)
+  J->>PG: agent_runs row (cost, tokens, host, execution)
+  UI->>PG: poll runs and scope status
+  J->>PG: orchestrator run, loop ends on cap or empty queue
+  UI-->>Op: verified proposals await signed-in approval

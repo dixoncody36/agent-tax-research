@@ -1,0 +1,23 @@
+flowchart LR
+  op(["Operator browser"]) -->|"Entra sign-in"| web
+  gh(["GitHub Actions (OIDC)"]) -->|"push image"| acr
+  gh -->|"migrate"| pg
+  gh -->|"roll"| web
+  gh -->|"roll"| job
+  subgraph rg["RG opentax (ascension, centralus)"]
+    acr[("ACR opentaxacr")]
+    kv[("Key Vault opentax-kv")]
+    pg[("Postgres 18 + pgvector")]
+    web["opentax-web (Next.js, Easy Auth)"]
+    job["opentax-worker (Container Apps Job)"]
+    ai["opentax-ai (Foundry)"]
+    web -->|"pnpm tax (execFile)"| pg
+    job --> pg
+    web -.->|"secretRef"| kv
+    job -.->|"secretRef"| kv
+    job --> ai
+  end
+  job -->|"public text only"| meta(["Meta Model API (Muse)"])
+  job --> claude(["Claude API"])
+  job --> orr(["OpenRouter"])
+  job -->|"fetch"| gov(["Government sources"])

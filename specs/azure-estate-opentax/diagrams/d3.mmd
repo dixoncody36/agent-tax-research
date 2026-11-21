@@ -1,0 +1,19 @@
+sequenceDiagram
+  autonumber
+  participant GH as GitHub Actions
+  participant AZ as Azure (OIDC)
+  participant ACR as opentaxacr
+  participant PG as opentax-pg
+  participant W as opentax-web
+  participant J as opentax-worker
+  GH->>AZ: azure/login (federated, main only)
+  GH->>ACR: buildx push opentax:sha
+  GH->>PG: open firewall for runner IP
+  alt migration drops or renames
+    GH->>GH: wait for db-contract approval (Cody)
+  end
+  GH->>PG: pnpm db:migrate
+  GH->>PG: close firewall (always)
+  GH->>W: containerapp update image sha
+  GH->>J: containerapp job update image sha
+  GH->>W: GET /api/health x10

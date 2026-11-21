@@ -1,0 +1,28 @@
+erDiagram
+  scope_runs ||--o{ agent_runs : "dispatches"
+  agent_runs ||--o{ proposals : "files"
+  agent_runs ||--o{ source_snapshots : "fetches"
+  agent_runs {
+    uuid id
+    text role
+    text model
+    jsonb datavalues "provider, host, execution"
+    numeric cost_usd
+  }
+  proposals {
+    uuid id
+    text status
+    text approved_by "from Entra principal"
+  }
+  source_snapshots {
+    uuid id
+    text retrieved_text
+  }
+  tax_rules {
+    uuid id
+    vector embedding "1536"
+  }
+  scope_runs {
+    uuid id
+    jsonb scope_json
+  }
